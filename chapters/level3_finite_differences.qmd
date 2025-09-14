@@ -1,0 +1,113 @@
+# Level 3: Finite Differences and the Heat Equation
+
+::: {.dialogue}
+**Pavni:** Acharya, how do we actually *approximate* derivatives for a computer?
+
+**Acharya:** We use the **finite difference method**. Since a computer can only work with discrete points, we replace continuous derivatives with difference quotients on a **grid**.
+
+**Pavni:** A grid? Like equally spaced points?
+
+**Acharya:** Exactly. Suppose we have points $x_0, x_1, \dots, x_N$ with spacing $\Delta x$. Then:
+- **Forward difference** for the first derivative:
+  $$
+  u'(x_i) \approx \frac{u(x_{i+1}) - u(x_i)}{\Delta x}
+  $$
+- **Backward difference**:
+  $$
+  u'(x_i) \approx \frac{u(x_i) - u(x_{i-1})}{\Delta x}
+  $$
+- **Central difference**:
+  $$
+  u'(x_i) \approx \frac{u(x_{i+1}) - u(x_{i-1})}{2\Delta x}
+  $$
+
+**Pavni:** Which one is better?
+
+**Acharya:** Central differences are usually more accurate (error $\mathcal{O}((\Delta x)^2)$). Forward and backward are first-order accurate (error $\mathcal{O}(\Delta x)$).  
+For the **second derivative**, we use:
+$$
+u''(x_i) \approx \frac{u(x_{i-1}) - 2u(x_i) + u(x_{i+1})}{(\Delta x)^2}.
+$$
+
+**Pavni:** So we can replace calculus by algebra using these formulas?
+
+**Acharya:** Precisely. Now let us apply this to a PDE.
+:::
+
+---
+
+## Application: The Heat Equation
+
+::: {.dialogue}
+**Acharya:** Consider the 1D heat equation:
+$$
+u_t = \alpha u_{xx}, \quad 0 < x < 1,\; t>0
+$$
+with boundary conditions $u(0,t) = u(1,t) = 0$ and initial profile $u(x,0) = f(x)$.
+
+We set up a grid:
+- In space: $x_i = i\Delta x,\; i=0,\dots,N$  
+- In time: $t^n = n\Delta t,\; n=0,1,2,\dots$
+
+At each point, let $u_i^n \approx u(x_i,t^n)$.
+
+**Pavni:** And now we replace derivatives?
+
+**Acharya:** Correct.  
+- Time derivative (forward difference):
+  $$
+  u_t(x_i,t^n) \approx \frac{u_i^{n+1} - u_i^n}{\Delta t}
+  $$
+- Spatial second derivative (central difference):
+  $$
+  u_{xx}(x_i,t^n) \approx \frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}
+  $$
+
+Plugging these into the PDE, we get:
+$$
+\frac{u_i^{n+1} - u_i^n}{\Delta t} = \alpha \,\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}.
+$$
+
+Rearranging:
+$$
+u_i^{n+1} = u_i^n + \lambda\,(u_{i-1}^n - 2u_i^n + u_{i+1}^n),
+$$
+where $\lambda = \frac{\alpha \Delta t}{(\Delta x)^2}$.
+:::
+
+---
+
+## Stability Condition
+
+::: {.dialogue}
+**Pavni:** So we can just keep applying this formula to march forward in time?
+
+**Acharya:** Yes, but with a caveat. This scheme, called **FTCS (Forward Time, Central Space)**, is only stable if:
+$$
+\lambda \leq \tfrac{1}{2}.
+$$
+
+**Pavni:** So if $\Delta t$ is too large, the scheme fails?
+
+**Acharya:** Exactly. The numerical solution will blow up, even though the true solution is stable. Choosing $\Delta t$ small enough ensures stability.
+:::
+
+---
+
+## Mini-Quizzes
+
+::: {.quiz}
+**Quiz 1:**  
+Let $u(x) = x^2$. With $\Delta x = 0.1$, approximate $u'(1)$ using:  
+1. Forward difference  
+2. Central difference  
+
+Compare with the exact derivative $u'(1) = 2$. Which is more accurate?
+:::
+
+::: {.quiz}
+**Quiz 2:**  
+Suppose $\alpha = 1$, $\Delta x = 0.1$. What is the maximum $\Delta t$ for stability in the explicit scheme?  
+
+(Hint: $\lambda = \dfrac{\alpha \Delta t}{(\Delta x)^2} \leq \tfrac{1}{2}$.)
+:::
