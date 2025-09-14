@@ -1,0 +1,261 @@
+<<<<<<< HEAD
+---
+title: "Level 2: Classification of PDEs"
+format: html
+---
+
+# Level 2: Classification of PDEs
+
+::: {.dialogue}
+**Pavni:** Acharya, last time you told me how PDEs were born from strings, heat, and flows. But there seem to be so many kinds of PDEs. How do we organize them?  
+
+**Acharya:** A good question, Pavni. Mathematicians classify PDEs in several ways, much like a botanist classifies plants. Let us begin with the simplest.  
+
+**Pavni:** I am listening.  
+
+**Acharya:** First, by **order**. A PDE is first-order if the highest derivative is first order, second-order if the highest is second, and so on. For example, the transport equation $u_t + c u_x = 0$ is first-order, while the heat equation $u_t = \alpha u_{xx}$ is second-order.  
+
+**Pavni:** That part seems simple enough. What else?  
+
+**Acharya:** Next comes **linearity**. A PDE is linear if the unknown function and its derivatives appear only linearly — not multiplied together, not inside a sine or square. The heat equation is linear. But if you had a term like $u u_x$, that would make it nonlinear.  
+
+**Pavni:** So, nonlinear PDEs are trickier?  
+
+**Acharya:** Very much so! Nonlinearity makes life both harder and richer.  
+
+**Pavni:** Are there other distinctions?  
+
+**Acharya:** Yes. Equations can be **homogeneous** or **inhomogeneous** depending on whether the right-hand side is zero. Laplace’s equation is homogeneous, Poisson’s equation is inhomogeneous.  
+
+**Acharya:** More generally, a non-homogeneous PDE can be written as:  
+$$ F(t, x_1, x_2, \dots, x_n, u, u_t, u_{x_1}, \dots, u_{x_n}, u_{tt}, u_{x_1x_1}, \dots) = g(x_1, x_2, \dots, x_n, t), $$  
+where $g$ is a nonzero source or forcing term. If $g \equiv 0$, the PDE is homogeneous.  
+
+**Pavni:** So the right-hand side introduces an external influence, like heat sources or forces?  
+
+**Acharya:** Exactly. For example, $u_{xx} + u_{yy} = f(x,y)$ is the Poisson equation with a source term $f(x,y)$.  .  
+
+**Pavni:** I think I follow. But I have also heard words like elliptic and hyperbolic. What do they mean?  
+
+**Acharya:** Ah, those arise for **second-order PDEs in two variables**. Suppose we have:  
+$$ A u_{xx} + B u_{xy} + C u_{yy} + \dots = 0. $$  
+We look at the discriminant: $B^2 - 4AC$.  
+- If it is less than 0, the PDE is **elliptic** (like Laplace’s equation).  
+- If it equals 0, the PDE is **parabolic** (like the heat equation).  
+- If it is greater than 0, the PDE is **hyperbolic** (like the wave equation).  
+
+**Pavni:** This reminds me of conic sections! Circles, parabolas, and hyperbolas.  
+
+**Acharya:** Exactly. The analogy is deliberate — both come from the same quadratic form.  
+
+**Pavni:** And physically?  
+
+**Acharya:** Elliptic equations describe steady states — like equilibrium temperature distributions. Parabolic equations describe diffusion, the smoothing of irregularities over time. Hyperbolic equations describe wave-like motion, signals traveling with finite speed.  
+
+**Pavni:** That helps me imagine them. So classification is not just a game, but it tells us the nature of the solutions.  
+
+**Acharya:** Well said, Pavni. And it also guides how we design numerical methods. An elliptic problem requires different strategies than a hyperbolic one.  
+
+**Pavni:** Then I am eager to learn those strategies!  
+
+**Acharya:** Patience, Pavni. First we must prepare the ground. Classification is the map; numerical methods are the journey.  
+:::
+
+---
+
+## Mini Quizzes
+
+**Quiz 1:** Identify the order  
+Which of the following is a second-order PDE?  
+1. $ u_t + cu_x = 0 $  
+2. $ u_t = \alpha u_{xx} $  
+3. $ u u_x = 0 $  
+
+::: {.callout-tip collapse=true}
+### Answer 1
+Equation (2) $ u_t = \alpha u_{xx} $ is second-order because of the $u_{xx}$ term.
+:::
+
+---
+
+**Quiz 2:** Linearity check  
+Which PDE is nonlinear?  
+1. $ u_t = \alpha u_{xx} $  
+2. $ u_t + u u_x = 0 $  
+
+::: {.callout-tip collapse=true}
+### Answer 2
+Equation (2) is nonlinear because of the product term $u u_x$.
+:::
+
+---
+
+**Quiz 3:** Homogeneous or inhomogeneous  
+Classify: $ u_{xx} + u_{yy} = f(x,y) $.  
+
+::: {.callout-tip collapse=true}
+### Answer 3
+It is **inhomogeneous**, since the right-hand side is not zero.
+:::
+
+---
+
+**Quiz 4:** Type of second-order PDE  
+For $ u_{xx} + 2u_{xy} + u_{yy} = 0 $, compute $ B^2 - 4AC $. What type is it?  
+
+::: {.callout-tip collapse=true}
+### Answer 4
+Here, $A = 1, B = 2, C = 1$.  
+$ B^2 - 4AC = 2^2 - 4(1)(1) = 0 $.  
+So it is **parabolic**.
+:::
+
+---
+
+**Quiz 5:** Physical meaning  
+Match each equation with its physical interpretation:  
+- Heat equation  
+- Wave equation  
+- Laplace’s equation  
+
+(a) Steady state  
+(b) Wave-like motion  
+(c) Diffusion in time  
+
+::: {.callout-tip collapse=true}
+### Answer 5
+- Heat equation → (c) Diffusion in time  
+- Wave equation → (b) Wave-like motion  
+- Laplace’s equation → (a) Steady state  
+:::
+=======
+---
+title: "Level 2: Classification of PDEs"
+format: html
+---
+
+# Level 2: Classification of PDEs
+
+::: {.dialogue}
+**Pavni:** Acharya, last time you told me how PDEs were born from strings, heat, and flows. But there seem to be so many kinds of PDEs. How do we organize them?  
+
+**Acharya:** A good question, Pavni. Mathematicians classify PDEs in several ways, much like a botanist classifies plants. Let us begin with the simplest.  
+
+**Pavni:** I am listening.  
+
+**Acharya:** First, by **order**. A PDE is first-order if the highest derivative is first order, second-order if the highest is second, and so on. For example, the transport equation $u_t + c u_x = 0$ is first-order, while the heat equation $u_t = \alpha u_{xx}$ is second-order.  
+
+**Pavni:** That part seems simple enough. What else?  
+
+**Acharya:** Next comes **linearity**. A PDE is linear if the unknown function and its derivatives appear only linearly — not multiplied together, not inside a sine or square. The heat equation is linear. But if you had a term like $u u_x$, that would make it nonlinear.  
+
+**Pavni:** So, nonlinear PDEs are trickier?  
+
+**Acharya:** Very much so! Nonlinearity makes life both harder and richer.  
+
+**Pavni:** Are there other distinctions?  
+
+**Acharya:** Yes. Equations can be **homogeneous** or **inhomogeneous** depending on whether the right-hand side is zero. Laplace’s equation is homogeneous, Poisson’s equation is inhomogeneous.  
+
+**Acharya:** More generally, a non-homogeneous PDE can be written as:  
+$$ F(t, x_1, x_2, \dots, x_n, u, u_t, u_{x_1}, \dots, u_{x_n}, u_{tt}, u_{x_1x_1}, \dots) = g(x_1, x_2, \dots, x_n, t), $$  
+where $g$ is a nonzero source or forcing term. If $g \equiv 0$, the PDE is homogeneous.  
+
+**Pavni:** So the right-hand side introduces an external influence, like heat sources or forces?  
+
+**Acharya:** Exactly. For example, $u_{xx} + u_{yy} = f(x,y)$ is the Poisson equation with a source term $f(x,y)$.  .  
+
+**Pavni:** I think I follow. But I have also heard words like elliptic and hyperbolic. What do they mean?  
+
+**Acharya:** Ah, those arise for **second-order PDEs in two variables**. Suppose we have:  
+$$ A u_{xx} + B u_{xy} + C u_{yy} + \dots = 0. $$  
+We look at the discriminant: $B^2 - 4AC$.  
+- If it is less than 0, the PDE is **elliptic** (like Laplace’s equation).  
+- If it equals 0, the PDE is **parabolic** (like the heat equation).  
+- If it is greater than 0, the PDE is **hyperbolic** (like the wave equation).  
+
+**Pavni:** This reminds me of conic sections! Circles, parabolas, and hyperbolas.  
+
+**Acharya:** Exactly. The analogy is deliberate — both come from the same quadratic form.  
+
+**Pavni:** And physically?  
+
+**Acharya:** Elliptic equations describe steady states — like equilibrium temperature distributions. Parabolic equations describe diffusion, the smoothing of irregularities over time. Hyperbolic equations describe wave-like motion, signals traveling with finite speed.  
+
+**Pavni:** That helps me imagine them. So classification is not just a game, but it tells us the nature of the solutions.  
+
+**Acharya:** Well said, Pavni. And it also guides how we design numerical methods. An elliptic problem requires different strategies than a hyperbolic one.  
+
+**Pavni:** Then I am eager to learn those strategies!  
+
+**Acharya:** Patience, Pavni. First we must prepare the ground. Classification is the map; numerical methods are the journey.  
+:::
+
+---
+
+## Mini Quizzes
+
+**Quiz 1:** Identify the order  
+Which of the following is a second-order PDE?  
+1. $ u_t + cu_x = 0 $  
+2. $ u_t = \alpha u_{xx} $  
+3. $ u u_x = 0 $  
+
+::: {.callout-tip collapse=true}
+### Answer 1
+Equation (2) $ u_t = \alpha u_{xx} $ is second-order because of the $u_{xx}$ term.
+:::
+
+---
+
+**Quiz 2:** Linearity check  
+Which PDE is nonlinear?  
+1. $ u_t = \alpha u_{xx} $  
+2. $ u_t + u u_x = 0 $  
+
+::: {.callout-tip collapse=true}
+### Answer 2
+Equation (2) is nonlinear because of the product term $u u_x$.
+:::
+
+---
+
+**Quiz 3:** Homogeneous or inhomogeneous  
+Classify: $ u_{xx} + u_{yy} = f(x,y) $.  
+
+::: {.callout-tip collapse=true}
+### Answer 3
+It is **inhomogeneous**, since the right-hand side is not zero.
+:::
+
+---
+
+**Quiz 4:** Type of second-order PDE  
+For $ u_{xx} + 2u_{xy} + u_{yy} = 0 $, compute $ B^2 - 4AC $. What type is it?  
+
+::: {.callout-tip collapse=true}
+### Answer 4
+Here, $A = 1, B = 2, C = 1$.  
+$ B^2 - 4AC = 2^2 - 4(1)(1) = 0 $.  
+So it is **parabolic**.
+:::
+
+---
+
+**Quiz 5:** Physical meaning  
+Match each equation with its physical interpretation:  
+- Heat equation  
+- Wave equation  
+- Laplace’s equation  
+
+(a) Steady state  
+(b) Wave-like motion  
+(c) Diffusion in time  
+
+::: {.callout-tip collapse=true}
+### Answer 5
+- Heat equation → (c) Diffusion in time  
+- Wave equation → (b) Wave-like motion  
+- Laplace’s equation → (a) Steady state  
+:::
+>>>>>>> cbde5a2 (Initial Quarto book: Level 1 & 2)
