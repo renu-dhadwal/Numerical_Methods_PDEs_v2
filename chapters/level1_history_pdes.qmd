@@ -1,8 +1,3 @@
-<<<<<<< HEAD
----
-title: "Level 1: Origins of PDEs"
-format: html
----
 
 # Level 1: A Historical Glimpse of PDEs
 
@@ -31,37 +26,3 @@ format: html
 
 **Acharya:** Well said, Pavni. They are the language by which nature speaks to us.  
 :::
-=======
----
-title: "Level 1: Origins of PDEs"
-format: html
----
-
-# Level 1: A Historical Glimpse of PDEs
-
-::: {.dialogue}
-**Pavni:** Acharya, where did all these partial differential equations come from? They seem so abstract.  
-
-**Acharya:** Ah, Pavni, they did not begin in abstraction. They began with strings, heat, and the mysteries of the heavens.  
-
-**Pavni:** Strings? You mean music?  
-
-**Acharya:** Exactly! In 1746, *d’Alembert* studied how a vibrating string produces sound. From that, he wrote down the **wave equation**. Soon after, *Euler* extended it to drums and membranes. So you see, music and mathematics are deeply connected.  
-
-**Pavni:** That’s beautiful! And the heat equation?  
-
-**Acharya:** That came from *Joseph Fourier* in the early 1800s. He asked: *How does heat spread through a solid body?* His answer was the **heat equation**, and in solving it he gave us the gift of **Fourier series**.  
-
-**Pavni:** So Fourier series were born from studying heat?  
-
-**Acharya:** Precisely. And then *Laplace* studied gravitational attraction and derived the **Laplace equation**, describing potentials in physics. *Poisson* later generalized it with the **Poisson equation**, where sources appear inside the field.  
-
-**Pavni:** So each new equation came from a real phenomenon.  
-
-**Acharya:** Just so. Later, in the 19th century, *Navier* and *Stokes* wrote down the equations of fluid motion — the **Navier–Stokes equations**. Even today, their mysteries are not fully solved.  
-
-**Pavni:** (smiling) So PDEs are not just formulas on paper. They are echoes of sound, flows of heat, gravity, and water.  
-
-**Acharya:** Well said, Pavni. They are the language by which nature speaks to us.  
-:::
->>>>>>> cbde5a2 (Initial Quarto book: Level 1 & 2)

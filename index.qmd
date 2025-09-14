@@ -1,5 +1,4 @@
-<<<<<<< HEAD
----
+
 title: "Numerical Methods for PDEs: An Interactive Journey"
 format: html
 site: book
@@ -20,24 +19,4 @@ You will explore the subject through **dialogues between Acharya and Pavni**, di
 
 Stay tuned as new levels unlock — from classification of PDEs to discretization techniques and beyond!
 =======
----
-title: "Numerical Methods for PDEs: An Interactive Journey"
-format: html
-site: book
----
 
-# Welcome
-
-Welcome to this interactive journey through **Numerical Methods for Partial Differential Equations (PDEs)**.  
-
-You will explore the subject through **dialogues between Acharya and Pavni**, discovering history, classification, and numerical methods step by step.
-
-## Levels
-
-- [Level 1: Origins of PDEs](chapters/level1_history_pdes.qmd)
-- [Level 2: Classification of PDEs](chapters/Level2_classification_pdes.qmd)
-
----
-
-Stay tuned as new levels unlock — from classification of PDEs to discretization techniques and beyond!
->>>>>>> cbde5a2 (Initial Quarto book: Level 1 & 2)

@@ -6,7 +6,7 @@
     "section": "",
     "text": "1 Welcome\ntitle: “Numerical Methods for PDEs: An Interactive Journey” format: html site: book —\nWelcome to this interactive journey through Numerical Methods for Partial Differential Equations (PDEs).\nYou will explore the subject through dialogues between Acharya and Pavni, discovering history, classification, and numerical methods step by step.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Numerical Methods for PDEs: An Interactive Journey</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>site: book</span>"
     ]
   },
   {
@@ -16,45 +16,25 @@
     "section": "1.1 Levels",
     "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Numerical Methods for PDEs: An Interactive Journey</span>"
-    ]
-  },
-  {
-    "objectID": "index.html#levels-1",
-    "href": "index.html#levels-1",
-    "title": "Numerical Methods for PDEs: An Interactive Journey",
-    "section": "3.1 Levels",
-    "text": "3.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs\n\n\nStay tuned as new levels unlock — from classification of PDEs to discretization techniques and beyond!",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Numerical Methods for PDEs: An Interactive Journey</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>site: book</span>"
     ]
   },
   {
     "objectID": "chapters/level1_history_pdes.html",
     "href": "chapters/level1_history_pdes.html",
-    "title": "2  format: html",
+    "title": "2  Level 1: A Historical Glimpse of PDEs",
     "section": "",
-    "text": "3 Level 1: A Historical Glimpse of PDEs\ntitle: “Level 1: Origins of PDEs”",
+    "text": "Pavni: Acharya, where did all these partial differential equations come from? They seem so abstract.\nAcharya: Ah, Pavni, they did not begin in abstraction. They began with strings, heat, and the mysteries of the heavens.\nPavni: Strings? You mean music?\nAcharya: Exactly! In 1746, d’Alembert studied how a vibrating string produces sound. From that, he wrote down the wave equation. Soon after, Euler extended it to drums and membranes. So you see, music and mathematics are deeply connected.\nPavni: That’s beautiful! And the heat equation?\nAcharya: That came from Joseph Fourier in the early 1800s. He asked: How does heat spread through a solid body? His answer was the heat equation, and in solving it he gave us the gift of Fourier series.\nPavni: So Fourier series were born from studying heat?\nAcharya: Precisely. And then Laplace studied gravitational attraction and derived the Laplace equation, describing potentials in physics. Poisson later generalized it with the Poisson equation, where sources appear inside the field.\nPavni: So each new equation came from a real phenomenon.\nAcharya: Just so. Later, in the 19th century, Navier and Stokes wrote down the equations of fluid motion — the Navier–Stokes equations. Even today, their mysteries are not fully solved.\nPavni: (smiling) So PDEs are not just formulas on paper. They are echoes of sound, flows of heat, gravity, and water.\nAcharya: Well said, Pavni. They are the language by which nature speaks to us.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>format: html</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/level1_history_pdes.html#section",
-    "href": "chapters/level1_history_pdes.html#section",
-    "title": "2  format: html",
-    "section": "3.1 =======",
-    "text": "3.1 =======\ntitle: “Level 1: Origins of PDEs” format: html —",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>format: html</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Level 1: A Historical Glimpse of PDEs</span>"
     ]
   },
   {
     "objectID": "chapters/level2_classification_pdes.html",
     "href": "chapters/level2_classification_pdes.html",
-    "title": "3  format: html",
+    "title": "3  Level 2: Classification of PDEs",
     "section": "",
-    "text": "4 Level 2: Classification of PDEs\ntitle: “Level 2: Classification of PDEs”",
+    "text": "3.1 Mini Quizzes\nQuiz 1: Identify the order\nWhich of the following is a second-order PDE?\n1. $ u_t + cu_x = 0 $\n2. $ u_t = u_{xx} $\n3. $ u u_x = 0 $\nQuiz 2: Linearity check\nWhich PDE is nonlinear?\n1. $ u_t = u_{xx} $\n2. $ u_t + u u_x = 0 $\nQuiz 3: Homogeneous or inhomogeneous\nClassify: $ u_{xx} + u_{yy} = f(x,y) $.\nQuiz 4: Type of second-order PDE\nFor $ u_{xx} + 2u_{xy} + u_{yy} = 0 $, compute $ B^2 - 4AC $. What type is it?\nQuiz 5: Physical meaning\nMatch each equation with its physical interpretation:\n- Heat equation\n- Wave equation\n- Laplace’s equation",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Level 2: Classification of PDEs</span>"
     ]
@@ -62,29 +42,9 @@
   {
     "objectID": "chapters/level2_classification_pdes.html#mini-quizzes",
     "href": "chapters/level2_classification_pdes.html#mini-quizzes",
-    "title": "3  format: html",
-    "section": "4.1 Mini Quizzes",
-    "text": "4.1 Mini Quizzes\nQuiz 1: Identify the order\nWhich of the following is a second-order PDE?\n1. $ u_t + cu_x = 0 $\n2. $ u_t = u_{xx} $\n3. $ u u_x = 0 $\n\n\n\n\n\n\nTipAnswer 1\n\n\n\n\n\nEquation (2) $ u_t = u_{xx} $ is second-order because of the \\(u_{xx}\\) term.\n\n\n\n\nQuiz 2: Linearity check\nWhich PDE is nonlinear?\n1. $ u_t = u_{xx} $\n2. $ u_t + u u_x = 0 $\n\n\n\n\n\n\nTipAnswer 2\n\n\n\n\n\nEquation (2) is nonlinear because of the product term \\(u u_x\\).\n\n\n\n\nQuiz 3: Homogeneous or inhomogeneous\nClassify: $ u_{xx} + u_{yy} = f(x,y) $.\n\n\n\n\n\n\nTipAnswer 3\n\n\n\n\n\nIt is inhomogeneous, since the right-hand side is not zero.\n\n\n\n\nQuiz 4: Type of second-order PDE\nFor $ u_{xx} + 2u_{xy} + u_{yy} = 0 $, compute $ B^2 - 4AC $. What type is it?\n\n\n\n\n\n\nTipAnswer 4\n\n\n\n\n\nHere, \\(A = 1, B = 2, C = 1\\).\n$ B^2 - 4AC = 2^2 - 4(1)(1) = 0 $.\nSo it is parabolic.\n\n\n\n\nQuiz 5: Physical meaning\nMatch each equation with its physical interpretation:\n- Heat equation\n- Wave equation\n- Laplace’s equation\n\nSteady state\n\nWave-like motion\n\nDiffusion in time\n\n\n\n\n\n\n\nTipAnswer 5\n\n\n\n\n\n\nHeat equation → (c) Diffusion in time\n\nWave equation → (b) Wave-like motion\n\nLaplace’s equation → (a) Steady state",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Level 2: Classification of PDEs</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/level2_classification_pdes.html#section",
-    "href": "chapters/level2_classification_pdes.html#section",
-    "title": "3  format: html",
-    "section": "4.2 =======",
-    "text": "4.2 =======\ntitle: “Level 2: Classification of PDEs” format: html —",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Level 2: Classification of PDEs</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/level2_classification_pdes.html#mini-quizzes-1",
-    "href": "chapters/level2_classification_pdes.html#mini-quizzes-1",
-    "title": "3  format: html",
-    "section": "5.1 Mini Quizzes",
-    "text": "5.1 Mini Quizzes\nQuiz 1: Identify the order\nWhich of the following is a second-order PDE?\n1. $ u_t + cu_x = 0 $\n2. $ u_t = u_{xx} $\n3. $ u u_x = 0 $\n\n\n\n\n\n\nTipAnswer 1\n\n\n\n\n\nEquation (2) $ u_t = u_{xx} $ is second-order because of the \\(u_{xx}\\) term.\n\n\n\n\nQuiz 2: Linearity check\nWhich PDE is nonlinear?\n1. $ u_t = u_{xx} $\n2. $ u_t + u u_x = 0 $\n\n\n\n\n\n\nTipAnswer 2\n\n\n\n\n\nEquation (2) is nonlinear because of the product term \\(u u_x\\).\n\n\n\n\nQuiz 3: Homogeneous or inhomogeneous\nClassify: $ u_{xx} + u_{yy} = f(x,y) $.\n\n\n\n\n\n\nTipAnswer 3\n\n\n\n\n\nIt is inhomogeneous, since the right-hand side is not zero.\n\n\n\n\nQuiz 4: Type of second-order PDE\nFor $ u_{xx} + 2u_{xy} + u_{yy} = 0 $, compute $ B^2 - 4AC $. What type is it?\n\n\n\n\n\n\nTipAnswer 4\n\n\n\n\n\nHere, \\(A = 1, B = 2, C = 1\\).\n$ B^2 - 4AC = 2^2 - 4(1)(1) = 0 $.\nSo it is parabolic.\n\n\n\n\nQuiz 5: Physical meaning\nMatch each equation with its physical interpretation:\n- Heat equation\n- Wave equation\n- Laplace’s equation\n\nSteady state\n\nWave-like motion\n\nDiffusion in time\n\n\n\n\n\n\n\nTipAnswer 5\n\n\n\n\n\n\nHeat equation → (c) Diffusion in time\n\nWave equation → (b) Wave-like motion\n\nLaplace’s equation → (a) Steady state",
+    "title": "3  Level 2: Classification of PDEs",
+    "section": "",
+    "text": "TipAnswer 1\n\n\n\n\n\nEquation (2) $ u_t = u_{xx} $ is second-order because of the \\(u_{xx}\\) term.\n\n\n\n\n\n\n\n\n\n\n\nTipAnswer 2\n\n\n\n\n\nEquation (2) is nonlinear because of the product term \\(u u_x\\).\n\n\n\n\n\n\n\n\n\n\n\nTipAnswer 3\n\n\n\n\n\nIt is inhomogeneous, since the right-hand side is not zero.\n\n\n\n\n\n\n\n\n\n\n\nTipAnswer 4\n\n\n\n\n\nHere, \\(A = 1, B = 2, C = 1\\).\n$ B^2 - 4AC = 2^2 - 4(1)(1) = 0 $.\nSo it is parabolic.\n\n\n\n\n\n\nSteady state\n\nWave-like motion\n\nDiffusion in time\n\n\n\n\n\n\n\nTipAnswer 5\n\n\n\n\n\n\nHeat equation → (c) Diffusion in time\n\nWave equation → (b) Wave-like motion\n\nLaplace’s equation → (a) Steady state",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Level 2: Classification of PDEs</span>"
     ]
