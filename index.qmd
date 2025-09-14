@@ -1,7 +1,5 @@
 
 title: "Numerical Methods for PDEs: An Interactive Journey"
-format: html
-site: book
 ---
 
 # Welcome

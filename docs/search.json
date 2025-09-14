@@ -4,9 +4,9 @@
     "href": "index.html",
     "title": "Numerical Methods for PDEs: An Interactive Journey",
     "section": "",
-    "text": "1 Welcome\ntitle: “Numerical Methods for PDEs: An Interactive Journey” format: html site: book —\nWelcome to this interactive journey through Numerical Methods for Partial Differential Equations (PDEs).\nYou will explore the subject through dialogues between Acharya and Pavni, discovering history, classification, and numerical methods step by step.",
+    "text": "0.1 title: “Numerical Methods for PDEs: An Interactive Journey”",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>site: book</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>title: \"Numerical Methods for PDEs: An Interactive Journey\"</span>"
     ]
   },
   {
@@ -16,7 +16,7 @@
     "section": "1.1 Levels",
     "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>site: book</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>title: \"Numerical Methods for PDEs: An Interactive Journey\"</span>"
     ]
   },
   {
