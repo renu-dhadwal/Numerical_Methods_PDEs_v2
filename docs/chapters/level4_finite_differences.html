@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Level 1: A Historical Glimpse of PDEs – Numerical Methods for PDEs: An Interactive Journey</title>
+<title>5&nbsp; Level 3: Finite Differences and the Heat Equation – Numerical Methods for PDEs: An Interactive Journey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/level2_classification_pdes.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../chapters/level3_PDE_BCs.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -71,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -84,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level1_history_pdes.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Level 1: A Historical Glimpse of PDEs</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level4_finite_differences.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 3: Finite Differences and the Heat Equation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -119,7 +147,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/level1_history_pdes.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/level1_history_pdes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Level 1: A Historical Glimpse of PDEs</span></span></a>
   </div>
 </li>
@@ -137,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/level4_finite_differences.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/level4_finite_differences.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 3: Finite Differences and the Heat Equation</span></span></a>
   </div>
 </li>
@@ -146,15 +174,23 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#application-the-heat-equation" id="toc-application-the-heat-equation" class="nav-link active" data-scroll-target="#application-the-heat-equation"><span class="header-section-number">5.1</span> Application: The Heat Equation</a></li>
+  <li><a href="#stability-condition" id="toc-stability-condition" class="nav-link" data-scroll-target="#stability-condition"><span class="header-section-number">5.2</span> Stability Condition</a></li>
+  <li><a href="#mini-quizzes" id="toc-mini-quizzes" class="nav-link" data-scroll-target="#mini-quizzes"><span class="header-section-number">5.3</span> Mini-Quizzes</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Level 1: A Historical Glimpse of PDEs</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 3: Finite Differences and the Heat Equation</span></h1>
 </div>
 
 
@@ -172,21 +208,118 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="dialogue">
-<p><strong>Pavni:</strong> Acharya, where did all these partial differential equations come from? They seem so abstract.</p>
-<p><strong>Acharya:</strong> Ah, Pavni, they did not begin in abstraction. They began with strings, heat, and the mysteries of the heavens.</p>
-<p><strong>Pavni:</strong> Strings? You mean music?</p>
-<p><strong>Acharya:</strong> Exactly! In 1746, <em>d’Alembert</em> studied how a vibrating string produces sound. From that, he wrote down the <strong>wave equation</strong>. Soon after, <em>Euler</em> extended it to drums and membranes. So you see, music and mathematics are deeply connected.</p>
-<p><strong>Pavni:</strong> That’s beautiful! And the heat equation?</p>
-<p><strong>Acharya:</strong> That came from <em>Joseph Fourier</em> in the early 1800s. He asked: <em>How does heat spread through a solid body?</em> His answer was the <strong>heat equation</strong>, and in solving it he gave us the gift of <strong>Fourier series</strong>.</p>
-<p><strong>Pavni:</strong> So Fourier series were born from studying heat?</p>
-<p><strong>Acharya:</strong> Precisely. And then <em>Laplace</em> studied gravitational attraction and derived the <strong>Laplace equation</strong>, describing potentials in physics. <em>Poisson</em> later generalized it with the <strong>Poisson equation</strong>, where sources appear inside the field.</p>
-<p><strong>Pavni:</strong> So each new equation came from a real phenomenon.</p>
-<p><strong>Acharya:</strong> Just so. Later, in the 19th century, <em>Navier</em> and <em>Stokes</em> wrote down the equations of fluid motion — the <strong>Navier–Stokes equations</strong>. Even today, their mysteries are not fully solved.</p>
-<p><strong>Pavni:</strong> (smiling) So PDEs are not just formulas on paper. They are echoes of sound, flows of heat, gravity, and water.</p>
-<p><strong>Acharya:</strong> Well said, Pavni. They are the language by which nature speaks to us.</p>
+<p><strong>Pavni:</strong> Acharya, how do we actually <em>approximate</em> derivatives for a computer?</p>
+<p><strong>Acharya:</strong> We use the <strong>finite difference method</strong>. Since a computer can only work with discrete points, we replace continuous derivatives with difference quotients on a <strong>grid</strong>.</p>
+<p><strong>Pavni:</strong> A grid? Like equally spaced points?</p>
+<p><strong>Acharya:</strong> Exactly. Suppose we have points <span class="math inline">\(x_0, x_1, \dots, x_N\)</span> with spacing <span class="math inline">\(\Delta x\)</span>. Then: - <strong>Forward difference</strong> for the first derivative: <span class="math display">\[
+  u'(x_i) \approx \frac{u(x_{i+1}) - u(x_i)}{\Delta x}
+  \]</span> - <strong>Backward difference</strong>: <span class="math display">\[
+  u'(x_i) \approx \frac{u(x_i) - u(x_{i-1})}{\Delta x}
+  \]</span> - <strong>Central difference</strong>: <span class="math display">\[
+  u'(x_i) \approx \frac{u(x_{i+1}) - u(x_{i-1})}{2\Delta x}
+  \]</span></p>
+<p><strong>Pavni:</strong> Which one is better?</p>
+<p><strong>Acharya:</strong> Central differences are usually more accurate (error <span class="math inline">\(\mathcal{O}((\Delta x)^2)\)</span>). Forward and backward are first-order accurate (error <span class="math inline">\(\mathcal{O}(\Delta x)\)</span>).<br>
+For the <strong>second derivative</strong>, we use: <span class="math display">\[
+u''(x_i) \approx \frac{u(x_{i-1}) - 2u(x_i) + u(x_{i+1})}{(\Delta x)^2}.
+\]</span></p>
+<p><strong>Pavni:</strong> So we can replace calculus by algebra using these formulas?</p>
+<p><strong>Acharya:</strong> Precisely. Now let us apply this to a PDE.</p>
+</div>
+<hr>
+<section id="application-the-heat-equation" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="application-the-heat-equation"><span class="header-section-number">5.1</span> Application: The Heat Equation</h2>
+<div class="dialogue">
+<p><strong>Acharya:</strong> Consider the 1D heat equation: <span class="math display">\[
+u_t = \alpha u_{xx}, \quad 0 &lt; x &lt; 1,\; t&gt;0
+\]</span> with boundary conditions <span class="math inline">\(u(0,t) = u(1,t) = 0\)</span> and initial profile <span class="math inline">\(u(x,0) = f(x)\)</span>.</p>
+<p>We set up a grid: - In space: <span class="math inline">\(x_i = i\Delta x,\; i=0,\dots,N\)</span><br>
+- In time: <span class="math inline">\(t^n = n\Delta t,\; n=0,1,2,\dots\)</span></p>
+<p>At each point, let <span class="math inline">\(u_i^n \approx u(x_i,t^n)\)</span>.</p>
+<p><strong>Pavni:</strong> And now we replace derivatives?</p>
+<p><strong>Acharya:</strong> Correct.<br>
+- Time derivative (forward difference): <span class="math display">\[
+  u_t(x_i,t^n) \approx \frac{u_i^{n+1} - u_i^n}{\Delta t}
+  \]</span> - Spatial second derivative (central difference): <span class="math display">\[
+  u_{xx}(x_i,t^n) \approx \frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}
+  \]</span></p>
+<p>Plugging these into the PDE, we get: <span class="math display">\[
+\frac{u_i^{n+1} - u_i^n}{\Delta t} = \alpha \,\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}.
+\]</span></p>
+<p>Rearranging: <span class="math display">\[
+u_i^{n+1} = u_i^n + \lambda\,(u_{i-1}^n - 2u_i^n + u_{i+1}^n),
+\]</span> where <span class="math inline">\(\lambda = \frac{\alpha \Delta t}{(\Delta x)^2}\)</span>.</p>
+</div>
+<hr>
+</section>
+<section id="stability-condition" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="stability-condition"><span class="header-section-number">5.2</span> Stability Condition</h2>
+<div class="dialogue">
+<p><strong>Pavni:</strong> So we can just keep applying this formula to march forward in time?</p>
+<p><strong>Acharya:</strong> Yes, but with a caveat. This scheme, called <strong>FTCS (Forward Time, Central Space)</strong>, is only stable if: <span class="math display">\[
+\lambda \leq \tfrac{1}{2}.
+\]</span></p>
+<p><strong>Pavni:</strong> So if <span class="math inline">\(\Delta t\)</span> is too large, the scheme fails?</p>
+<p><strong>Acharya:</strong> Exactly. The numerical solution will blow up, even though the true solution is stable. Choosing <span class="math inline">\(\Delta t\)</span> small enough ensures stability.</p>
+</div>
+<hr>
+</section>
+<section id="mini-quizzes" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="mini-quizzes"><span class="header-section-number">5.3</span> Mini-Quizzes</h2>
+<div class="quiz">
+<p><strong>Quiz 1:</strong><br>
+Let <span class="math inline">\(u(x) = x^2\)</span>. With <span class="math inline">\(\Delta x = 0.1\)</span>, approximate <span class="math inline">\(u'(1)\)</span> using:<br>
+1. Forward difference<br>
+2. Central difference</p>
+<p>Compare with the exact derivative <span class="math inline">\(u'(1) = 2\)</span>. Which is more accurate?</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Answer 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Forward difference: [ ===2.1. ]</p></li>
+<li><p>Central difference: [ ===2.0. ]</p></li>
+<li><p>Exact derivative: <span class="math inline">\(u'(1)=2\)</span>.</p></li>
+</ul>
+<p><strong>Conclusion:</strong> The central difference gives the exact value here (error <span class="math inline">\(0\)</span>), while the forward difference has error <span class="math inline">\(0.1\)</span>. Central is more accurate (as expected — it is second-order).</p>
+</div>
+</div>
+</div>
+<hr>
+<div class="quiz">
+<p><strong>Quiz 2:</strong><br>
+Suppose <span class="math inline">\(\alpha = 1\)</span>, <span class="math inline">\(\Delta x = 0.1\)</span>. What is the maximum <span class="math inline">\(\Delta t\)</span> for stability in the explicit scheme?</p>
+<p>(Hint: <span class="math inline">\(\lambda = \dfrac{\alpha \Delta t}{(\Delta x)^2} \leq \tfrac{1}{2}\)</span>.)</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Answer 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We need [ =. ] With <span class="math inline">\(\alpha=1\)</span> and <span class="math inline">\(\Delta x=0.1\)</span>, <span class="math inline">\((\Delta x)^2=0.01\)</span>. So [ t =0.005. ]</p>
+<p><strong>Maximum allowable</strong> <span class="math inline">\(\displaystyle \Delta t = 0.005\)</span>.</p>
+</div>
+</div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -591,14 +724,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="title: &quot;Numerical Methods for PDEs: An Interactive Journey&quot;">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">title: “Numerical Methods for PDEs: An Interactive Journey”</span></span>
+      <a href="../chapters/level3_PDE_BCs.html" class="pagination-link" aria-label="Level 3: PDEs, their Physical Meaning, and Boundary Conditions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Level 3: PDEs, their Physical Meaning, and Boundary Conditions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/level2_classification_pdes.html" class="pagination-link" aria-label="Level 2: Classification of PDEs">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Level 2: Classification of PDEs</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -14,7 +14,7 @@
     "href": "index.html#levels",
     "title": "Numerical Methods for PDEs: An Interactive Journey",
     "section": "1.1 Levels",
-    "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs\nLevel 3: Finite Difference Methods- Introduction",
+    "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs\nLevel 3: Physical Interpretation and boundary conditions\nLevel 3: Finite Difference Methods- Introduction",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>title: \"Numerical Methods for PDEs: An Interactive Journey\"</span>"
     ]
@@ -50,43 +50,73 @@
     ]
   },
   {
-    "objectID": "chapters/level3_finite_differences.html",
-    "href": "chapters/level3_finite_differences.html",
-    "title": "4  Level 3: Finite Differences and the Heat Equation",
+    "objectID": "chapters/level3_PDE_BCs.html",
+    "href": "chapters/level3_PDE_BCs.html",
+    "title": "4  Level 3: PDEs, their Physical Meaning, and Boundary Conditions",
     "section": "",
-    "text": "4.1 Application: The Heat Equation",
+    "text": "4.1 Dirichlet Condition\nPavni: Acharya, PDEs still feel mysterious. What do they really mean?\nAcharya: Good question. PDEs describe how a quantity changes with respect to both time and space. Think of:\n- Heat spreading in a rod\n- Waves traveling along a string\n- Fluid flowing through a pipe\nAll of these involve rates of change in multiple directions, and that’s why PDEs come into play.\nPavni: So PDEs are the language of physics in extended domains?\nAcharya: Exactly. But to make their solutions unique and physically meaningful, we need boundary conditions. Let’s explore them one by one.\nAcharya: Dirichlet means fixing the value of the solution at the boundary.\nPavni: Like holding both ends of a rod at 100 °C?\nAcharya: Precisely. It represents physical situations where the boundary is controlled by an external source—like contact with a thermostat.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Level 3: PDEs, their Physical Meaning, and Boundary Conditions</span>"
     ]
   },
   {
-    "objectID": "chapters/level3_finite_differences.html#application-the-heat-equation",
-    "href": "chapters/level3_finite_differences.html#application-the-heat-equation",
-    "title": "4  Level 3: Finite Differences and the Heat Equation",
+    "objectID": "chapters/level3_PDE_BCs.html#neumann-condition",
+    "href": "chapters/level3_PDE_BCs.html#neumann-condition",
+    "title": "4  Level 3: PDEs, their Physical Meaning, and Boundary Conditions",
+    "section": "4.2 Neumann Condition",
+    "text": "4.2 Neumann Condition\nAcharya: Neumann means fixing the derivative, often representing flux.\nPavni: So in the rod, saying no heat flows out means the temperature gradient at the end is zero?\nAcharya: Exactly. That’s an insulated boundary.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Level 3: PDEs, their Physical Meaning, and Boundary Conditions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level3_PDE_BCs.html#robin-mixed-condition",
+    "href": "chapters/level3_PDE_BCs.html#robin-mixed-condition",
+    "title": "4  Level 3: PDEs, their Physical Meaning, and Boundary Conditions",
+    "section": "4.3 Robin (Mixed) Condition",
+    "text": "4.3 Robin (Mixed) Condition\nAcharya: Robin mixes the two:\n[ a u + b = c. ]\nPavni: Is that like when heat escapes to the air?\nAcharya: Yes—convective cooling. The flux depends on both the temperature at the boundary and the environment.\n\n\n\n💡 Quick Recap\n\n\nDirichlet → Value fixed (e.g., temperature = 100 °C).\n\nNeumann → Flux fixed (e.g., insulated boundary).\n\nRobin → Combination (e.g., convective heat loss).\n\n\n\n\n4.3.1 📝 Mini-Quiz\n\nA vibrating string held fixed at both ends uses which boundary condition?\n\n\n\nAnswer\n\nDirichlet. The displacement of the string is zero at both ends.\n\nIf a wall is perfectly insulated, what type of boundary condition applies to temperature?\n\n\n\nAnswer\n\nNeumann. The derivative (temperature gradient) is zero, meaning no heat flux.\n\nWhich boundary condition models cooling of hot coffee in a room?\n\n\n\nAnswer\n\nRobin. Heat loss depends on both the coffee’s surface temperature and the room temperature (convection).\n\n\n\nPavni: Now I see it! PDEs tell the story inside the domain, and boundary conditions set the rules at the edges.\nAcharya: Well said. Together, they form the complete model of a physical system.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Level 3: PDEs, their Physical Meaning, and Boundary Conditions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level4_finite_differences.html",
+    "href": "chapters/level4_finite_differences.html",
+    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "section": "",
+    "text": "5.1 Application: The Heat Equation",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level4_finite_differences.html#application-the-heat-equation",
+    "href": "chapters/level4_finite_differences.html#application-the-heat-equation",
+    "title": "5  Level 3: Finite Differences and the Heat Equation",
     "section": "",
     "text": "Acharya: Consider the 1D heat equation: \\[\nu_t = \\alpha u_{xx}, \\quad 0 &lt; x &lt; 1,\\; t&gt;0\n\\] with boundary conditions \\(u(0,t) = u(1,t) = 0\\) and initial profile \\(u(x,0) = f(x)\\).\nWe set up a grid: - In space: \\(x_i = i\\Delta x,\\; i=0,\\dots,N\\)\n- In time: \\(t^n = n\\Delta t,\\; n=0,1,2,\\dots\\)\nAt each point, let \\(u_i^n \\approx u(x_i,t^n)\\).\nPavni: And now we replace derivatives?\nAcharya: Correct.\n- Time derivative (forward difference): \\[\n  u_t(x_i,t^n) \\approx \\frac{u_i^{n+1} - u_i^n}{\\Delta t}\n  \\] - Spatial second derivative (central difference): \\[\n  u_{xx}(x_i,t^n) \\approx \\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\\Delta x)^2}\n  \\]\nPlugging these into the PDE, we get: \\[\n\\frac{u_i^{n+1} - u_i^n}{\\Delta t} = \\alpha \\,\\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\\Delta x)^2}.\n\\]\nRearranging: \\[\nu_i^{n+1} = u_i^n + \\lambda\\,(u_{i-1}^n - 2u_i^n + u_{i+1}^n),\n\\] where \\(\\lambda = \\frac{\\alpha \\Delta t}{(\\Delta x)^2}\\).",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
-    "objectID": "chapters/level3_finite_differences.html#stability-condition",
-    "href": "chapters/level3_finite_differences.html#stability-condition",
-    "title": "4  Level 3: Finite Differences and the Heat Equation",
-    "section": "4.2 Stability Condition",
-    "text": "4.2 Stability Condition\n\nPavni: So we can just keep applying this formula to march forward in time?\nAcharya: Yes, but with a caveat. This scheme, called FTCS (Forward Time, Central Space), is only stable if: \\[\n\\lambda \\leq \\tfrac{1}{2}.\n\\]\nPavni: So if \\(\\Delta t\\) is too large, the scheme fails?\nAcharya: Exactly. The numerical solution will blow up, even though the true solution is stable. Choosing \\(\\Delta t\\) small enough ensures stability.",
+    "objectID": "chapters/level4_finite_differences.html#stability-condition",
+    "href": "chapters/level4_finite_differences.html#stability-condition",
+    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "section": "5.2 Stability Condition",
+    "text": "5.2 Stability Condition\n\nPavni: So we can just keep applying this formula to march forward in time?\nAcharya: Yes, but with a caveat. This scheme, called FTCS (Forward Time, Central Space), is only stable if: \\[\n\\lambda \\leq \\tfrac{1}{2}.\n\\]\nPavni: So if \\(\\Delta t\\) is too large, the scheme fails?\nAcharya: Exactly. The numerical solution will blow up, even though the true solution is stable. Choosing \\(\\Delta t\\) small enough ensures stability.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
-    "objectID": "chapters/level3_finite_differences.html#mini-quizzes",
-    "href": "chapters/level3_finite_differences.html#mini-quizzes",
-    "title": "4  Level 3: Finite Differences and the Heat Equation",
-    "section": "4.3 Mini-Quizzes",
-    "text": "4.3 Mini-Quizzes\n\nQuiz 1:\nLet \\(u(x) = x^2\\). With \\(\\Delta x = 0.1\\), approximate \\(u'(1)\\) using:\n1. Forward difference\n2. Central difference\nCompare with the exact derivative \\(u'(1) = 2\\). Which is more accurate?\n\n\n\n\n\n\n\nTipAnswer 1\n\n\n\n\n\n\nForward difference: [ ===2.1. ]\nCentral difference: [ ===2.0. ]\nExact derivative: \\(u'(1)=2\\).\n\nConclusion: The central difference gives the exact value here (error \\(0\\)), while the forward difference has error \\(0.1\\). Central is more accurate (as expected — it is second-order).\n\n\n\n\n\nQuiz 2:\nSuppose \\(\\alpha = 1\\), \\(\\Delta x = 0.1\\). What is the maximum \\(\\Delta t\\) for stability in the explicit scheme?\n(Hint: \\(\\lambda = \\dfrac{\\alpha \\Delta t}{(\\Delta x)^2} \\leq \\tfrac{1}{2}\\).)\n\n\n\n\n\n\n\nTipAnswer 2\n\n\n\n\n\nWe need [ =. ] With \\(\\alpha=1\\) and \\(\\Delta x=0.1\\), \\((\\Delta x)^2=0.01\\). So [ t =0.005. ]\nMaximum allowable \\(\\displaystyle \\Delta t = 0.005\\).",
+    "objectID": "chapters/level4_finite_differences.html#mini-quizzes",
+    "href": "chapters/level4_finite_differences.html#mini-quizzes",
+    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "section": "5.3 Mini-Quizzes",
+    "text": "5.3 Mini-Quizzes\n\nQuiz 1:\nLet \\(u(x) = x^2\\). With \\(\\Delta x = 0.1\\), approximate \\(u'(1)\\) using:\n1. Forward difference\n2. Central difference\nCompare with the exact derivative \\(u'(1) = 2\\). Which is more accurate?\n\n\n\n\n\n\n\nTipAnswer 1\n\n\n\n\n\n\nForward difference: [ ===2.1. ]\nCentral difference: [ ===2.0. ]\nExact derivative: \\(u'(1)=2\\).\n\nConclusion: The central difference gives the exact value here (error \\(0\\)), while the forward difference has error \\(0.1\\). Central is more accurate (as expected — it is second-order).\n\n\n\n\n\nQuiz 2:\nSuppose \\(\\alpha = 1\\), \\(\\Delta x = 0.1\\). What is the maximum \\(\\Delta t\\) for stability in the explicit scheme?\n(Hint: \\(\\lambda = \\dfrac{\\alpha \\Delta t}{(\\Delta x)^2} \\leq \\tfrac{1}{2}\\).)\n\n\n\n\n\n\n\nTipAnswer 2\n\n\n\n\n\nWe need [ =. ] With \\(\\alpha=1\\) and \\(\\Delta x=0.1\\), \\((\\Delta x)^2=0.01\\). So [ t =0.005. ]\nMaximum allowable \\(\\displaystyle \\Delta t = 0.005\\).",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
     ]
   }
 ]

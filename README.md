@@ -8,4 +8,6 @@ Files included:
 - index.qmd
 - chapters/level1_history_pdes.qmd
 - chapters/level2_classification_pdes.qmd
+- chapters/level3_PDE_BCs.qmd
+- chapters/level4_finite_differences.qmd
 - styles/course.css

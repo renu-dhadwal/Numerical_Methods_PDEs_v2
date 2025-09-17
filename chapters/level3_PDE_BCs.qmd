@@ -1,0 +1,87 @@
+# Level 3: PDEs, their Physical Meaning, and Boundary Conditions
+
+
+**Pavni:** Acharya, PDEs still feel mysterious. What do they *really* mean?  
+
+**Acharya:** Good question. PDEs describe how a quantity changes with respect to **both time and space**. Think of:  
+- Heat spreading in a rod  
+- Waves traveling along a string  
+- Fluid flowing through a pipe  
+
+All of these involve rates of change in multiple directions, and that’s why PDEs come into play.  
+
+**Pavni:** So PDEs are the language of physics in extended domains?  
+
+**Acharya:** Exactly. But to make their solutions unique and physically meaningful, we need **boundary conditions**. Let’s explore them one by one.  
+
+---
+
+## Dirichlet Condition  
+
+**Acharya:** Dirichlet means fixing the value of the solution at the boundary.  
+
+**Pavni:** Like holding both ends of a rod at 100 °C?  
+
+**Acharya:** Precisely. It represents physical situations where the boundary is controlled by an external source—like contact with a thermostat.  
+
+---
+
+## Neumann Condition  
+
+**Acharya:** Neumann means fixing the derivative, often representing **flux**.  
+
+**Pavni:** So in the rod, saying no heat flows out means the temperature gradient at the end is zero?  
+
+**Acharya:** Exactly. That’s an insulated boundary.  
+
+---
+
+## Robin (Mixed) Condition  
+
+**Acharya:** Robin mixes the two:  
+\[
+a u + b \frac{\partial u}{\partial n} = c.
+\]  
+
+**Pavni:** Is that like when heat escapes to the air?  
+
+**Acharya:** Yes—convective cooling. The flux depends on both the temperature at the boundary and the environment.  
+
+---
+
+<details>
+<summary>💡 Quick Recap</summary>
+
+- **Dirichlet** → Value fixed (e.g., temperature = 100 °C).  
+- **Neumann** → Flux fixed (e.g., insulated boundary).  
+- **Robin** → Combination (e.g., convective heat loss).  
+
+</details>
+
+---
+
+### 📝 Mini-Quiz  
+
+1. A vibrating string held fixed at both ends uses which boundary condition?  
+   <details><summary>Answer</summary>  
+   **Dirichlet.** The displacement of the string is zero at both ends.  
+   </details>  
+
+2. If a wall is perfectly insulated, what type of boundary condition applies to temperature?  
+   <details><summary>Answer</summary>  
+   **Neumann.** The derivative (temperature gradient) is zero, meaning no heat flux.  
+   </details>  
+
+3. Which boundary condition models cooling of hot coffee in a room?  
+   <details><summary>Answer</summary>  
+   **Robin.** Heat loss depends on both the coffee’s surface temperature and the room temperature (convection).  
+   </details>  
+
+---
+
+**Pavni:** Now I see it! PDEs tell the story inside the domain, and boundary conditions set the rules at the edges.  
+
+**Acharya:** Well said. Together, they form the complete model of a physical system.  
+
+---
+ 
