@@ -13,7 +13,7 @@ You will explore the subject through **dialogues between Acharya and Pavni**, di
 - [Level 1: Origins of PDEs](chapters/level1_history_pdes.qmd)
 - [Level 2: Classification of PDEs](chapters/Level2_classification_pdes.qmd)
 - [Level 3: Physical Interpretation and boundary conditions](chapters/level3_PDE_BCs.qmd)
-- [Level 3: Finite Difference Methods- Introduction](chapters/level4_finite_differences.qmd)
+- [Level 4: Finite Difference Methods- Introduction](chapters/level4_finite_differences.qmd)
 
 ---
 
