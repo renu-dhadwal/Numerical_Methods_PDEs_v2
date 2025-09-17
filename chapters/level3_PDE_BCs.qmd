@@ -39,9 +39,9 @@ All of these involve rates of change in multiple directions, and that’s why PD
 ## Robin (Mixed) Condition  
 
 **Acharya:** Robin mixes the two:  
-\[
+$$
 a u + b \frac{\partial u}{\partial n} = c.
-\]  
+$$  
 
 **Pavni:** Is that like when heat escapes to the air?  
 

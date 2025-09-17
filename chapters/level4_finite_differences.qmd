@@ -108,15 +108,15 @@ Compare with the exact derivative $u'(1) = 2$. Which is more accurate?
 ### Answer 1
 
 - Forward difference:
-  \[
+  $$
   \frac{u(1+\Delta x)-u(1)}{\Delta x}=\frac{(1.1)^2-1^2}{0.1}=\frac{1.21-1}{0.1}=2.1.
-  \]
+  $$
 
 - Central difference:
-  \[
+  $$
   \frac{u(1+\Delta x)-u(1-\Delta x)}{2\Delta x}
   =\frac{(1.1)^2-(0.9)^2}{0.2}=\frac{1.21-0.81}{0.2}=2.0.
-  \]
+  $$
 
 - Exact derivative: $u'(1)=2$.
 
@@ -136,14 +136,14 @@ Suppose $\alpha = 1$, $\Delta x = 0.1$. What is the maximum $\Delta t$ for stabi
 ### Answer 2
 
 We need
-\[
+$$
 \lambda=\frac{\alpha\,\Delta t}{(\Delta x)^2}\le\frac{1}{2}.
-\]
+$$
 With $\alpha=1$ and $\Delta x=0.1$, $(\Delta x)^2=0.01$. So
-\[
+$$
 \frac{\Delta t}{0.01}\le\frac{1}{2}\quad\Rightarrow\quad
 \Delta t \le 0.01\times\frac{1}{2}=0.005.
-\]
+$$
 
 **Maximum allowable** $\displaystyle \Delta t = 0.005$.
 :::
