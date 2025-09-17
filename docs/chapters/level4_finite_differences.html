@@ -341,16 +341,33 @@ Suppose <span class="math inline">\(\alpha = 1\)</span>, <span class="math inlin
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>First-derivative — forward difference.</strong><br>
-Taylor expand about <span class="math inline">\(x_i\)</span>: [ u(x_{i+1}) = u(x_i) + x,u’(x_i) + u’‘(x_i) + u^{(3)}(x_i) + (x^4). ] Hence [ = u’(x_i) + u’’(x_i) + (x^2), ] so the forward difference is <strong>first-order</strong>: error <span class="math inline">\(= \mathcal{O}(\Delta x)\)</span>.</p>
+Taylor expand about <span class="math inline">\(x_i\)</span>: <span class="math display">\[
+u(x_{i+1}) = u(x_i) + \Delta x\,u'(x_i) + \tfrac{(\Delta x)^2}{2}u''(x_i) + \tfrac{(\Delta x)^3}{6}u^{(3)}(x_i) + \mathcal{O}(\Delta x^4).
+\]</span> Hence <span class="math display">\[
+\frac{u(x_{i+1})-u(x_i)}{\Delta x} = u'(x_i) + \tfrac{\Delta x}{2}u''(x_i) + \mathcal{O}(\Delta x^2),
+\]</span> so the forward difference is <strong>first-order</strong>: error <span class="math inline">\(= \mathcal{O}(\Delta x)\)</span>.</p>
 <hr>
 <p><strong>First-derivative — central difference.</strong><br>
-Using expansions at <span class="math inline">\(x_{i\pm1}\)</span> and subtracting, [ = u’(x_i) + u^{(3)}(x_i) + (x^4), ] so the central difference is <strong>second-order</strong>: error <span class="math inline">\(= \mathcal{O}(\Delta x^2)\)</span>.</p>
+Using expansions at <span class="math inline">\(x_{i\pm1}\)</span> and subtracting, <span class="math display">\[
+\frac{u(x_{i+1})-u(x_{i-1})}{2\Delta x}
+= u'(x_i) + \tfrac{(\Delta x)^2}{6}u^{(3)}(x_i) + \mathcal{O}(\Delta x^4),
+\]</span> so the central difference is <strong>second-order</strong>: error <span class="math inline">\(= \mathcal{O}(\Delta x^2)\)</span>.</p>
 <hr>
 <p><strong>Second-derivative — central second difference.</strong><br>
-From Taylor expansions, [ = u’’(x_i) + u<sup>{(4)}(x_i)+(x</sup>4), ] so the second difference is <strong>second-order</strong>: error <span class="math inline">\(= \mathcal{O}(\Delta x^2)\)</span>.</p>
+From Taylor expansions, <span class="math display">\[
+\frac{u(x_{i-1})-2u(x_i)+u(x_{i+1})}{(\Delta x)^2}
+= u''(x_i) + \tfrac{(\Delta x)^2}{12}u^{(4)}(x_i)+\mathcal{O}(\Delta x^4),
+\]</span> so the second difference is <strong>second-order</strong>: error <span class="math inline">\(= \mathcal{O}(\Delta x^2)\)</span>.</p>
 <hr>
 <p><strong>Local truncation error for FTCS (heat equation).</strong><br>
-Substitute the exact solution <span class="math inline">\(u(x,t)\)</span> into the FTCS formula [ = ] and define the residual (local truncation error) <span class="math inline">\(\tau_i^n\)</span> by the left minus right-hand sides. Using Taylor in time, [ u(x_i,t^{n+1}) = u(x_i,t^n) + t,u_t + u_{tt} + (t^3), ] and the spatial expansion for the second difference, then using the PDE <span class="math inline">\(u_t=\alpha u_{xx}\)</span> to cancel leading terms, one obtains the leading behaviour [ <em>i^n = ,u</em>{tt}(x_i,t^n) - ,,u_{xxxx}(x_i,t^n) + (t<sup>2)+(x</sup>4). ] Therefore FTCS is <strong>consistent</strong> with truncation <span class="math inline">\(\tau_i^n = \mathcal{O}(\Delta t) + \mathcal{O}(\Delta x^2)\)</span>. By Lax–Richtmyer: <strong>consistency + stability ⇒ convergence</strong> (so with the CFL <span class="math inline">\(\lambda\le 1/2\)</span> we get global error <span class="math inline">\(\sim \mathcal{O}(\Delta t + \Delta x^2)\)</span> in appropriate norms).</p>
+Substitute the exact solution <span class="math inline">\(u(x,t)\)</span> into the FTCS formula <span class="math display">\[
+\frac{u(x_i,t^{n+1})-u(x_i,t^n)}{\Delta t}
+= \alpha\frac{u(x_{i-1},t^n)-2u(x_i,t^n)+u(x_{i+1},t^n)}{(\Delta x)^2}
+\]</span> and define the residual (local truncation error) <span class="math inline">\(\tau_i^n\)</span> by the left minus right-hand sides. Using Taylor in time, <span class="math display">\[
+u(x_i,t^{n+1}) = u(x_i,t^n) + \Delta t\,u_t + \tfrac{\Delta t^2}{2}u_{tt} + \mathcal{O}(\Delta t^3),
+\]</span> and the spatial expansion for the second difference, then using the PDE <span class="math inline">\(u_t=\alpha u_{xx}\)</span> to cancel leading terms, one obtains the leading behaviour <span class="math display">\[
+\tau_i^n = \tfrac{\Delta t}{2}\,u_{tt}(x_i,t^n) - \alpha\,\tfrac{(\Delta x)^2}{12}\,u_{xxxx}(x_i,t^n) + \mathcal{O}(\Delta t^2)+\mathcal{O}(\Delta x^4).
+\]</span> Therefore FTCS is <strong>consistent</strong> with truncation <span class="math inline">\(\tau_i^n = \mathcal{O}(\Delta t) + \mathcal{O}(\Delta x^2)\)</span>. By Lax–Richtmyer: <strong>consistency + stability ⇒ convergence</strong> (so with the CFL <span class="math inline">\(\lambda\le 1/2\)</span> we get global error <span class="math inline">\(\sim \mathcal{O}(\Delta t + \Delta x^2)\)</span> in appropriate norms).</p>
 </div>
 </div>
 </div>
