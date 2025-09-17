@@ -201,7 +201,7 @@ Therefore FTCS is **consistent** with truncation $\tau_i^n = \mathcal{O}(\Delta 
 :::
 
 ---
-
+<!-- 
 ## In-class Exercise (compute & evaluate local truncation error)
 
 **Problem.** Take the heat equation with $\alpha>0$ and the exact solution
@@ -269,3 +269,4 @@ So the leading-order truncation error at that grid point is approximately $\boxe
 
 **Comment:** If you make $\Delta x$ smaller (e.g. 0.05) and reduce $\Delta t$ accordingly (e.g. to respect CFL), this $\tau$ will decrease roughly like $\mathcal{O}(\Delta t + \Delta x^2)$ as expected.
 :::
+ -->

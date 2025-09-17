@@ -118,15 +118,5 @@
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
     ]
-  },
-  {
-    "objectID": "chapters/level4_finite_differences.html#in-class-exercise-compute-evaluate-local-truncation-error",
-    "href": "chapters/level4_finite_differences.html#in-class-exercise-compute-evaluate-local-truncation-error",
-    "title": "5  Level 3: Finite Differences and the Heat Equation",
-    "section": "5.4 In-class Exercise (compute & evaluate local truncation error)",
-    "text": "5.4 In-class Exercise (compute & evaluate local truncation error)\nProblem. Take the heat equation with \\(\\alpha&gt;0\\) and the exact solution [ u(x,t) = (x),e{-2t} ] on \\(0\\le x\\le1\\) (this satisfies homogeneous Dirichlet BCs). For the FTCS scheme with time step \\(\\Delta t\\) and space step \\(\\Delta x\\):\n\nDerive the leading-order local truncation error \\(\\tau_i^n\\) at grid point \\((x_i,t^n)\\) (use the formula above).\nEvaluate the leading terms explicitly for this \\(u\\) (express in terms of \\(\\alpha\\), \\(\\Delta t\\), \\(\\Delta x\\), and trigonometric factors).\nNumerically evaluate \\(\\tau\\) at \\(x_i=0.5\\), \\(t^n=0\\), with \\(\\alpha=1\\), \\(\\Delta x=0.1\\), \\(\\Delta t=0.005\\).\n\n\n\n\n\n\n\nTipSolution — worked steps\n\n\n\n\n\n1. Leading-order form. From the derivation: [ i^n ,u{tt}(x_i,t^n) - ,,u_{xxxx}(x_i,t^n). ]\n2. Compute derivatives for \\(u(x,t)=\\sin(\\pi x)e^{-\\pi^2\\alpha t}\\).\n\nFirst, note \\(u_t = -\\pi^2\\alpha\\,\\sin(\\pi x)e^{-\\pi^2\\alpha t}\\), so [ u_{tt} = (!-2!)2 (x)e{-2t} = 42 (x)e{-2t}. ]\nFor spatial derivatives, \\(\\partial_x^4\\sin(\\pi x)=\\pi^4\\sin(\\pi x)\\), so [ u_{xxxx} = 4(x)e{-^2t}. ]\n\nSubstitute into \\(\\tau\\): [ _i^n (,42 ;-; ,,4)(x_i),e{-2tn}. ]\nFactor \\(\\pi^4\\sin(\\pi x_i)e^{-\\pi^2\\alpha t^n}\\): [ _i^n 4(x_i)e{-2tn}( - ,). ]\n3. Numeric evaluation at \\(x_i=0.5\\), \\(t^n=0\\), \\(\\alpha=1\\), \\(\\Delta x=0.1\\), \\(\\Delta t=0.005\\).\nCompute factors: - \\(\\sin(\\pi x_i)=\\sin(\\pi/2)=1\\). - \\(e^{-\\pi^2\\alpha t^n}=e^{0}=1\\). - \\(\\pi^4 \\approx 97.4091\\).\nNow compute the parenthesis: [ - , = - = 0.0025 - 0.0008333333 = 0.0016666667. ]\nHence [ ^4 . ]\nSo the leading-order truncation error at that grid point is approximately \\(\\boxed{1.62\\times 10^{-1}}\\) (note: this is the residual value of substituting the exact solution into the discrete formula; the global error will be smaller when the scheme is stable and \\(\\Delta x,\\Delta t\\) are refined).\nComment: If you make \\(\\Delta x\\) smaller (e.g. 0.05) and reduce \\(\\Delta t\\) accordingly (e.g. to respect CFL), this \\(\\tau\\) will decrease roughly like \\(\\mathcal{O}(\\Delta t + \\Delta x^2)\\) as expected.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
-    ]
   }
 ]
