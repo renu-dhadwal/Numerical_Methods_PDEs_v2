@@ -205,9 +205,9 @@ Therefore FTCS is **consistent** with truncation $\tau_i^n = \mathcal{O}(\Delta 
 ## In-class Exercise (compute & evaluate local truncation error)
 
 **Problem.** Take the heat equation with $\alpha>0$ and the exact solution
-\[
+$$
 u(x,t) = \sin(\pi x)\,e^{-\pi^2\alpha t}
-\]
+$$
 on $0\le x\le1$ (this satisfies homogeneous Dirichlet BCs). For the FTCS scheme with time step $\Delta t$ and space step $\Delta x$:
 
 1. Derive the leading-order local truncation error $\tau_i^n$ at grid point $(x_i,t^n)$ (use the formula above).
@@ -218,31 +218,31 @@ on $0\le x\le1$ (this satisfies homogeneous Dirichlet BCs). For the FTCS scheme 
 ### Solution — worked steps
 
 **1. Leading-order form.** From the derivation:
-\[
+$$
 \tau_i^n \approx \tfrac{\Delta t}{2}\,u_{tt}(x_i,t^n) - \alpha\,\tfrac{(\Delta x)^2}{12}\,u_{xxxx}(x_i,t^n).
-\]
+$$
 
 **2. Compute derivatives for $u(x,t)=\sin(\pi x)e^{-\pi^2\alpha t}$.**
 
 - First, note $u_t = -\pi^2\alpha\,\sin(\pi x)e^{-\pi^2\alpha t}$, so
-  \[
+  $$
   u_{tt} = (\!-\pi^2\alpha\!)^2 \sin(\pi x)e^{-\pi^2\alpha t} = \pi^4\alpha^2 \sin(\pi x)e^{-\pi^2\alpha t}.
-  \]
+  $$
 
 - For spatial derivatives, $\partial_x^4\sin(\pi x)=\pi^4\sin(\pi x)$, so
-  \[
+  $$
   u_{xxxx} = \pi^4\sin(\pi x)e^{-\pi^2\alpha t}.
-  \]
+  $$
 
 Substitute into $\tau$:
-\[
+$$
 \tau_i^n \approx \left(\tfrac{\Delta t}{2}\,\pi^4\alpha^2 \;-\; \alpha\,\tfrac{(\Delta x)^2}{12}\,\pi^4\right)\sin(\pi x_i)\,e^{-\pi^2\alpha t^n}.
-\]
+$$
 
 Factor $\pi^4\sin(\pi x_i)e^{-\pi^2\alpha t^n}$:
-\[
+$$
 \tau_i^n \approx \pi^4\sin(\pi x_i)e^{-\pi^2\alpha t^n}\left(\tfrac{\alpha^2\Delta t}{2} - \alpha\,\tfrac{(\Delta x)^2}{12}\right).
-\]
+$$
 
 **3. Numeric evaluation at $x_i=0.5$, $t^n=0$, $\alpha=1$, $\Delta x=0.1$, $\Delta t=0.005$.**
 
@@ -252,18 +252,18 @@ Compute factors:
 - $\pi^4 \approx 97.4091$.
 
 Now compute the parenthesis:
-\[
+$$
 \tfrac{\alpha^2\Delta t}{2} - \alpha\,\tfrac{(\Delta x)^2}{12}
 = \tfrac{1\times 0.005}{2} - \tfrac{1\times 0.01}{12}
 = 0.0025 - 0.0008333333 = 0.0016666667.
-\]
+$$
 
 Hence
-\[
+$$
 \tau \approx \pi^4 \times 1 \times 1 \times 0.0016666667
 \approx 97.4091 \times 0.0016666667
 \approx 0.1623485.
-\]
+$$
 
 So the leading-order truncation error at that grid point is approximately $\boxed{1.62\times 10^{-1}}$ (note: this is the residual value of substituting the exact solution into the discrete formula; the global error will be smaller when the scheme is stable and $\Delta x,\Delta t$ are refined).
 
