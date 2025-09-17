@@ -182,6 +182,7 @@ window.Quarto = {
   <li><a href="#application-the-heat-equation" id="toc-application-the-heat-equation" class="nav-link active" data-scroll-target="#application-the-heat-equation"><span class="header-section-number">5.1</span> Application: The Heat Equation</a></li>
   <li><a href="#stability-condition" id="toc-stability-condition" class="nav-link" data-scroll-target="#stability-condition"><span class="header-section-number">5.2</span> Stability Condition</a></li>
   <li><a href="#mini-quizzes" id="toc-mini-quizzes" class="nav-link" data-scroll-target="#mini-quizzes"><span class="header-section-number">5.3</span> Mini-Quizzes</a></li>
+  <li><a href="#in-class-exercise-compute-evaluate-local-truncation-error" id="toc-in-class-exercise-compute-evaluate-local-truncation-error" class="nav-link" data-scroll-target="#in-class-exercise-compute-evaluate-local-truncation-error"><span class="header-section-number">5.4</span> In-class Exercise (compute &amp; evaluate local truncation error)</a></li>
   </ul>
 </nav>
     </div>
@@ -354,75 +355,64 @@ Substitute the exact solution <span class="math inline">\(u(x,t)\)</span> into t
 </div>
 </div>
 <hr>
-<!-- 
-## In-class Exercise (compute & evaluate local truncation error)
-
-**Problem.** Take the heat equation with $\alpha>0$ and the exact solution
-$$
+</section>
+<section id="in-class-exercise-compute-evaluate-local-truncation-error" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="in-class-exercise-compute-evaluate-local-truncation-error"><span class="header-section-number">5.4</span> In-class Exercise (compute &amp; evaluate local truncation error)</h2>
+<p><strong>Problem.</strong> Take the heat equation with <span class="math inline">\(\alpha&gt;0\)</span> and the exact solution <span class="math display">\[
 u(x,t) = \sin(\pi x)\,e^{-\pi^2\alpha t}
-$$
-on $0\le x\le1$ (this satisfies homogeneous Dirichlet BCs). For the FTCS scheme with time step $\Delta t$ and space step $\Delta x$:
-
-1. Derive the leading-order local truncation error $\tau_i^n$ at grid point $(x_i,t^n)$ (use the formula above).
-2. Evaluate the leading terms explicitly for this $u$ (express in terms of $\alpha$, $\Delta t$, $\Delta x$, and trigonometric factors).
-3. Numerically evaluate $\tau$ at $x_i=0.5$, $t^n=0$, with $\alpha=1$, $\Delta x=0.1$, $\Delta t=0.005$.
-
-::: {.callout-tip collapse=true}
-### Solution — worked steps
-
-**1. Leading-order form.** From the derivation:
-$$
+\]</span> on <span class="math inline">\(0\le x\le1\)</span> (this satisfies homogeneous Dirichlet BCs). For the FTCS scheme with time step <span class="math inline">\(\Delta t\)</span> and space step <span class="math inline">\(\Delta x\)</span>:</p>
+<ol type="1">
+<li>Derive the leading-order local truncation error <span class="math inline">\(\tau_i^n\)</span> at grid point <span class="math inline">\((x_i,t^n)\)</span> (use the formula above).</li>
+<li>Evaluate the leading terms explicitly for this <span class="math inline">\(u\)</span> (express in terms of <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\Delta t\)</span>, <span class="math inline">\(\Delta x\)</span>, and trigonometric factors).</li>
+<li>Numerically evaluate <span class="math inline">\(\tau\)</span> at <span class="math inline">\(x_i=0.5\)</span>, <span class="math inline">\(t^n=0\)</span>, with <span class="math inline">\(\alpha=1\)</span>, <span class="math inline">\(\Delta x=0.1\)</span>, <span class="math inline">\(\Delta t=0.005\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution — worked steps
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>1. Leading-order form.</strong> From the derivation: <span class="math display">\[
 \tau_i^n \approx \tfrac{\Delta t}{2}\,u_{tt}(x_i,t^n) - \alpha\,\tfrac{(\Delta x)^2}{12}\,u_{xxxx}(x_i,t^n).
-$$
-
-**2. Compute derivatives for $u(x,t)=\sin(\pi x)e^{-\pi^2\alpha t}$.**
-
-- First, note $u_t = -\pi^2\alpha\,\sin(\pi x)e^{-\pi^2\alpha t}$, so
-  $$
-  u_{tt} = (\!-\pi^2\alpha\!)^2 \sin(\pi x)e^{-\pi^2\alpha t} = \pi^4\alpha^2 \sin(\pi x)e^{-\pi^2\alpha t}.
-  $$
-
-- For spatial derivatives, $\partial_x^4\sin(\pi x)=\pi^4\sin(\pi x)$, so
-  $$
-  u_{xxxx} = \pi^4\sin(\pi x)e^{-\pi^2\alpha t}.
-  $$
-
-Substitute into $\tau$:
-$$
+\]</span></p>
+<p><strong>2. Compute derivatives for <span class="math inline">\(u(x,t)=\sin(\pi x)e^{-\pi^2\alpha t}\)</span>.</strong></p>
+<ul>
+<li><p>First, note <span class="math inline">\(u_t = -\pi^2\alpha\,\sin(\pi x)e^{-\pi^2\alpha t}\)</span>, so <span class="math display">\[
+u_{tt} = (\!-\pi^2\alpha\!)^2 \sin(\pi x)e^{-\pi^2\alpha t} = \pi^4\alpha^2 \sin(\pi x)e^{-\pi^2\alpha t}.
+\]</span></p></li>
+<li><p>For spatial derivatives, <span class="math inline">\(\partial_x^4\sin(\pi x)=\pi^4\sin(\pi x)\)</span>, so <span class="math display">\[
+u_{xxxx} = \pi^4\sin(\pi x)e^{-\pi^2\alpha t}.
+\]</span></p></li>
+</ul>
+<p>Substitute into <span class="math inline">\(\tau\)</span>: <span class="math display">\[
 \tau_i^n \approx \left(\tfrac{\Delta t}{2}\,\pi^4\alpha^2 \;-\; \alpha\,\tfrac{(\Delta x)^2}{12}\,\pi^4\right)\sin(\pi x_i)\,e^{-\pi^2\alpha t^n}.
-$$
-
-Factor $\pi^4\sin(\pi x_i)e^{-\pi^2\alpha t^n}$:
-$$
+\]</span></p>
+<p>Factor <span class="math inline">\(\pi^4\sin(\pi x_i)e^{-\pi^2\alpha t^n}\)</span>: <span class="math display">\[
 \tau_i^n \approx \pi^4\sin(\pi x_i)e^{-\pi^2\alpha t^n}\left(\tfrac{\alpha^2\Delta t}{2} - \alpha\,\tfrac{(\Delta x)^2}{12}\right).
-$$
-
-**3. Numeric evaluation at $x_i=0.5$, $t^n=0$, $\alpha=1$, $\Delta x=0.1$, $\Delta t=0.005$.**
-
-Compute factors:
-- $\sin(\pi x_i)=\sin(\pi/2)=1$.
-- $e^{-\pi^2\alpha t^n}=e^{0}=1$.
-- $\pi^4 \approx 97.4091$.
-
-Now compute the parenthesis:
-$$
+\]</span></p>
+<p><strong>3. Numeric evaluation at <span class="math inline">\(x_i=0.5\)</span>, <span class="math inline">\(t^n=0\)</span>, <span class="math inline">\(\alpha=1\)</span>, <span class="math inline">\(\Delta x=0.1\)</span>, <span class="math inline">\(\Delta t=0.005\)</span>.</strong></p>
+<p>Compute factors: - <span class="math inline">\(\sin(\pi x_i)=\sin(\pi/2)=1\)</span>. - <span class="math inline">\(e^{-\pi^2\alpha t^n}=e^{0}=1\)</span>. - <span class="math inline">\(\pi^4 \approx 97.4091\)</span>.</p>
+<p>Now compute the parenthesis: <span class="math display">\[
 \tfrac{\alpha^2\Delta t}{2} - \alpha\,\tfrac{(\Delta x)^2}{12}
 = \tfrac{1\times 0.005}{2} - \tfrac{1\times 0.01}{12}
 = 0.0025 - 0.0008333333 = 0.0016666667.
-$$
-
-Hence
-$$
+\]</span></p>
+<p>Hence <span class="math display">\[
 \tau \approx \pi^4 \times 1 \times 1 \times 0.0016666667
 \approx 97.4091 \times 0.0016666667
 \approx 0.1623485.
-$$
-
-So the leading-order truncation error at that grid point is approximately $\boxed{1.62\times 10^{-1}}$ (note: this is the residual value of substituting the exact solution into the discrete formula; the global error will be smaller when the scheme is stable and $\Delta x,\Delta t$ are refined).
-
-**Comment:** If you make $\Delta x$ smaller (e.g. 0.05) and reduce $\Delta t$ accordingly (e.g. to respect CFL), this $\tau$ will decrease roughly like $\mathcal{O}(\Delta t + \Delta x^2)$ as expected.
-:::
- -->
+\]</span></p>
+<p>So the leading-order truncation error at that grid point is approximately <span class="math inline">\(\boxed{1.62\times 10^{-1}}\)</span> (note: this is the residual value of substituting the exact solution into the discrete formula; the global error will be smaller when the scheme is stable and <span class="math inline">\(\Delta x,\Delta t\)</span> are refined).</p>
+<p><strong>Comment:</strong> If you make <span class="math inline">\(\Delta x\)</span> smaller (e.g.&nbsp;0.05) and reduce <span class="math inline">\(\Delta t\)</span> accordingly (e.g.&nbsp;to respect CFL), this <span class="math inline">\(\tau\)</span> will decrease roughly like <span class="math inline">\(\mathcal{O}(\Delta t + \Delta x^2)\)</span> as expected.</p>
+</div>
+</div>
+</div>
 
 
 </section>
