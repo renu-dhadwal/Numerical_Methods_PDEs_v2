@@ -184,7 +184,6 @@ b[0], b[-1] = r*L, r*R
 u = u0.copy()
 u_in = u[1:-1].copy()
 snapshots = []
-# pick ~5 evenly spaced times
 snap_times = np.linspace(0, Nt-1, 5, dtype=int)
 
 for j in range(Nt):
@@ -194,12 +193,17 @@ for j in range(Nt):
         snapshots.append((j*dt, u.copy()))
 
 plt.figure(figsize=(8,4))
+first_exact = True
 for t_here, u_snap in snapshots:
     # numerical
     plt.plot(x, u_snap, label=f"num t={t_here:.3f}")
     # exact
     u_exact = np.exp(-np.pi**2*alpha*t_here) * np.sin(np.pi*x)
-    plt.plot(x, u_exact, 'k--', linewidth=1.2)
+    if first_exact:
+        plt.plot(x, u_exact, 'k--', linewidth=1.2, label='exact solution')
+        first_exact = False
+    else:
+        plt.plot(x, u_exact, 'k--', linewidth=1.2, label="_nolegend_")
 
 plt.xlabel('x'); plt.ylabel('u(x,t)')
 plt.title('Heat equation: numerical vs exact')
