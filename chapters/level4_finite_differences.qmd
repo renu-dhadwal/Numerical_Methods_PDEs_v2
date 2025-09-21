@@ -1,40 +1,47 @@
 # Level 3: Finite Differences and the Heat Equation
 
 ::: {.dialogue}
-**Pavni:** Acharya, how do we actually *approximate* derivatives for a computer?
+**Pavni:** Acharya, how do we actually *approximate* derivatives on a computer?
 
-**Acharya:** We use the **finite difference method**. Since a computer can only work with discrete points, we replace continuous derivatives with difference quotients on a **grid**.
+**Acharya:** We use the **finite difference method**. A computer only works with discrete points, so we replace continuous derivatives with **difference quotients** on a **grid**. These come directly from the **Taylor series**, and because we truncate the series, each formula comes with a predictable **error term**.
 
-**Pavni:** A grid? Like equally spaced points?
+**Pavni:** Can you give me an example?
 
-**Acharya:** Exactly. Suppose we have points $x_0, x_1, \dots, x_N$ with spacing $\Delta x$. Then:
+**Acharya:** Suppose we have points $x_0, x_1, \dots, x_N$ with spacing $\Delta x$. Around a point $x_i$, Taylor’s theorem gives us expansions for $u(x_{i+1})$ and $u(x_{i-1})$. By combining them, we obtain difference formulas:
+
 - **Forward difference** for the first derivative:
-  $$
-  u'(x_i) \approx \frac{u(x_{i+1}) - u(x_i)}{\Delta x}
-  $$
+$$
+u'(x_i) = \frac{u(x_{i+1}) - u(x_i)}{\Delta x} - \tfrac{1}{2}u''(\xi)\,\Delta x,
+$$
+so the truncation error is $\mathcal{O}(\Delta x)$.
+
 - **Backward difference**:
-  $$
-  u'(x_i) \approx \frac{u(x_i) - u(x_{i-1})}{\Delta x}
-  $$
+$$
+u'(x_i) = \frac{u(x_i) - u(x_{i-1})}{\Delta x} + \tfrac{1}{2}u''(\xi)\,\Delta x,
+$$
+also error $\mathcal{O}(\Delta x)$.
+
 - **Central difference**:
-  $$
-  u'(x_i) \approx \frac{u(x_{i+1}) - u(x_{i-1})}{2\Delta x}
-  $$
-
-**Pavni:** Which one is better?
-
-**Acharya:** Central differences are usually more accurate (error $\mathcal{O}((\Delta x)^2)$). Forward and backward are first-order accurate (error $\mathcal{O}(\Delta x)$).  
-For the **second derivative**, we use:
 $$
-u''(x_i) \approx \frac{u(x_{i-1}) - 2u(x_i) + u(x_{i+1})}{(\Delta x)^2}.
+u'(x_i) = \frac{u(x_{i+1}) - u(x_{i-1})}{2\Delta x} - \tfrac{1}{6}u^{(3)}(\xi)\,(\Delta x)^2,
 $$
+so the error is $\mathcal{O}((\Delta x)^2)$ — more accurate.
 
-**Pavni:** So we can replace calculus by algebra using these formulas?
+- **Second derivative** (central difference):
+$$
+u''(x_i) = \frac{u(x_{i-1}) - 2u(x_i) + u(x_{i+1})}{(\Delta x)^2} - \tfrac{1}{12}u^{(4)}(\xi)\,(\Delta x)^2,
+$$
+with error $\mathcal{O}((\Delta x)^2)$.
 
-**Acharya:** Precisely. Now let us apply this to a PDE.
+**Pavni:** So these formulas are not exact — they always come with an error term?
+
+**Acharya:** Precisely. That error is called the **local truncation error**. When we build numerical schemes for PDEs, these errors accumulate step by step, and we’ll have to balance them with stability.  
+
+**Pavni:** I see. So finite differences give us algebraic formulas for derivatives, but with a known accuracy.
+
+**Acharya:** Exactly. That’s the foundation of finite difference methods.
 :::
 
----
 
 ## Application: The Heat Equation
 
