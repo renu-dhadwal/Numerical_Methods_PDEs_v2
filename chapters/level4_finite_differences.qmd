@@ -148,6 +148,97 @@ $$
 **Maximum allowable** $\displaystyle \Delta t = 0.005$.
 :::
 
+## Heat equation — Matrix Method with Non-zero Dirichlet Conditions
+
+We now study the 1D heat equation
+$$
+u_t = \alpha u_{xx}, \quad 0 < x < 1, \; t > 0,
+$$
+with **Dirichlet boundary conditions**
+$$
+u(0,t) = L, \qquad u(1,t) = R,
+$$
+and initial condition
+$$
+u(x,0) = f(x).
+$$
+
+---
+
+### Discretization
+
+- Divide the interval $[0,1]$ into $N_x$ points with spacing $\Delta x = 1/(N_x-1)$.  
+- Approximate the spatial second derivative using the centered difference:
+$$
+u_{xx}(x_i,t_j) \approx \frac{u_{i+1}^j - 2u_i^j + u_{i-1}^j}{\Delta x^2}.
+$$
+- Advance in time using the Forward Euler scheme with step $\Delta t$.
+
+This gives the update for **interior points** $i=1,2,\dots,N_x-2$:
+$$
+u_i^{j+1} = u_i^j + r \left( u_{i+1}^j - 2u_i^j + u_{i-1}^j \right),
+$$
+where the stability parameter is
+$$
+r = \frac{\alpha \Delta t}{\Delta x^2}, \qquad r \leq \tfrac{1}{2}.
+$$
+
+---
+
+### Matrix Form
+
+Collect the interior unknowns into a vector
+$$
+u^{(j)} =
+\begin{bmatrix}
+u_1^j \\
+u_2^j \\
+\vdots \\
+u_{N_x-2}^j
+\end{bmatrix}.
+$$
+
+Then the scheme can be written as
+$$
+u^{(j+1)} = A u^{(j)} + b,
+$$
+with
+
+$$
+A =
+\begin{bmatrix}
+1-2r & r     &        &        &   \\
+r     & 1-2r & r      &        &   \\
+      & \ddots & \ddots & \ddots &   \\
+      &        & r      & 1-2r   & r \\
+      &        &        & r      & 1-2r
+\end{bmatrix}_{(N_x-2)\times(N_x-2)},
+$$
+
+and the **boundary contribution vector**
+$$
+b =
+\begin{bmatrix}
+rL \\
+0 \\
+\vdots \\
+0 \\
+rR
+\end{bmatrix}.
+$$
+
+- If $L=R=0$, then $b=0$.  
+- For non-zero boundaries, the first and last entries of $b$ carry the influence of the fixed values at $x=0$ and $x=1$.
+
+---
+
+### Remarks
+
+- This formulation highlights the **linear algebra structure** of the explicit FTCS scheme.  
+- The eigenvalues of $A$ lie in $[-1,1]$ only if $r \leq 1/2$, giving the stability condition.  
+- For large $N_x$, the tridiagonal structure of $A$ is best stored as a sparse matrix.  
+
+---
 
 ## Heat equation — FTCS (matrix form)
 
