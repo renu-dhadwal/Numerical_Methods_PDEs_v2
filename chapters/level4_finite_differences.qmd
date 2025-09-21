@@ -147,13 +147,7 @@ $$
 
 **Maximum allowable** $\displaystyle \Delta t = 0.005$.
 :::
----
-title: "Finite Differences — Heat equation example"
-execute:
-  echo: true   # show code in the page
-  eval: true   # run the code during render
-  freeze: auto # cache outputs when possible
----
+
 
 ## Heat equation — FTCS (matrix form)
 
