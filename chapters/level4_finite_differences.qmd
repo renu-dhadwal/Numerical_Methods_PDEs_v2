@@ -240,7 +240,7 @@ $$
 
 ---
 
-## Heat equation — FTCS (matrix form)
+### Heat equation — FTCS (code)
 
 This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.
 
