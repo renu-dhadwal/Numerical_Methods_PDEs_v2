@@ -208,3 +208,4 @@ plt.title('Heat equation: numerical vs exact')
 plt.legend(fontsize='small')
 plt.grid(True)
 plt.show()
+```
