@@ -12,6 +12,7 @@ book:
     - chapters/level3_PDE_BCs.qmd
     - chapters/level4_finite_differences.qmd
 
+
 format:
   html:
     theme: cosmo
@@ -20,3 +21,6 @@ format:
     css: styles.css
 
 editor: visual
+execute:
+  echo: false
+
