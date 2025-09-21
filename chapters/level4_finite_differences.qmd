@@ -152,9 +152,8 @@ $$
 ## Heat equation — FTCS (matrix form)
 
 This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.
-<details>
-<summary>Show / hide code (click to expand)</summary>
-```{python}
+```{python echo=false code-fold=true}
+# code runs, but not shown by default; students can click to reveal code
 import numpy as np
 import matplotlib.pyplot as plt
 
