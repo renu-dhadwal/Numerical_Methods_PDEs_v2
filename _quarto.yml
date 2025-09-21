@@ -15,12 +15,12 @@ book:
 
 format:
   html:
+    code-tools: true        # enables show/hide button
+    code-fold: true         # start folded by default
+    code-summary: "Show code"
     theme: cosmo
     toc: true
     number-sections: true
     css: styles.css
 
 editor: visual
-execute:
-  echo: false
-
