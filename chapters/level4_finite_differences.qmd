@@ -154,7 +154,6 @@ $$
 This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.
 
 ```{python echo=false}
-# code runs, but not shown by default; students can click to reveal code
 import numpy as np
 import matplotlib.pyplot as plt
 
