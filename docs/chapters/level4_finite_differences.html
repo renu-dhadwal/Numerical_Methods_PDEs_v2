@@ -183,11 +183,10 @@ window.Quarto = {
   <li><a href="#stability-condition" id="toc-stability-condition" class="nav-link" data-scroll-target="#stability-condition"><span class="header-section-number">5.2</span> Stability Condition</a></li>
   <li><a href="#mini-quizzes" id="toc-mini-quizzes" class="nav-link" data-scroll-target="#mini-quizzes"><span class="header-section-number">5.3</span> Mini-Quizzes</a></li>
   <li><a href="#heat-equation-ftcs-matrix-form" id="toc-heat-equation-ftcs-matrix-form" class="nav-link" data-scroll-target="#heat-equation-ftcs-matrix-form"><span class="header-section-number">5.4</span> Heat equation — FTCS (matrix form)</a></li>
-  <li><a href="#imports-and-parameters" id="toc-imports-and-parameters" class="nav-link" data-scroll-target="#imports-and-parameters"><span class="header-section-number">6</span> imports and parameters</a></li>
-  <li><a href="#initial-condition" id="toc-initial-condition" class="nav-link" data-scroll-target="#initial-condition"><span class="header-section-number">7</span> initial condition</a></li>
-  <li><a href="#build-a-interior-and-b-boundary-forcing" id="toc-build-a-interior-and-b-boundary-forcing" class="nav-link" data-scroll-target="#build-a-interior-and-b-boundary-forcing"><span class="header-section-number">8</span> build A (interior) and b (boundary forcing)</a></li>
-  <li><a href="#time-stepping-and-snapshots" id="toc-time-stepping-and-snapshots" class="nav-link" data-scroll-target="#time-stepping-and-snapshots"><span class="header-section-number">9</span> time stepping and snapshots</a></li>
-  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot"><span class="header-section-number">10</span> plot</a></li>
+  <li><a href="#initial-condition" id="toc-initial-condition" class="nav-link" data-scroll-target="#initial-condition"><span class="header-section-number">6</span> initial condition</a></li>
+  <li><a href="#build-a-interior-and-b-boundary-forcing" id="toc-build-a-interior-and-b-boundary-forcing" class="nav-link" data-scroll-target="#build-a-interior-and-b-boundary-forcing"><span class="header-section-number">7</span> build A (interior) and b (boundary forcing)</a></li>
+  <li><a href="#time-stepping-and-snapshots" id="toc-time-stepping-and-snapshots" class="nav-link" data-scroll-target="#time-stepping-and-snapshots"><span class="header-section-number">8</span> time stepping and snapshots</a></li>
+  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot"><span class="header-section-number">9</span> plot</a></li>
   </ul>
 </nav>
     </div>
@@ -337,30 +336,27 @@ Suppose <span class="math inline">\(\alpha = 1\)</span>, <span class="math inlin
 <section id="heat-equation-ftcs-matrix-form" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="heat-equation-ftcs-matrix-form"><span class="header-section-number">5.4</span> Heat equation — FTCS (matrix form)</h2>
 <p>This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.</p>
-</section>
-<section id="imports-and-parameters" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> imports and parameters</h1>
-<p>import numpy as np import matplotlib.pyplot as plt</p>
+<p>’’’{python} # imports and parameters import numpy as np import matplotlib.pyplot as plt</p>
 <p>alpha = 1.0 Nx = 50 T = 0.1 L, R = 0.0, 0.0</p>
 <p>dx = 1.0/(Nx-1) dt_max = dx<em>dx/(2</em>alpha) s = 0.4 dt = s<em>dt_max Nt = int(T/dt) dt = T/Nt r = alpha</em>dt/dx**2</p>
 </section>
-<section id="initial-condition" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> initial condition</h1>
+<section id="initial-condition" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> initial condition</h1>
 <p>x = np.linspace(0.0, 1.0, Nx) u0 = np.sin(np.pi * x)</p>
 </section>
-<section id="build-a-interior-and-b-boundary-forcing" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> build A (interior) and b (boundary forcing)</h1>
+<section id="build-a-interior-and-b-boundary-forcing" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> build A (interior) and b (boundary forcing)</h1>
 <p>m = Nx - 2 main = (1 - 2<em>r) </em> np.ones(m) off = r * np.ones(m-1) A = np.diag(main) + np.diag(off,1) + np.diag(off,-1)</p>
 <p>b = np.zeros(m) b[0], b[-1] = r<em>L, r</em>R</p>
 </section>
-<section id="time-stepping-and-snapshots" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> time stepping and snapshots</h1>
+<section id="time-stepping-and-snapshots" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> time stepping and snapshots</h1>
 <p>u = u0.copy() u_in = u[1:-1].copy() snapshots = [] snap_every = max(1, Nt//12)</p>
 <p>for j in range(Nt): u_in = A @ u_in + b u[1:-1] = u_in if j % snap_every == 0 or j == Nt-1: snapshots.append((j*dt, u.copy()))</p>
 </section>
-<section id="plot" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> plot</h1>
-<p>plt.figure(figsize=(8,4)) for t_here, u_snap in snapshots: plt.plot(x, u_snap, label=f”t={t_here:.4f}“) plt.plot(x, u0, ‘k–’, label=‘initial’, linewidth=1.2) plt.xlabel(‘x’); plt.ylabel(‘u(x,t)’) plt.title(‘Heat equation (FTCS matrix form)’) plt.legend(fontsize=‘small’); plt.grid(True) plt.show()</p>
+<section id="plot" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> plot</h1>
+<p>plt.figure(figsize=(8,4)) for t_here, u_snap in snapshots: plt.plot(x, u_snap, label=f”t={t_here:.4f}“) plt.plot(x, u0, ‘k–’, label=‘initial’, linewidth=1.2) plt.xlabel(‘x’); plt.ylabel(‘u(x,t)’) plt.title(‘Heat equation (FTCS matrix form)’) plt.legend(fontsize=‘small’); plt.grid(True) plt.show() ’’’</p>
 
 
 </section>

@@ -153,7 +153,7 @@ $$
 
 This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.
 
-```{python}
+'''{python}
 # imports and parameters
 import numpy as np
 import matplotlib.pyplot as plt
@@ -205,3 +205,4 @@ plt.xlabel('x'); plt.ylabel('u(x,t)')
 plt.title('Heat equation (FTCS matrix form)')
 plt.legend(fontsize='small'); plt.grid(True)
 plt.show()
+'''

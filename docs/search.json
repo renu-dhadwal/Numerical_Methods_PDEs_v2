@@ -124,7 +124,7 @@
     "href": "chapters/level4_finite_differences.html#heat-equation-ftcs-matrix-form",
     "title": "5  Level 3: Finite Differences and the Heat Equation",
     "section": "5.4 Heat equation — FTCS (matrix form)",
-    "text": "5.4 Heat equation — FTCS (matrix form)\nThis example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.",
+    "text": "5.4 Heat equation — FTCS (matrix form)\nThis example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.\n’’’{python} # imports and parameters import numpy as np import matplotlib.pyplot as plt\nalpha = 1.0 Nx = 50 T = 0.1 L, R = 0.0, 0.0\ndx = 1.0/(Nx-1) dt_max = dxdx/(2alpha) s = 0.4 dt = sdt_max Nt = int(T/dt) dt = T/Nt r = alphadt/dx**2",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
     ]
