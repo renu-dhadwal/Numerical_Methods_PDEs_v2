@@ -153,8 +153,9 @@ $$
 
 This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.
 
+## Heat equation — FTCS (matrix form) with exact solution
+
 ```{python}
-# imports and parameters
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -171,11 +172,9 @@ Nt = int(T/dt)
 dt = T/Nt
 r  = alpha*dt/dx**2
 
-# initial condition
 x  = np.linspace(0.0, 1.0, Nx)
 u0 = np.sin(np.pi * x)
 
-# build A (interior) and b (boundary forcing)
 m = Nx - 2
 main = (1 - 2*r) * np.ones(m)
 off  = r * np.ones(m-1)
@@ -184,25 +183,28 @@ A = np.diag(main) + np.diag(off,1) + np.diag(off,-1)
 b = np.zeros(m)
 b[0], b[-1] = r*L, r*R
 
-# time stepping and snapshots
 u = u0.copy()
 u_in = u[1:-1].copy()
 snapshots = []
-snap_every = max(1, Nt//12)
+# pick ~5 evenly spaced times
+snap_times = np.linspace(0, Nt-1, 5, dtype=int)
 
 for j in range(Nt):
     u_in = A @ u_in + b
     u[1:-1] = u_in
-    if j % snap_every == 0 or j == Nt-1:
+    if j in snap_times or j == Nt-1:
         snapshots.append((j*dt, u.copy()))
 
-# plot
 plt.figure(figsize=(8,4))
 for t_here, u_snap in snapshots:
-    plt.plot(x, u_snap, label=f"t={t_here:.4f}")
-plt.plot(x, u0, 'k--', label='initial', linewidth=1.2)
+    # numerical
+    plt.plot(x, u_snap, label=f"num t={t_here:.3f}")
+    # exact
+    u_exact = np.exp(-np.pi**2*alpha*t_here) * np.sin(np.pi*x)
+    plt.plot(x, u_exact, 'k--', linewidth=1.2)
+
 plt.xlabel('x'); plt.ylabel('u(x,t)')
-plt.title('Heat equation (FTCS matrix form)')
-plt.legend(fontsize='small'); plt.grid(True)
+plt.title('Heat equation: numerical vs exact')
+plt.legend(fontsize='small')
+plt.grid(True)
 plt.show()
-```
