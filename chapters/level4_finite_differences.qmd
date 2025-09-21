@@ -150,44 +150,31 @@ $$
 
 ## Heat equation — Matrix Method with Non-zero Dirichlet Conditions
 
-We now study the 1D heat equation
+::: {.dialogue}
+**Pavni:** We already saw how to discretize the heat equation with FTCS. But can we write the whole scheme in a more compact way?
+
+**Acharya:** Yes. That’s where the **matrix method** comes in. Let’s recall the PDE:
 $$
 u_t = \alpha u_{xx}, \quad 0 < x < 1, \; t > 0,
 $$
-with **Dirichlet boundary conditions**
+with Dirichlet conditions
 $$
 u(0,t) = L, \qquad u(1,t) = R,
 $$
-and initial condition
-$$
-u(x,0) = f(x).
-$$
+and initial condition $u(x,0)=f(x)$.
 
----
+**Pavni:** So we still set up the grid in space and time?
 
-### Discretization
+**Acharya:** Exactly. The FTCS update at interior nodes is
+$$
+u_i^{j+1} = u_i^j + r\,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
+\quad i=1,\dots,N_x-2,
+$$
+where $r = \tfrac{\alpha \Delta t}{\Delta x^2}$.
 
-- Divide the interval $[0,1]$ into $N_x$ points with spacing $\Delta x = 1/(N_x-1)$.  
-- Approximate the spatial second derivative using the centered difference:
-$$
-u_{xx}(x_i,t_j) \approx \frac{u_{i+1}^j - 2u_i^j + u_{i-1}^j}{\Delta x^2}.
-$$
-- Advance in time using the Forward Euler scheme with step $\Delta t$.
+**Pavni:** That’s a lot of coupled equations. How do we collect them?
 
-This gives the update for **interior points** $i=1,2,\dots,N_x-2$:
-$$
-u_i^{j+1} = u_i^j + r \left( u_{i+1}^j - 2u_i^j + u_{i-1}^j \right),
-$$
-where the stability parameter is
-$$
-r = \frac{\alpha \Delta t}{\Delta x^2}, \qquad r \leq \tfrac{1}{2}.
-$$
-
----
-
-### Matrix Form
-
-Collect the interior unknowns into a vector
+**Acharya:** We put all interior values into a vector
 $$
 u^{(j)} =
 \begin{bmatrix}
@@ -198,12 +185,13 @@ u_{N_x-2}^j
 \end{bmatrix}.
 $$
 
-Then the scheme can be written as
-$$
-u^{(j+1)} = A u^{(j)} + b,
-$$
-with
+**Pavni:** And the update rule becomes a matrix multiplication?
 
+**Acharya:** Yes. We can write
+$$
+u^{(j+1)} = A\,u^{(j)} + b,
+$$
+where $A$ is tridiagonal and $b$ accounts for the boundary conditions:
 $$
 A =
 \begin{bmatrix}
@@ -212,11 +200,7 @@ r     & 1-2r & r      &        &   \\
       & \ddots & \ddots & \ddots &   \\
       &        & r      & 1-2r   & r \\
       &        &        & r      & 1-2r
-\end{bmatrix}_{(N_x-2)\times(N_x-2)},
-$$
-
-and the **boundary contribution vector**
-$$
+\end{bmatrix}, \qquad
 b =
 \begin{bmatrix}
 rL \\
@@ -227,24 +211,21 @@ rR
 \end{bmatrix}.
 $$
 
-- If $L=R=0$, then $b=0$.  
-- For non-zero boundaries, the first and last entries of $b$ carry the influence of the fixed values at $x=0$ and $x=1$.
+**Pavni:** So if $L=R=0$, then $b=0$ and we just have $u^{(j+1)} = A u^{(j)}$.
+
+**Acharya:** Precisely. That’s the beauty of the matrix method: it organizes the scheme into a linear algebra update.
+:::
 
 ---
 
-### Remarks
+### Implementation in Python
 
-- This formulation highlights the **linear algebra structure** of the explicit FTCS scheme.  
-- The eigenvalues of $A$ lie in $[-1,1]$ only if $r \leq 1/2$, giving the stability condition.  
-- For large $N_x$, the tridiagonal structure of $A$ is best stored as a sparse matrix.  
+Let us now implement the method in Python and compare with the exact solution for $f(x)=\sin(\pi x)$:
+$$
+u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
+$$
 
----
-
-### Heat equation — FTCS (code)
-
-This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.
-
-```{python echo=false}
+```{python echo=false code-fold=true code-summary="Show code"}
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -286,9 +267,7 @@ for j in range(Nt):
 plt.figure(figsize=(8,4))
 first_exact = True
 for t_here, u_snap in snapshots:
-    # numerical
     plt.plot(x, u_snap, label=f"num t={t_here:.3f}")
-    # exact
     u_exact = np.exp(-np.pi**2*alpha*t_here) * np.sin(np.pi*x)
     if first_exact:
         plt.plot(x, u_exact, 'k--', linewidth=1.2, label='exact solution')
@@ -296,9 +275,17 @@ for t_here, u_snap in snapshots:
     else:
         plt.plot(x, u_exact, 'k--', linewidth=1.2, label="_nolegend_")
 
-plt.xlabel('x'); plt.ylabel('u(x,t)')
-plt.title('Heat equation: numerical vs exact')
-plt.legend(fontsize='small')
+plt.xlabel("x"); plt.ylabel("u(x,t)")
+plt.title("Heat equation: numerical vs exact")
+plt.legend(fontsize="small")
 plt.grid(True)
 plt.show()
 ```
+
+---
+
+### Remarks
+
+- The **linear algebra structure** $u^{(j+1)} = A u^{(j)} + b$ makes the scheme compact and systematic.  
+- The stability restriction $r \leq \tfrac{1}{2}$ follows from analyzing the eigenvalues of $A$.  
+- For large $N_x$, $A$ is sparse and tridiagonal — in practice, use `scipy.sparse.diags` for efficiency.
