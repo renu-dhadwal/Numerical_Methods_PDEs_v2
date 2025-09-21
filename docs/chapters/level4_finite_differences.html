@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Level 3: Finite Differences and the Heat Equation – Numerical Methods for PDEs: An Interactive Journey</title>
+<title>Finite Differences — Heat equation example – Numerical Methods for PDEs: An Interactive Journey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,7 +112,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level4_finite_differences.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 3: Finite Differences and the Heat Equation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level4_finite_differences.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Finite Differences — Heat equation example</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -166,7 +166,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/level4_finite_differences.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 3: Finite Differences and the Heat Equation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Finite Differences — Heat equation example</span></span></a>
   </div>
 </li>
     </ul>
@@ -182,13 +182,12 @@ window.Quarto = {
   <li><a href="#application-the-heat-equation" id="toc-application-the-heat-equation" class="nav-link active" data-scroll-target="#application-the-heat-equation"><span class="header-section-number">5.1</span> Application: The Heat Equation</a></li>
   <li><a href="#stability-condition" id="toc-stability-condition" class="nav-link" data-scroll-target="#stability-condition"><span class="header-section-number">5.2</span> Stability Condition</a></li>
   <li><a href="#mini-quizzes" id="toc-mini-quizzes" class="nav-link" data-scroll-target="#mini-quizzes"><span class="header-section-number">5.3</span> Mini-Quizzes</a></li>
-  <li><a href="#heat-equation-ftcs-matrix-method-dirichlet-bcs" id="toc-heat-equation-ftcs-matrix-method-dirichlet-bcs" class="nav-link" data-scroll-target="#heat-equation-ftcs-matrix-method-dirichlet-bcs"><span class="header-section-number">5.4</span> Heat Equation (FTCS Matrix Method, Dirichlet BCs)</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">6</span> Parameters</a></li>
-  <li><a href="#grid-and-stability" id="toc-grid-and-stability" class="nav-link" data-scroll-target="#grid-and-stability"><span class="header-section-number">7</span> Grid and stability</a></li>
-  <li><a href="#initial-condition" id="toc-initial-condition" class="nav-link" data-scroll-target="#initial-condition"><span class="header-section-number">8</span> Initial condition</a></li>
-  <li><a href="#build-matrix-a-and-boundary-vector-b" id="toc-build-matrix-a-and-boundary-vector-b" class="nav-link" data-scroll-target="#build-matrix-a-and-boundary-vector-b"><span class="header-section-number">9</span> Build matrix A and boundary vector b</a></li>
-  <li><a href="#time-stepping" id="toc-time-stepping" class="nav-link" data-scroll-target="#time-stepping"><span class="header-section-number">10</span> Time-stepping</a></li>
-  <li><a href="#plot-snapshots" id="toc-plot-snapshots" class="nav-link" data-scroll-target="#plot-snapshots"><span class="header-section-number">11</span> Plot snapshots</a></li>
+  <li><a href="#heat-equation-ftcs-matrix-form" id="toc-heat-equation-ftcs-matrix-form" class="nav-link" data-scroll-target="#heat-equation-ftcs-matrix-form"><span class="header-section-number">5.4</span> Heat equation — FTCS (matrix form)</a></li>
+  <li><a href="#imports-and-parameters" id="toc-imports-and-parameters" class="nav-link" data-scroll-target="#imports-and-parameters"><span class="header-section-number">6</span> imports and parameters</a></li>
+  <li><a href="#initial-condition" id="toc-initial-condition" class="nav-link" data-scroll-target="#initial-condition"><span class="header-section-number">7</span> initial condition</a></li>
+  <li><a href="#build-a-interior-and-b-boundary-forcing" id="toc-build-a-interior-and-b-boundary-forcing" class="nav-link" data-scroll-target="#build-a-interior-and-b-boundary-forcing"><span class="header-section-number">8</span> build A (interior) and b (boundary forcing)</a></li>
+  <li><a href="#time-stepping-and-snapshots" id="toc-time-stepping-and-snapshots" class="nav-link" data-scroll-target="#time-stepping-and-snapshots"><span class="header-section-number">9</span> time stepping and snapshots</a></li>
+  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot"><span class="header-section-number">10</span> plot</a></li>
   </ul>
 </nav>
     </div>
@@ -197,7 +196,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 3: Finite Differences and the Heat Equation</span></h1>
+<h1 class="title">Finite Differences — Heat equation example</h1>
 </div>
 
 
@@ -335,35 +334,33 @@ Suppose <span class="math inline">\(\alpha = 1\)</span>, <span class="math inlin
 </div>
 </div>
 </section>
-<section id="heat-equation-ftcs-matrix-method-dirichlet-bcs" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="heat-equation-ftcs-matrix-method-dirichlet-bcs"><span class="header-section-number">5.4</span> Heat Equation (FTCS Matrix Method, Dirichlet BCs)</h2>
+<section id="heat-equation-ftcs-matrix-form" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="heat-equation-ftcs-matrix-form"><span class="header-section-number">5.4</span> Heat equation — FTCS (matrix form)</h2>
+<p>This example shows the FTCS matrix method for the 1D heat equation and produces snapshot plots.</p>
+</section>
+<section id="imports-and-parameters" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> imports and parameters</h1>
 <p>import numpy as np import matplotlib.pyplot as plt</p>
-</section>
-<section id="parameters" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Parameters</h1>
-<p>alpha = 1.0 Nx = 50 T = 0.1 L, R = 0.0, 0.0 # boundary values</p>
-</section>
-<section id="grid-and-stability" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Grid and stability</h1>
+<p>alpha = 1.0 Nx = 50 T = 0.1 L, R = 0.0, 0.0</p>
 <p>dx = 1.0/(Nx-1) dt_max = dx<em>dx/(2</em>alpha) s = 0.4 dt = s<em>dt_max Nt = int(T/dt) dt = T/Nt r = alpha</em>dt/dx**2</p>
 </section>
-<section id="initial-condition" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Initial condition</h1>
+<section id="initial-condition" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> initial condition</h1>
 <p>x = np.linspace(0.0, 1.0, Nx) u0 = np.sin(np.pi * x)</p>
 </section>
-<section id="build-matrix-a-and-boundary-vector-b" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Build matrix A and boundary vector b</h1>
+<section id="build-a-interior-and-b-boundary-forcing" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> build A (interior) and b (boundary forcing)</h1>
 <p>m = Nx - 2 main = (1 - 2<em>r) </em> np.ones(m) off = r * np.ones(m-1) A = np.diag(main) + np.diag(off,1) + np.diag(off,-1)</p>
 <p>b = np.zeros(m) b[0], b[-1] = r<em>L, r</em>R</p>
 </section>
-<section id="time-stepping" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Time-stepping</h1>
+<section id="time-stepping-and-snapshots" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> time stepping and snapshots</h1>
 <p>u = u0.copy() u_in = u[1:-1].copy() snapshots = [] snap_every = max(1, Nt//12)</p>
 <p>for j in range(Nt): u_in = A @ u_in + b u[1:-1] = u_in if j % snap_every == 0 or j == Nt-1: snapshots.append((j*dt, u.copy()))</p>
 </section>
-<section id="plot-snapshots" class="level1" data-number="11">
-<h1 data-number="11"><span class="header-section-number">11</span> Plot snapshots</h1>
-<p>plt.figure(figsize=(8,4)) for t_here, u_snap in snapshots: plt.plot(x, u_snap, label=f”t={t_here:.4f}“) plt.plot(x, u0, ‘k–’, label=‘initial’, linewidth=1.2) plt.xlabel(‘x’); plt.ylabel(‘u(x,t)’) plt.title(‘Heat equation (FTCS matrix form)’) plt.legend(fontsize=‘small’) plt.grid(True) plt.show()</p>
+<section id="plot" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> plot</h1>
+<p>plt.figure(figsize=(8,4)) for t_here, u_snap in snapshots: plt.plot(x, u_snap, label=f”t={t_here:.4f}“) plt.plot(x, u0, ‘k–’, label=‘initial’, linewidth=1.2) plt.xlabel(‘x’); plt.ylabel(‘u(x,t)’) plt.title(‘Heat equation (FTCS matrix form)’) plt.legend(fontsize=‘small’); plt.grid(True) plt.show()</p>
 
 
 </section>
