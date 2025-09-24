@@ -312,7 +312,7 @@ u_i^{n+1} = u_i^n + \lambda\,(u_{i-1}^n - 2u_i^n + u_{i+1}^n),
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Why the FTCS stability condition is <span class="math inline">\(r \leq \tfrac{1}{2}\)</span>
+<span class="screen-reader-only">Note</span>Why the FTCS stability condition is <span class="math inline">\(\lambda \leq \tfrac{1}{2}\)</span>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -338,9 +338,9 @@ e^{(n)} = A^n e^0.
 <section id="eigenvalues-of-the-ftcs-matrix" class="level4" data-number="5.2.0.1">
 <h4 data-number="5.2.0.1" class="anchored" data-anchor-id="eigenvalues-of-the-ftcs-matrix"><span class="header-section-number">5.2.0.1</span> Eigenvalues of the FTCS matrix</h4>
 <p>For the FTCS tridiagonal matrix <span class="math inline">\(A\)</span> (symmetric Toeplitz), the eigenvalues are <span class="math display">\[
-\mu_k = 1 - 4r \,\sin^2\!\left(\frac{k\pi}{2(N-1)}\right),
+\mu_k = 1 - 4 \lambda \,\sin^2\!\left(\frac{k\pi}{2(N-1)}\right),
 \qquad k=1,2,\dots,N-2,
-\]</span> where <span class="math inline">\(r = \dfrac{\alpha \Delta t}{(\Delta x)^2}\)</span>.</p>
+\]</span> where <span class="math inline">\(\lambda = \dfrac{\alpha^2 \Delta t}{(\Delta x)^2}\)</span>.</p>
 <p>Thus the spectral radius is <span class="math display">\[
 \rho(A) = \max_{1\le k \le N-2} \big|\mu_k\big|
 = \max_{1\le k \le N-2} \left|1 - 4r \sin^2\!\left(\tfrac{k\pi}{2(N-1)}\right)\right|.
@@ -353,15 +353,15 @@ e^{(n)} = A^n e^0.
 <li>As <span class="math inline">\(N\to\infty\)</span> (i.e.&nbsp;<span class="math inline">\(\Delta x \to 0\)</span>), the maximum of <span class="math inline">\(\sin^2(\cdot)\)</span> tends to <span class="math inline">\(1\)</span>.<br>
 </li>
 <li>Therefore the most restrictive case is <span class="math display">\[
-|1 - 4r| \le 1.
+|1 - 4 \lambda| \le 1.
 \]</span></li>
 <li>This simplifies to <span class="math display">\[
-0 \;\le\; r \;\le\; \tfrac{1}{2}.
+0 \;\le\; \lambda \;\le\; \tfrac{1}{2}.
 \]</span></li>
 </ul>
 <hr>
 <p>✅ Thus, the <strong>FTCS scheme is stable if and only if</strong> <span class="math display">\[
-r = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.
+\lambda = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.
 \]</span></p>
 </section>
 </div>
@@ -487,7 +487,7 @@ b =
 <p>Let us now implement the method in Python and compare with the exact solution for <span class="math inline">\(f(x)=\sin(\pi x)\)</span>: <span class="math display">\[
 u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 \]</span></p>
-<div id="c6b24f15" class="cell" data-execution_count="1">
+<div id="b707639e" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1133,7 +1133,7 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. The numerical solution will blow up, even though the true solution is stable. Choosing $\Delta t$ small enough ensures stability.</span>
 <span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse=true}</span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why the FTCS stability condition is $r \leq \tfrac{1}{2}$</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why the FTCS stability condition is $\lambda \leq \tfrac{1}{2}$</span></span>
 <span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>If the update is </span>
 <span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>$$</span>
@@ -1160,10 +1160,10 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>For the FTCS tridiagonal matrix $A$ (symmetric Toeplitz), the eigenvalues are</span>
 <span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>\mu_k = 1 - 4r \,\sin^2<span class="sc">\!</span>\left(\frac{k\pi}{2(N-1)}\right), </span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>\mu_k = 1 - 4 \lambda \,\sin^2<span class="sc">\!</span>\left(\frac{k\pi}{2(N-1)}\right), </span>
 <span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>\qquad k=1,2,\dots,N-2,</span>
 <span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>where $r = \dfrac{\alpha \Delta t}{(\Delta x)^2}$.</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>where $\lambda = \dfrac{\alpha^2 \Delta t}{(\Delta x)^2}$.</span>
 <span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>Thus the spectral radius is</span>
 <span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>$$</span>
@@ -1178,18 +1178,18 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>As $N\to\infty$ (i.e. $\Delta x \to 0$), the maximum of $\sin^2(\cdot)$ tends to $1$.  </span>
 <span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Therefore the most restrictive case is</span>
 <span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>|1 - 4r| \le 1.</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>|1 - 4 \lambda| \le 1.</span>
 <span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This simplifies to</span>
 <span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>0 \;\le\; r \;\le\; \tfrac{1}{2}.</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>0 \;\le\; \lambda \;\le\; \tfrac{1}{2}.</span>
 <span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>✅ Thus, the **FTCS scheme is stable if and only if**</span>
 <span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>r = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>\lambda = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.</span>
 <span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a></span>

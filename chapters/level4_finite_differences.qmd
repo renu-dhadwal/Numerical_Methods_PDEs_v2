@@ -99,7 +99,7 @@ $$
 **Acharya:** Exactly. The numerical solution will blow up, even though the true solution is stable. Choosing $\Delta t$ small enough ensures stability.
 :::
 ::: {.callout-note collapse=true}
-### Why the FTCS stability condition is $r \leq \tfrac{1}{2}$
+### Why the FTCS stability condition is $\lambda \leq \tfrac{1}{2}$
 
 If the update is 
 $$
@@ -126,10 +126,10 @@ $$
 
 For the FTCS tridiagonal matrix $A$ (symmetric Toeplitz), the eigenvalues are
 $$
-\mu_k = 1 - 4r \,\sin^2\!\left(\frac{k\pi}{2(N-1)}\right), 
+\mu_k = 1 - 4 \lambda \,\sin^2\!\left(\frac{k\pi}{2(N-1)}\right), 
 \qquad k=1,2,\dots,N-2,
 $$
-where $r = \dfrac{\alpha \Delta t}{(\Delta x)^2}$.
+where $\lambda = \dfrac{\alpha^2 \Delta t}{(\Delta x)^2}$.
 
 Thus the spectral radius is
 $$
@@ -144,18 +144,18 @@ $$
 - As $N\to\infty$ (i.e. $\Delta x \to 0$), the maximum of $\sin^2(\cdot)$ tends to $1$.  
 - Therefore the most restrictive case is
 $$
-|1 - 4r| \le 1.
+|1 - 4 \lambda| \le 1.
 $$
 - This simplifies to
 $$
-0 \;\le\; r \;\le\; \tfrac{1}{2}.
+0 \;\le\; \lambda \;\le\; \tfrac{1}{2}.
 $$
 
 ---
 
 ✅ Thus, the **FTCS scheme is stable if and only if**
 $$
-r = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.
+\lambda = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.
 $$
 :::
 
