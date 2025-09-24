@@ -275,7 +275,7 @@ u''(x_i) = \frac{u(x_{i-1}) - 2u(x_i) + u(x_{i+1})}{(\Delta x)^2} - \tfrac{1}{12
 <h2 data-number="5.1" class="anchored" data-anchor-id="application-the-heat-equation"><span class="header-section-number">5.1</span> Application: The Heat Equation</h2>
 <div class="dialogue">
 <p><strong>Acharya:</strong> Consider the 1D heat equation: <span class="math display">\[
-u_t = \alpha u_{xx}^2, \quad 0 &lt; x &lt; 1,\; t&gt;0
+u_t = \alpha^2 u_{xx}^2, \quad 0 &lt; x &lt; 1,\; t&gt;0
 \]</span> with boundary conditions <span class="math inline">\(u(0,t) = u(1,t) = 0\)</span> and initial profile <span class="math inline">\(u(x,0) = f(x)\)</span>.</p>
 <p>We set up a grid: - In space: <span class="math inline">\(x_i = i\Delta x,\; i=0,\dots,N\)</span><br>
 - In time: <span class="math inline">\(t^n = n\Delta t,\; n=0,1,2,\dots\)</span></p>
@@ -444,7 +444,7 @@ u(0,t) = L, \qquad u(1,t) = R,
 \]</span> and initial condition <span class="math inline">\(u(x,0)=f(x)\)</span>.</p>
 <p><strong>Pavni:</strong> So we still set up the grid in space and time?</p>
 <p><strong>Acharya:</strong> Exactly. The FTCS update at interior nodes is <span class="math display">\[
-u_i^{j+1} = u_i^j + r\,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
+u_i^{j+1} = u_i^j + \lambda \,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
 \quad i=1,\dots,N_x-2,
 \]</span> where <span class="math inline">\(\lambda = \tfrac{\alpha \Delta t}{\Delta x^2}\)</span>.</p>
 <p><strong>Pavni:</strong> That’s a lot of coupled equations. How do we collect them?</p>
@@ -487,7 +487,7 @@ b =
 <p>Let us now implement the method in Python and compare with the exact solution for <span class="math inline">\(f(x)=\sin(\pi x)\)</span>: <span class="math display">\[
 u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 \]</span></p>
-<div id="b707639e" class="cell" data-execution_count="1">
+<div id="6f2c2c85" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1082,7 +1082,7 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>::: {.dialogue}</span>
 <span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>**Acharya:** Consider the 1D heat equation:</span>
 <span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>u_t = \alpha u_{xx}^2, \quad 0 &lt; x &lt; 1,\; t&gt;0</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>u_t = \alpha^2 u_{xx}^2, \quad 0 &lt; x &lt; 1,\; t&gt;0</span>
 <span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>with boundary conditions $u(0,t) = u(1,t) = 0$ and initial profile $u(x,0) = f(x)$.</span>
 <span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
@@ -1268,7 +1268,7 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. The FTCS update at interior nodes is</span>
 <span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>u_i^{j+1} = u_i^j + r\,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>u_i^{j+1} = u_i^j + \lambda \,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),</span>
 <span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>\quad i=1,\dots,N_x-2,</span>
 <span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>where $\lambda = \tfrac{\alpha \Delta t}{\Delta x^2}$.</span>

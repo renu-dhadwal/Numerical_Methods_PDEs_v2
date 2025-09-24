@@ -48,7 +48,7 @@ with error $\mathcal{O}((\Delta x)^2)$.
 ::: {.dialogue}
 **Acharya:** Consider the 1D heat equation:
 $$
-u_t = \alpha u_{xx}^2, \quad 0 < x < 1,\; t>0
+u_t = \alpha^2 u_{xx}^2, \quad 0 < x < 1,\; t>0
 $$
 with boundary conditions $u(0,t) = u(1,t) = 0$ and initial profile $u(x,0) = f(x)$.
 
@@ -234,7 +234,7 @@ and initial condition $u(x,0)=f(x)$.
 
 **Acharya:** Exactly. The FTCS update at interior nodes is
 $$
-u_i^{j+1} = u_i^j + r\,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
+u_i^{j+1} = u_i^j + \lambda \,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
 \quad i=1,\dots,N_x-2,
 $$
 where $\lambda = \tfrac{\alpha \Delta t}{\Delta x^2}$.
