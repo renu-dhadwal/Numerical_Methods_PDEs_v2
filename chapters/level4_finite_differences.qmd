@@ -48,7 +48,7 @@ with error $\mathcal{O}((\Delta x)^2)$.
 ::: {.dialogue}
 **Acharya:** Consider the 1D heat equation:
 $$
-u_t = \alpha u_{xx}, \quad 0 < x < 1,\; t>0
+u_t = \alpha u_{xx}^2, \quad 0 < x < 1,\; t>0
 $$
 with boundary conditions $u(0,t) = u(1,t) = 0$ and initial profile $u(x,0) = f(x)$.
 
@@ -72,14 +72,14 @@ At each point, let $u_i^n \approx u(x_i,t^n)$.
 
 Plugging these into the PDE, we get:
 $$
-\frac{u_i^{n+1} - u_i^n}{\Delta t} = \alpha \,\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}.
+\frac{u_i^{n+1} - u_i^n}{\Delta t} = \alpha^2 \,\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}.
 $$
 
 Rearranging:
 $$
 u_i^{n+1} = u_i^n + \lambda\,(u_{i-1}^n - 2u_i^n + u_{i+1}^n),
 $$
-where $\lambda = \frac{\alpha \Delta t}{(\Delta x)^2}$.
+where $\lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}$.
 :::
 
 ---
@@ -122,19 +122,26 @@ $$
 
 For the FTCS tridiagonal matrix $A$ (which is symmetric), the spectral radius can be computed explicitly:
 $$
-\lambda_k = 1-2r + 2r\cos\!\Big(\tfrac{k\pi}{N_x-1}\Big),
-\qquad k=1,\dots,N_x-2.
+\mu_k = 1-4 \lambda (\sin (\frac{1 \pi}{2 N}))^2 {\Big),
+\qquad k=1,\dots,N-1.
 $$
 
-The most negative eigenvalue occurs when $\cos(\theta)=-1$, giving
 $$
-\lambda_{\min} = 1 - 4r.
+\rho(A) = \max_{1\leq i \leq {N-1}} |1-4\lambda (\sin (\frac{1 \pi}{2 N}))^2| \leq 1
 $$
 
-Requiring $|\lambda_k|\le 1$ for all $k$ leads to the condition
+This simplifies to \\
 $$
-0 \;\le\; r \;\le\; \tfrac{1}{2}.
+0 \leq \lambda (\sin (\frac{1 \pi}{2 N}))^2 \leq \frac{1}{2}
 $$
+for each $i = 1, 2 \ldots N-1$
+
+Stability requires that the abive inequality holds for $h\rightarrow 0$ or, equivalently, as $N \rightarrow \infty$.\\
+Since, we know that,
+$$
+\lim_{N \rightarrow \infty}[sin (\frac{(m-1)\pi}{2m})]^2 = 1
+$$
+, stability will occur if $0\leq \lambda \leq \frac{1}{2}$.
 
 Thus, the **FTCS scheme is stable if and only if $r \le \tfrac{1}{2}$.**
 :::
@@ -202,7 +209,7 @@ $$
 
 **Acharya:** Yes. That’s where the **matrix method** comes in. Let’s recall the PDE:
 $$
-u_t = \alpha u_{xx}, \quad 0 < x < 1, \; t > 0,
+u_t = \alpha^2 u_{xx}, \quad 0 < x < 1, \; t > 0,
 $$
 with Dirichlet conditions
 $$
@@ -217,7 +224,7 @@ $$
 u_i^{j+1} = u_i^j + r\,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
 \quad i=1,\dots,N_x-2,
 $$
-where $r = \tfrac{\alpha \Delta t}{\Delta x^2}$.
+where $\lambda = \tfrac{\alpha \Delta t}{\Delta x^2}$.
 
 **Pavni:** That’s a lot of coupled equations. How do we collect them?
 
@@ -242,19 +249,19 @@ where $A$ is tridiagonal and $b$ accounts for the boundary conditions:
 $$
 A =
 \begin{bmatrix}
-1-2r & r     &        &        &   \\
-r     & 1-2r & r      &        &   \\
+1-2\lambda & \lambda     &        &        &   \\
+r     & 1-2\lambda & \lambda      &        &   \\
       & \ddots & \ddots & \ddots &   \\
-      &        & r      & 1-2r   & r \\
-      &        &        & r      & 1-2r
+      &        & r      & 1-2\lambda   & \lambda \\
+      &        &        & \lambda      & 1-2\lambda
 \end{bmatrix}, \qquad
 b =
 \begin{bmatrix}
-rL \\
+\lambda L \\
 0 \\
 \vdots \\
 0 \\
-rR
+\lambda R
 \end{bmatrix}.
 $$
 
