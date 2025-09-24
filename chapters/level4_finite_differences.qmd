@@ -105,14 +105,14 @@ If the update is
 $$
 u^{(n+1)} = A u^{(n)},
 $$ 
-and the initial error is $e^0$, then the error after $n$ steps is
+and the initial error is $e^0$, then after $n$ steps the error is
 $$
 e^{(n)} = A^n e^0.
 $$
 
-Using an induced matrix norm we have
+Using an induced matrix norm:
 $$
-\|e^{(n)}\| = \|A^n e^0\| \;\le\; \|A^n\|\;\|e^0\|
+\|e^{(n)}\| = \|A^n e^0\| \;\le\; \|A^n\|\,\|e^0\|
 \;\le\; \|A\|^n \|e^0\|.
 $$
 
@@ -120,30 +120,43 @@ $$
 - If $\|A\|<1$, the error decays as $n\to\infty$.  
 - In general, the asymptotic condition is that the **spectral radius** $\rho(A)<1$.
 
-For the FTCS tridiagonal matrix $A$ (which is symmetric), the spectral radius can be computed explicitly:
+---
+
+#### Eigenvalues of the FTCS matrix
+
+For the FTCS tridiagonal matrix $A$ (symmetric Toeplitz), the eigenvalues are
 $$
-\mu_k = 1-4 \lambda (\sin (\frac{1 \pi}{2 N}))^2 {\Big),
-\qquad k=1,\dots,N-1.
+\mu_k = 1 - 4r \,\sin^2\!\left(\frac{k\pi}{2(N-1)}\right), 
+\qquad k=1,2,\dots,N-2,
+$$
+where $r = \dfrac{\alpha \Delta t}{(\Delta x)^2}$.
+
+Thus the spectral radius is
+$$
+\rho(A) = \max_{1\le k \le N-2} \big|\mu_k\big|
+= \max_{1\le k \le N-2} \left|1 - 4r \sin^2\!\left(\tfrac{k\pi}{2(N-1)}\right)\right|.
 $$
 
+---
+
+#### Stability condition
+
+- As $N\to\infty$ (i.e. $\Delta x \to 0$), the maximum of $\sin^2(\cdot)$ tends to $1$.  
+- Therefore the most restrictive case is
 $$
-\rho(A) = \max_{1\leq i \leq {N-1}} |1-4\lambda (\sin (\frac{1 \pi}{2 N}))^2| \leq 1
+|1 - 4r| \le 1.
+$$
+- This simplifies to
+$$
+0 \;\le\; r \;\le\; \tfrac{1}{2}.
 $$
 
-This simplifies to \\
-$$
-0 \leq \lambda (\sin (\frac{1 \pi}{2 N}))^2 \leq \frac{1}{2}
-$$
-for each $i = 1, 2 \ldots N-1$
+---
 
-Stability requires that the abive inequality holds for $h\rightarrow 0$ or, equivalently, as $N \rightarrow \infty$.\\
-Since, we know that,
+✅ Thus, the **FTCS scheme is stable if and only if**
 $$
-\lim_{N \rightarrow \infty}[sin (\frac{(m-1)\pi}{2m})]^2 = 1
+r = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.
 $$
-, stability will occur if $0\leq \lambda \leq \frac{1}{2}$.
-
-Thus, the **FTCS scheme is stable if and only if $r \le \tfrac{1}{2}$.**
 :::
 
 ---
