@@ -237,7 +237,7 @@ $$
 u_i^{j+1} = u_i^j + \lambda \,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
 \quad i=1,\dots,N_x-2,
 $$
-where $\lambda = \tfrac{\alpha \Delta t}{\Delta x^2}$.
+where $\lambda = \tfrac{\alpha^2 \Delta t}{\Delta x^2}$.
 
 **Pavni:** That’s a lot of coupled equations. How do we collect them?
 
@@ -263,9 +263,9 @@ $$
 A =
 \begin{bmatrix}
 1-2\lambda & \lambda     &        &        &   \\
-r     & 1-2\lambda & \lambda      &        &   \\
+\lambda     & 1-2\lambda & \lambda      &        &   \\
       & \ddots & \ddots & \ddots &   \\
-      &        & r      & 1-2\lambda   & \lambda \\
+      &        & \lambda      & 1-2\lambda   & \lambda \\
       &        &        & \lambda      & 1-2\lambda
 \end{bmatrix}, \qquad
 b =
@@ -354,5 +354,5 @@ plt.show()
 ### Remarks
 
 - The **linear algebra structure** $u^{(j+1)} = A u^{(j)} + b$ makes the scheme compact and systematic.  
-- The stability restriction $r \leq \tfrac{1}{2}$ follows from analyzing the eigenvalues of $A$.  
+- The stability restriction $\lambda \leq \tfrac{1}{2}$ follows from analyzing the eigenvalues of $A$.  
 - For large $N_x$, $A$ is sparse and tridiagonal — in practice, use `scipy.sparse.diags` for efficiency.

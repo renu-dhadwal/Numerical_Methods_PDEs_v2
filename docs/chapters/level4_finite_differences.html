@@ -446,7 +446,7 @@ u(0,t) = L, \qquad u(1,t) = R,
 <p><strong>Acharya:</strong> Exactly. The FTCS update at interior nodes is <span class="math display">\[
 u_i^{j+1} = u_i^j + \lambda \,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
 \quad i=1,\dots,N_x-2,
-\]</span> where <span class="math inline">\(\lambda = \tfrac{\alpha \Delta t}{\Delta x^2}\)</span>.</p>
+\]</span> where <span class="math inline">\(\lambda = \tfrac{\alpha^2 \Delta t}{\Delta x^2}\)</span>.</p>
 <p><strong>Pavni:</strong> That’s a lot of coupled equations. How do we collect them?</p>
 <p><strong>Acharya:</strong> We put all interior values into a vector <span class="math display">\[
 u^{(j)} =
@@ -464,9 +464,9 @@ u^{(j+1)} = A\,u^{(j)} + b,
 A =
 \begin{bmatrix}
 1-2\lambda &amp; \lambda     &amp;        &amp;        &amp;   \\
-r     &amp; 1-2\lambda &amp; \lambda      &amp;        &amp;   \\
+\lambda     &amp; 1-2\lambda &amp; \lambda      &amp;        &amp;   \\
       &amp; \ddots &amp; \ddots &amp; \ddots &amp;   \\
-      &amp;        &amp; r      &amp; 1-2\lambda   &amp; \lambda \\
+      &amp;        &amp; \lambda      &amp; 1-2\lambda   &amp; \lambda \\
       &amp;        &amp;        &amp; \lambda      &amp; 1-2\lambda
 \end{bmatrix}, \qquad
 b =
@@ -487,7 +487,7 @@ b =
 <p>Let us now implement the method in Python and compare with the exact solution for <span class="math inline">\(f(x)=\sin(\pi x)\)</span>: <span class="math display">\[
 u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 \]</span></p>
-<div id="6f2c2c85" class="cell" data-execution_count="1">
+<div id="da7e16b9" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -560,7 +560,7 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <ul>
 <li>The <strong>linear algebra structure</strong> <span class="math inline">\(u^{(j+1)} = A u^{(j)} + b\)</span> makes the scheme compact and systematic.<br>
 </li>
-<li>The stability restriction <span class="math inline">\(r \leq \tfrac{1}{2}\)</span> follows from analyzing the eigenvalues of <span class="math inline">\(A\)</span>.<br>
+<li>The stability restriction <span class="math inline">\(\lambda \leq \tfrac{1}{2}\)</span> follows from analyzing the eigenvalues of <span class="math inline">\(A\)</span>.<br>
 </li>
 <li>For large <span class="math inline">\(N_x\)</span>, <span class="math inline">\(A\)</span> is sparse and tridiagonal — in practice, use <code>scipy.sparse.diags</code> for efficiency.</li>
 </ul>
@@ -1271,7 +1271,7 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>u_i^{j+1} = u_i^j + \lambda \,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),</span>
 <span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>\quad i=1,\dots,N_x-2,</span>
 <span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>where $\lambda = \tfrac{\alpha \Delta t}{\Delta x^2}$.</span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>where $\lambda = \tfrac{\alpha^2 \Delta t}{\Delta x^2}$.</span>
 <span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>**Pavni:** That’s a lot of coupled equations. How do we collect them?</span>
 <span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
@@ -1297,9 +1297,9 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a>A =</span>
 <span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
 <span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a>1-2\lambda &amp; \lambda     &amp;        &amp;        &amp;   <span class="sc">\\</span></span>
-<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>r     &amp; 1-2\lambda &amp; \lambda      &amp;        &amp;   <span class="sc">\\</span></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>\lambda     &amp; 1-2\lambda &amp; \lambda      &amp;        &amp;   <span class="sc">\\</span></span>
 <span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>      &amp; \ddots &amp; \ddots &amp; \ddots &amp;   <span class="sc">\\</span></span>
-<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>      &amp;        &amp; r      &amp; 1-2\lambda   &amp; \lambda <span class="sc">\\</span></span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>      &amp;        &amp; \lambda      &amp; 1-2\lambda   &amp; \lambda <span class="sc">\\</span></span>
 <span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>      &amp;        &amp;        &amp; \lambda      &amp; 1-2\lambda</span>
 <span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}, \qquad</span>
 <span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>b =</span>
@@ -1388,7 +1388,7 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a><span class="fu">### Remarks</span></span>
 <span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **linear algebra structure** $u^{(j+1)} = A u^{(j)} + b$ makes the scheme compact and systematic.  </span>
-<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The stability restriction $r \leq \tfrac{1}{2}$ follows from analyzing the eigenvalues of $A$.  </span>
+<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The stability restriction $\lambda \leq \tfrac{1}{2}$ follows from analyzing the eigenvalues of $A$.  </span>
 <span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For large $N_x$, $A$ is sparse and tridiagonal — in practice, use <span class="in">`scipy.sparse.diags`</span> for efficiency.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
