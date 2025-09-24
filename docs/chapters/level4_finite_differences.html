@@ -222,6 +222,13 @@ window.Quarto = {
   <li><a href="#implementation-in-python" id="toc-implementation-in-python" class="nav-link" data-scroll-target="#implementation-in-python"><span class="header-section-number">5.4.1</span> Implementation in Python</a></li>
   <li><a href="#remarks" id="toc-remarks" class="nav-link" data-scroll-target="#remarks"><span class="header-section-number">5.4.2</span> Remarks</a></li>
   </ul></li>
+  <li><a href="#backward-difference-implicit-scheme-for-the-heat-equation" id="toc-backward-difference-implicit-scheme-for-the-heat-equation" class="nav-link" data-scroll-target="#backward-difference-implicit-scheme-for-the-heat-equation"><span class="header-section-number">5.5</span> Backward Difference (Implicit) Scheme for the Heat Equation</a>
+  <ul class="collapse">
+  <li><a href="#derivation" id="toc-derivation" class="nav-link" data-scroll-target="#derivation"><span class="header-section-number">5.5.1</span> Derivation</a></li>
+  <li><a href="#matrix-form" id="toc-matrix-form" class="nav-link" data-scroll-target="#matrix-form"><span class="header-section-number">5.5.2</span> Matrix Form</a></li>
+  <li><a href="#stability" id="toc-stability" class="nav-link" data-scroll-target="#stability"><span class="header-section-number">5.5.3</span> Stability</a></li>
+  <li><a href="#remarks-1" id="toc-remarks-1" class="nav-link" data-scroll-target="#remarks-1"><span class="header-section-number">5.5.4</span> Remarks</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -487,7 +494,7 @@ b =
 <p>Let us now implement the method in Python and compare with the exact solution for <span class="math inline">\(f(x)=\sin(\pi x)\)</span>: <span class="math display">\[
 u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 \]</span></p>
-<div id="da7e16b9" class="cell" data-execution_count="1">
+<div id="0e4843e0" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -563,6 +570,81 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <li>The stability restriction <span class="math inline">\(\lambda \leq \tfrac{1}{2}\)</span> follows from analyzing the eigenvalues of <span class="math inline">\(A\)</span>.<br>
 </li>
 <li>For large <span class="math inline">\(N_x\)</span>, <span class="math inline">\(A\)</span> is sparse and tridiagonal — in practice, use <code>scipy.sparse.diags</code> for efficiency.</li>
+</ul>
+</section>
+</section>
+<section id="backward-difference-implicit-scheme-for-the-heat-equation" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="backward-difference-implicit-scheme-for-the-heat-equation"><span class="header-section-number">5.5</span> Backward Difference (Implicit) Scheme for the Heat Equation</h2>
+<div class="dialogue">
+<p><strong>Pavni:</strong> Acharya, the FTCS scheme works only if <span class="math inline">\(\lambda \leq \tfrac{1}{2}\)</span>. Is there a method that avoids this restriction?</p>
+<p><strong>Acharya:</strong> Yes. We can use a <strong>backward difference in time</strong>, together with the same central difference in space. This gives the <strong>Backward Euler scheme</strong>, which is implicit but unconditionally stable.</p>
+<p><strong>Pavni:</strong> Implicit? What does that mean?</p>
+<p><strong>Acharya:</strong> It means that the new values <span class="math inline">\(u^{n+1}\)</span> appear on both sides of the equation, so we must solve a system of equations at each time step.</p>
+</div>
+<hr>
+<section id="derivation" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="derivation"><span class="header-section-number">5.5.1</span> Derivation</h3>
+<p>Start from the PDE: <span class="math display">\[
+u_t = \alpha^2 u_{xx}.
+\]</span></p>
+<ul>
+<li><p>Approximate the time derivative with a <strong>backward difference</strong>: <span class="math display">\[
+u_t(x_i,t^{n+1}) \;\approx\; \frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t}.
+\]</span></p></li>
+<li><p>Approximate the spatial second derivative at the new time level: <span class="math display">\[
+u_{xx}(x_i,t^{n+1}) \;\approx\; \frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.
+\]</span></p></li>
+</ul>
+<p>The scheme becomes: <span class="math display">\[
+\frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t}
+= \alpha^2 \,\frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.
+\]</span></p>
+<p>Rearrange: <span class="math display">\[
+- \lambda\, u_{i-1}^{\,n+1} + (1+2\lambda)\,u_i^{\,n+1} - \lambda\, u_{i+1}^{\,n+1} = u_i^{\,n},
+\qquad
+\lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.
+\]</span></p>
+<hr>
+</section>
+<section id="matrix-form" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="matrix-form"><span class="header-section-number">5.5.2</span> Matrix Form</h3>
+<p>Let <span class="math inline">\(u^{(n)}\)</span> be the vector of interior values at time step <span class="math inline">\(n\)</span>. Then <span class="math display">\[
+B u^{(n+1)} = u^{(n)},
+\]</span> where <span class="math display">\[
+B =
+\begin{bmatrix}
+1+2\lambda &amp; -\lambda     &amp;            &amp;            &amp;   \\
+-\lambda    &amp; 1+2\lambda  &amp; -\lambda   &amp;            &amp;   \\
+            &amp; \ddots      &amp; \ddots     &amp; \ddots     &amp;   \\
+            &amp;             &amp; -\lambda   &amp; 1+2\lambda &amp; -\lambda \\
+            &amp;             &amp;            &amp; -\lambda   &amp; 1+2\lambda
+\end{bmatrix}_{(N_x-2)\times(N_x-2)}.
+\]</span></p>
+<p>So each step requires solving the linear system <span class="math display">\[
+u^{(n+1)} = B^{-1} u^{(n)}.
+\]</span></p>
+<hr>
+</section>
+<section id="stability" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="stability"><span class="header-section-number">5.5.3</span> Stability</h3>
+<div class="dialogue">
+<p><strong>Pavni:</strong> Doesn’t that make it more expensive than FTCS?</p>
+<p><strong>Acharya:</strong> It does, because we must solve a tridiagonal system at every time step.<br>
+But the reward is <strong>unconditional stability</strong>: for any <span class="math inline">\(\Delta t &gt; 0\)</span> and <span class="math inline">\(\Delta x &gt; 0\)</span>, the scheme does not blow up.</p>
+<p><strong>Pavni:</strong> So no restriction like <span class="math inline">\(\lambda \leq \tfrac{1}{2}\)</span>?</p>
+<p><strong>Acharya:</strong> Exactly. Backward Euler is stable for all <span class="math inline">\(\lambda\)</span>.<br>
+It is only first-order accurate in time (like FTCS), but still second-order in space.</p>
+</div>
+<hr>
+</section>
+<section id="remarks-1" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="remarks-1"><span class="header-section-number">5.5.4</span> Remarks</h3>
+<ul>
+<li>Backward Euler is more robust but requires solving a linear system at each step.<br>
+</li>
+<li>For large systems, efficient algorithms like the <strong>Thomas algorithm</strong> (specialized Gaussian elimination for tridiagonal matrices) are used.<br>
+</li>
+<li>In practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).</li>
 </ul>
 
 
@@ -1389,7 +1471,100 @@ u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 <span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **linear algebra structure** $u^{(j+1)} = A u^{(j)} + b$ makes the scheme compact and systematic.  </span>
 <span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The stability restriction $\lambda \leq \tfrac{1}{2}$ follows from analyzing the eigenvalues of $A$.  </span>
-<span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For large $N_x$, $A$ is sparse and tridiagonal — in practice, use <span class="in">`scipy.sparse.diags`</span> for efficiency.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For large $N_x$, $A$ is sparse and tridiagonal — in practice, use <span class="in">`scipy.sparse.diags`</span> for efficiency.</span>
+<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a><span class="fu">## Backward Difference (Implicit) Scheme for the Heat Equation</span></span>
+<span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a>::: {.dialogue}</span>
+<span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, the FTCS scheme works only if $\lambda \leq \tfrac{1}{2}$. Is there a method that avoids this restriction?</span>
+<span id="cb2-364"><a href="#cb2-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-365"><a href="#cb2-365" aria-hidden="true" tabindex="-1"></a>**Acharya:** Yes. We can use a **backward difference in time**, together with the same central difference in space. This gives the **Backward Euler scheme**, which is implicit but unconditionally stable.</span>
+<span id="cb2-366"><a href="#cb2-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-367"><a href="#cb2-367" aria-hidden="true" tabindex="-1"></a>**Pavni:** Implicit? What does that mean?</span>
+<span id="cb2-368"><a href="#cb2-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-369"><a href="#cb2-369" aria-hidden="true" tabindex="-1"></a>**Acharya:** It means that the new values $u^{n+1}$ appear on both sides of the equation, so we must solve a system of equations at each time step.</span>
+<span id="cb2-370"><a href="#cb2-370" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-371"><a href="#cb2-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-372"><a href="#cb2-372" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-373"><a href="#cb2-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-374"><a href="#cb2-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Derivation</span></span>
+<span id="cb2-375"><a href="#cb2-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-376"><a href="#cb2-376" aria-hidden="true" tabindex="-1"></a>Start from the PDE:</span>
+<span id="cb2-377"><a href="#cb2-377" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-378"><a href="#cb2-378" aria-hidden="true" tabindex="-1"></a>u_t = \alpha^2 u_{xx}.</span>
+<span id="cb2-379"><a href="#cb2-379" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-380"><a href="#cb2-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-381"><a href="#cb2-381" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Approximate the time derivative with a **backward difference**:</span>
+<span id="cb2-382"><a href="#cb2-382" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-383"><a href="#cb2-383" aria-hidden="true" tabindex="-1"></a>u_t(x_i,t^{n+1}) \;\approx\; \frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t}.</span>
+<span id="cb2-384"><a href="#cb2-384" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-385"><a href="#cb2-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-386"><a href="#cb2-386" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Approximate the spatial second derivative at the new time level:</span>
+<span id="cb2-387"><a href="#cb2-387" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-388"><a href="#cb2-388" aria-hidden="true" tabindex="-1"></a>u_{xx}(x_i,t^{n+1}) \;\approx\; \frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.</span>
+<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-390"><a href="#cb2-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-391"><a href="#cb2-391" aria-hidden="true" tabindex="-1"></a>The scheme becomes:</span>
+<span id="cb2-392"><a href="#cb2-392" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-393"><a href="#cb2-393" aria-hidden="true" tabindex="-1"></a>\frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t} </span>
+<span id="cb2-394"><a href="#cb2-394" aria-hidden="true" tabindex="-1"></a>= \alpha^2 \,\frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.</span>
+<span id="cb2-395"><a href="#cb2-395" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-396"><a href="#cb2-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a>Rearrange:</span>
+<span id="cb2-398"><a href="#cb2-398" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-399"><a href="#cb2-399" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>\lambda\, u_{i-1}^{\,n+1} + (1+2\lambda)\,u_i^{\,n+1} - \lambda\, u_{i+1}^{\,n+1} = u_i^{\,n},</span>
+<span id="cb2-400"><a href="#cb2-400" aria-hidden="true" tabindex="-1"></a>\qquad </span>
+<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a>\lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.</span>
+<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a><span class="fu">### Matrix Form</span></span>
+<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a>Let $u^{(n)}$ be the vector of interior values at time step $n$. Then</span>
+<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a>B u^{(n+1)} = u^{(n)},</span>
+<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a>where</span>
+<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a>B =</span>
+<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
+<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>1+2\lambda &amp; -\lambda     &amp;            &amp;            &amp;   <span class="sc">\\</span></span>
+<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a>-\lambda    &amp; 1+2\lambda  &amp; -\lambda   &amp;            &amp;   <span class="sc">\\</span></span>
+<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a>            &amp; \ddots      &amp; \ddots     &amp; \ddots     &amp;   <span class="sc">\\</span></span>
+<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a>            &amp;             &amp; -\lambda   &amp; 1+2\lambda &amp; -\lambda <span class="sc">\\</span></span>
+<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a>            &amp;             &amp;            &amp; -\lambda   &amp; 1+2\lambda</span>
+<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}_{(N_x-2)\times(N_x-2)}.</span>
+<span id="cb2-422"><a href="#cb2-422" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-423"><a href="#cb2-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-424"><a href="#cb2-424" aria-hidden="true" tabindex="-1"></a>So each step requires solving the linear system</span>
+<span id="cb2-425"><a href="#cb2-425" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-426"><a href="#cb2-426" aria-hidden="true" tabindex="-1"></a>u^{(n+1)} = B^{-1} u^{(n)}.</span>
+<span id="cb2-427"><a href="#cb2-427" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-428"><a href="#cb2-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-429"><a href="#cb2-429" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-430"><a href="#cb2-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-431"><a href="#cb2-431" aria-hidden="true" tabindex="-1"></a><span class="fu">### Stability</span></span>
+<span id="cb2-432"><a href="#cb2-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-433"><a href="#cb2-433" aria-hidden="true" tabindex="-1"></a>::: {.dialogue}</span>
+<span id="cb2-434"><a href="#cb2-434" aria-hidden="true" tabindex="-1"></a>**Pavni:** Doesn’t that make it more expensive than FTCS?</span>
+<span id="cb2-435"><a href="#cb2-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-436"><a href="#cb2-436" aria-hidden="true" tabindex="-1"></a>**Acharya:** It does, because we must solve a tridiagonal system at every time step.  </span>
+<span id="cb2-437"><a href="#cb2-437" aria-hidden="true" tabindex="-1"></a>But the reward is **unconditional stability**: for any $\Delta t &gt; 0$ and $\Delta x &gt; 0$, the scheme does not blow up.</span>
+<span id="cb2-438"><a href="#cb2-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-439"><a href="#cb2-439" aria-hidden="true" tabindex="-1"></a>**Pavni:** So no restriction like $\lambda \leq \tfrac{1}{2}$?</span>
+<span id="cb2-440"><a href="#cb2-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-441"><a href="#cb2-441" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Backward Euler is stable for all $\lambda$.  </span>
+<span id="cb2-442"><a href="#cb2-442" aria-hidden="true" tabindex="-1"></a>It is only first-order accurate in time (like FTCS), but still second-order in space.</span>
+<span id="cb2-443"><a href="#cb2-443" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-444"><a href="#cb2-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-445"><a href="#cb2-445" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-446"><a href="#cb2-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-447"><a href="#cb2-447" aria-hidden="true" tabindex="-1"></a><span class="fu">### Remarks</span></span>
+<span id="cb2-448"><a href="#cb2-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-449"><a href="#cb2-449" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Backward Euler is more robust but requires solving a linear system at each step.  </span>
+<span id="cb2-450"><a href="#cb2-450" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For large systems, efficient algorithms like the **Thomas algorithm** (specialized Gaussian elimination for tridiagonal matrices) are used.  </span>
+<span id="cb2-451"><a href="#cb2-451" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

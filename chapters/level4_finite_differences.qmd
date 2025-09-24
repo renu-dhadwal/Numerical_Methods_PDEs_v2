@@ -356,3 +356,96 @@ plt.show()
 - The **linear algebra structure** $u^{(j+1)} = A u^{(j)} + b$ makes the scheme compact and systematic.  
 - The stability restriction $\lambda \leq \tfrac{1}{2}$ follows from analyzing the eigenvalues of $A$.  
 - For large $N_x$, $A$ is sparse and tridiagonal — in practice, use `scipy.sparse.diags` for efficiency.
+
+## Backward Difference (Implicit) Scheme for the Heat Equation
+
+::: {.dialogue}
+**Pavni:** Acharya, the FTCS scheme works only if $\lambda \leq \tfrac{1}{2}$. Is there a method that avoids this restriction?
+
+**Acharya:** Yes. We can use a **backward difference in time**, together with the same central difference in space. This gives the **Backward Euler scheme**, which is implicit but unconditionally stable.
+
+**Pavni:** Implicit? What does that mean?
+
+**Acharya:** It means that the new values $u^{n+1}$ appear on both sides of the equation, so we must solve a system of equations at each time step.
+:::
+
+---
+
+### Derivation
+
+Start from the PDE:
+$$
+u_t = \alpha^2 u_{xx}.
+$$
+
+- Approximate the time derivative with a **backward difference**:
+$$
+u_t(x_i,t^{n+1}) \;\approx\; \frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t}.
+$$
+
+- Approximate the spatial second derivative at the new time level:
+$$
+u_{xx}(x_i,t^{n+1}) \;\approx\; \frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.
+$$
+
+The scheme becomes:
+$$
+\frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t} 
+= \alpha^2 \,\frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.
+$$
+
+Rearrange:
+$$
+- \lambda\, u_{i-1}^{\,n+1} + (1+2\lambda)\,u_i^{\,n+1} - \lambda\, u_{i+1}^{\,n+1} = u_i^{\,n},
+\qquad 
+\lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.
+$$
+
+---
+
+### Matrix Form
+
+Let $u^{(n)}$ be the vector of interior values at time step $n$. Then
+$$
+B u^{(n+1)} = u^{(n)},
+$$
+where
+$$
+B =
+\begin{bmatrix}
+1+2\lambda & -\lambda     &            &            &   \\
+-\lambda    & 1+2\lambda  & -\lambda   &            &   \\
+            & \ddots      & \ddots     & \ddots     &   \\
+            &             & -\lambda   & 1+2\lambda & -\lambda \\
+            &             &            & -\lambda   & 1+2\lambda
+\end{bmatrix}_{(N_x-2)\times(N_x-2)}.
+$$
+
+So each step requires solving the linear system
+$$
+u^{(n+1)} = B^{-1} u^{(n)}.
+$$
+
+---
+
+### Stability
+
+::: {.dialogue}
+**Pavni:** Doesn’t that make it more expensive than FTCS?
+
+**Acharya:** It does, because we must solve a tridiagonal system at every time step.  
+But the reward is **unconditional stability**: for any $\Delta t > 0$ and $\Delta x > 0$, the scheme does not blow up.
+
+**Pavni:** So no restriction like $\lambda \leq \tfrac{1}{2}$?
+
+**Acharya:** Exactly. Backward Euler is stable for all $\lambda$.  
+It is only first-order accurate in time (like FTCS), but still second-order in space.
+:::
+
+---
+
+### Remarks
+
+- Backward Euler is more robust but requires solving a linear system at each step.  
+- For large systems, efficient algorithms like the **Thomas algorithm** (specialized Gaussian elimination for tridiagonal matrices) are used.  
+- In practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).
