@@ -515,6 +515,8 @@ This means all eigenvalues of the iteration matrix lie strictly inside the unit 
 - Every mode decays monotonically.  
 - In contrast, FTCS required $\lambda \le \tfrac{1}{2}$ for stability.
 :::
+
+### Interactive plots to see the eigenvalues of FTCS and Backward Differencce methods
 ```{python}
 #| echo: false
 import numpy as np
@@ -573,7 +575,7 @@ fig_be.show()
 ---
 
 **How to interact with the plots**
-- Move the **slider** to change $\lambda = \tfrac{\alpha^@ \Delta t}{(\Delta x)^2}$.  
+- Move the **slider** to change $\lambda = \tfrac{\alpha^2 \Delta t}{(\Delta x)^2}$.  
 - **FTCS plot**: notice that for $\lambda > 0.5$ some eigenvalues leave $[-1,1]$, indicating instability.  
 - **Backward Euler plot**: eigenvalues always remain in $(0,1)$, showing unconditional stability.  
 - Hover over points to see their values, zoom by dragging, double-click to reset.
