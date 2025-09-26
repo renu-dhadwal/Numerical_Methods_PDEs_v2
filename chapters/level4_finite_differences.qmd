@@ -515,68 +515,65 @@ This means all eigenvalues of the iteration matrix lie strictly inside the unit 
 - Every mode decays monotonically.  
 - In contrast, FTCS required $\lambda \le \tfrac{1}{2}$ for stability.
 :::
-
 ```{python}
 #| echo: false
 import numpy as np
 import plotly.graph_objects as go
 
 # Parameters
-N = 60
-m = 60
+N = 60   # FTCS modes
+m = 60   # Backward Euler modes
 k_ftcs = np.arange(1, N+1)
 i_be = np.arange(1, m)
 
 theta_ftcs = k_ftcs * np.pi / (N+1)
-theta_be = i_be * np.pi / (2*m)
+theta_be   = i_be * np.pi / (2*m)
 
-# Parameter grids
-r_values = np.linspace(0.0, 0.8, 41)
-lambda_values = np.concatenate((np.linspace(0.01, 1, 25),
-                                np.linspace(1.5, 20, 25)))
+# Grid of lambda values
+lambda_values = np.concatenate((np.linspace(0.0, 1.0, 41),
+                                np.linspace(1.2, 5, 20)))
 
-mu_ftcs_data = [1 - 2*r*(1 - np.cos(theta_ftcs)) for r in r_values]
-mu_be_data   = [1.0 / (1.0 + 4.0 * lam * (np.sin(theta_be)**2))
-                for lam in lambda_values]
+# Precompute eigenvalues mu
+mu_ftcs_data = [1 - 2*lam*(1 - np.cos(theta_ftcs)) for lam in lambda_values]
+mu_be_data   = [1.0 / (1.0 + 4.0 * lam * (np.sin(theta_be)**2)) for lam in lambda_values]
 
-# --- FTCS figure ---
+# --- FTCS plot ---
 fig_ftcs = go.Figure()
-fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0],
-                              mode='lines+markers'))
+fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0], mode='lines+markers'))
 steps = []
-for idx, r in enumerate(r_values):
+for idx, lam in enumerate(lambda_values):
     steps.append(dict(method="update",
                       args=[{"y":[mu_ftcs_data[idx]]},
-                            {"title": f"FTCS eigenvalues μ_k (r={r:.3f})"}],
-                      label=f"{r:.2f}"))
-fig_ftcs.update_layout(title=f"FTCS eigenvalues μ_k (r={r_values[0]:.2f})",
-                       xaxis_title="Mode number k",
-                       yaxis_title="μ_k",
-                       sliders=[dict(active=0,
-                                     currentvalue={"prefix":"r: "},
-                                     steps=steps)],
-                       yaxis=dict(range=[-2.0,1.05]),
-                       height=420)
+                            {"title": f"FTCS eigenvalues μ_k (λ={lam:.2f})"}],
+                      label=f"{lam:.2f}"))
+fig_ftcs.update_layout(title=f"FTCS eigenvalues μ_k (λ={lambda_values[0]:.2f})",
+                       xaxis_title="Mode number k", yaxis_title="μ_k",
+                       sliders=[dict(active=0, currentvalue={"prefix":"λ: "}, steps=steps)],
+                       yaxis=dict(range=[-2.0,1.05]), height=420)
 
-# --- Backward Euler figure ---
+# --- Backward Euler plot ---
 fig_be = go.Figure()
 fig_be.add_trace(go.Scatter(x=i_be, y=mu_be_data[0], mode='lines+markers'))
 steps_be = []
 for idx, lam in enumerate(lambda_values):
     steps_be.append(dict(method="update",
                          args=[{"y":[mu_be_data[idx]]},
-                               {"title": f"Backward Euler eigenvalues μ_i (λ={lam:.3f})"}],
+                               {"title": f"Backward Euler eigenvalues μ_i (λ={lam:.2f})"}],
                          label=f"{lam:.2f}"))
 fig_be.update_layout(title=f"Backward Euler eigenvalues μ_i (λ={lambda_values[0]:.2f})",
-                     xaxis_title="Mode number i",
-                     yaxis_title="μ_i",
-                     sliders=[dict(active=0,
-                                   currentvalue={"prefix":"λ: "},
-                                   steps=steps_be)],
-                     yaxis=dict(range=[-0.05,1.05]),
-                     height=420)
+                     xaxis_title="Mode number i", yaxis_title="μ_i",
+                     sliders=[dict(active=0, currentvalue={"prefix":"λ: "}, steps=steps_be)],
+                     yaxis=dict(range=[-0.05,1.05]), height=420)
 
 # Show plots
 fig_ftcs.show()
 fig_be.show()
 ```
+
+---
+
+**How to interact with the plots**
+- Move the **slider** to change $\lambda = \tfrac{\alpha^@ \Delta t}{(\Delta x)^2}$.  
+- **FTCS plot**: notice that for $\lambda > 0.5$ some eigenvalues leave $[-1,1]$, indicating instability.  
+- **Backward Euler plot**: eigenvalues always remain in $(0,1)$, showing unconditional stability.  
+- Hover over points to see their values, zoom by dragging, double-click to reset.
