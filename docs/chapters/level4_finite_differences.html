@@ -229,6 +229,14 @@ window.Quarto = {
   <li><a href="#stability" id="toc-stability" class="nav-link" data-scroll-target="#stability"><span class="header-section-number">5.5.3</span> Stability</a></li>
   <li><a href="#remarks-1" id="toc-remarks-1" class="nav-link" data-scroll-target="#remarks-1"><span class="header-section-number">5.5.4</span> Remarks</a></li>
   </ul></li>
+  <li><a href="#interactive-plotly-figures-for-ftcs-and-backward-euler-eigenvalues" id="toc-interactive-plotly-figures-for-ftcs-and-backward-euler-eigenvalues" class="nav-link" data-scroll-target="#interactive-plotly-figures-for-ftcs-and-backward-euler-eigenvalues"><span class="header-section-number">6</span> Interactive Plotly figures for FTCS and Backward Euler eigenvalues</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">7</span> Parameters</a></li>
+  <li><a href="#angles" id="toc-angles" class="nav-link" data-scroll-target="#angles"><span class="header-section-number">8</span> angles</a></li>
+  <li><a href="#parameter-grids-for-sliders" id="toc-parameter-grids-for-sliders" class="nav-link" data-scroll-target="#parameter-grids-for-sliders"><span class="header-section-number">9</span> Parameter grids for sliders</a></li>
+  <li><a href="#precompute-eigenvalue-datasets" id="toc-precompute-eigenvalue-datasets" class="nav-link" data-scroll-target="#precompute-eigenvalue-datasets"><span class="header-section-number">10</span> Precompute eigenvalue datasets</a></li>
+  <li><a href="#ftcs-figure-with-slider-for-r" id="toc-ftcs-figure-with-slider-for-r" class="nav-link" data-scroll-target="#ftcs-figure-with-slider-for-r"><span class="header-section-number">11</span> FTCS figure with slider for r</a></li>
+  <li><a href="#backward-euler-figure-with-slider-for-lambda" id="toc-backward-euler-figure-with-slider-for-lambda" class="nav-link" data-scroll-target="#backward-euler-figure-with-slider-for-lambda"><span class="header-section-number">12</span> Backward Euler figure with slider for lambda</a></li>
+  <li><a href="#show-figures" id="toc-show-figures" class="nav-link" data-scroll-target="#show-figures"><span class="header-section-number">13</span> Show figures</a></li>
   </ul>
 </nav>
     </div>
@@ -494,7 +502,7 @@ b =
 <p>Let us now implement the method in Python and compare with the exact solution for <span class="math inline">\(f(x)=\sin(\pi x)\)</span>: <span class="math display">\[
 u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 \]</span></p>
-<div id="269472ea" class="cell" data-execution_count="1">
+<div id="c87d55a2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -646,51 +654,115 @@ It is only first-order accurate in time (like FTCS), but still second-order in s
 </li>
 <li>In practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).</li>
 </ul>
-<details>
-<summary>
-<b>Backward Euler Stability Analysis</b>
-</summary>
-<p><strong>Backward Euler scheme for Heat Equation</strong><br>
-We discretize the 1D heat equation<br>
-<span class="math inline">\(u_t = \alpha u_{xx}\)</span><br>
-with spatial grid spacing <span class="math inline">\(h = L/(m+1)\)</span> and timestep <span class="math inline">\(\Delta t\)</span>.</p>
-<p>The <strong>Backward Euler (implicit) scheme</strong> is:</p>
-<p><span class="math display">\[
-\frac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why the Backward Euler scheme is unconditionally stable
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If the update is<br>
+<span class="math display">\[
+u^{(n+1)} = A u^{(n)},
+\]</span><br>
+and the initial error is <span class="math inline">\(e^0\)</span>, then after <span class="math inline">\(n\)</span> steps the error is<br>
+<span class="math display">\[
+e^{(n)} = A^n e^0.
 \]</span></p>
-<p>where <span class="math inline">\(A\)</span> is the discrete Laplacian matrix.</p>
-<p>Rearranging:</p>
-<p><span class="math display">\[
+<p>As before, the asymptotic condition is that the <strong>spectral radius</strong> <span class="math inline">\(\rho(A)&lt;1\)</span>.</p>
+<hr>
+<section id="eigenvalues-of-the-backward-euler-iteration-matrix" class="level4" data-number="5.5.4.1">
+<h4 data-number="5.5.4.1" class="anchored" data-anchor-id="eigenvalues-of-the-backward-euler-iteration-matrix"><span class="header-section-number">5.5.4.1</span> Eigenvalues of the Backward Euler iteration matrix</h4>
+<p>The Backward Euler scheme for the heat equation is<br>
+<span class="math display">\[
+\frac{U^{n+1} - U^n}{\Delta t} = \alpha^2 A U^{n+1},
+\]</span> which rearranges to<br>
+<span class="math display">\[
 U^{n+1} = (I - \lambda A)^{-1} U^n,
-\quad \lambda = \frac{\alpha \Delta t}{h^2}.
+\qquad \lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.
+\]</span></p>
+<ul>
+<li><p>If <span class="math inline">\(\lambda_i(A)\)</span> are the eigenvalues of the discrete Laplacian <span class="math inline">\(A\)</span>,<br>
+then the eigenvalues of the iteration matrix are <span class="math display">\[
+\mu_i = \frac{1}{1 - \lambda_i(A)}.
+\]</span></p></li>
+<li><p>For the 1D Laplacian with Dirichlet BCs, <span class="math display">\[
+\lambda_i(A) = -4 \sin^2\!\left(\frac{i\pi}{2m}\right),
+\qquad i=1,2,\dots,m-1.
+\]</span></p></li>
+</ul>
+<p>Thus <span class="math display">\[
+\mu_i = \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
 \]</span></p>
 <hr>
-<p><strong>Eigenvalues of the discrete Laplacian</strong><br>
-<span class="math inline">\(\lambda_i(A) = -4 \sin^2\!\left(\dfrac{i\pi}{2m}\right), \quad i=1,2,\dots,m-1.\)</span></p>
-<hr>
-<p><strong>Eigenvalues of the iteration matrix</strong><br>
-Since eigenvalues transform under matrix inverses:</p>
-<p><span class="math display">\[
-\mu_i = \frac{1}{1 - \lambda \lambda_i(A)}
-= \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
-\]</span></p>
-<hr>
-<p><strong>Stability check</strong><br>
-- The denominator is always greater than 1 (since <span class="math inline">\(\lambda&gt;0\)</span> and <span class="math inline">\(\sin^2\ge0\)</span>).<br>
-- Therefore: <span class="math inline">\(0 &lt; \mu_i &lt; 1, \quad \forall i.\)</span></p>
+</section>
+<section id="stability-condition-2" class="level4" data-number="5.5.4.2">
+<h4 data-number="5.5.4.2" class="anchored" data-anchor-id="stability-condition-2"><span class="header-section-number">5.5.4.2</span> Stability condition</h4>
+<ul>
+<li>Since <span class="math inline">\(\lambda&gt;0\)</span> and <span class="math inline">\(\sin^2(\cdot)\ge0\)</span>,<br>
+the denominator is always greater than <span class="math inline">\(1\)</span>.<br>
+</li>
+<li>Therefore <span class="math display">\[
+0 &lt; \mu_i &lt; 1, \qquad \forall i.
+\]</span></li>
+</ul>
 <p>This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.</p>
 <hr>
-<p><strong>Conclusion</strong><br>
-Backward Euler is <strong>unconditionally stable</strong>:<br>
-- No restriction on <span class="math inline">\(\Delta t\)</span>.<br>
+<p>✅ Thus, the <strong>Backward Euler scheme is unconditionally stable</strong>: - No restriction on <span class="math inline">\(\Delta t\)</span>.<br>
 - Every mode decays monotonically.<br>
-- In contrast, FTCS needed <span class="math inline">\(\lambda \le 1/2\)</span> for stability.</p>
-</details>
+- In contrast, FTCS required <span class="math inline">\(\lambda \le \tfrac{1}{2}\)</span> for stability.</p>
+</section>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="interactive-plotly-figures-for-ftcs-and-backward-euler-eigenvalues" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Interactive Plotly figures for FTCS and Backward Euler eigenvalues</h1>
+<p>import numpy as np import plotly.graph_objects as go</p>
+</section>
+<section id="parameters" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Parameters</h1>
+<p>N = 60 # number of interior points for FTCS m = 60 # use m for backward-euler modes (m-1 modes) k_ftcs = np.arange(1, N+1) i_be = np.arange(1, m)</p>
+</section>
+<section id="angles" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> angles</h1>
+<p>theta_ftcs = k_ftcs * np.pi / (N+1) theta_be = i_be * np.pi / (2*m)</p>
+</section>
+<section id="parameter-grids-for-sliders" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Parameter grids for sliders</h1>
+<p>r_values = np.linspace(0.0, 0.8, 41) # for FTCS (r = alpha*dt/h^2) lambda_values = np.concatenate((np.linspace(0.01, 1, 25), np.linspace(1.5, 20, 25))) # for BE</p>
+</section>
+<section id="precompute-eigenvalue-datasets" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Precompute eigenvalue datasets</h1>
+<p>mu_ftcs_data = [1 - 2<em>r</em>(1 - np.cos(theta_ftcs)) for r in r_values] mu_be_data = [1.0 / (1.0 + 4.0 * lam * (np.sin(theta_be)**2)) for lam in lambda_values]</p>
+</section>
+<section id="ftcs-figure-with-slider-for-r" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> FTCS figure with slider for r</h1>
+<p>fig_ftcs = go.Figure() fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0], mode=‘lines+markers’, name=f”r={r_values[0]:.2f}“))</p>
+<p>steps = [] for idx, r in enumerate(r_values): step = dict( method=“update”, args=[{“y”: [mu_ftcs_data[idx]]}, {“title”: f”FTCS eigenvalues μ_k (r={r:.3f})“}], label=f”{r:.2f}” ) steps.append(step)</p>
+<p>sliders = [dict(active=0, currentvalue={“prefix”: “r:”}, pad={“t”: 50}, steps=steps)]</p>
+<p>fig_ftcs.update_layout( title=f”FTCS eigenvalues μ_k (r={r_values[0]:.2f})“, xaxis_title=”Mode number k”, yaxis_title=“μ_k”, sliders=sliders, yaxis=dict(range=[-2.0, 1.05]), height=420 )</p>
+</section>
+<section id="backward-euler-figure-with-slider-for-lambda" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Backward Euler figure with slider for lambda</h1>
+<p>fig_be = go.Figure() fig_be.add_trace(go.Scatter(x=i_be, y=mu_be_data[0], mode=‘lines+markers’, name=f”λ={lambda_values[0]:.2f}“))</p>
+<p>steps_be = [] for idx, lam in enumerate(lambda_values): step = dict( method=“update”, args=[{“y”: [mu_be_data[idx]]}, {“title”: f”Backward Euler eigenvalues μ_i (λ={lam:.3f})“}], label=f”{lam:.2f}” ) steps_be.append(step)</p>
+<p>sliders_be = [dict(active=0, currentvalue={“prefix”: “λ:”}, pad={“t”: 50}, steps=steps_be)]</p>
+<p>fig_be.update_layout( title=f”Backward Euler eigenvalues μ_i (λ={lambda_values[0]:.2f})“, xaxis_title=”Mode number i”, yaxis_title=“μ_i”, sliders=sliders_be, yaxis=dict(range=[-0.05, 1.05]), height=420 )</p>
+</section>
+<section id="show-figures" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Show figures</h1>
+<p>fig_ftcs.show() fig_be.show()</p>
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1606,61 +1678,149 @@ Backward Euler is <strong>unconditionally stable</strong>:<br>
 <span id="cb2-450"><a href="#cb2-450" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For large systems, efficient algorithms like the **Thomas algorithm** (specialized Gaussian elimination for tridiagonal matrices) are used.  </span>
 <span id="cb2-451"><a href="#cb2-451" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).</span>
 <span id="cb2-452"><a href="#cb2-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">b</span><span class="dt">&gt;</span>Backward Euler Stability Analysis<span class="dt">&lt;/</span><span class="kw">b</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse=true}</span>
+<span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why the Backward Euler scheme is unconditionally stable</span></span>
 <span id="cb2-455"><a href="#cb2-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a>**Backward Euler scheme for Heat Equation**  </span>
-<span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a>We discretize the 1D heat equation  </span>
-<span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>$u_t = \alpha u_{xx}$  </span>
-<span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a>with spatial grid spacing $h = L/(m+1)$ and timestep $\Delta t$.</span>
-<span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a>The **Backward Euler (implicit) scheme** is:  </span>
-<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a>If the update is  </span>
+<span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>u^{(n+1)} = A u^{(n)},</span>
+<span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a>and the initial error is $e^0$, then after $n$ steps the error is  </span>
+<span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a>e^{(n)} = A^n e^0.</span>
 <span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a>\frac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},</span>
-<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>As before, the asymptotic condition is that the **spectral radius** $\rho(A)&lt;1$.</span>
 <span id="cb2-466"><a href="#cb2-466" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>where $A$ is the discrete Laplacian matrix.</span>
+<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb2-468"><a href="#cb2-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a>Rearranging:  </span>
+<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Eigenvalues of the Backward Euler iteration matrix</span></span>
 <span id="cb2-470"><a href="#cb2-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a>U^{n+1} = (I - \lambda A)^{-1} U^n, </span>
-<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a>\quad \lambda = \frac{\alpha \Delta t}{h^2}.</span>
+<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a>The Backward Euler scheme for the heat equation is  </span>
+<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a>\frac{U^{n+1} - U^n}{\Delta t} = \alpha^2 A U^{n+1},</span>
 <span id="cb2-474"><a href="#cb2-474" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a>**Eigenvalues of the discrete Laplacian**  </span>
-<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a>$\lambda_i(A) = -4 \sin^2<span class="sc">\!</span>\left(\dfrac{i\pi}{2m}\right), \quad i=1,2,\dots,m-1.$  </span>
+<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a>which rearranges to  </span>
+<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a>U^{n+1} = (I - \lambda A)^{-1} U^n, </span>
+<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a>\qquad \lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.</span>
+<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-480"><a href="#cb2-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-482"><a href="#cb2-482" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a>**Eigenvalues of the iteration matrix**  </span>
-<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a>Since eigenvalues transform under matrix inverses:  </span>
-<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a>\mu_i = \frac{1}{1 - \lambda \lambda_i(A)} </span>
-<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a>= \frac{1}{1 + 4\lambda \sin^2<span class="sc">\!</span>\left(\frac{i\pi}{2m}\right)}.</span>
-<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If $\lambda_i(A)$ are the eigenvalues of the discrete Laplacian $A$,  </span>
+<span id="cb2-482"><a href="#cb2-482" aria-hidden="true" tabindex="-1"></a>  then the eigenvalues of the iteration matrix are</span>
+<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a>\mu_i = \frac{1}{1 - \lambda_i(A)}.</span>
+<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For the 1D Laplacian with Dirichlet BCs,</span>
+<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a>\lambda_i(A) = -4 \sin^2<span class="sc">\!</span>\left(\frac{i\pi}{2m}\right), </span>
+<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a>\qquad i=1,2,\dots,m-1.</span>
+<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-492"><a href="#cb2-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-493"><a href="#cb2-493" aria-hidden="true" tabindex="-1"></a>**Stability check**  </span>
-<span id="cb2-494"><a href="#cb2-494" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The denominator is always greater than 1 (since $\lambda&gt;0$ and $\sin^2\ge0$).  </span>
-<span id="cb2-495"><a href="#cb2-495" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Therefore: $0 &lt; \mu_i &lt; 1, \quad \forall i.$  </span>
-<span id="cb2-496"><a href="#cb2-496" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-497"><a href="#cb2-497" aria-hidden="true" tabindex="-1"></a>This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.</span>
-<span id="cb2-498"><a href="#cb2-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-499"><a href="#cb2-499" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-500"><a href="#cb2-500" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-501"><a href="#cb2-501" aria-hidden="true" tabindex="-1"></a>**Conclusion**  </span>
-<span id="cb2-502"><a href="#cb2-502" aria-hidden="true" tabindex="-1"></a>Backward Euler is **unconditionally stable**:  </span>
-<span id="cb2-503"><a href="#cb2-503" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No restriction on $\Delta t$.  </span>
-<span id="cb2-504"><a href="#cb2-504" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every mode decays monotonically.  </span>
-<span id="cb2-505"><a href="#cb2-505" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In contrast, FTCS needed $\lambda \le 1/2$ for stability.  </span>
-<span id="cb2-506"><a href="#cb2-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-507"><a href="#cb2-507" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-493"><a href="#cb2-493" aria-hidden="true" tabindex="-1"></a>Thus</span>
+<span id="cb2-494"><a href="#cb2-494" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-495"><a href="#cb2-495" aria-hidden="true" tabindex="-1"></a>\mu_i = \frac{1}{1 + 4\lambda \sin^2<span class="sc">\!</span>\left(\frac{i\pi}{2m}\right)}.</span>
+<span id="cb2-496"><a href="#cb2-496" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-497"><a href="#cb2-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-498"><a href="#cb2-498" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-499"><a href="#cb2-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-500"><a href="#cb2-500" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Stability condition</span></span>
+<span id="cb2-501"><a href="#cb2-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-502"><a href="#cb2-502" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Since $\lambda&gt;0$ and $\sin^2(\cdot)\ge0$,  </span>
+<span id="cb2-503"><a href="#cb2-503" aria-hidden="true" tabindex="-1"></a>  the denominator is always greater than $1$.  </span>
+<span id="cb2-504"><a href="#cb2-504" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Therefore</span>
+<span id="cb2-505"><a href="#cb2-505" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-506"><a href="#cb2-506" aria-hidden="true" tabindex="-1"></a>0 &lt; \mu_i &lt; 1, \qquad \forall i.</span>
+<span id="cb2-507"><a href="#cb2-507" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-508"><a href="#cb2-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-509"><a href="#cb2-509" aria-hidden="true" tabindex="-1"></a>This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.</span>
+<span id="cb2-510"><a href="#cb2-510" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-511"><a href="#cb2-511" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-512"><a href="#cb2-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-513"><a href="#cb2-513" aria-hidden="true" tabindex="-1"></a>✅ Thus, the **Backward Euler scheme is unconditionally stable**:</span>
+<span id="cb2-514"><a href="#cb2-514" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No restriction on $\Delta t$.  </span>
+<span id="cb2-515"><a href="#cb2-515" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every mode decays monotonically.  </span>
+<span id="cb2-516"><a href="#cb2-516" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In contrast, FTCS required $\lambda \le \tfrac{1}{2}$ for stability.</span>
+<span id="cb2-517"><a href="#cb2-517" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-518"><a href="#cb2-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-521"><a href="#cb2-521" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb2-522"><a href="#cb2-522" aria-hidden="true" tabindex="-1"></a><span class="co"># Interactive Plotly figures for FTCS and Backward Euler eigenvalues</span></span>
+<span id="cb2-523"><a href="#cb2-523" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-524"><a href="#cb2-524" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb2-525"><a href="#cb2-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-526"><a href="#cb2-526" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb2-527"><a href="#cb2-527" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">60</span>  <span class="co"># number of interior points for FTCS</span></span>
+<span id="cb2-528"><a href="#cb2-528" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">60</span>  <span class="co"># use m for backward-euler modes (m-1 modes)</span></span>
+<span id="cb2-529"><a href="#cb2-529" aria-hidden="true" tabindex="-1"></a>k_ftcs <span class="op">=</span> np.arange(<span class="dv">1</span>, N<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb2-530"><a href="#cb2-530" aria-hidden="true" tabindex="-1"></a>i_be <span class="op">=</span> np.arange(<span class="dv">1</span>, m)</span>
+<span id="cb2-531"><a href="#cb2-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-532"><a href="#cb2-532" aria-hidden="true" tabindex="-1"></a><span class="co"># angles</span></span>
+<span id="cb2-533"><a href="#cb2-533" aria-hidden="true" tabindex="-1"></a>theta_ftcs <span class="op">=</span> k_ftcs <span class="op">*</span> np.pi <span class="op">/</span> (N<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb2-534"><a href="#cb2-534" aria-hidden="true" tabindex="-1"></a>theta_be <span class="op">=</span> i_be <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>m)</span>
+<span id="cb2-535"><a href="#cb2-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-536"><a href="#cb2-536" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter grids for sliders</span></span>
+<span id="cb2-537"><a href="#cb2-537" aria-hidden="true" tabindex="-1"></a>r_values <span class="op">=</span> np.linspace(<span class="fl">0.0</span>, <span class="fl">0.8</span>, <span class="dv">41</span>)       <span class="co"># for FTCS (r = alpha*dt/h^2)</span></span>
+<span id="cb2-538"><a href="#cb2-538" aria-hidden="true" tabindex="-1"></a>lambda_values <span class="op">=</span> np.concatenate((np.linspace(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="dv">25</span>), np.linspace(<span class="fl">1.5</span>, <span class="dv">20</span>, <span class="dv">25</span>)))  <span class="co"># for BE</span></span>
+<span id="cb2-539"><a href="#cb2-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-540"><a href="#cb2-540" aria-hidden="true" tabindex="-1"></a><span class="co"># Precompute eigenvalue datasets</span></span>
+<span id="cb2-541"><a href="#cb2-541" aria-hidden="true" tabindex="-1"></a>mu_ftcs_data <span class="op">=</span> [<span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>r<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span> np.cos(theta_ftcs)) <span class="cf">for</span> r <span class="kw">in</span> r_values]</span>
+<span id="cb2-542"><a href="#cb2-542" aria-hidden="true" tabindex="-1"></a>mu_be_data <span class="op">=</span> [<span class="fl">1.0</span> <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">+</span> <span class="fl">4.0</span> <span class="op">*</span> lam <span class="op">*</span> (np.sin(theta_be)<span class="op">**</span><span class="dv">2</span>)) <span class="cf">for</span> lam <span class="kw">in</span> lambda_values]</span>
+<span id="cb2-543"><a href="#cb2-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-544"><a href="#cb2-544" aria-hidden="true" tabindex="-1"></a><span class="co"># FTCS figure with slider for r</span></span>
+<span id="cb2-545"><a href="#cb2-545" aria-hidden="true" tabindex="-1"></a>fig_ftcs <span class="op">=</span> go.Figure()</span>
+<span id="cb2-546"><a href="#cb2-546" aria-hidden="true" tabindex="-1"></a>fig_ftcs.add_trace(go.Scatter(x<span class="op">=</span>k_ftcs, y<span class="op">=</span>mu_ftcs_data[<span class="dv">0</span>], mode<span class="op">=</span><span class="st">'lines+markers'</span>, name<span class="op">=</span><span class="ss">f"r=</span><span class="sc">{</span>r_values[<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss">"</span>))</span>
+<span id="cb2-547"><a href="#cb2-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-548"><a href="#cb2-548" aria-hidden="true" tabindex="-1"></a>steps <span class="op">=</span> []</span>
+<span id="cb2-549"><a href="#cb2-549" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, r <span class="kw">in</span> <span class="bu">enumerate</span>(r_values):</span>
+<span id="cb2-550"><a href="#cb2-550" aria-hidden="true" tabindex="-1"></a>    step <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb2-551"><a href="#cb2-551" aria-hidden="true" tabindex="-1"></a>        method<span class="op">=</span><span class="st">"update"</span>,</span>
+<span id="cb2-552"><a href="#cb2-552" aria-hidden="true" tabindex="-1"></a>        args<span class="op">=</span>[{<span class="st">"y"</span>: [mu_ftcs_data[idx]]},</span>
+<span id="cb2-553"><a href="#cb2-553" aria-hidden="true" tabindex="-1"></a>              {<span class="st">"title"</span>: <span class="ss">f"FTCS eigenvalues μ_k (r=</span><span class="sc">{</span>r<span class="sc">:.3f}</span><span class="ss">)"</span>}],</span>
+<span id="cb2-554"><a href="#cb2-554" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>r<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb2-555"><a href="#cb2-555" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-556"><a href="#cb2-556" aria-hidden="true" tabindex="-1"></a>    steps.append(step)</span>
+<span id="cb2-557"><a href="#cb2-557" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-558"><a href="#cb2-558" aria-hidden="true" tabindex="-1"></a>sliders <span class="op">=</span> [<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, currentvalue<span class="op">=</span>{<span class="st">"prefix"</span>: <span class="st">"r: "</span>}, pad<span class="op">=</span>{<span class="st">"t"</span>: <span class="dv">50</span>}, steps<span class="op">=</span>steps)]</span>
+<span id="cb2-559"><a href="#cb2-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-560"><a href="#cb2-560" aria-hidden="true" tabindex="-1"></a>fig_ftcs.update_layout(</span>
+<span id="cb2-561"><a href="#cb2-561" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="ss">f"FTCS eigenvalues μ_k (r=</span><span class="sc">{</span>r_values[<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>,</span>
+<span id="cb2-562"><a href="#cb2-562" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"Mode number k"</span>,</span>
+<span id="cb2-563"><a href="#cb2-563" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">"μ_k"</span>,</span>
+<span id="cb2-564"><a href="#cb2-564" aria-hidden="true" tabindex="-1"></a>    sliders<span class="op">=</span>sliders,</span>
+<span id="cb2-565"><a href="#cb2-565" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">2.0</span>, <span class="fl">1.05</span>]),</span>
+<span id="cb2-566"><a href="#cb2-566" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">420</span></span>
+<span id="cb2-567"><a href="#cb2-567" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-568"><a href="#cb2-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-569"><a href="#cb2-569" aria-hidden="true" tabindex="-1"></a><span class="co"># Backward Euler figure with slider for lambda</span></span>
+<span id="cb2-570"><a href="#cb2-570" aria-hidden="true" tabindex="-1"></a>fig_be <span class="op">=</span> go.Figure()</span>
+<span id="cb2-571"><a href="#cb2-571" aria-hidden="true" tabindex="-1"></a>fig_be.add_trace(go.Scatter(x<span class="op">=</span>i_be, y<span class="op">=</span>mu_be_data[<span class="dv">0</span>], mode<span class="op">=</span><span class="st">'lines+markers'</span>, name<span class="op">=</span><span class="ss">f"λ=</span><span class="sc">{</span>lambda_values[<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss">"</span>))</span>
+<span id="cb2-572"><a href="#cb2-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-573"><a href="#cb2-573" aria-hidden="true" tabindex="-1"></a>steps_be <span class="op">=</span> []</span>
+<span id="cb2-574"><a href="#cb2-574" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, lam <span class="kw">in</span> <span class="bu">enumerate</span>(lambda_values):</span>
+<span id="cb2-575"><a href="#cb2-575" aria-hidden="true" tabindex="-1"></a>    step <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb2-576"><a href="#cb2-576" aria-hidden="true" tabindex="-1"></a>        method<span class="op">=</span><span class="st">"update"</span>,</span>
+<span id="cb2-577"><a href="#cb2-577" aria-hidden="true" tabindex="-1"></a>        args<span class="op">=</span>[{<span class="st">"y"</span>: [mu_be_data[idx]]},</span>
+<span id="cb2-578"><a href="#cb2-578" aria-hidden="true" tabindex="-1"></a>              {<span class="st">"title"</span>: <span class="ss">f"Backward Euler eigenvalues μ_i (λ=</span><span class="sc">{</span>lam<span class="sc">:.3f}</span><span class="ss">)"</span>}],</span>
+<span id="cb2-579"><a href="#cb2-579" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>lam<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb2-580"><a href="#cb2-580" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-581"><a href="#cb2-581" aria-hidden="true" tabindex="-1"></a>    steps_be.append(step)</span>
+<span id="cb2-582"><a href="#cb2-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-583"><a href="#cb2-583" aria-hidden="true" tabindex="-1"></a>sliders_be <span class="op">=</span> [<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, currentvalue<span class="op">=</span>{<span class="st">"prefix"</span>: <span class="st">"λ: "</span>}, pad<span class="op">=</span>{<span class="st">"t"</span>: <span class="dv">50</span>}, steps<span class="op">=</span>steps_be)]</span>
+<span id="cb2-584"><a href="#cb2-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-585"><a href="#cb2-585" aria-hidden="true" tabindex="-1"></a>fig_be.update_layout(</span>
+<span id="cb2-586"><a href="#cb2-586" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="ss">f"Backward Euler eigenvalues μ_i (λ=</span><span class="sc">{</span>lambda_values[<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>,</span>
+<span id="cb2-587"><a href="#cb2-587" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"Mode number i"</span>,</span>
+<span id="cb2-588"><a href="#cb2-588" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">"μ_i"</span>,</span>
+<span id="cb2-589"><a href="#cb2-589" aria-hidden="true" tabindex="-1"></a>    sliders<span class="op">=</span>sliders_be,</span>
+<span id="cb2-590"><a href="#cb2-590" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.05</span>, <span class="fl">1.05</span>]),</span>
+<span id="cb2-591"><a href="#cb2-591" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">420</span></span>
+<span id="cb2-592"><a href="#cb2-592" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-593"><a href="#cb2-593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-594"><a href="#cb2-594" aria-hidden="true" tabindex="-1"></a><span class="co"># Show figures</span></span>
+<span id="cb2-595"><a href="#cb2-595" aria-hidden="true" tabindex="-1"></a>fig_ftcs.show()</span>
+<span id="cb2-596"><a href="#cb2-596" aria-hidden="true" tabindex="-1"></a>fig_be.show()</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

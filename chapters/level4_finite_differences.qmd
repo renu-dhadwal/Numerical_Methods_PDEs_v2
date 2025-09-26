@@ -450,58 +450,146 @@ It is only first-order accurate in time (like FTCS), but still second-order in s
 - For large systems, efficient algorithms like the **Thomas algorithm** (specialized Gaussian elimination for tridiagonal matrices) are used.  
 - In practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).
 
-<details>
-<summary><b>Backward Euler Stability Analysis</b></summary>
+::: {.callout-note collapse=true}
+### Why the Backward Euler scheme is unconditionally stable
 
-**Backward Euler scheme for Heat Equation**  
-We discretize the 1D heat equation  
-$u_t = \alpha u_{xx}$  
-with spatial grid spacing $h = L/(m+1)$ and timestep $\Delta t$.
-
-The **Backward Euler (implicit) scheme** is:  
-
+If the update is  
 $$
-\frac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},
+u^{(n+1)} = A u^{(n)},
 $$  
+and the initial error is $e^0$, then after $n$ steps the error is  
+$$
+e^{(n)} = A^n e^0.
+$$
 
-where $A$ is the discrete Laplacian matrix.
+As before, the asymptotic condition is that the **spectral radius** $\rho(A)<1$.
 
-Rearranging:  
+---
 
+#### Eigenvalues of the Backward Euler iteration matrix
+
+The Backward Euler scheme for the heat equation is  
+$$
+\frac{U^{n+1} - U^n}{\Delta t} = \alpha^2 A U^{n+1},
+$$
+which rearranges to  
 $$
 U^{n+1} = (I - \lambda A)^{-1} U^n, 
-\quad \lambda = \frac{\alpha \Delta t}{h^2}.
+\qquad \lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.
+$$
+
+- If $\lambda_i(A)$ are the eigenvalues of the discrete Laplacian $A$,  
+  then the eigenvalues of the iteration matrix are
+$$
+\mu_i = \frac{1}{1 - \lambda_i(A)}.
+$$
+
+- For the 1D Laplacian with Dirichlet BCs,
+$$
+\lambda_i(A) = -4 \sin^2\!\left(\frac{i\pi}{2m}\right), 
+\qquad i=1,2,\dots,m-1.
+$$
+
+Thus
+$$
+\mu_i = \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
 $$
 
 ---
 
-**Eigenvalues of the discrete Laplacian**  
-$\lambda_i(A) = -4 \sin^2\!\left(\dfrac{i\pi}{2m}\right), \quad i=1,2,\dots,m-1.$  
+#### Stability condition
 
----
-
-**Eigenvalues of the iteration matrix**  
-Since eigenvalues transform under matrix inverses:  
-
+- Since $\lambda>0$ and $\sin^2(\cdot)\ge0$,  
+  the denominator is always greater than $1$.  
+- Therefore
 $$
-\mu_i = \frac{1}{1 - \lambda \lambda_i(A)} 
-= \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
+0 < \mu_i < 1, \qquad \forall i.
 $$
-
----
-
-**Stability check**  
-- The denominator is always greater than 1 (since $\lambda>0$ and $\sin^2\ge0$).  
-- Therefore: $0 < \mu_i < 1, \quad \forall i.$  
 
 This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.
 
 ---
 
-**Conclusion**  
-Backward Euler is **unconditionally stable**:  
+✅ Thus, the **Backward Euler scheme is unconditionally stable**:
 - No restriction on $\Delta t$.  
 - Every mode decays monotonically.  
-- In contrast, FTCS needed $\lambda \le 1/2$ for stability.  
+- In contrast, FTCS required $\lambda \le \tfrac{1}{2}$ for stability.
+:::
 
-</details>
+```{python}
+# Interactive Plotly figures for FTCS and Backward Euler eigenvalues
+import numpy as np
+import plotly.graph_objects as go
+
+# Parameters
+N = 60  # number of interior points for FTCS
+m = 60  # use m for backward-euler modes (m-1 modes)
+k_ftcs = np.arange(1, N+1)
+i_be = np.arange(1, m)
+
+# angles
+theta_ftcs = k_ftcs * np.pi / (N+1)
+theta_be = i_be * np.pi / (2*m)
+
+# Parameter grids for sliders
+r_values = np.linspace(0.0, 0.8, 41)       # for FTCS (r = alpha*dt/h^2)
+lambda_values = np.concatenate((np.linspace(0.01, 1, 25), np.linspace(1.5, 20, 25)))  # for BE
+
+# Precompute eigenvalue datasets
+mu_ftcs_data = [1 - 2*r*(1 - np.cos(theta_ftcs)) for r in r_values]
+mu_be_data = [1.0 / (1.0 + 4.0 * lam * (np.sin(theta_be)**2)) for lam in lambda_values]
+
+# FTCS figure with slider for r
+fig_ftcs = go.Figure()
+fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0], mode='lines+markers', name=f"r={r_values[0]:.2f}"))
+
+steps = []
+for idx, r in enumerate(r_values):
+    step = dict(
+        method="update",
+        args=[{"y": [mu_ftcs_data[idx]]},
+              {"title": f"FTCS eigenvalues μ_k (r={r:.3f})"}],
+        label=f"{r:.2f}"
+    )
+    steps.append(step)
+
+sliders = [dict(active=0, currentvalue={"prefix": "r: "}, pad={"t": 50}, steps=steps)]
+
+fig_ftcs.update_layout(
+    title=f"FTCS eigenvalues μ_k (r={r_values[0]:.2f})",
+    xaxis_title="Mode number k",
+    yaxis_title="μ_k",
+    sliders=sliders,
+    yaxis=dict(range=[-2.0, 1.05]),
+    height=420
+)
+
+# Backward Euler figure with slider for lambda
+fig_be = go.Figure()
+fig_be.add_trace(go.Scatter(x=i_be, y=mu_be_data[0], mode='lines+markers', name=f"λ={lambda_values[0]:.2f}"))
+
+steps_be = []
+for idx, lam in enumerate(lambda_values):
+    step = dict(
+        method="update",
+        args=[{"y": [mu_be_data[idx]]},
+              {"title": f"Backward Euler eigenvalues μ_i (λ={lam:.3f})"}],
+        label=f"{lam:.2f}"
+    )
+    steps_be.append(step)
+
+sliders_be = [dict(active=0, currentvalue={"prefix": "λ: "}, pad={"t": 50}, steps=steps_be)]
+
+fig_be.update_layout(
+    title=f"Backward Euler eigenvalues μ_i (λ={lambda_values[0]:.2f})",
+    xaxis_title="Mode number i",
+    yaxis_title="μ_i",
+    sliders=sliders_be,
+    yaxis=dict(range=[-0.05, 1.05]),
+    height=420
+)
+
+# Show figures
+fig_ftcs.show()
+fig_be.show()
+
