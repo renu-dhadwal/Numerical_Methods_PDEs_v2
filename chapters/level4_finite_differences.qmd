@@ -454,50 +454,38 @@ It is only first-order accurate in time (like FTCS), but still second-order in s
 <summary><b>Backward Euler Stability Analysis</b></summary>
 
 ### 1. Backward Euler scheme for Heat Equation
-We discretize the 1D heat equation
-\[
-u_t = \alpha u_{xx}
-\]
-with spatial grid spacing \(h = L/(m+1)\) and timestep \(\Delta t\).
+We discretize the 1D heat equation  
+$u_t = \alpha u_{xx}$  
+with spatial grid spacing $h = L/(m+1)$ and timestep $\Delta t$.
 
-The **Backward Euler (implicit) scheme** is:
-\[
-\frac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},
-\]
-where \(A\) is the discrete Laplacian matrix.
+The **Backward Euler (implicit) scheme** is:  
+$\dfrac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},$  
+where $A$ is the discrete Laplacian matrix.
 
-Rearranging:
-\[
-U^{n+1} = (I - \lambda A)^{-1} U^n, 
-\quad \lambda = \frac{\alpha \Delta t}{h^2}.
-\]
+Rearranging:  
+$U^{n+1} = (I - \lambda A)^{-1} U^n, 
+\quad \lambda = \dfrac{\alpha \Delta t}{h^2}.$
 
 ---
 
 ### 2. Eigenvalues of the discrete Laplacian
-The eigenvalues of \(A\) (with Dirichlet BCs) are:
-\[
-\lambda_i(A) = -4 \sin^2\!\left(\frac{i\pi}{2m}\right), 
-\quad i=1,2,\dots,m-1.
-\]
+The eigenvalues of $A$ (with Dirichlet BCs) are:  
+$\lambda_i(A) = -4 \sin^2\!\left(\dfrac{i\pi}{2m}\right), 
+\quad i=1,2,\dots,m-1.$
 
 ---
 
 ### 3. Eigenvalues of the iteration matrix
-Since eigenvalues transform under matrix inverses:
-\[
-\mu_i = \frac{1}{1 - \lambda \lambda_i(A)} 
-= \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
-\]
+Since eigenvalues transform under matrix inverses:  
+$\mu_i = \dfrac{1}{1 - \lambda \lambda_i(A)} 
+= \dfrac{1}{1 + 4\lambda \sin^2\!\left(\dfrac{i\pi}{2m}\right)}.$
 
 ---
 
 ### 4. Stability check
-- The denominator is always greater than 1 (since \(\lambda>0\) and \(\sin^2\ge0\)).  
-- Therefore:
-\[
-0 < \mu_i < 1, \quad \forall i.
-\]
+- The denominator is always greater than 1 (since $\lambda>0$ and $\sin^2\ge0$).  
+- Therefore:  
+$0 < \mu_i < 1, \quad \forall i.$
 
 This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.
 
@@ -505,65 +493,8 @@ This means all eigenvalues of the iteration matrix lie strictly inside the unit 
 
 ### 5. Conclusion
 Backward Euler is **unconditionally stable**:
-- No restriction on \(\Delta t\).  
+- No restriction on $\Delta t$.  
 - Every mode decays monotonically.  
-- In contrast, FTCS needed \(\lambda \le 1/2\) for stability.  
+- In contrast, FTCS needed $\lambda \le 1/2$ for stability.  
 
 </details>
-
-This will give you **zoomable, hoverable, toggleable curves** directly in your Quarto site.
-
----
-
-## 2. Adding a **slider for λ**
-You can go further and let the reader **move a slider** to change \(\lambda\):
-
-```markdown
-```{python}
-import numpy as np
-import plotly.graph_objects as go
-
-m = 50
-i = np.arange(1, m)
-theta = i * np.pi / (2*m)
-
-# Define range of lambda values
-lambda_vals = np.linspace(0.1, 10, 50)
-
-# Precompute
-mu_data = [
-    1.0 / (1.0 + 4.0 * lam * (np.sin(theta)**2)) 
-    for lam in lambda_vals
-]
-
-# Make figure with slider
-fig = go.Figure()
-
-# Initial plot
-fig.add_trace(go.Scatter(x=i, y=mu_data[0], mode='lines+markers'))
-
-# Slider steps
-steps = []
-for idx, lam in enumerate(lambda_vals):
-    step = dict(
-        method="update",
-        args=[{"y": [mu_data[idx]]},
-              {"title": f"Backward Euler eigenvalues μ_i (λ={lam:.2f})"}],
-        label=f"{lam:.2f}"
-    )
-    steps.append(step)
-
-sliders = [dict(
-    active=0,
-    currentvalue={"prefix": "λ: "},
-    steps=steps
-)]
-
-fig.update_layout(
-    sliders=sliders,
-    yaxis=dict(range=[-0.05, 1.05]),
-    xaxis_title="Mode number i",
-    yaxis_title="μ_i"
-)
-
-fig.show()
