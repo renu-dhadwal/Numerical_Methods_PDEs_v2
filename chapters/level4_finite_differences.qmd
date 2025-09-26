@@ -579,3 +579,23 @@ fig_be.show()
 - **FTCS plot**: notice that for $\lambda > 0.5$ some eigenvalues leave $[-1,1]$, indicating instability.  
 - **Backward Euler plot**: eigenvalues always remain in $(0,1)$, showing unconditional stability.  
 - Hover over points to see their values, zoom by dragging, double-click to reset.
+
+# Crank–Nicolson scheme
+
+**Pavni:** We’ve studied FTCS and Backward Euler for the heat equation. FTCS was simple, but had that annoying stability restriction $\lambda \leq \tfrac{1}{2}$.  
+
+**Acharya:** Yes. And Backward Euler solved that problem — it was unconditionally stable.  
+
+**Pavni:** But both of them are only *first-order accurate in time*, right?  
+
+**Acharya:** Exactly. And that’s a problem if we want more accuracy without shrinking $\Delta t$ too much.  
+
+**Pavni:** So FTCS is unstable unless $\lambda \leq \tfrac{1}{2}$, and Backward Euler is stable but too diffusive. We’re still missing something better.  
+
+**Acharya:** That’s where the **Crank–Nicolson scheme** comes in. The idea is to apply the trapezoidal rule in time — using the *average* of the spatial derivative at times $n$ and $n+1$.  
+
+**Pavni:** So instead of evaluating only at the old time (FTCS) or the new time (Backward Euler), we take a balance of both?  
+
+**Acharya:** Exactly. That trick makes the scheme **second-order accurate in time** and **unconditionally stable**. It’s like combining the strengths of both FTCS and Backward Euler.  
+
+**Pavni:** Ah, so Crank–Nicolson is really about accuracy as well as stability. That sounds worth deriving!  
