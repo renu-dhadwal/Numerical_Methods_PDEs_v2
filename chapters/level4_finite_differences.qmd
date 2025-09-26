@@ -516,81 +516,67 @@ This means all eigenvalues of the iteration matrix lie strictly inside the unit 
 - In contrast, FTCS required $\lambda \le \tfrac{1}{2}$ for stability.
 :::
 
-```
-
+```{python}
+#| echo: false
 import numpy as np
 import plotly.graph_objects as go
 
 # Parameters
-N = 60  # number of interior points for FTCS
-m = 60  # use m for backward-euler modes (m-1 modes)
+N = 60
+m = 60
 k_ftcs = np.arange(1, N+1)
 i_be = np.arange(1, m)
 
-# angles
 theta_ftcs = k_ftcs * np.pi / (N+1)
 theta_be = i_be * np.pi / (2*m)
 
-# Parameter grids for sliders
-r_values = np.linspace(0.0, 0.8, 41)       # for FTCS (r = alpha*dt/h^2)
-lambda_values = np.concatenate((np.linspace(0.01, 1, 25), np.linspace(1.5, 20, 25)))  # for BE
+# Parameter grids
+r_values = np.linspace(0.0, 0.8, 41)
+lambda_values = np.concatenate((np.linspace(0.01, 1, 25),
+                                np.linspace(1.5, 20, 25)))
 
-# Precompute eigenvalue datasets
 mu_ftcs_data = [1 - 2*r*(1 - np.cos(theta_ftcs)) for r in r_values]
-mu_be_data = [1.0 / (1.0 + 4.0 * lam * (np.sin(theta_be)**2)) for lam in lambda_values]
+mu_be_data   = [1.0 / (1.0 + 4.0 * lam * (np.sin(theta_be)**2))
+                for lam in lambda_values]
 
-# FTCS figure with slider for r
+# --- FTCS figure ---
 fig_ftcs = go.Figure()
-fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0], mode='lines+markers'))
-
+fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0],
+                              mode='lines+markers'))
 steps = []
 for idx, r in enumerate(r_values):
-    step = dict(
-        method="update",
-        args=[{"y": [mu_ftcs_data[idx]]},
-              {"title": f"FTCS eigenvalues μ_k (r={r:.3f})"}],
-        label=f"{r:.2f}"
-    )
-    steps.append(step)
+    steps.append(dict(method="update",
+                      args=[{"y":[mu_ftcs_data[idx]]},
+                            {"title": f"FTCS eigenvalues μ_k (r={r:.3f})"}],
+                      label=f"{r:.2f}"))
+fig_ftcs.update_layout(title=f"FTCS eigenvalues μ_k (r={r_values[0]:.2f})",
+                       xaxis_title="Mode number k",
+                       yaxis_title="μ_k",
+                       sliders=[dict(active=0,
+                                     currentvalue={"prefix":"r: "},
+                                     steps=steps)],
+                       yaxis=dict(range=[-2.0,1.05]),
+                       height=420)
 
-sliders = [dict(active=0, currentvalue={"prefix": "r: "}, pad={"t": 50}, steps=steps)]
-
-fig_ftcs.update_layout(
-    title=f"FTCS eigenvalues μ_k (r={r_values[0]:.2f})",
-    xaxis_title="Mode number k",
-    yaxis_title="μ_k",
-    sliders=sliders,
-    yaxis=dict(range=[-2.0, 1.05]),
-    height=420
-)
-
-# Backward Euler figure with slider for lambda
+# --- Backward Euler figure ---
 fig_be = go.Figure()
 fig_be.add_trace(go.Scatter(x=i_be, y=mu_be_data[0], mode='lines+markers'))
-
 steps_be = []
 for idx, lam in enumerate(lambda_values):
-    step = dict(
-        method="update",
-        args=[{"y": [mu_be_data[idx]]},
-              {"title": f"Backward Euler eigenvalues μ_i (λ={lam:.3f})"}],
-        label=f"{lam:.2f}"
-    )
-    steps_be.append(step)
+    steps_be.append(dict(method="update",
+                         args=[{"y":[mu_be_data[idx]]},
+                               {"title": f"Backward Euler eigenvalues μ_i (λ={lam:.3f})"}],
+                         label=f"{lam:.2f}"))
+fig_be.update_layout(title=f"Backward Euler eigenvalues μ_i (λ={lambda_values[0]:.2f})",
+                     xaxis_title="Mode number i",
+                     yaxis_title="μ_i",
+                     sliders=[dict(active=0,
+                                   currentvalue={"prefix":"λ: "},
+                                   steps=steps_be)],
+                     yaxis=dict(range=[-0.05,1.05]),
+                     height=420)
 
-sliders_be = [dict(active=0, currentvalue={"prefix": "λ: "}, pad={"t": 50}, steps=steps_be)]
-
-fig_be.update_layout(
-    title=f"Backward Euler eigenvalues μ_i (λ={lambda_values[0]:.2f})",
-    xaxis_title="Mode number i",
-    yaxis_title="μ_i",
-    sliders=sliders_be,
-    yaxis=dict(range=[-0.05, 1.05]),
-    height=420
-)
-
-# Show both figures
+# Show plots
 fig_ftcs.show()
 fig_be.show()
-
 ```
