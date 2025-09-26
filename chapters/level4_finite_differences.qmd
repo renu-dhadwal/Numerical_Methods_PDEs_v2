@@ -516,8 +516,8 @@ This means all eigenvalues of the iteration matrix lie strictly inside the unit 
 - In contrast, FTCS required $\lambda \le \tfrac{1}{2}$ for stability.
 :::
 
-```{python}
-# Interactive Plotly figures for FTCS and Backward Euler eigenvalues
+```
+
 import numpy as np
 import plotly.graph_objects as go
 
@@ -541,7 +541,7 @@ mu_be_data = [1.0 / (1.0 + 4.0 * lam * (np.sin(theta_be)**2)) for lam in lambda_
 
 # FTCS figure with slider for r
 fig_ftcs = go.Figure()
-fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0], mode='lines+markers', name=f"r={r_values[0]:.2f}"))
+fig_ftcs.add_trace(go.Scatter(x=k_ftcs, y=mu_ftcs_data[0], mode='lines+markers'))
 
 steps = []
 for idx, r in enumerate(r_values):
@@ -566,7 +566,7 @@ fig_ftcs.update_layout(
 
 # Backward Euler figure with slider for lambda
 fig_be = go.Figure()
-fig_be.add_trace(go.Scatter(x=i_be, y=mu_be_data[0], mode='lines+markers', name=f"λ={lambda_values[0]:.2f}"))
+fig_be.add_trace(go.Scatter(x=i_be, y=mu_be_data[0], mode='lines+markers'))
 
 steps_be = []
 for idx, lam in enumerate(lambda_values):
@@ -589,7 +589,8 @@ fig_be.update_layout(
     height=420
 )
 
-# Show figures
+# Show both figures
 fig_ftcs.show()
 fig_be.show()
 
+```
