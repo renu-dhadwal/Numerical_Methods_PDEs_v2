@@ -228,8 +228,6 @@ window.Quarto = {
   <li><a href="#matrix-form" id="toc-matrix-form" class="nav-link" data-scroll-target="#matrix-form"><span class="header-section-number">5.5.2</span> Matrix Form</a></li>
   <li><a href="#stability" id="toc-stability" class="nav-link" data-scroll-target="#stability"><span class="header-section-number">5.5.3</span> Stability</a></li>
   <li><a href="#remarks-1" id="toc-remarks-1" class="nav-link" data-scroll-target="#remarks-1"><span class="header-section-number">5.5.4</span> Remarks</a></li>
-  <li><a href="#backward-euler-scheme-for-heat-equation" id="toc-backward-euler-scheme-for-heat-equation" class="nav-link" data-scroll-target="#backward-euler-scheme-for-heat-equation"><span class="header-section-number">5.5.5</span> 1. Backward Euler scheme for Heat Equation</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">5.5.6</span> 5. Conclusion</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -496,7 +494,7 @@ b =
 <p>Let us now implement the method in Python and compare with the exact solution for <span class="math inline">\(f(x)=\sin(\pi x)\)</span>: <span class="math display">\[
 u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
 \]</span></p>
-<div id="4eef5ef6" class="cell" data-execution_count="1">
+<div id="269472ea" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -652,36 +650,42 @@ It is only first-order accurate in time (like FTCS), but still second-order in s
 <summary>
 <b>Backward Euler Stability Analysis</b>
 </summary>
-</details></section>
-<section id="backward-euler-scheme-for-heat-equation" class="level3" data-number="5.5.5">
-<h3 data-number="5.5.5" class="anchored" data-anchor-id="backward-euler-scheme-for-heat-equation"><span class="header-section-number">5.5.5</span> 1. Backward Euler scheme for Heat Equation</h3>
-<p>We discretize the 1D heat equation<br>
+<p><strong>Backward Euler scheme for Heat Equation</strong><br>
+We discretize the 1D heat equation<br>
 <span class="math inline">\(u_t = \alpha u_{xx}\)</span><br>
 with spatial grid spacing <span class="math inline">\(h = L/(m+1)\)</span> and timestep <span class="math inline">\(\Delta t\)</span>.</p>
-<p>The <strong>Backward Euler (implicit) scheme</strong> is:<br>
-<span class="math inline">\(\dfrac{U^{n+1} - U^n}{\Delta t} = \alpha^2 A U^{n+1},\)</span><br>
-where <span class="math inline">\(A\)</span> is the discrete Laplacian matrix.</p>
-<p>Rearranging:<br>
-<span class="math inline">\(U^{n+1} = (I - \lambda A)^{-1} U^n,
-\quad \lambda = \dfrac{\alpha \Delta t}{h^2}.\)</span></p>
-<p>The eigenvalues of <span class="math inline">\(A\)</span> (with Dirichlet BCs) are:<br>
-<span class="math inline">\(\lambda_i(A) = -4 \sin^2\!\left(\dfrac{i\pi}{2m}\right),
-\quad i=1,2,\dots,m-1.\)</span></p>
-<p>Eigenvalues of the iteration matrix Since eigenvalues transform under matrix inverses:<br>
-<span class="math inline">\(\mu_i = \dfrac{1}{1 - \lambda \lambda_i(A)}
-= \dfrac{1}{1 + 4\lambda \sin^2\!\left(\dfrac{i\pi}{2m}\right)}.\)</span></p>
-<p>Stability check - The denominator is always greater than 1 (since <span class="math inline">\(\lambda&gt;0\)</span> and <span class="math inline">\(\sin^2\ge0\)</span>).<br>
-- Therefore:<br>
-<span class="math inline">\(0 &lt; \mu_i &lt; 1, \quad \forall i.\)</span></p>
+<p>The <strong>Backward Euler (implicit) scheme</strong> is:</p>
+<p><span class="math display">\[
+\frac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},
+\]</span></p>
+<p>where <span class="math inline">\(A\)</span> is the discrete Laplacian matrix.</p>
+<p>Rearranging:</p>
+<p><span class="math display">\[
+U^{n+1} = (I - \lambda A)^{-1} U^n,
+\quad \lambda = \frac{\alpha \Delta t}{h^2}.
+\]</span></p>
+<hr>
+<p><strong>Eigenvalues of the discrete Laplacian</strong><br>
+<span class="math inline">\(\lambda_i(A) = -4 \sin^2\!\left(\dfrac{i\pi}{2m}\right), \quad i=1,2,\dots,m-1.\)</span></p>
+<hr>
+<p><strong>Eigenvalues of the iteration matrix</strong><br>
+Since eigenvalues transform under matrix inverses:</p>
+<p><span class="math display">\[
+\mu_i = \frac{1}{1 - \lambda \lambda_i(A)}
+= \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
+\]</span></p>
+<hr>
+<p><strong>Stability check</strong><br>
+- The denominator is always greater than 1 (since <span class="math inline">\(\lambda&gt;0\)</span> and <span class="math inline">\(\sin^2\ge0\)</span>).<br>
+- Therefore: <span class="math inline">\(0 &lt; \mu_i &lt; 1, \quad \forall i.\)</span></p>
 <p>This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.</p>
 <hr>
-</section>
-<section id="conclusion" class="level3" data-number="5.5.6">
-<h3 data-number="5.5.6" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">5.5.6</span> 5. Conclusion</h3>
-Backward Euler is <strong>unconditionally stable</strong>: - No restriction on <span class="math inline">\(\Delta t\)</span>.<br>
+<p><strong>Conclusion</strong><br>
+Backward Euler is <strong>unconditionally stable</strong>:<br>
+- No restriction on <span class="math inline">\(\Delta t\)</span>.<br>
 - Every mode decays monotonically.<br>
-- In contrast, FTCS needed <span class="math inline">\(\lambda \le 1/2\)</span> for stability.
-
+- In contrast, FTCS needed <span class="math inline">\(\lambda \le 1/2\)</span> for stability.</p>
+</details>
 
 
 <!-- -->
@@ -1605,43 +1609,58 @@ Backward Euler is <strong>unconditionally stable</strong>: - No restriction on <
 <span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">b</span><span class="dt">&gt;</span>Backward Euler Stability Analysis<span class="dt">&lt;/</span><span class="kw">b</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
 <span id="cb2-455"><a href="#cb2-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Backward Euler scheme for Heat Equation</span></span>
+<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a>**Backward Euler scheme for Heat Equation**  </span>
 <span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a>We discretize the 1D heat equation  </span>
 <span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>$u_t = \alpha u_{xx}$  </span>
 <span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a>with spatial grid spacing $h = L/(m+1)$ and timestep $\Delta t$.</span>
 <span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a>The **Backward Euler (implicit) scheme** is:  </span>
-<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a>$\dfrac{U^{n+1} - U^n}{\Delta t} = \alpha^2 A U^{n+1},$  </span>
-<span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a>where $A$ is the discrete Laplacian matrix.</span>
-<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>Rearranging:  </span>
-<span id="cb2-466"><a href="#cb2-466" aria-hidden="true" tabindex="-1"></a>$U^{n+1} = (I - \lambda A)^{-1} U^n, </span>
-<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>\quad \lambda = \dfrac{\alpha \Delta t}{h^2}.$</span>
+<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a>\frac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},</span>
+<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-466"><a href="#cb2-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>where $A$ is the discrete Laplacian matrix.</span>
 <span id="cb2-468"><a href="#cb2-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a>The eigenvalues of $A$ (with Dirichlet BCs) are:  </span>
-<span id="cb2-470"><a href="#cb2-470" aria-hidden="true" tabindex="-1"></a>$\lambda_i(A) = -4 \sin^2<span class="sc">\!</span>\left(\dfrac{i\pi}{2m}\right), </span>
-<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a>\quad i=1,2,\dots,m-1.$</span>
-<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a>Eigenvalues of the iteration matrix</span>
-<span id="cb2-474"><a href="#cb2-474" aria-hidden="true" tabindex="-1"></a>Since eigenvalues transform under matrix inverses:  </span>
-<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a>$\mu_i = \dfrac{1}{1 - \lambda \lambda_i(A)} </span>
-<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a>= \dfrac{1}{1 + 4\lambda \sin^2<span class="sc">\!</span>\left(\dfrac{i\pi}{2m}\right)}.$</span>
-<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a> Stability check</span>
-<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The denominator is always greater than 1 (since $\lambda&gt;0$ and $\sin^2\ge0$).  </span>
-<span id="cb2-480"><a href="#cb2-480" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Therefore:  </span>
-<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a>$0 &lt; \mu_i &lt; 1, \quad \forall i.$</span>
+<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a>Rearranging:  </span>
+<span id="cb2-470"><a href="#cb2-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a>U^{n+1} = (I - \lambda A)^{-1} U^n, </span>
+<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a>\quad \lambda = \frac{\alpha \Delta t}{h^2}.</span>
+<span id="cb2-474"><a href="#cb2-474" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a>**Eigenvalues of the discrete Laplacian**  </span>
+<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a>$\lambda_i(A) = -4 \sin^2<span class="sc">\!</span>\left(\dfrac{i\pi}{2m}\right), \quad i=1,2,\dots,m-1.$  </span>
+<span id="cb2-480"><a href="#cb2-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb2-482"><a href="#cb2-482" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a>This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.</span>
-<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5. Conclusion</span></span>
-<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a>Backward Euler is **unconditionally stable**:</span>
-<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No restriction on $\Delta t$.  </span>
-<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every mode decays monotonically.  </span>
-<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In contrast, FTCS needed $\lambda \le 1/2$ for stability.  </span>
-<span id="cb2-492"><a href="#cb2-492" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a>**Eigenvalues of the iteration matrix**  </span>
+<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a>Since eigenvalues transform under matrix inverses:  </span>
+<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a>\mu_i = \frac{1}{1 - \lambda \lambda_i(A)} </span>
+<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a>= \frac{1}{1 + 4\lambda \sin^2<span class="sc">\!</span>\left(\frac{i\pi}{2m}\right)}.</span>
+<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-492"><a href="#cb2-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-493"><a href="#cb2-493" aria-hidden="true" tabindex="-1"></a>**Stability check**  </span>
+<span id="cb2-494"><a href="#cb2-494" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The denominator is always greater than 1 (since $\lambda&gt;0$ and $\sin^2\ge0$).  </span>
+<span id="cb2-495"><a href="#cb2-495" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Therefore: $0 &lt; \mu_i &lt; 1, \quad \forall i.$  </span>
+<span id="cb2-496"><a href="#cb2-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-497"><a href="#cb2-497" aria-hidden="true" tabindex="-1"></a>This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.</span>
+<span id="cb2-498"><a href="#cb2-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-499"><a href="#cb2-499" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-500"><a href="#cb2-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-501"><a href="#cb2-501" aria-hidden="true" tabindex="-1"></a>**Conclusion**  </span>
+<span id="cb2-502"><a href="#cb2-502" aria-hidden="true" tabindex="-1"></a>Backward Euler is **unconditionally stable**:  </span>
+<span id="cb2-503"><a href="#cb2-503" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No restriction on $\Delta t$.  </span>
+<span id="cb2-504"><a href="#cb2-504" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every mode decays monotonically.  </span>
+<span id="cb2-505"><a href="#cb2-505" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In contrast, FTCS needed $\lambda \le 1/2$ for stability.  </span>
+<span id="cb2-506"><a href="#cb2-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-507"><a href="#cb2-507" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
