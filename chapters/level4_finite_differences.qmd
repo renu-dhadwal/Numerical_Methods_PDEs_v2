@@ -449,3 +449,64 @@ It is only first-order accurate in time (like FTCS), but still second-order in s
 - Backward Euler is more robust but requires solving a linear system at each step.  
 - For large systems, efficient algorithms like the **Thomas algorithm** (specialized Gaussian elimination for tridiagonal matrices) are used.  
 - In practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).
+
+<details>
+<summary><b>Backward Euler Stability Analysis</b></summary>
+
+### 1. Backward Euler scheme for Heat Equation
+We discretize the 1D heat equation
+\[
+u_t = \alpha u_{xx}
+\]
+with spatial grid spacing \(h = L/(m+1)\) and timestep \(\Delta t\).
+
+The **Backward Euler (implicit) scheme** is:
+\[
+\frac{U^{n+1} - U^n}{\Delta t} = \alpha A U^{n+1},
+\]
+where \(A\) is the discrete Laplacian matrix.
+
+Rearranging:
+\[
+U^{n+1} = (I - \lambda A)^{-1} U^n, 
+\quad \lambda = \frac{\alpha \Delta t}{h^2}.
+\]
+
+---
+
+### 2. Eigenvalues of the discrete Laplacian
+The eigenvalues of \(A\) (with Dirichlet BCs) are:
+\[
+\lambda_i(A) = -4 \sin^2\!\left(\frac{i\pi}{2m}\right), 
+\quad i=1,2,\dots,m-1.
+\]
+
+---
+
+### 3. Eigenvalues of the iteration matrix
+Since eigenvalues transform under matrix inverses:
+\[
+\mu_i = \frac{1}{1 - \lambda \lambda_i(A)} 
+= \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
+\]
+
+---
+
+### 4. Stability check
+- The denominator is always greater than 1 (since \(\lambda>0\) and \(\sin^2\ge0\)).  
+- Therefore:
+\[
+0 < \mu_i < 1, \quad \forall i.
+\]
+
+This means all eigenvalues of the iteration matrix lie strictly inside the unit circle.
+
+---
+
+### 5. Conclusion
+Backward Euler is **unconditionally stable**:
+- No restriction on \(\Delta t\).  
+- Every mode decays monotonically.  
+- In contrast, FTCS needed \(\lambda \le 1/2\) for stability.  
+
+</details>
