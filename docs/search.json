@@ -4,9 +4,9 @@
     "href": "index.html",
     "title": "Numerical Methods for PDEs: An Interactive Journey",
     "section": "",
-    "text": "0.1 title: “Numerical Methods for PDEs: An Interactive Journey”",
+    "text": "0.1 Numerical Methods for PDEs: An Interactive Journey",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>title: \"Numerical Methods for PDEs: An Interactive Journey\"</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Numerical Methods for PDEs: An Interactive Journey</span>"
     ]
   },
   {
@@ -14,9 +14,9 @@
     "href": "index.html#levels",
     "title": "Numerical Methods for PDEs: An Interactive Journey",
     "section": "1.1 Levels",
-    "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs\nLevel 3: Physical Interpretation and boundary conditions\nLevel 4: Finite Difference Methods- Introduction",
+    "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs\nLevel 3: Physical Interpretation and boundary conditions\nLevel 4: Finite Difference Methods- Introduction with application to the Heat Eqaution",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>title: \"Numerical Methods for PDEs: An Interactive Journey\"</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Numerical Methods for PDEs: An Interactive Journey</span>"
     ]
   },
   {
