@@ -1,0 +1,66 @@
+#Level 4: Hyperbolic PDEs: Wave Equation
+
+**Pavni:** We’ve studied the heat equation as an example of a parabolic PDE. What about hyperbolic ones? Where do we begin?
+
+**Acharya:** A natural starting point is the **wave equation**:  
+$$
+u_{tt} = c^2 u_{xx}.
+$$
+
+**Pavni:** Oh! That’s the equation for vibrations of a string, right?
+
+**Acharya:** Exactly. Imagine a taut string. Newton’s law applied to a small element gives:  
+$$
+\rho u_{tt} = T u_{xx},
+$$  
+where $T$ is tension and $\rho$ is density. Dividing through, we get  
+$$
+u_{tt} = \left(\tfrac{T}{\rho}\right) u_{xx},
+$$  
+so the wave speed is $c = \sqrt{T/\rho}$.
+
+**Pavni:** So physically, it describes oscillations moving along the string. But why do we call this *hyperbolic*?
+
+**Acharya:** Let’s look at the general second-order PDE in two variables:  
+$$
+A u_{xx} + 2B u_{xt} + C u_{tt} = 0.
+$$  
+Its type depends on the discriminant $D = B^2 - AC$.  
+- If $D < 0$, it’s elliptic.  
+- If $D = 0$, parabolic.  
+- If $D > 0$, hyperbolic.
+
+**Pavni:** For the wave equation, we have $A = -c^2, B=0, C=1$. Then  
+$$
+D = B^2 - AC = c^2 > 0.
+$$
+
+**Acharya:** Exactly — that’s why it’s **hyperbolic**.
+
+**Pavni:** Does that mean it has some special geometry?
+
+**Acharya:** Yes. Notice how the operator factors:  
+$$
+u_{tt} - c^2 u_{xx} = (\partial_t - c\partial_x)(\partial_t + c\partial_x) u.
+$$  
+This reveals the **characteristics**: the lines  
+$$
+x - ct = \text{constant}, \quad x + ct = \text{constant}.
+$$
+
+**Pavni:** So along those lines, the solution behaves in a simple way?
+
+**Acharya:** Precisely. The general solution is  
+$$
+u(x,t) = f(x - ct) + g(x + ct).
+$$  
+It’s just the sum of two waves, one traveling right, one traveling left.
+
+**Pavni:** That’s beautiful! It really captures the idea of finite-speed propagation.
+
+**Acharya:** Indeed. If you disturb the string at one point, the influence spreads only within the cone $|x-x_0| \leq c(t-t_0)$.  
+That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unlike diffusion where influence is instant.
+
+**Pavni:** So the wave equation is the prototype for hyperbolic PDEs?
+
+**Acharya:** Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.
