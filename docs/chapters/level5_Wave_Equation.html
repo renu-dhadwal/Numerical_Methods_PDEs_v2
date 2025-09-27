@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>level5_wave_equation – Numerical Methods for PDEs: An Interactive Journey</title>
+<title>6&nbsp; Level 4: Hyperbolic PDEs: Wave Equation – Numerical Methods for PDEs: An Interactive Journey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level5_Wave_Equation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">level5_Wave_Equation.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level5_Wave_Equation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 4: Hyperbolic PDEs: Wave Equation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -207,7 +207,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/level5_Wave_Equation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">level5_Wave_Equation.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 4: Hyperbolic PDEs: Wave Equation</span></span></a>
   </div>
 </li>
     </ul>
@@ -219,12 +219,27 @@ window.Quarto = {
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 4: Hyperbolic PDEs: Wave Equation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<p>#Level 4: Hyperbolic PDEs: Wave Equation</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <p><strong>Pavni:</strong> We’ve studied the heat equation as an example of a parabolic PDE. What about hyperbolic ones? Where do we begin?</p>
 <p><strong>Acharya:</strong> A natural starting point is the <strong>wave equation</strong>:<br>
 <span class="math display">\[
@@ -273,7 +288,7 @@ It’s just the sum of two waves, one traveling right, one traveling left.</p>
 <p><strong>Acharya:</strong> Indeed. If you disturb the string at one point, the influence spreads only within the cone <span class="math inline">\(|x-x_0| \leq c(t-t_0)\)</span>.<br>
 That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unlike diffusion where influence is instant.</p>
 <p><strong>Pavni:</strong> So the wave equation is the prototype for hyperbolic PDEs?</p>
-<p><strong>Acharya:</strong> Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.</p>
+<strong>Acharya:</strong> Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.
 
 
 <!-- -->
@@ -740,7 +755,7 @@ That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unli
   <div class="nav-page nav-page-next">
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>#Level 4: Hyperbolic PDEs: Wave Equation</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Level 4: Hyperbolic PDEs: Wave Equation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>**Pavni:** We’ve studied the heat equation as an example of a parabolic PDE. What about hyperbolic ones? Where do we begin?</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -805,7 +820,25 @@ That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unli
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the wave equation is the prototype for hyperbolic PDEs?</span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>\begin{tikzpicture}<span class="co">[</span><span class="ot">scale=1.2</span><span class="co">]</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  % Axes</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  \draw<span class="co">[</span><span class="ot">-&gt;</span><span class="co">]</span> (-2,0) -- (2,0) node<span class="co">[</span><span class="ot">right</span><span class="co">]</span> {$x$};</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>  \draw<span class="co">[</span><span class="ot">-&gt;</span><span class="co">]</span> (0,0) -- (0,3) node<span class="co">[</span><span class="ot">above</span><span class="co">]</span> {$t$};</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  % Point of disturbance</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  \fill (0,0) circle (2pt) node<span class="co">[</span><span class="ot">below left</span><span class="co">]</span> {$(x_0,t_0)$};</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  % Characteristics</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  \draw<span class="co">[</span><span class="ot">thick,red</span><span class="co">]</span> (0,0) -- (1.5,3) node<span class="co">[</span><span class="ot">right</span><span class="co">]</span> {$x = x_0 + c(t-t_0)$};</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>  \draw<span class="co">[</span><span class="ot">thick,red</span><span class="co">]</span> (0,0) -- (-1.5,3) node<span class="co">[</span><span class="ot">left</span><span class="co">]</span> {$x = x_0 - c(t-t_0)$};</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  % Shaded influence region</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>  \fill<span class="co">[</span><span class="ot">blue!20,opacity=0.5</span><span class="co">]</span> (-1.5,3) -- (0,0) -- (1.5,3) -- cycle;</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  % Labels</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>  \node at (0,1.8) {Region of influence};</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>\end{tikzpicture}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
