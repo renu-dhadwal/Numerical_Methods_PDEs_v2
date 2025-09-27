@@ -599,7 +599,6 @@ fig_be.show()
 **Acharya:** Exactly. That trick makes the scheme **second-order accurate in time** and **unconditionally stable**. It’s like combining the strengths of both FTCS and Backward Euler.  
 
 **Pavni:** Ah, so Crank–Nicolson is really about accuracy as well as stability. That sounds worth deriving!  
-
 **Pavni:** Let's derive Crank–Nicolson starting from the heat equation $u_t=\alpha^2 u_{xx}$. How do we get the time-centered scheme?
 
 **Acharya:** Start by integrating the PDE in time over one step, from $t^n$ to $t^{n+1}$ at a fixed $x$:
@@ -639,15 +638,43 @@ $$
 
 **Pavni:** Introduce the nondimensional parameter $\lambda$?
 
-**Acharya:** Yes set $\displaystyle \lambda=\frac{\alpha^2\Delta t}{(\Delta x)^2}$. Then
+**Acharya:** Yes, set $\displaystyle \lambda=\frac{\alpha^2\Delta t}{(\Delta x)^2}$. Then
 $$
 U^{n+1}-U^n = \frac{\lambda}{2}\big(AU^n + AU^{n+1}\big) + \text{(truncation terms)}.
 $$
-Bring $U^{n+1}$ terms to the left to obtain the matrix form
+Bring $U^{n+1}$ terms to the left to obtain
 $$
-\boxed{\;\Big(I-\tfrac{\lambda}{2}A\Big)U^{n+1} = \Big(I+\tfrac{\lambda}{2}A\Big)U^n\;},
+\Big(I-\tfrac{\lambda}{2}A\Big)U^{n+1} = \Big(I+\tfrac{\lambda}{2}A\Big)U^n.
 $$
-with truncation errors $O(\Delta t^3)$ (time quadrature) and $O(\Delta t\,\Delta x^2)$ (spatial discretization of each $u_{xx}$). After dividing by $\Delta t$ and using standard consistency+stability arguments, CN is second-order in time and second-order in space (global error $O(\Delta t^2+\Delta x^2)$).
+
+Now, let’s write these matrices explicitly. The left-hand side matrix is
+$$
+L = I-\tfrac{\lambda}{2}A =
+\begin{bmatrix}
+1+\lambda & -\tfrac{\lambda}{2} & 0 & \cdots & 0\\
+-\tfrac{\lambda}{2} & 1+\lambda & -\tfrac{\lambda}{2} & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & -\tfrac{\lambda}{2} & 1+\lambda & -\tfrac{\lambda}{2}\\
+0 & \cdots & 0 & -\tfrac{\lambda}{2} & 1+\lambda
+\end{bmatrix}.
+$$
+
+The right-hand side matrix is
+$$
+R = I+\tfrac{\lambda}{2}A =
+\begin{bmatrix}
+1-\lambda & \tfrac{\lambda}{2} & 0 & \cdots & 0\\
+\tfrac{\lambda}{2} & 1-\lambda & \tfrac{\lambda}{2} & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & \tfrac{\lambda}{2} & 1-\lambda & \tfrac{\lambda}{2}\\
+0 & \cdots & 0 & \tfrac{\lambda}{2} & 1-\lambda
+\end{bmatrix}.
+$$
+
+So the Crank–Nicolson scheme can be written as
+$$
+\boxed{\,L\,U^{n+1} = R\,U^n\,}.
+$$
 
 **Pavni:** Great — and the eigenvalue form and stability follow from the spectral map of $A$.
 
@@ -661,6 +688,7 @@ $$
 {1+2\lambda \sin^2\!\big(\tfrac{k\pi}{2(N+1)}\big)}.
 $$
 This shows $|\mu_k|\le1$, so CN is unconditionally stable.
+
 
 ::: {.callout-note collapse=true}
 ### Crank–Nicolson: derivation summary & stability
