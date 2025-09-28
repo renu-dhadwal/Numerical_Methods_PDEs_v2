@@ -84,4 +84,5 @@ That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unli
   % Labels
   \node at (0,1.8) {Region of influence};
 \end{tikzpicture}
+
 ```
