@@ -64,6 +64,8 @@ That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unli
 **Pavni:** So the wave equation is the prototype for hyperbolic PDEs?
 
 **Acharya:** Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.
+
+```
 \begin{tikzpicture}[scale=1.2]
   % Axes
   \draw[->] (-2,0) -- (2,0) node[right] {$x$};
@@ -82,3 +84,4 @@ That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unli
   % Labels
   \node at (0,1.8) {Region of influence};
 \end{tikzpicture}
+```
