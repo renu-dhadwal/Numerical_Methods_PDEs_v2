@@ -54,7 +54,6 @@ Dividing by $\Delta t$ gives $q = \rho v$.
 </details>
 
 ---
-
 ## ⚙️ Conservation of Cars
 
 **Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  
@@ -66,28 +65,66 @@ $$
 
 **Pavni:** That looks like conservation of mass!
 
-**Acharya:** Exactly — just conservation of the *number of cars*.  
-Simplifying, we get the **conservation equation**:
+**Acharya:** Exactly — just conservation of *number of cars*.  
+The total number of cars in the interval changes only because of the *net flow* at the boundaries.  
+
+Now, let’s use the **Fundamental Theorem of Calculus** to convert this integral form into a *local differential equation*.
+
+---
+
+### 🔹 Step 1: Apply the Fundamental Theorem of Calculus
+
+By the Fundamental Theorem of Calculus,
+
 $$
-\rho_t + q_x = 0.
+q(x_2,t) - q(x_1,t) = \int_{x_1}^{x_2} q_x(x,t)\,dx.
+$$
+
+Substitute this into our conservation statement:
+
+$$
+\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.
 $$
 
 ---
 
-## 🛣️ Constant-Speed Motion: The Linear Advection Equation
+### 🔹 Step 2: Move the time derivative inside the integral
 
-**Acharya:** Suppose every car moves with a **constant speed** $a > 0$. Then $v(x,t) = a$.  
-Hence, $q = \rho v = a\rho$.
+Assuming $\rho$ is smooth enough to interchange differentiation and integration:
 
-Substitute into the conservation law:
 $$
-\rho_t + (a\rho)_x = 0 \quad \Rightarrow \quad \rho_t + a\rho_x = 0.
+\int_{x_1}^{x_2} \rho_t(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.
 $$
 
-**Pavni:** That’s our PDE?
+Combine both integrals:
 
-**Acharya:** Yes, it’s called the **linear advection equation**.  
-It’s the simplest hyperbolic equation — it models how a quantity moves steadily with constant speed.
+$$
+\int_{x_1}^{x_2} \big[\rho_t(x,t) + q_x(x,t)\big]\,dx = 0.
+$$
+
+---
+
+### 🔹 Step 3: The local (pointwise) conservation law
+
+**Acharya:** Now, Pavni, what does this equation tell us?
+
+**Pavni:** It says that the integral of $\rho_t + q_x$ over *any* interval is zero.
+
+**Acharya:** Exactly! And that can only happen if the integrand itself is zero *everywhere* — otherwise, we could find an interval where it’s positive or negative.  
+Hence, we get the **local conservation law**:
+
+$$
+\boxed{\rho_t + q_x = 0.}
+$$
+
+---
+
+**Pavni:** So the integral form expresses the total number of cars in a segment being conserved,  
+and this differential form expresses that conservation *at every point* on the road!
+
+**Acharya:** Perfectly said. This is the basic **conservation law** for one-dimensional flow.  
+Next, if we assume each car moves at a constant speed $a$, we’ll get the **linear advection equation.
+It’s the simplest hyperbolic equation — it models how a quantity moves steadily with constant speed**.
 
 **Pavni:** So this describes a traffic pattern moving forward without changing its shape?
 
@@ -120,7 +157,7 @@ for cars moving at constant speed, how do we actually find $\rho(x,t)$ from this
 
 ---
 
-### 1️⃣ Deriving the Characteristic Curves
+###  Deriving the Characteristic Curves
 
 **Acharya:** Let’s think of $\rho$ as a function of both $x$ and $t$.  
 Suppose we move along a curve $x = x(t)$ in the $(x,t)$-plane.  
@@ -150,7 +187,7 @@ Each line $x - a t = \text{constant}$ is a **characteristic line**.
 
 ---
 
-### 2️⃣ The Meaning of Characteristics
+### The Meaning of Characteristics
 
 **Pavni:** What does it mean that $\rho$ is constant along these lines?
 
@@ -170,7 +207,7 @@ No change in shape — pure translation.
 
 ---
 
-### 3️⃣ Verifying the Solution
+### Verifying the Solution
 
 **Pavni:** Let’s check if this really satisfies the PDE.
 
@@ -187,7 +224,7 @@ $$
 
 ---
 
-### 4️⃣ Understanding Finite Propagation Speed
+###  Understanding Finite Propagation Speed
 
 **Acharya:** The key property of this equation is that information moves at a *finite speed*.
 
@@ -202,7 +239,7 @@ But here, the influence travels only along straight lines $x - a t = \text{const
 
 ---
 
-### 5️⃣ Example
+###  Example
 
 Let’s take an initial density
 $$
@@ -228,7 +265,7 @@ $$
 
 ---
 
-### 6️⃣ Visualizing Characteristics
+###  Visualizing Characteristics
 
 Each characteristic line shows where information travels:
 
