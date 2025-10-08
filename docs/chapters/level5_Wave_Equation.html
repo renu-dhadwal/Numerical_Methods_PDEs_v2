@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Level 5: Hyperbolic PDEs: Wave Equation – Numerical Methods for PDEs: An Interactive Journey</title>
+<title>6&nbsp; Level 5: Hyperbolic PDEs — Wave Equation – Numerical Methods for PDEs: An Interactive Journey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level5_Wave_Equation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5: Hyperbolic PDEs: Wave Equation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level5_Wave_Equation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5: Hyperbolic PDEs — Wave Equation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -177,7 +177,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/level5_Wave_Equation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5: Hyperbolic PDEs: Wave Equation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5: Hyperbolic PDEs — Wave Equation</span></span></a>
   </div>
 </li>
     </ul>
@@ -211,7 +211,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5: Hyperbolic PDEs: Wave Equation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5: Hyperbolic PDEs — Wave Equation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -247,22 +247,27 @@ It beautifully captures the idea of <em>conservation</em> and <em>finite-speed m
 <h2 data-number="6.1" class="anchored" data-anchor-id="the-traffic-flow-model"><span class="header-section-number">6.1</span> 🚗 The Traffic Flow Model</h2>
 <p><strong>Pavni:</strong> So, where do we begin?</p>
 <p><strong>Acharya:</strong> Let’s define some quantities.</p>
-<p>$ (x,t)$: density of cars at position <span class="math inline">\(x\)</span> and time <span class="math inline">\(t\)</span> (cars/km)<br>
-$ v(x,t) <span class="math inline">\(: average speed of cars (km/h)\)</span> q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)</p>
+<ul>
+<li><span class="math inline">\(\rho(x,t)\)</span>: density of cars at position <span class="math inline">\(x\)</span> and time <span class="math inline">\(t\)</span> (cars/km)<br>
+</li>
+<li><span class="math inline">\(v(x,t)\)</span>: average speed of cars (km/h)<br>
+</li>
+<li><span class="math inline">\(q(x,t)\)</span>: flow rate — number of cars passing a point per unit time (cars/hour)</li>
+</ul>
 <p><strong>Pavni:</strong> So <span class="math inline">\(q\)</span> must depend on both how many cars there are and how fast they move?</p>
-<p><strong>Acharya:</strong> Precisely. That leads us to the simple physical relation <span class="math display">\[
-q = \rho v
+<p><strong>Acharya:</strong> Precisely. That leads us to the simple physical relation: <span class="math display">\[
+q = \rho v.
 \]</span></p>
 <details>
 <summary>
-💡 Why $ q = v $?
+💡 Why <span class="math inline">\(q = \rho v\)</span>?
 </summary>
-If a small segment of road of length $ x $ contains $ x $ cars,<br>
-and each car moves with velocity <span class="math inline">\(v\)</span>, then in time $ t $ each car covers <span class="math inline">\(v \Delta t\)</span> km.<br>
-So, the number of cars passing a fixed point in time $ t $ is<br>
+If a small segment of road of length <span class="math inline">\(\Delta x\)</span> contains <span class="math inline">\(\rho \, \Delta x\)</span> cars,<br>
+and each car moves with velocity <span class="math inline">\(v\)</span>, then in time <span class="math inline">\(\Delta t\)</span> each car covers <span class="math inline">\(v \, \Delta t\)</span> km.<br>
+So, the number of cars passing a fixed point in time <span class="math inline">\(\Delta t\)</span> is<br>
 <span class="math display">\[
-(\rho \Delta x) \cdot \frac{v \Delta t}{\Delta x} = \rho v \Delta t.
-\]</span> Dividing by $ t $ gives $ q = v $.
+(\rho \, \Delta x) \cdot \frac{v \, \Delta t}{\Delta x} = \rho v \, \Delta t.
+\]</span> Dividing by <span class="math inline">\(\Delta t\)</span> gives <span class="math inline">\(q = \rho v\)</span>.
 </details>
 <hr>
 </section>
@@ -274,7 +279,7 @@ Cars can only leave or enter through the ends.</p>
 \frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).
 \]</span></p>
 <p><strong>Pavni:</strong> That looks like conservation of mass!</p>
-<p><strong>Acharya:</strong> Exactly — just conservation of <em>number of cars</em>.<br>
+<p><strong>Acharya:</strong> Exactly — just conservation of the <em>number of cars</em>.<br>
 Simplifying, we get the <strong>conservation equation</strong>: <span class="math display">\[
 \rho_t + q_x = 0.
 \]</span></p>
@@ -282,7 +287,7 @@ Simplifying, we get the <strong>conservation equation</strong>: <span class="mat
 </section>
 <section id="constant-speed-motion-the-linear-advection-equation" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="constant-speed-motion-the-linear-advection-equation"><span class="header-section-number">6.3</span> 🛣️ Constant-Speed Motion: The Linear Advection Equation</h2>
-<p><strong>Acharya:</strong> Suppose every car moves with a <strong>constant speed</strong> <span class="math inline">\(a&gt;0\)</span>. Then <span class="math inline">\(v(x,t)=a\)</span>.<br>
+<p><strong>Acharya:</strong> Suppose every car moves with a <strong>constant speed</strong> <span class="math inline">\(a &gt; 0\)</span>. Then <span class="math inline">\(v(x,t) = a\)</span>.<br>
 Hence, <span class="math inline">\(q = \rho v = a\rho\)</span>.</p>
 <p>Substitute into the conservation law: <span class="math display">\[
 \rho_t + (a\rho)_x = 0 \quad \Rightarrow \quad \rho_t + a\rho_x = 0.
@@ -296,22 +301,20 @@ It’s the simplest hyperbolic equation — it models how a quantity moves stead
 </section>
 <section id="try-to-predict" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="try-to-predict"><span class="header-section-number">6.4</span> ✏️ Try to Predict</h2>
-<p><strong>Acharya:</strong> Before solving it, can you guess how the density will evolve if initially the density is a bump — say,<br>
-<span class="math display">\[
+<p><strong>Acharya:</strong> Before solving it, can you guess how the density will evolve if initially the density is a bump — say, <span class="math display">\[
 \rho(x,0) = e^{-x^2}?
 \]</span></p>
 <p><strong>Pavni:</strong> I think it will move to the right, keeping its shape.</p>
 <p><strong>Acharya:</strong> Perfect intuition. We’ll now confirm this mathematically using <strong>characteristics</strong> — special curves along which information travels.</p>
 <hr>
-<p>##Characteristics and the Solution of the Linear Advection Equation</p>
 </section>
 <section id="characteristics-and-the-solution-of-the-linear-advection-equation" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="characteristics-and-the-solution-of-the-linear-advection-equation"><span class="header-section-number">6.5</span> 🌊 Characteristics and the Solution of the Linear Advection Equation</h2>
-<p><strong>Pavni:</strong> Acharya, last time we derived the equation<br>
+<p><strong>Pavni:</strong> Acharya, now that we have derived the equation<br>
 <span class="math display">\[
 \rho_t + a\rho_x = 0, \quad a &gt; 0,
 \]</span><br>
-for cars moving at constant speed. But how do we actually find <span class="math inline">\(\rho(x,t)\)</span> from this?</p>
+for cars moving at constant speed, how do we actually find <span class="math inline">\(\rho(x,t)\)</span> from this?</p>
 <p><strong>Acharya:</strong> Excellent question. This equation may look simple, but it contains a beautiful idea — that <strong>information travels along certain paths</strong> in the <span class="math inline">\((x,t)\)</span>-plane. These paths are called <em>characteristics</em>.</p>
 <hr>
 <section id="deriving-the-characteristic-curves" class="level3" data-number="6.5.1">
@@ -372,8 +375,7 @@ But here, the influence travels only along straight lines <span class="math inli
 </section>
 <section id="example" class="level3" data-number="6.5.5">
 <h3 data-number="6.5.5" class="anchored" data-anchor-id="example"><span class="header-section-number">6.5.5</span> 5️⃣ Example</h3>
-<p>Let’s take an initial density<br>
-<span class="math display">\[
+<p>Let’s take an initial density <span class="math display">\[
 \rho_0(x) =
 \begin{cases}
 1, &amp; 0 &lt; x &lt; 1, \\
@@ -418,16 +420,16 @@ But here, the influence travels only along straight lines <span class="math inli
 [&lt;span class='chapter-number'&gt;3&lt;/span&gt;&nbsp; &lt;span class='chapter-title'&gt;Level 2: Classification of PDEs&lt;/span&gt;]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLWludC1zaWRlYmFyOi9jaGFwdGVycy9sZXZlbDJfY2xhc3NpZmljYXRpb25fcGRlcy5odG1sPHNwYW4tY2xhc3M9J2NoYXB0ZXItbnVtYmVyJz4zPC9zcGFuPi0tPHNwYW4tY2xhc3M9J2NoYXB0ZXItdGl0bGUnPkxldmVsLTI6LUNsYXNzaWZpY2F0aW9uLW9mLVBERXM8L3NwYW4+"}
 [&lt;span class='chapter-number'&gt;4&lt;/span&gt;&nbsp; &lt;span class='chapter-title'&gt;Level 3: PDEs, their Physical Meaning, and Boundary Conditions&lt;/span&gt;]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLWludC1zaWRlYmFyOi9jaGFwdGVycy9sZXZlbDNfUERFX0JDcy5odG1sPHNwYW4tY2xhc3M9J2NoYXB0ZXItbnVtYmVyJz40PC9zcGFuPi0tPHNwYW4tY2xhc3M9J2NoYXB0ZXItdGl0bGUnPkxldmVsLTM6LVBERXMsLXRoZWlyLVBoeXNpY2FsLU1lYW5pbmcsLWFuZC1Cb3VuZGFyeS1Db25kaXRpb25zPC9zcGFuPg=="}
 [&lt;span class='chapter-number'&gt;5&lt;/span&gt;&nbsp; &lt;span class='chapter-title'&gt;Level 4: Finite Differences and the Heat Equation&lt;/span&gt;]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLWludC1zaWRlYmFyOi9jaGFwdGVycy9sZXZlbDRfZmluaXRlX2RpZmZlcmVuY2VzLmh0bWw8c3Bhbi1jbGFzcz0nY2hhcHRlci1udW1iZXInPjU8L3NwYW4+LS08c3Bhbi1jbGFzcz0nY2hhcHRlci10aXRsZSc+TGV2ZWwtNDotRmluaXRlLURpZmZlcmVuY2VzLWFuZC10aGUtSGVhdC1FcXVhdGlvbjwvc3Bhbj4="}
-[&lt;span class='chapter-number'&gt;6&lt;/span&gt;&nbsp; &lt;span class='chapter-title'&gt;Level 5: Hyperbolic PDEs: Wave Equation&lt;/span&gt;]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLWludC1zaWRlYmFyOi9jaGFwdGVycy9sZXZlbDVfV2F2ZV9FcXVhdGlvbi5odG1sPHNwYW4tY2xhc3M9J2NoYXB0ZXItbnVtYmVyJz42PC9zcGFuPi0tPHNwYW4tY2xhc3M9J2NoYXB0ZXItdGl0bGUnPkxldmVsLTU6LUh5cGVyYm9saWMtUERFczotV2F2ZS1FcXVhdGlvbjwvc3Bhbj4="}
-[&lt;span class='chapter-number'&gt;6&lt;/span&gt;&nbsp; &lt;span class='chapter-title'&gt;Level 5: Hyperbolic PDEs: Wave Equation&lt;/span&gt;]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLWJyZWFkY3J1bWJzLTxzcGFuLWNsYXNzPSdjaGFwdGVyLW51bWJlcic+Njwvc3Bhbj4tLTxzcGFuLWNsYXNzPSdjaGFwdGVyLXRpdGxlJz5MZXZlbC01Oi1IeXBlcmJvbGljLVBERXM6LVdhdmUtRXF1YXRpb248L3NwYW4+"}
+[&lt;span class='chapter-number'&gt;6&lt;/span&gt;&nbsp; &lt;span class='chapter-title'&gt;Level 5: Hyperbolic PDEs — Wave Equation&lt;/span&gt;]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLWludC1zaWRlYmFyOi9jaGFwdGVycy9sZXZlbDVfV2F2ZV9FcXVhdGlvbi5odG1sPHNwYW4tY2xhc3M9J2NoYXB0ZXItbnVtYmVyJz42PC9zcGFuPi0tPHNwYW4tY2xhc3M9J2NoYXB0ZXItdGl0bGUnPkxldmVsLTU6LUh5cGVyYm9saWMtUERFcy3igJQtV2F2ZS1FcXVhdGlvbjwvc3Bhbj4="}
+[&lt;span class='chapter-number'&gt;6&lt;/span&gt;&nbsp; &lt;span class='chapter-title'&gt;Level 5: Hyperbolic PDEs — Wave Equation&lt;/span&gt;]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLWJyZWFkY3J1bWJzLTxzcGFuLWNsYXNzPSdjaGFwdGVyLW51bWJlcic+Njwvc3Bhbj4tLTxzcGFuLWNsYXNzPSdjaGFwdGVyLXRpdGxlJz5MZXZlbC01Oi1IeXBlcmJvbGljLVBERXMt4oCULVdhdmUtRXF1YXRpb248L3NwYW4+"}
 :::
 
 
 
 :::{#quarto-meta-markdown .hidden}
-[[6]{.chapter-number}&nbsp; [Level 5: Hyperbolic PDEs: Wave Equation]{.chapter-title} – Numerical Methods for PDEs: An Interactive Journey]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLW1ldGF0aXRsZQ=="}
-[[6]{.chapter-number}&nbsp; [Level 5: Hyperbolic PDEs: Wave Equation]{.chapter-title} – Numerical Methods for PDEs: An Interactive Journey]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU="}
-[[6]{.chapter-number}&nbsp; [Level 5: Hyperbolic PDEs: Wave Equation]{.chapter-title} – Numerical Methods for PDEs: An Interactive Journey]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLW9nY2FyZHRpdGxl"}
+[[6]{.chapter-number}&nbsp; [Level 5: Hyperbolic PDEs — Wave Equation]{.chapter-title} – Numerical Methods for PDEs: An Interactive Journey]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLW1ldGF0aXRsZQ=="}
+[[6]{.chapter-number}&nbsp; [Level 5: Hyperbolic PDEs — Wave Equation]{.chapter-title} – Numerical Methods for PDEs: An Interactive Journey]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU="}
+[[6]{.chapter-number}&nbsp; [Level 5: Hyperbolic PDEs — Wave Equation]{.chapter-title} – Numerical Methods for PDEs: An Interactive Journey]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLW9nY2FyZHRpdGxl"}
 [Numerical Methods for PDEs: An Interactive Journey]{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLW1ldGFzaXRlbmFtZQ=="}
 []{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLXR3aXR0ZXJjYXJkZGVzYw=="}
 []{.hidden .quarto-markdown-envelope-contents render-id="cXVhcnRvLW9nY2FyZGRkZXNj"}
@@ -440,7 +442,7 @@ But here, the influence travels only along straight lines <span class="math inli
 
 ::: {.quarto-embedded-source-code}
 ```````````````````{.markdown shortcodes="false"}
-# Level 5: Hyperbolic PDEs: Wave Equation
+# Level 5: Hyperbolic PDEs — Wave Equation
 
 **Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?
 
@@ -472,27 +474,27 @@ It beautifully captures the idea of *conservation* and *finite-speed motion*.
 
 **Acharya:** Let’s define some quantities.
 
-$ \rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  
-$ v(x,t) $: average speed of cars (km/h)  
-$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)
+- $\rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  
+- $v(x,t)$: average speed of cars (km/h)  
+- $q(x,t)$: flow rate — number of cars passing a point per unit time (cars/hour)
 
 **Pavni:** So $q$ must depend on both how many cars there are and how fast they move?
 
-**Acharya:** Precisely. That leads us to the simple physical relation
-$$ 
-q = \rho v
+**Acharya:** Precisely. That leads us to the simple physical relation:
+$$
+q = \rho v.
 $$
 
 &lt;details&gt;
-&lt;summary&gt;💡 Why $ q = \rho v $?&lt;/summary&gt;
+&lt;summary&gt;💡 Why $q = \rho v$?&lt;/summary&gt;
 
-If a small segment of road of length $ \Delta x $ contains $ \rho \Delta x $ cars,  
-and each car moves with velocity $v$, then in time $ \Delta t $ each car covers $v \Delta t$ km.  
-So, the number of cars passing a fixed point in time $ \Delta t $ is  
-$$ 
-(\rho \Delta x) \cdot \frac{v \Delta t}{\Delta x} = \rho v \Delta t.
+If a small segment of road of length $\Delta x$ contains $\rho \, \Delta x$ cars,  
+and each car moves with velocity $v$, then in time $\Delta t$ each car covers $v \, \Delta t$ km.  
+So, the number of cars passing a fixed point in time $\Delta t$ is  
 $$
-Dividing by $ \Delta t $ gives $ q = \rho v $.
+(\rho \, \Delta x) \cdot \frac{v \, \Delta t}{\Delta x} = \rho v \, \Delta t.
+$$
+Dividing by $\Delta t$ gives $q = \rho v$.
 &lt;/details&gt;
 
 ---
@@ -502,29 +504,29 @@ Dividing by $ \Delta t $ gives $ q = \rho v $.
 **Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  
 Cars can only leave or enter through the ends.
 
-$$ 
+$$
 \frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).
-$$ 
+$$
 
 **Pavni:** That looks like conservation of mass!
 
-**Acharya:** Exactly — just conservation of *number of cars*.  
+**Acharya:** Exactly — just conservation of the *number of cars*.  
 Simplifying, we get the **conservation equation**:
-$$ 
+$$
 \rho_t + q_x = 0.
-$$ 
+$$
 
 ---
 
 ## 🛣️ Constant-Speed Motion: The Linear Advection Equation
 
-**Acharya:** Suppose every car moves with a **constant speed** $a&gt;0$. Then $v(x,t)=a$.  
+**Acharya:** Suppose every car moves with a **constant speed** $a &gt; 0$. Then $v(x,t) = a$.  
 Hence, $q = \rho v = a\rho$.
 
 Substitute into the conservation law:
-$$ 
+$$
 \rho_t + (a\rho)_x = 0 \quad \Rightarrow \quad \rho_t + a\rho_x = 0.
-$$ 
+$$
 
 **Pavni:** That’s our PDE?
 
@@ -539,10 +541,10 @@ It’s the simplest hyperbolic equation — it models how a quantity moves stead
 
 ## ✏️ Try to Predict
 
-**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,  
-$$ 
+**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,
+$$
 \rho(x,0) = e^{-x^2}?
-$$ 
+$$
 
 **Pavni:** I think it will move to the right, keeping its shape.
 
@@ -550,15 +552,13 @@ $$
 
 ---
 
-##Characteristics and the Solution of the Linear Advection Equation
-
 ## 🌊 Characteristics and the Solution of the Linear Advection Equation
 
-**Pavni:** Acharya, last time we derived the equation  
+**Pavni:** Acharya, now that we have derived the equation  
 $$
 \rho_t + a\rho_x = 0, \quad a &gt; 0,
 $$  
-for cars moving at constant speed. But how do we actually find $\rho(x,t)$ from this?
+for cars moving at constant speed, how do we actually find $\rho(x,t)$ from this?
 
 **Acharya:** Excellent question. This equation may look simple, but it contains a beautiful idea — that **information travels along certain paths** in the $(x,t)$-plane. These paths are called *characteristics*.
 
@@ -648,7 +648,7 @@ But here, the influence travels only along straight lines $x - a t = \text{const
 
 ### 5️⃣ Example
 
-Let’s take an initial density  
+Let’s take an initial density
 $$
 \rho_0(x) =
 \begin{cases}

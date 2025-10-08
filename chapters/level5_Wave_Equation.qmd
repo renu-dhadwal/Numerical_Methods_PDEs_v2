@@ -1,4 +1,4 @@
-# Level 5: Hyperbolic PDEs: Wave Equation
+# Level 5: Hyperbolic PDEs — Wave Equation
 
 **Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?
 
@@ -30,27 +30,27 @@ It beautifully captures the idea of *conservation* and *finite-speed motion*.
 
 **Acharya:** Let’s define some quantities.
 
-$ \rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  
-$ v(x,t) $: average speed of cars (km/h)  
-$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)
+- $\rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  
+- $v(x,t)$: average speed of cars (km/h)  
+- $q(x,t)$: flow rate — number of cars passing a point per unit time (cars/hour)
 
 **Pavni:** So $q$ must depend on both how many cars there are and how fast they move?
 
-**Acharya:** Precisely. That leads us to the simple physical relation
-$$ 
-q = \rho v
+**Acharya:** Precisely. That leads us to the simple physical relation:
+$$
+q = \rho v.
 $$
 
 <details>
-<summary>💡 Why $ q = \rho v $?</summary>
+<summary>💡 Why $q = \rho v$?</summary>
 
-If a small segment of road of length $ \Delta x $ contains $ \rho \Delta x $ cars,  
-and each car moves with velocity $v$, then in time $ \Delta t $ each car covers $v \Delta t$ km.  
-So, the number of cars passing a fixed point in time $ \Delta t $ is  
-$$ 
-(\rho \Delta x) \cdot \frac{v \Delta t}{\Delta x} = \rho v \Delta t.
+If a small segment of road of length $\Delta x$ contains $\rho \, \Delta x$ cars,  
+and each car moves with velocity $v$, then in time $\Delta t$ each car covers $v \, \Delta t$ km.  
+So, the number of cars passing a fixed point in time $\Delta t$ is  
 $$
-Dividing by $ \Delta t $ gives $ q = \rho v $.
+(\rho \, \Delta x) \cdot \frac{v \, \Delta t}{\Delta x} = \rho v \, \Delta t.
+$$
+Dividing by $\Delta t$ gives $q = \rho v$.
 </details>
 
 ---
@@ -60,29 +60,29 @@ Dividing by $ \Delta t $ gives $ q = \rho v $.
 **Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  
 Cars can only leave or enter through the ends.
 
-$$ 
+$$
 \frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).
-$$ 
+$$
 
 **Pavni:** That looks like conservation of mass!
 
-**Acharya:** Exactly — just conservation of *number of cars*.  
+**Acharya:** Exactly — just conservation of the *number of cars*.  
 Simplifying, we get the **conservation equation**:
-$$ 
+$$
 \rho_t + q_x = 0.
-$$ 
+$$
 
 ---
 
 ## 🛣️ Constant-Speed Motion: The Linear Advection Equation
 
-**Acharya:** Suppose every car moves with a **constant speed** $a>0$. Then $v(x,t)=a$.  
+**Acharya:** Suppose every car moves with a **constant speed** $a > 0$. Then $v(x,t) = a$.  
 Hence, $q = \rho v = a\rho$.
 
 Substitute into the conservation law:
-$$ 
+$$
 \rho_t + (a\rho)_x = 0 \quad \Rightarrow \quad \rho_t + a\rho_x = 0.
-$$ 
+$$
 
 **Pavni:** That’s our PDE?
 
@@ -97,10 +97,10 @@ It’s the simplest hyperbolic equation — it models how a quantity moves stead
 
 ## ✏️ Try to Predict
 
-**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,  
-$$ 
+**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,
+$$
 \rho(x,0) = e^{-x^2}?
-$$ 
+$$
 
 **Pavni:** I think it will move to the right, keeping its shape.
 
@@ -108,15 +108,13 @@ $$
 
 ---
 
-##Characteristics and the Solution of the Linear Advection Equation
-
 ## 🌊 Characteristics and the Solution of the Linear Advection Equation
 
-**Pavni:** Acharya, last time we derived the equation  
+**Pavni:** Acharya, now that we have derived the equation  
 $$
 \rho_t + a\rho_x = 0, \quad a > 0,
 $$  
-for cars moving at constant speed. But how do we actually find $\rho(x,t)$ from this?
+for cars moving at constant speed, how do we actually find $\rho(x,t)$ from this?
 
 **Acharya:** Excellent question. This equation may look simple, but it contains a beautiful idea — that **information travels along certain paths** in the $(x,t)$-plane. These paths are called *characteristics*.
 
@@ -206,7 +204,7 @@ But here, the influence travels only along straight lines $x - a t = \text{const
 
 ### 5️⃣ Example
 
-Let’s take an initial density  
+Let’s take an initial density
 $$
 \rho_0(x) =
 \begin{cases}
