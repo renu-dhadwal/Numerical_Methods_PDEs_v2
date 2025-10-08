@@ -218,8 +218,18 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-traffic-flow-model" id="toc-the-traffic-flow-model" class="nav-link active" data-scroll-target="#the-traffic-flow-model"><span class="header-section-number">6.1</span> 🚗 The Traffic Flow Model</a></li>
+  <li><a href="#conservation-of-cars" id="toc-conservation-of-cars" class="nav-link" data-scroll-target="#conservation-of-cars"><span class="header-section-number">6.2</span> ⚙️ Conservation of Cars</a></li>
+  <li><a href="#constant-speed-motion-the-linear-advection-equation" id="toc-constant-speed-motion-the-linear-advection-equation" class="nav-link" data-scroll-target="#constant-speed-motion-the-linear-advection-equation"><span class="header-section-number">6.3</span> 🛣️ Constant-Speed Motion: The Linear Advection Equation</a></li>
+  <li><a href="#try-to-predict" id="toc-try-to-predict" class="nav-link" data-scroll-target="#try-to-predict"><span class="header-section-number">6.4</span> ✏️ Try to Predict</a></li>
+  <li><a href="#next-section-characteristics-and-the-solution-of-the-linear-advection-equation" id="toc-next-section-characteristics-and-the-solution-of-the-linear-advection-equation" class="nav-link" data-scroll-target="#next-section-characteristics-and-the-solution-of-the-linear-advection-equation"><span class="header-section-number">6.5</span> Next Section → Characteristics and the Solution of the Linear Advection Equation</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -243,77 +253,99 @@ window.Quarto = {
 </header>
 
 
-<p><strong>Pavni:</strong> We’ve studied the heat equation as an example of a parabolic PDE. What about hyperbolic ones? Where do we begin?</p>
-<p><strong>Acharya:</strong> A natural starting point is the <strong>wave equation</strong>:<br>
-<span class="math display">\[
-u_{tt} = c^2 u_{xx}.
+<p><strong>Pavni:</strong> Acharya, we’ve studied the heat equation. From theory we know that it seems to <em>spread</em> information everywhere. Does every PDE behave like that?</p>
+<p><strong>Acharya:</strong> That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parambolic heat equation.<br>
+Some equations describe situations where information or disturbances travel at a <em>finite speed</em> — like waves or moving traffic.</p>
+<p><strong>Pavni:</strong> So these are called <em>hyperbolic equations</em>?</p>
+<p><strong>Acharya:</strong> Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that <em>move</em> through a medium rather than <em>diffuse</em>.<br>
+For example — a vibrating string, sound waves in air, or even cars moving on a road.</p>
+<p><strong>Pavni:</strong> Interesting! But why are they so different from diffusion equations like the heat equation?</p>
+<p><strong>Acharya:</strong> Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.<br>
+That’s called <strong>infinite propagation speed</strong>.<br>
+But hyperbolic equations restrict influence to certain <em>paths</em> in the <span class="math inline">\((x,t)\)</span>-plane, called <strong>characteristics</strong>.<br>
+Information travels only along these paths at a finite speed.</p>
+<p><strong>Pavni:</strong> That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!</p>
+<p><strong>Acharya:</strong> Exactly. Let’s begin with a simple and familiar example — <strong>traffic flow</strong>.<br>
+It beautifully captures the idea of <em>conservation</em> and <em>finite-speed motion</em>.</p>
+<hr>
+<section id="the-traffic-flow-model" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="the-traffic-flow-model"><span class="header-section-number">6.1</span> 🚗 The Traffic Flow Model</h2>
+<p><strong>Pavni:</strong> So, where do we begin?</p>
+<p><strong>Acharya:</strong> Let’s define some quantities.</p>
+<ul>
+<li>$ (x,t) $: density of cars at position <span class="math inline">\(x\)</span> and time <span class="math inline">\(t\)</span> (cars/km)<br>
+</li>
+<li>$ v(x,t) $: average speed of cars (km/h)<br>
+</li>
+<li>$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)</li>
+</ul>
+<p><strong>Pavni:</strong> So <span class="math inline">\(q\)</span> must depend on both how many cars there are and how fast they move?</p>
+<p><strong>Acharya:</strong> Precisely. That leads us to the simple physical relation <span class="math display">\[
+q = \rho v
 \]</span></p>
-<p><strong>Pavni:</strong> Oh! That’s the equation for vibrations of a string, right?</p>
-<p><strong>Acharya:</strong> Exactly. Imagine a taut string. Newton’s law applied to a small element gives:<br>
+<details>
+<summary>
+💡 Why $ q = v $?
+</summary>
+If a small segment of road of length $ x $ contains $ x $ cars,<br>
+and each car moves with velocity <span class="math inline">\(v\)</span>, then in time $ t $ each car covers <span class="math inline">\(v \Delta t\)</span> km.<br>
+So, the number of cars passing a fixed point in time $ t $ is<br>
 <span class="math display">\[
-\rho u_{tt} = T u_{xx},
-\]</span><br>
-where <span class="math inline">\(T\)</span> is tension and <span class="math inline">\(\rho\)</span> is density. Dividing through, we get<br>
-<span class="math display">\[
-u_{tt} = \left(\tfrac{T}{\rho}\right) u_{xx},
-\]</span><br>
-so the wave speed is <span class="math inline">\(c = \sqrt{T/\rho}\)</span>.</p>
-<p><strong>Pavni:</strong> So physically, it describes oscillations moving along the string. But why do we call this <em>hyperbolic</em>?</p>
-<p><strong>Acharya:</strong> Let’s look at the general second-order PDE in two variables:<br>
-<span class="math display">\[
-A u_{xx} + 2B u_{xt} + C u_{tt} = 0.
-\]</span><br>
-Its type depends on the discriminant <span class="math inline">\(D = B^2 - AC\)</span>.<br>
-- If <span class="math inline">\(D &lt; 0\)</span>, it’s elliptic.<br>
-- If <span class="math inline">\(D = 0\)</span>, parabolic.<br>
-- If <span class="math inline">\(D &gt; 0\)</span>, hyperbolic.</p>
-<p><strong>Pavni:</strong> For the wave equation, we have <span class="math inline">\(A = -c^2, B=0, C=1\)</span>. Then<br>
-<span class="math display">\[
-D = B^2 - AC = c^2 &gt; 0.
+(\rho \Delta x) \cdot \frac{v \Delta t}{\Delta x} = \rho v \Delta t.
+\]</span> Dividing by $ t $ gives $ q = v $.
+</details>
+<hr>
+</section>
+<section id="conservation-of-cars" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="conservation-of-cars"><span class="header-section-number">6.2</span> ⚙️ Conservation of Cars</h2>
+<p><strong>Acharya:</strong> Now, think of a small stretch of road between <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.<br>
+Cars can only leave or enter through the ends.</p>
+<p><span class="math display">\[
+\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).
 \]</span></p>
-<p><strong>Acharya:</strong> Exactly — that’s why it’s <strong>hyperbolic</strong>.</p>
-<p><strong>Pavni:</strong> Does that mean it has some special geometry?</p>
-<p><strong>Acharya:</strong> Yes. Notice how the operator factors:<br>
-<span class="math display">\[
-u_{tt} - c^2 u_{xx} = (\partial_t - c\partial_x)(\partial_t + c\partial_x) u.
-\]</span><br>
-This reveals the <strong>characteristics</strong>: the lines<br>
-<span class="math display">\[
-x - ct = \text{constant}, \quad x + ct = \text{constant}.
+<p><strong>Pavni:</strong> That looks like conservation of mass!</p>
+<p><strong>Acharya:</strong> Exactly — just conservation of <em>number of cars</em>.<br>
+Simplifying, we get the <strong>conservation equation</strong>: <span class="math display">\[
+\rho_t + q_x = 0.
 \]</span></p>
-<p><strong>Pavni:</strong> So along those lines, the solution behaves in a simple way?</p>
-<p><strong>Acharya:</strong> Precisely. The general solution is<br>
+<hr>
+</section>
+<section id="constant-speed-motion-the-linear-advection-equation" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="constant-speed-motion-the-linear-advection-equation"><span class="header-section-number">6.3</span> 🛣️ Constant-Speed Motion: The Linear Advection Equation</h2>
+<p><strong>Acharya:</strong> Suppose every car moves with a <strong>constant speed</strong> <span class="math inline">\(a&gt;0\)</span>. Then <span class="math inline">\(v(x,t)=a\)</span>.<br>
+Hence, <span class="math inline">\(q = \rho v = a\rho\)</span>.</p>
+<p>Substitute into the conservation law: <span class="math display">\[
+\rho_t + (a\rho)_x = 0 \quad \Rightarrow \quad \rho_t + a\rho_x = 0.
+\]</span></p>
+<p><strong>Pavni:</strong> That’s our PDE?</p>
+<p><strong>Acharya:</strong> Yes, it’s called the <strong>linear advection equation</strong>.<br>
+It’s the simplest hyperbolic equation — it models how a quantity moves steadily with constant speed.</p>
+<p><strong>Pavni:</strong> So this describes a traffic pattern moving forward without changing its shape?</p>
+<p><strong>Acharya:</strong> Exactly. The entire profile of car density just shifts rightward with speed <span class="math inline">\(a\)</span>.</p>
+<hr>
+</section>
+<section id="try-to-predict" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="try-to-predict"><span class="header-section-number">6.4</span> ✏️ Try to Predict</h2>
+<p><strong>Acharya:</strong> Before solving it, can you guess how the density will evolve if initially the density is a bump — say,<br>
 <span class="math display">\[
-u(x,t) = f(x - ct) + g(x + ct).
-\]</span><br>
-It’s just the sum of two waves, one traveling right, one traveling left.</p>
-<p><strong>Pavni:</strong> That’s beautiful! It really captures the idea of finite-speed propagation.</p>
-<p><strong>Acharya:</strong> Indeed. If you disturb the string at one point, the influence spreads only within the cone <span class="math inline">\(|x-x_0| \leq c(t-t_0)\)</span>.<br>
-That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unlike diffusion where influence is instant.</p>
-<p><strong>Pavni:</strong> So the wave equation is the prototype for hyperbolic PDEs?</p>
-<p><strong>Acharya:</strong> Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.</p>
-<pre class="{tikz}"><code>\begin{tikzpicture}[scale=1.2]
-  % Axes
-  \draw[-&gt;] (-2,0) -- (2,0) node[right] {$x$};
-  \draw[-&gt;] (0,0) -- (0,3) node[above] {$t$};
-
-  % Point of disturbance
-  \fill (0,0) circle (2pt) node[below left] {$(x_0,t_0)$};
-
-  % Characteristics
-  \draw[thick,red] (0,0) -- (1.5,3) node[right] {$x = x_0 + c(t-t_0)$};
-  \draw[thick,red] (0,0) -- (-1.5,3) node[left] {$x = x_0 - c(t-t_0)$};
-
-  % Shaded influence region
-  \fill[blue!20,opacity=0.5] (-1.5,3) -- (0,0) -- (1.5,3) -- cycle;
-
-  % Labels
-  \node at (0,1.8) {Region of influence};
-\end{tikzpicture}</code></pre>
+\rho(x,0) = e^{-x^2}?
+\]</span></p>
+<p><strong>Pavni:</strong> I think it will move to the right, keeping its shape.</p>
+<p><strong>Acharya:</strong> Perfect intuition. We’ll now confirm this mathematically using <strong>characteristics</strong> — special curves along which information travels.</p>
+<hr>
+</section>
+<section id="next-section-characteristics-and-the-solution-of-the-linear-advection-equation" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="next-section-characteristics-and-the-solution-of-the-linear-advection-equation"><span class="header-section-number">6.5</span> Next Section → <a href="#">Characteristics and the Solution of the Linear Advection Equation</a></h2>
+<p>In the next section, we’ll explore how this PDE<br>
+<span class="math display">\[
+\rho_t + a\rho_x = 0
+\]</span> tells us that information moves along straight lines in the ((x,t)<span class="math inline">\(-plane,
+and we’ll derive its solution:\)</span>$ (x,t) = _0(x - a t). $$</p>
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -776,94 +808,127 @@ That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unli
   <div class="nav-page nav-page-next">
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Level 4: Hyperbolic PDEs: Wave Equation</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>**Pavni:** We’ve studied the heat equation as an example of a parabolic PDE. What about hyperbolic ones? Where do we begin?</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>**Acharya:** A natural starting point is the **wave equation**:  </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>u_{tt} = c^2 u_{xx}.</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>**Pavni:** Oh! That’s the equation for vibrations of a string, right?</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Imagine a taut string. Newton’s law applied to a small element gives:  </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>\rho u_{tt} = T u_{xx},</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>where $T$ is tension and $\rho$ is density. Dividing through, we get  </span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>u_{tt} = \left(\tfrac{T}{\rho}\right) u_{xx},</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>so the wave speed is $c = \sqrt{T/\rho}$.</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>**Pavni:** So physically, it describes oscillations moving along the string. But why do we call this *hyperbolic*?</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s look at the general second-order PDE in two variables:  </span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>A u_{xx} + 2B u_{xt} + C u_{tt} = 0.</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>Its type depends on the discriminant $D = B^2 - AC$.  </span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If $D &lt; 0$, it’s elliptic.  </span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If $D = 0$, parabolic.  </span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If $D &gt; 0$, hyperbolic.</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>**Pavni:** For the wave equation, we have $A = -c^2, B=0, C=1$. Then  </span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>D = B^2 - AC = c^2 &gt; 0.</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — that’s why it’s **hyperbolic**.</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>**Pavni:** Does that mean it has some special geometry?</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>**Acharya:** Yes. Notice how the operator factors:  </span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>u_{tt} - c^2 u_{xx} = (\partial_t - c\partial_x)(\partial_t + c\partial_x) u.</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>This reveals the **characteristics**: the lines  </span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>x - ct = \text{constant}, \quad x + ct = \text{constant}.</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>**Pavni:** So along those lines, the solution behaves in a simple way?</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely. The general solution is  </span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>u(x,t) = f(x - ct) + g(x + ct).</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>It’s just the sum of two waves, one traveling right, one traveling left.</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>**Pavni:** That’s beautiful! It really captures the idea of finite-speed propagation.</span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>**Acharya:** Indeed. If you disturb the string at one point, the influence spreads only within the cone $|x-x_0| \leq c(t-t_0)$.  </span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>That’s the hallmark of hyperbolic PDEs: signals travel with finite speed, unlike diffusion where influence is instant.</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the wave equation is the prototype for hyperbolic PDEs?</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. From here, we can explore more complex hyperbolic equations — nonlinear ones, conservation laws, and shock waves — but the wave equation is where the story begins.</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{tikz}</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{tikzpicture}[scale=1.2]</span></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="in">  % Axes</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[-&gt;] (-2,0) -- (2,0) node[right] {$x$};</span></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[-&gt;] (0,0) -- (0,3) node[above] {$t$};</span></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="in">  % Point of disturbance</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="in">  \fill (0,0) circle (2pt) node[below left] {$(x_0,t_0)$};</span></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="in">  % Characteristics</span></span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[thick,red] (0,0) -- (1.5,3) node[right] {$x = x_0 + c(t-t_0)$};</span></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[thick,red] (0,0) -- (-1.5,3) node[left] {$x = x_0 - c(t-t_0)$};</span></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="in">  % Shaded influence region</span></span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="in">  \fill[blue!20,opacity=0.5] (-1.5,3) -- (0,0) -- (1.5,3) -- cycle;</span></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="in">  % Labels</span></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="in">  \node at (0,1.8) {Region of influence};</span></span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="in">\end{tikzpicture}</span></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Level 4: Hyperbolic PDEs: Wave Equation</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>**Acharya:** That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parambolic heat equation.  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Some equations describe situations where information or disturbances travel at a *finite speed* — like waves or moving traffic.</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>**Pavni:** So these are called *hyperbolic equations*?</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that *move* through a medium rather than *diffuse*.  </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>For example — a vibrating string, sound waves in air, or even cars moving on a road.</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>**Pavni:** Interesting! But why are they so different from diffusion equations like the heat equation?</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>**Acharya:** Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.  </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>That’s called **infinite propagation speed**.  </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>But hyperbolic equations restrict influence to certain *paths* in the $(x,t)$-plane, called **characteristics**.  </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Information travels only along these paths at a finite speed.</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>**Pavni:** That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Let’s begin with a simple and familiar example — **traffic flow**.  </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>It beautifully captures the idea of *conservation* and *finite-speed motion*.</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🚗 The Traffic Flow Model</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>**Pavni:** So, where do we begin?</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s define some quantities.</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$ \rho(x,t) $: density of cars at position $x$ and time $t$ (cars/km)  </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$ v(x,t) $: average speed of cars (km/h)  </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>**Pavni:** So $q$ must depend on both how many cars there are and how fast they move?</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely. That leads us to the simple physical relation</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>q = \rho v</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>💡 Why $ q = \rho v $?<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>If a small segment of road of length $ \Delta x $ contains $ \rho \Delta x $ cars,  </span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>and each car moves with velocity $v$, then in time $ \Delta t $ each car covers $v \Delta t$ km.  </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>So, the number of cars passing a fixed point in time $ \Delta t $ is  </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>(\rho \Delta x) \cdot \frac{v \Delta t}{\Delta x} = \rho v \Delta t.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>Dividing by $ \Delta t $ gives $ q = \rho v $.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Conservation of Cars</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>**Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  </span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>Cars can only leave or enter through the ends.</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>**Pavni:** That looks like conservation of mass!</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — just conservation of *number of cars*.  </span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>Simplifying, we get the **conservation equation**:</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>\rho_t + q_x = 0.</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🛣️ Constant-Speed Motion: The Linear Advection Equation</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>**Acharya:** Suppose every car moves with a **constant speed** $a&gt;0$. Then $v(x,t)=a$.  </span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>Hence, $q = \rho v = a\rho$.</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>Substitute into the conservation law:</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>\rho_t + (a\rho)_x = 0 \quad \Rightarrow \quad \rho_t + a\rho_x = 0.</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>**Pavni:** That’s our PDE?</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>**Acharya:** Yes, it’s called the **linear advection equation**.  </span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>It’s the simplest hyperbolic equation — it models how a quantity moves steadily with constant speed.</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>**Pavni:** So this describes a traffic pattern moving forward without changing its shape?</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. The entire profile of car density just shifts rightward with speed $a$.</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## ✏️ Try to Predict</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,  </span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>\rho(x,0) = e^{-x^2}?</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>**Pavni:** I think it will move to the right, keeping its shape.</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfect intuition. We’ll now confirm this mathematically using **characteristics** — special curves along which information travels.</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Next Section → [Characteristics and the Solution of the Linear Advection Equation](#)</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>In the next section, we’ll explore how this PDE  </span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>\rho_t + a\rho_x = 0</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>tells us that information moves along straight lines in the <span class="sc">\(</span>(x,t)$-plane,  </span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>and we’ll derive its solution:</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>\rho(x,t) = \rho_0(x - a t).</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>$$ </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
