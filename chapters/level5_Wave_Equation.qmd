@@ -30,9 +30,9 @@ It beautifully captures the idea of *conservation* and *finite-speed motion*.
 
 **Acharya:** Let’s define some quantities.
 
-- $$ \rho(x,t)$$: density of cars at position $x$ and time $t$ (cars/km)  
-- $ v(x,t) $: average speed of cars (km/h)  
-- $ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)
+$ \rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  
+$ v(x,t) $: average speed of cars (km/h)  
+$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)
 
 **Pavni:** So $q$ must depend on both how many cars there are and how fast they move?
 
