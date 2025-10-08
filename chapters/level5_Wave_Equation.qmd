@@ -2,7 +2,7 @@
 
 **Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?
 
-**Acharya:** That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parambolic heat equation.  
+**Acharya:** That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parabolic heat equation.  
 Some equations describe situations where information or disturbances travel at a *finite speed* — like waves or moving traffic.
 
 **Pavni:** So these are called *hyperbolic equations*?
@@ -30,7 +30,7 @@ It beautifully captures the idea of *conservation* and *finite-speed motion*.
 
 **Acharya:** Let’s define some quantities.
 
-- $ \rho(x,t) $: density of cars at position $x$ and time $t$ (cars/km)  
+- $\rho(x,t) $: density of cars at position $x$ and time $t$ (cars/km)  
 - $ v(x,t) $: average speed of cars (km/h)  
 - $ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)
 
