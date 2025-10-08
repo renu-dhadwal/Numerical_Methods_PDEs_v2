@@ -10,4 +10,5 @@ Files included:
 - chapters/level2_classification_pdes.qmd
 - chapters/level3_PDE_BCs.qmd
 - chapters/level4_finite_differences.qmd
+- chapters/level5_Wave_Equation.qmd
 - styles/course.css

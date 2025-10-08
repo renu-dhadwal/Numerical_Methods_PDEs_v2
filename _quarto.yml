@@ -15,7 +15,7 @@ book:
 
 format:
   html:
-    math: mathjax 
+    math: mathjax
     code-tools: true
     code-fold: true
     code-summary: "Show code"

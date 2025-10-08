@@ -14,6 +14,7 @@ You will explore the subject through **dialogues between Acharya and Pavni**, di
 - [Level 2: Classification of PDEs](chapters/Level2_classification_pdes.qmd)
 - [Level 3: Physical Interpretation and boundary conditions](chapters/level3_PDE_BCs.qmd)
 - [Level 4: Finite Difference Methods- Introduction with application to the Heat Eqaution](chapters/level4_finite_differences.qmd)
+- [Level 5 : Hyperbolic PDEs - Wave Equation](chapters/level5_Wave_Equation.qmd)
 
 ---
 
