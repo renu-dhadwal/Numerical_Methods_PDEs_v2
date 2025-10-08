@@ -1,4 +1,4 @@
-# Level 3: Finite Differences and the Heat Equation
+# Level 4: Finite Differences and the Heat Equation
 
 ::: {.dialogue}
 **Pavni:** Acharya, how do we actually *approximate* derivatives on a computer?

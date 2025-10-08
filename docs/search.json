@@ -82,121 +82,121 @@
   {
     "objectID": "chapters/level4_finite_differences.html",
     "href": "chapters/level4_finite_differences.html",
-    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "title": "5  Level 4: Finite Differences and the Heat Equation",
     "section": "",
     "text": "5.1 Application: The Heat Equation",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 4: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level4_finite_differences.html#application-the-heat-equation",
     "href": "chapters/level4_finite_differences.html#application-the-heat-equation",
-    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "title": "5  Level 4: Finite Differences and the Heat Equation",
     "section": "",
     "text": "Acharya: Consider the 1D heat equation: \\[\nu_t = \\alpha^2 u_{xx}^2, \\quad 0 &lt; x &lt; 1,\\; t&gt;0\n\\] with boundary conditions \\(u(0,t) = u(1,t) = 0\\) and initial profile \\(u(x,0) = f(x)\\).\nWe set up a grid: - In space: \\(x_i = i\\Delta x,\\; i=0,\\dots,N\\)\n- In time: \\(t^n = n\\Delta t,\\; n=0,1,2,\\dots\\)\nAt each point, let \\(u_i^n \\approx u(x_i,t^n)\\).\nPavni: And now we replace derivatives?\nAcharya: Correct.\n- Time derivative (forward difference): \\[\n  u_t(x_i,t^n) \\approx \\frac{u_i^{n+1} - u_i^n}{\\Delta t}\n  \\] - Spatial second derivative (central difference): \\[\n  u_{xx}(x_i,t^n) \\approx \\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\\Delta x)^2}\n  \\]\nPlugging these into the PDE, we get: \\[\n\\frac{u_i^{n+1} - u_i^n}{\\Delta t} = \\alpha^2 \\,\\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\\Delta x)^2}.\n\\]\nRearranging: \\[\nu_i^{n+1} = u_i^n + \\lambda\\,(u_{i-1}^n - 2u_i^n + u_{i+1}^n),\n\\] where \\(\\lambda = \\frac{\\alpha^2 \\Delta t}{(\\Delta x)^2}\\).",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 4: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level4_finite_differences.html#stability-condition",
     "href": "chapters/level4_finite_differences.html#stability-condition",
-    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "title": "5  Level 4: Finite Differences and the Heat Equation",
     "section": "5.2 Stability Condition",
     "text": "5.2 Stability Condition\n\nPavni: So we can just keep applying this formula to march forward in time?\nAcharya: Yes, but with a caveat. This scheme, called FTCS (Forward Time, Central Space), is only stable if: \\[\n\\lambda \\leq \\tfrac{1}{2}.\n\\]\nPavni: So if \\(\\Delta t\\) is too large, the scheme fails?\nAcharya: Exactly. The numerical solution will blow up, even though the true solution is stable. Choosing \\(\\Delta t\\) small enough ensures stability.\n\n\n\n\n\n\n\nNoteWhy the FTCS stability condition is \\(\\lambda \\leq \\tfrac{1}{2}\\)\n\n\n\n\n\nIf the update is \\[\nu^{(n+1)} = A u^{(n)},\n\\] and the initial error is \\(e^0\\), then after \\(n\\) steps the error is \\[\ne^{(n)} = A^n e^0.\n\\]\nUsing an induced matrix norm: \\[\n\\|e^{(n)}\\| = \\|A^n e^0\\| \\;\\le\\; \\|A^n\\|\\,\\|e^0\\|\n\\;\\le\\; \\|A\\|^n \\|e^0\\|.\n\\]\n\nIf \\(\\|A\\|\\le 1\\), the error never grows.\n\nIf \\(\\|A\\|&lt;1\\), the error decays as \\(n\\to\\infty\\).\n\nIn general, the asymptotic condition is that the spectral radius \\(\\rho(A)&lt;1\\).\n\n\n\n5.2.0.1 Eigenvalues of the FTCS matrix\nFor the FTCS tridiagonal matrix \\(A\\) (symmetric Toeplitz), the eigenvalues are \\[\n\\mu_k = 1 - 4 \\lambda \\,\\sin^2\\!\\left(\\frac{k\\pi}{2(N-1)}\\right),\n\\qquad k=1,2,\\dots,N-2,\n\\] where \\(\\lambda = \\dfrac{\\alpha^2 \\Delta t}{(\\Delta x)^2}\\).\nThus the spectral radius is \\[\n\\rho(A) = \\max_{1\\le k \\le N-2} \\big|\\mu_k\\big|\n= \\max_{1\\le k \\le N-2} \\left|1 - 4r \\sin^2\\!\\left(\\tfrac{k\\pi}{2(N-1)}\\right)\\right|.\n\\]\n\n\n\n5.2.0.2 Stability condition\n\nAs \\(N\\to\\infty\\) (i.e. \\(\\Delta x \\to 0\\)), the maximum of \\(\\sin^2(\\cdot)\\) tends to \\(1\\).\n\nTherefore the most restrictive case is \\[\n|1 - 4 \\lambda| \\le 1.\n\\]\nThis simplifies to \\[\n0 \\;\\le\\; \\lambda \\;\\le\\; \\tfrac{1}{2}.\n\\]\n\n\n✅ Thus, the FTCS scheme is stable if and only if \\[\n\\lambda = \\frac{\\alpha \\Delta t}{(\\Delta x)^2} \\;\\le\\; \\tfrac{1}{2}.\n\\]",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 4: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level4_finite_differences.html#mini-quizzes",
     "href": "chapters/level4_finite_differences.html#mini-quizzes",
-    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "title": "5  Level 4: Finite Differences and the Heat Equation",
     "section": "5.3 Mini-Quizzes",
     "text": "5.3 Mini-Quizzes\n\nQuiz 1:\nLet \\(u(x) = x^2\\). With \\(\\Delta x = 0.1\\), approximate \\(u'(1)\\) using:\n1. Forward difference\n2. Central difference\nCompare with the exact derivative \\(u'(1) = 2\\). Which is more accurate?\n\n\n\n\n\n\n\nTipAnswer 1\n\n\n\n\n\n\nForward difference: \\[\n\\frac{u(1+\\Delta x)-u(1)}{\\Delta x}=\\frac{(1.1)^2-1^2}{0.1}=\\frac{1.21-1}{0.1}=2.1.\n\\]\nCentral difference: \\[\n\\frac{u(1+\\Delta x)-u(1-\\Delta x)}{2\\Delta x}\n=\\frac{(1.1)^2-(0.9)^2}{0.2}=\\frac{1.21-0.81}{0.2}=2.0.\n\\]\nExact derivative: \\(u'(1)=2\\).\n\nConclusion: The central difference gives the exact value here (error \\(0\\)), while the forward difference has error \\(0.1\\). Central is more accurate (as expected — it is second-order).\n\n\n\n\n\nQuiz 2:\nSuppose \\(\\alpha = 1\\), \\(\\Delta x = 0.1\\). What is the maximum \\(\\Delta t\\) for stability in the explicit scheme?\n(Hint: \\(\\lambda = \\dfrac{\\alpha \\Delta t}{(\\Delta x)^2} \\leq \\tfrac{1}{2}\\).)\n\n\n\n\n\n\n\nTipAnswer 2\n\n\n\n\n\nWe need \\[\n\\lambda=\\frac{\\alpha\\,\\Delta t}{(\\Delta x)^2}\\le\\frac{1}{2}.\n\\] With \\(\\alpha=1\\) and \\(\\Delta x=0.1\\), \\((\\Delta x)^2=0.01\\). So \\[\n\\frac{\\Delta t}{0.01}\\le\\frac{1}{2}\\quad\\Rightarrow\\quad\n\\Delta t \\le 0.01\\times\\frac{1}{2}=0.005.\n\\]\nMaximum allowable \\(\\displaystyle \\Delta t = 0.005\\).",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 4: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level4_finite_differences.html#heat-equation-matrix-method-with-non-zero-dirichlet-conditions",
     "href": "chapters/level4_finite_differences.html#heat-equation-matrix-method-with-non-zero-dirichlet-conditions",
-    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "title": "5  Level 4: Finite Differences and the Heat Equation",
     "section": "5.4 Heat equation — Matrix Method with Non-zero Dirichlet Conditions",
     "text": "5.4 Heat equation — Matrix Method with Non-zero Dirichlet Conditions\n\nPavni: We already saw how to discretize the heat equation with FTCS. But can we write the whole scheme in a more compact way?\nAcharya: Yes. That’s where the matrix method comes in. Let’s recall the PDE: \\[\nu_t = \\alpha^2 u_{xx}, \\quad 0 &lt; x &lt; 1, \\; t &gt; 0,\n\\] with Dirichlet conditions \\[\nu(0,t) = L, \\qquad u(1,t) = R,\n\\] and initial condition \\(u(x,0)=f(x)\\).\nPavni: So we still set up the grid in space and time?\nAcharya: Exactly. The FTCS update at interior nodes is \\[\nu_i^{j+1} = u_i^j + \\lambda \\,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),\n\\quad i=1,\\dots,N_x-2,\n\\] where \\(\\lambda = \\tfrac{\\alpha^2 \\Delta t}{\\Delta x^2}\\).\nPavni: That’s a lot of coupled equations. How do we collect them?\nAcharya: We put all interior values into a vector \\[\nu^{(j)} =\n\\begin{bmatrix}\nu_1^j \\\\\nu_2^j \\\\\n\\vdots \\\\\nu_{N_x-2}^j\n\\end{bmatrix}.\n\\]\nPavni: And the update rule becomes a matrix multiplication?\nAcharya: Yes. We can write \\[\nu^{(j+1)} = A\\,u^{(j)} + b,\n\\] where \\(A\\) is tridiagonal and \\(b\\) accounts for the boundary conditions: \\[\nA =\n\\begin{bmatrix}\n1-2\\lambda & \\lambda     &        &        &   \\\\\n\\lambda     & 1-2\\lambda & \\lambda      &        &   \\\\\n      & \\ddots & \\ddots & \\ddots &   \\\\\n      &        & \\lambda      & 1-2\\lambda   & \\lambda \\\\\n      &        &        & \\lambda      & 1-2\\lambda\n\\end{bmatrix}, \\qquad\nb =\n\\begin{bmatrix}\n\\lambda L \\\\\n0 \\\\\n\\vdots \\\\\n0 \\\\\n\\lambda R\n\\end{bmatrix}.\n\\]\nPavni: So if \\(L=R=0\\), then \\(b=0\\) and we just have \\(u^{(j+1)} = A u^{(j)}\\).\nAcharya: Precisely. That’s the beauty of the matrix method: it organizes the scheme into a linear algebra update.\n\n\n\n5.4.1 Implementation in Python\nLet us now implement the method in Python and compare with the exact solution for \\(f(x)=\\sin(\\pi x)\\): \\[\nu(x,t) = e^{-\\pi^2 \\alpha t}\\,\\sin(\\pi x).\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n5.4.2 Remarks\n\nThe linear algebra structure \\(u^{(j+1)} = A u^{(j)} + b\\) makes the scheme compact and systematic.\n\nThe stability restriction \\(\\lambda \\leq \\tfrac{1}{2}\\) follows from analyzing the eigenvalues of \\(A\\).\n\nFor large \\(N_x\\), \\(A\\) is sparse and tridiagonal — in practice, use scipy.sparse.diags for efficiency.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 4: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level4_finite_differences.html#backward-difference-implicit-scheme-for-the-heat-equation",
     "href": "chapters/level4_finite_differences.html#backward-difference-implicit-scheme-for-the-heat-equation",
-    "title": "5  Level 3: Finite Differences and the Heat Equation",
+    "title": "5  Level 4: Finite Differences and the Heat Equation",
     "section": "5.5 Backward Difference (Implicit) Scheme for the Heat Equation",
     "text": "5.5 Backward Difference (Implicit) Scheme for the Heat Equation\n\nPavni: Acharya, the FTCS scheme works only if \\(\\lambda \\leq \\tfrac{1}{2}\\). Is there a method that avoids this restriction?\nAcharya: Yes. We can use a backward difference in time, together with the same central difference in space. This gives the Backward Euler scheme, which is implicit but unconditionally stable.\nPavni: Implicit? What does that mean?\nAcharya: It means that the new values \\(u^{n+1}\\) appear on both sides of the equation, so we must solve a system of equations at each time step.\n\n\n\n5.5.1 Derivation\nStart from the PDE: \\[\nu_t = \\alpha^2 u_{xx}.\n\\]\n\nApproximate the time derivative with a backward difference: \\[\nu_t(x_i,t^{n+1}) \\;\\approx\\; \\frac{u_i^{\\,n+1} - u_i^{\\,n}}{\\Delta t}.\n\\]\nApproximate the spatial second derivative at the new time level: \\[\nu_{xx}(x_i,t^{n+1}) \\;\\approx\\; \\frac{u_{i-1}^{\\,n+1} - 2u_i^{\\,n+1} + u_{i+1}^{\\,n+1}}{(\\Delta x)^2}.\n\\]\n\nThe scheme becomes: \\[\n\\frac{u_i^{\\,n+1} - u_i^{\\,n}}{\\Delta t}\n= \\alpha^2 \\,\\frac{u_{i-1}^{\\,n+1} - 2u_i^{\\,n+1} + u_{i+1}^{\\,n+1}}{(\\Delta x)^2}.\n\\]\nRearrange: \\[\n- \\lambda\\, u_{i-1}^{\\,n+1} + (1+2\\lambda)\\,u_i^{\\,n+1} - \\lambda\\, u_{i+1}^{\\,n+1} = u_i^{\\,n},\n\\qquad\n\\lambda = \\frac{\\alpha^2 \\Delta t}{(\\Delta x)^2}.\n\\]\n\n\n\n5.5.2 Matrix Form\nLet \\(u^{(n)}\\) be the vector of interior values at time step \\(n\\). Then \\[\nB u^{(n+1)} = u^{(n)},\n\\] where \\[\nB =\n\\begin{bmatrix}\n1+2\\lambda & -\\lambda     &            &            &   \\\\\n-\\lambda    & 1+2\\lambda  & -\\lambda   &            &   \\\\\n            & \\ddots      & \\ddots     & \\ddots     &   \\\\\n            &             & -\\lambda   & 1+2\\lambda & -\\lambda \\\\\n            &             &            & -\\lambda   & 1+2\\lambda\n\\end{bmatrix}_{(N_x-2)\\times(N_x-2)}.\n\\]\nSo each step requires solving the linear system \\[\nu^{(n+1)} = B^{-1} u^{(n)}.\n\\]\n\n\n\n5.5.3 Stability\n\nPavni: Doesn’t that make it more expensive than FTCS?\nAcharya: It does, because we must solve a tridiagonal system at every time step.\nBut the reward is unconditional stability: for any \\(\\Delta t &gt; 0\\) and \\(\\Delta x &gt; 0\\), the scheme does not blow up.\nPavni: So no restriction like \\(\\lambda \\leq \\tfrac{1}{2}\\)?\nAcharya: Exactly. Backward Euler is stable for all \\(\\lambda\\).\nIt is only first-order accurate in time (like FTCS), but still second-order in space.\n\n\n\n\n5.5.4 Remarks\n\nBackward Euler is more robust but requires solving a linear system at each step.\n\nFor large systems, efficient algorithms like the Thomas algorithm (specialized Gaussian elimination for tridiagonal matrices) are used.\n\nIn practice, one balances cost (explicit FTCS, cheap but conditionally stable) against robustness (implicit Backward Euler, unconditionally stable).\n\n\n\n\n\n\n\nNoteWhy the Backward Euler scheme is unconditionally stable\n\n\n\n\n\nIf the update is\n\\[\nu^{(n+1)} = A u^{(n)},\n\\]\nand the initial error is \\(e^0\\), then after \\(n\\) steps the error is\n\\[\ne^{(n)} = A^n e^0.\n\\]\nAs before, the asymptotic condition is that the spectral radius \\(\\rho(A)&lt;1\\).\n\n\n5.5.4.1 Eigenvalues of the Backward Euler iteration matrix\nThe Backward Euler scheme for the heat equation is\n\\[\n\\frac{U^{n+1} - U^n}{\\Delta t} = \\alpha^2 A U^{n+1},\n\\] which rearranges to\n\\[\nU^{n+1} = (I - \\lambda A)^{-1} U^n,\n\\qquad \\lambda = \\frac{\\alpha^2 \\Delta t}{(\\Delta x)^2}.\n\\]\n\nIf \\(\\lambda_i(A)\\) are the eigenvalues of the discrete Laplacian \\(A\\),\nthen the eigenvalues of the iteration matrix are \\[\n\\mu_i = \\frac{1}{1 - \\lambda_i(A)}.\n\\]\nFor the 1D Laplacian with Dirichlet BCs, \\[\n\\lambda_i(A) = -4 \\sin^2\\!\\left(\\frac{i\\pi}{2m}\\right),\n\\qquad i=1,2,\\dots,m-1.\n\\]\n\nThus \\[\n\\mu_i = \\frac{1}{1 + 4\\lambda \\sin^2\\!\\left(\\frac{i\\pi}{2m}\\right)}.\n\\]\n\n\n\n5.5.4.2 Stability condition\n\nSince \\(\\lambda&gt;0\\) and \\(\\sin^2(\\cdot)\\ge0\\),\nthe denominator is always greater than \\(1\\).\n\nTherefore \\[\n0 &lt; \\mu_i &lt; 1, \\qquad \\forall i.\n\\]\n\nThis means all eigenvalues of the iteration matrix lie strictly inside the unit circle.\n\n✅ Thus, the Backward Euler scheme is unconditionally stable: - No restriction on \\(\\Delta t\\).\n- Every mode decays monotonically.\n- In contrast, FTCS required \\(\\lambda \\le \\tfrac{1}{2}\\) for stability.\n\n\n\n\n\n\n5.5.5 Interactive plots to see the eigenvalues of FTCS and Backward Differencce methods\n\n\n                            \n                                            \n\n\n                            \n                                            \n\n\n\nHow to interact with the plots - Move the slider to change \\(\\lambda = \\tfrac{\\alpha^2 \\Delta t}{(\\Delta x)^2}\\).\n- FTCS plot: notice that for \\(\\lambda &gt; 0.5\\) some eigenvalues leave \\([-1,1]\\), indicating instability.\n- Backward Euler plot: eigenvalues always remain in \\((0,1)\\), showing unconditional stability.\n- Hover over points to see their values, zoom by dragging, double-click to reset.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 3: Finite Differences and the Heat Equation</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Level 4: Finite Differences and the Heat Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level5_Wave_Equation.html",
     "href": "chapters/level5_Wave_Equation.html",
-    "title": "6  Level 4: Hyperbolic PDEs: Wave Equation",
+    "title": "6  Level 5: Hyperbolic PDEs: Wave Equation",
     "section": "",
     "text": "6.1 🚗 The Traffic Flow Model\nPavni: Acharya, we’ve studied the heat equation. From theory we know that it seems to spread information everywhere. Does every PDE behave like that?\nAcharya: That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parambolic heat equation.\nSome equations describe situations where information or disturbances travel at a finite speed — like waves or moving traffic.\nPavni: So these are called hyperbolic equations?\nAcharya: Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that move through a medium rather than diffuse.\nFor example — a vibrating string, sound waves in air, or even cars moving on a road.\nPavni: Interesting! But why are they so different from diffusion equations like the heat equation?\nAcharya: Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.\nThat’s called infinite propagation speed.\nBut hyperbolic equations restrict influence to certain paths in the \\((x,t)\\)-plane, called characteristics.\nInformation travels only along these paths at a finite speed.\nPavni: That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!\nAcharya: Exactly. Let’s begin with a simple and familiar example — traffic flow.\nIt beautifully captures the idea of conservation and finite-speed motion.\nPavni: So, where do we begin?\nAcharya: Let’s define some quantities.\nPavni: So \\(q\\) must depend on both how many cars there are and how fast they move?\nAcharya: Precisely. That leads us to the simple physical relation \\[\nq = \\rho v\n\\]",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 4: Hyperbolic PDEs: Wave Equation</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5: Hyperbolic PDEs: Wave Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level5_Wave_Equation.html#the-traffic-flow-model",
     "href": "chapters/level5_Wave_Equation.html#the-traffic-flow-model",
-    "title": "6  Level 4: Hyperbolic PDEs: Wave Equation",
+    "title": "6  Level 5: Hyperbolic PDEs: Wave Equation",
     "section": "",
     "text": "$ (x,t) $: density of cars at position \\(x\\) and time \\(t\\) (cars/km)\n\n$ v(x,t) $: average speed of cars (km/h)\n\n$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)\n\n\n\n\n\n💡 Why $ q = v $?\n\nIf a small segment of road of length $ x $ contains $ x $ cars,\nand each car moves with velocity \\(v\\), then in time $ t $ each car covers \\(v \\Delta t\\) km.\nSo, the number of cars passing a fixed point in time $ t $ is\n\\[\n(\\rho \\Delta x) \\cdot \\frac{v \\Delta t}{\\Delta x} = \\rho v \\Delta t.\n\\] Dividing by $ t $ gives $ q = v $.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 4: Hyperbolic PDEs: Wave Equation</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5: Hyperbolic PDEs: Wave Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level5_Wave_Equation.html#conservation-of-cars",
     "href": "chapters/level5_Wave_Equation.html#conservation-of-cars",
-    "title": "6  Level 4: Hyperbolic PDEs: Wave Equation",
+    "title": "6  Level 5: Hyperbolic PDEs: Wave Equation",
     "section": "6.2 ⚙️ Conservation of Cars",
     "text": "6.2 ⚙️ Conservation of Cars\nAcharya: Now, think of a small stretch of road between \\(x_1\\) and \\(x_2\\).\nCars can only leave or enter through the ends.\n\\[\n\\frac{d}{dt}\\int_{x_1}^{x_2} \\rho(x,t)\\,dx = q(x_1,t) - q(x_2,t).\n\\]\nPavni: That looks like conservation of mass!\nAcharya: Exactly — just conservation of number of cars.\nSimplifying, we get the conservation equation: \\[\n\\rho_t + q_x = 0.\n\\]",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 4: Hyperbolic PDEs: Wave Equation</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5: Hyperbolic PDEs: Wave Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level5_Wave_Equation.html#constant-speed-motion-the-linear-advection-equation",
     "href": "chapters/level5_Wave_Equation.html#constant-speed-motion-the-linear-advection-equation",
-    "title": "6  Level 4: Hyperbolic PDEs: Wave Equation",
+    "title": "6  Level 5: Hyperbolic PDEs: Wave Equation",
     "section": "6.3 🛣️ Constant-Speed Motion: The Linear Advection Equation",
     "text": "6.3 🛣️ Constant-Speed Motion: The Linear Advection Equation\nAcharya: Suppose every car moves with a constant speed \\(a&gt;0\\). Then \\(v(x,t)=a\\).\nHence, \\(q = \\rho v = a\\rho\\).\nSubstitute into the conservation law: \\[\n\\rho_t + (a\\rho)_x = 0 \\quad \\Rightarrow \\quad \\rho_t + a\\rho_x = 0.\n\\]\nPavni: That’s our PDE?\nAcharya: Yes, it’s called the linear advection equation.\nIt’s the simplest hyperbolic equation — it models how a quantity moves steadily with constant speed.\nPavni: So this describes a traffic pattern moving forward without changing its shape?\nAcharya: Exactly. The entire profile of car density just shifts rightward with speed \\(a\\).",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 4: Hyperbolic PDEs: Wave Equation</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5: Hyperbolic PDEs: Wave Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level5_Wave_Equation.html#try-to-predict",
     "href": "chapters/level5_Wave_Equation.html#try-to-predict",
-    "title": "6  Level 4: Hyperbolic PDEs: Wave Equation",
+    "title": "6  Level 5: Hyperbolic PDEs: Wave Equation",
     "section": "6.4 ✏️ Try to Predict",
     "text": "6.4 ✏️ Try to Predict\nAcharya: Before solving it, can you guess how the density will evolve if initially the density is a bump — say,\n\\[\n\\rho(x,0) = e^{-x^2}?\n\\]\nPavni: I think it will move to the right, keeping its shape.\nAcharya: Perfect intuition. We’ll now confirm this mathematically using characteristics — special curves along which information travels.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 4: Hyperbolic PDEs: Wave Equation</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5: Hyperbolic PDEs: Wave Equation</span>"
     ]
   },
   {
     "objectID": "chapters/level5_Wave_Equation.html#next-section-characteristics-and-the-solution-of-the-linear-advection-equation",
     "href": "chapters/level5_Wave_Equation.html#next-section-characteristics-and-the-solution-of-the-linear-advection-equation",
-    "title": "6  Level 4: Hyperbolic PDEs: Wave Equation",
+    "title": "6  Level 5: Hyperbolic PDEs: Wave Equation",
     "section": "6.5 Next Section → Characteristics and the Solution of the Linear Advection Equation",
     "text": "6.5 Next Section → Characteristics and the Solution of the Linear Advection Equation\nIn the next section, we’ll explore how this PDE\n\\[\n\\rho_t + a\\rho_x = 0\n\\] tells us that information moves along straight lines in the ((x,t)\\(-plane,\nand we’ll derive its solution:\\)$ (x,t) = _0(x - a t). $$",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 4: Hyperbolic PDEs: Wave Equation</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5: Hyperbolic PDEs: Wave Equation</span>"
     ]
   }
 ]

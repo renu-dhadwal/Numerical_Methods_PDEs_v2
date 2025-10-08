@@ -1,4 +1,4 @@
-# Level 4: Hyperbolic PDEs: Wave Equation
+# Level 5: Hyperbolic PDEs: Wave Equation
 
 **Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?
 
