@@ -154,7 +154,7 @@
     "href": "chapters/level5_Wave_Equation.html#the-traffic-flow-model",
     "title": "6  Level 5: Hyperbolic PDEs: Wave Equation",
     "section": "",
-    "text": "$(x,t) $: density of cars at position \\(x\\) and time \\(t\\) (cars/km)\n\n$ v(x,t) $: average speed of cars (km/h)\n\n$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)\n\n\n\n\n\n💡 Why $ q = v $?\n\nIf a small segment of road of length $ x $ contains $ x $ cars,\nand each car moves with velocity \\(v\\), then in time $ t $ each car covers \\(v \\Delta t\\) km.\nSo, the number of cars passing a fixed point in time $ t $ is\n\\[\n(\\rho \\Delta x) \\cdot \\frac{v \\Delta t}{\\Delta x} = \\rho v \\Delta t.\n\\] Dividing by $ t $ gives $ q = v $.",
+    "text": "\\[ \\rho(x,t)\\]: density of cars at position \\(x\\) and time \\(t\\) (cars/km)\n\n$ v(x,t) $: average speed of cars (km/h)\n\n$ q(x,t) $: flow rate — number of cars passing a point per unit time (cars/hour)\n\n\n\n\n\n💡 Why $ q = v $?\n\nIf a small segment of road of length $ x $ contains $ x $ cars,\nand each car moves with velocity \\(v\\), then in time $ t $ each car covers \\(v \\Delta t\\) km.\nSo, the number of cars passing a fixed point in time $ t $ is\n\\[\n(\\rho \\Delta x) \\cdot \\frac{v \\Delta t}{\\Delta x} = \\rho v \\Delta t.\n\\] Dividing by $ t $ gives $ q = v $.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5: Hyperbolic PDEs: Wave Equation</span>"
     ]
