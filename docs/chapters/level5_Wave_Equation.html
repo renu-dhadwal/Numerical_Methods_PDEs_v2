@@ -232,6 +232,12 @@ window.Quarto = {
   <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">6.4.5</span> Example</a></li>
   <li><a href="#visualizing-characteristics" id="toc-visualizing-characteristics" class="nav-link" data-scroll-target="#visualizing-characteristics"><span class="header-section-number">6.4.6</span> Visualizing Characteristics</a></li>
   </ul></li>
+  <li><a href="#domain-of-dependence-and-domain-of-influence" id="toc-domain-of-dependence-and-domain-of-influence" class="nav-link" data-scroll-target="#domain-of-dependence-and-domain-of-influence"><span class="header-section-number">6.5</span> 🕸️ Domain of Dependence and Domain of Influence</a>
+  <ul class="collapse">
+  <li><a href="#what-do-these-mean" id="toc-what-do-these-mean" class="nav-link" data-scroll-target="#what-do-these-mean"><span class="header-section-number">6.5.1</span> 1️⃣ What do these mean?</a></li>
+  <li><a href="#example-1-linear-advection" id="toc-example-1-linear-advection" class="nav-link" data-scroll-target="#example-1-linear-advection"><span class="header-section-number">6.5.2</span> 2️⃣ Example 1: Linear Advection</a></li>
+  <li><a href="#example-2-the-1-d-wave-equation" id="toc-example-2-the-1-d-wave-equation" class="nav-link" data-scroll-target="#example-2-the-1-d-wave-equation"><span class="header-section-number">6.5.3</span> 3️⃣ Example 2: The 1-D Wave Equation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -437,6 +443,69 @@ But here, the influence travels only along straight lines <span class="math inli
   |     /    /    /    /    /    /    /
   |____/____/____/____/____/____/____/→ x
 </code></pre>
+</section>
+</section>
+<section id="domain-of-dependence-and-domain-of-influence" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="domain-of-dependence-and-domain-of-influence"><span class="header-section-number">6.5</span> 🕸️ Domain of Dependence and Domain of Influence</h2>
+<p><strong>Pavni:</strong> Acharya, you mentioned earlier that information in hyperbolic equations travels along characteristics. But how exactly do we describe <em>which</em> parts of the initial data influence the solution at a given point?</p>
+<p><strong>Acharya:</strong> Excellent question, Pavni. To answer that, we introduce two key ideas — the <strong>domain of dependence</strong> and the <strong>domain of influence</strong>. These describe how information moves through space and time.</p>
+<hr>
+<section id="what-do-these-mean" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="what-do-these-mean"><span class="header-section-number">6.5.1</span> 1️⃣ What do these mean?</h3>
+<p><strong>Acharya:</strong> Let’s begin intuitively.</p>
+<ul>
+<li><p>The <strong>domain of dependence (DoD)</strong> of a point <span class="math inline">\((x,t)\)</span> is the set of points in the initial data that can <em>affect</em> the solution at <span class="math inline">\((x,t)\)</span>.<br>
+In other words: <em>Which initial points influence the value here?</em></p></li>
+<li><p>The <strong>domain of influence (DoI)</strong> of a point <span class="math inline">\((x_0,0)\)</span> is the set of space–time points <span class="math inline">\((x,t)\)</span> that can be affected by that initial point.<br>
+In other words: <em>Where does the information starting at <span class="math inline">\(x_0\)</span> go?</em></p></li>
+</ul>
+<p><strong>Pavni:</strong> So the DoD looks backward in time, and the DoI looks forward?</p>
+<p><strong>Acharya:</strong> Exactly. They’re like mirror images of each other.<br>
+For hyperbolic PDEs, these regions are bounded by <strong>characteristics</strong> — the paths along which information travels at finite speed.</p>
+<hr>
+</section>
+<section id="example-1-linear-advection" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="example-1-linear-advection"><span class="header-section-number">6.5.2</span> 2️⃣ Example 1: Linear Advection</h3>
+<p><strong>Pavni:</strong> Let’s try this with the advection equation again:<br>
+<span class="math display">\[
+u_t + a\,u_x = 0, \quad u(x,0) = u_0(x).
+\]</span></p>
+<p><strong>Acharya:</strong> Good. The characteristics are the straight lines <span class="math display">\[
+x - a t = \text{constant}.
+\]</span></p>
+<p>So each point <span class="math inline">\((x,t)\)</span> connects to exactly one point on the <span class="math inline">\(x\)</span>–axis: <span class="math inline">\(x_0 = x - a t\)</span>.</p>
+<p><strong>Pavni:</strong> So the value <span class="math inline">\(u(x,t)\)</span> depends only on <span class="math inline">\(u_0(x - a t)\)</span>?</p>
+<p><strong>Acharya:</strong> Exactly. That means:</p>
+<ul>
+<li>The <strong>domain of dependence</strong> of <span class="math inline">\((x,t)\)</span> is the <strong>single point</strong> <span class="math inline">\(x_0 = x - a t\)</span>.<br>
+</li>
+<li>The <strong>domain of influence</strong> of an initial point <span class="math inline">\((x_0,0)\)</span> is the <strong>straight line</strong> <span class="math inline">\(x = x_0 + a t\)</span>.</li>
+</ul>
+<p><strong>Pavni:</strong> So for advection, both DoD and DoI are just lines — not regions?</p>
+<p><strong>Acharya:</strong> Right. A <em>single characteristic line</em> carries all the information.<br>
+This is why the advection equation has such a clean propagation behavior — each point of initial data simply moves at speed <span class="math inline">\(a\)</span> without interacting with others.</p>
+<hr>
+</section>
+<section id="example-2-the-1-d-wave-equation" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="example-2-the-1-d-wave-equation"><span class="header-section-number">6.5.3</span> 3️⃣ Example 2: The 1-D Wave Equation</h3>
+<p><strong>Pavni:</strong> What happens for the wave equation?<br>
+<span class="math display">\[
+u_{tt} = c^2 u_{xx}.
+\]</span></p>
+<p><strong>Acharya:</strong> Ah, this one is a bit richer. The general solution is given by d’Alembert’s formula: <span class="math display">\[
+u(x,t) = F(x - c t) + G(x + c t).
+\]</span></p>
+<p><strong>Pavni:</strong> So now we have two families of characteristics — one moving right, one left?</p>
+<p><strong>Acharya:</strong> Precisely! For this equation: - Right-moving characteristics: <span class="math inline">\(x - c t = \text{constant}\)</span><br>
+- Left-moving characteristics: <span class="math inline">\(x + c t = \text{constant}\)</span></p>
+<p>Now, to find the value at <span class="math inline">\((x,t)\)</span>, you need both <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> — meaning information from <strong>two points</strong> on the initial line: <span class="math display">\[
+x - c t \quad \text{and} \quad x + c t.
+\]</span></p>
+<p><strong>Pavni:</strong> So the DoD of <span class="math inline">\((x,t)\)</span> is the interval between those two points?</p>
+<p><strong>Acharya:</strong> Yes. The <strong>domain of dependence</strong> is<br>
+<span class="math display">\[
+[x - c t,\, x + c t].
+\]</span> And the <strong>domain of influence</strong> of an initial point <span class="math inline">\((x_0,0)\)</span> is the cone-shaped region</p>
 
 
 
@@ -1167,7 +1236,90 @@ But here, the influence travels only along straight lines <span class="math inli
 <span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>  |     <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/</span></span>
 <span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a><span class="ot">  </span><span class="ch">|</span><span class="ot">____/</span>____/____/____/____/____/____/→ x</span>
 <span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🕸️ Domain of Dependence and Domain of Influence</span></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, you mentioned earlier that information in hyperbolic equations travels along characteristics. But how exactly do we describe *which* parts of the initial data influence the solution at a given point?</span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>**Acharya:** Excellent question, Pavni. To answer that, we introduce two key ideas — the **domain of dependence** and the **domain of influence**. These describe how information moves through space and time.</span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1️⃣ What do these mean?</span></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s begin intuitively.</span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of dependence (DoD)** of a point $(x,t)$ is the set of points in the initial data that can *affect* the solution at $(x,t)$.  </span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a>  In other words: *Which initial points influence the value here?*</span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of influence (DoI)** of a point $(x_0,0)$ is the set of space–time points $(x,t)$ that can be affected by that initial point.  </span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a>  In other words: *Where does the information starting at $x_0$ go?*</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the DoD looks backward in time, and the DoI looks forward?</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. They’re like mirror images of each other.  </span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>For hyperbolic PDEs, these regions are bounded by **characteristics** — the paths along which information travels at finite speed.</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2️⃣ Example 1: Linear Advection</span></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>**Pavni:** Let’s try this with the advection equation again:  </span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a>u_t + a\,u_x = 0, \quad u(x,0) = u_0(x).</span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>**Acharya:** Good. The characteristics are the straight lines</span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>x - a t = \text{constant}.</span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a>So each point $(x,t)$ connects to exactly one point on the $x$–axis: $x_0 = x - a t$.</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the value $u(x,t)$ depends only on $u_0(x - a t)$?</span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. That means:</span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of dependence** of $(x,t)$ is the **single point** $x_0 = x - a t$.  </span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of influence** of an initial point $(x_0,0)$ is the **straight line** $x = x_0 + a t$.</span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a>**Pavni:** So for advection, both DoD and DoI are just lines — not regions?</span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a>**Acharya:** Right. A *single characteristic line* carries all the information.  </span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>This is why the advection equation has such a clean propagation behavior — each point of initial data simply moves at speed $a$ without interacting with others.</span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3️⃣ Example 2: The 1-D Wave Equation</span></span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a>**Pavni:** What happens for the wave equation?  </span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a>u_{tt} = c^2 u_{xx}.</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a>**Acharya:** Ah, this one is a bit richer. The general solution is given by d’Alembert’s formula:</span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a>u(x,t) = F(x - c t) + G(x + c t).</span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a>**Pavni:** So now we have two families of characteristics — one moving right, one left?</span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely! For this equation:</span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Right-moving characteristics: $x - c t = \text{constant}$  </span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Left-moving characteristics: $x + c t = \text{constant}$</span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a>Now, to find the value at $(x,t)$, you need both $F$ and $G$ — meaning information from **two points** on the initial line:</span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a>x - c t \quad \text{and} \quad x + c t.</span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the DoD of $(x,t)$ is the interval between those two points?</span>
+<span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a>**Acharya:** Yes. The **domain of dependence** is  </span>
+<span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">x - c t,\, x + c t</span><span class="co">]</span>.</span>
+<span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a>And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

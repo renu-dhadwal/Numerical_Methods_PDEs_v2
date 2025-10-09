@@ -260,3 +260,86 @@ t ↑
   |____/____/____/____/____/____/____/→ x
 
 ```
+## 🕸️ Domain of Dependence and Domain of Influence
+
+**Pavni:** Acharya, you mentioned earlier that information in hyperbolic equations travels along characteristics. But how exactly do we describe *which* parts of the initial data influence the solution at a given point?
+
+**Acharya:** Excellent question, Pavni. To answer that, we introduce two key ideas — the **domain of dependence** and the **domain of influence**. These describe how information moves through space and time.
+
+---
+
+### 1️⃣ What do these mean?
+
+**Acharya:** Let’s begin intuitively.
+
+- The **domain of dependence (DoD)** of a point $(x,t)$ is the set of points in the initial data that can *affect* the solution at $(x,t)$.  
+  In other words: *Which initial points influence the value here?*
+
+- The **domain of influence (DoI)** of a point $(x_0,0)$ is the set of space–time points $(x,t)$ that can be affected by that initial point.  
+  In other words: *Where does the information starting at $x_0$ go?*
+
+**Pavni:** So the DoD looks backward in time, and the DoI looks forward?
+
+**Acharya:** Exactly. They’re like mirror images of each other.  
+For hyperbolic PDEs, these regions are bounded by **characteristics** — the paths along which information travels at finite speed.
+
+---
+
+### 2️⃣ Example 1: Linear Advection
+
+**Pavni:** Let’s try this with the advection equation again:  
+$$
+u_t + a\,u_x = 0, \quad u(x,0) = u_0(x).
+$$
+
+**Acharya:** Good. The characteristics are the straight lines
+$$
+x - a t = \text{constant}.
+$$
+
+So each point $(x,t)$ connects to exactly one point on the $x$–axis: $x_0 = x - a t$.
+
+**Pavni:** So the value $u(x,t)$ depends only on $u_0(x - a t)$?
+
+**Acharya:** Exactly. That means:
+
+- The **domain of dependence** of $(x,t)$ is the **single point** $x_0 = x - a t$.  
+- The **domain of influence** of an initial point $(x_0,0)$ is the **straight line** $x = x_0 + a t$.
+
+**Pavni:** So for advection, both DoD and DoI are just lines — not regions?
+
+**Acharya:** Right. A *single characteristic line* carries all the information.  
+This is why the advection equation has such a clean propagation behavior — each point of initial data simply moves at speed $a$ without interacting with others.
+
+---
+
+### 3️⃣ Example 2: The 1-D Wave Equation
+
+**Pavni:** What happens for the wave equation?  
+$$
+u_{tt} = c^2 u_{xx}.
+$$
+
+**Acharya:** Ah, this one is a bit richer. The general solution is given by d’Alembert’s formula:
+$$
+u(x,t) = F(x - c t) + G(x + c t).
+$$
+
+**Pavni:** So now we have two families of characteristics — one moving right, one left?
+
+**Acharya:** Precisely! For this equation:
+- Right-moving characteristics: $x - c t = \text{constant}$  
+- Left-moving characteristics: $x + c t = \text{constant}$
+
+Now, to find the value at $(x,t)$, you need both $F$ and $G$ — meaning information from **two points** on the initial line:
+$$
+x - c t \quad \text{and} \quad x + c t.
+$$
+
+**Pavni:** So the DoD of $(x,t)$ is the interval between those two points?
+
+**Acharya:** Yes. The **domain of dependence** is  
+$$
+[x - c t,\, x + c t].
+$$
+And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region
