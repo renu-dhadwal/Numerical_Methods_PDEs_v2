@@ -260,6 +260,7 @@ t ↑
   |____/____/____/____/____/____/____/→ x
 
 ```
+
 ## 🕸️ Domain of Dependence and Domain of Influence
 
 **Pavni:** Acharya, you mentioned earlier that information in hyperbolic equations travels along characteristics. But how exactly do we describe *which* parts of the initial data influence the solution at a given point?
