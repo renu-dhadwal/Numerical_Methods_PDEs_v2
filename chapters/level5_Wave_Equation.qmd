@@ -268,7 +268,7 @@ t ↑
 
 ---
 
-### 1️⃣ What do these mean?
+###  What do these mean?
 
 **Acharya:** Let’s begin intuitively.
 
@@ -285,7 +285,7 @@ For hyperbolic PDEs, these regions are bounded by **characteristics** — the pa
 
 ---
 
-### 2️⃣ Example 1: Linear Advection
+###  Example 1: Linear Advection
 
 **Pavni:** Let’s try this with the advection equation again:  
 $$
@@ -313,7 +313,7 @@ This is why the advection equation has such a clean propagation behavior — eac
 
 ---
 
-### 3️⃣ Example 2: The 1-D Wave Equation
+###  Example 2: The 1-D Wave Equation
 
 **Pavni:** What happens for the wave equation?  
 $$
