@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Level 5 — Hyperbolic PDEs: Wave Equation – Numerical Methods for PDEs: An Interactive Journey</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/level4_finite_differences.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level5_Wave_Equation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5 — Hyperbolic PDEs: Wave Equation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Numerical Methods for PDEs: An Interactive Journey</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Numerical Methods for PDEs: An Interactive Journey</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/level1_history_pdes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Level 1: A Historical Glimpse of PDEs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/level2_classification_pdes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Level 2: Classification of PDEs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/level3_PDE_BCs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Level 3: PDEs, their Physical Meaning, and Boundary Conditions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/level4_finite_differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 4: Finite Differences and the Heat Equation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/level5_Wave_Equation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5 — Hyperbolic PDEs: Wave Equation</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#level-5-hyperbolic-pdes-wave-equation" id="toc-level-5-hyperbolic-pdes-wave-equation" class="nav-link active" data-scroll-target="#level-5-hyperbolic-pdes-wave-equation"><span class="header-section-number">7</span> Level 5: Hyperbolic PDEs — Wave Equation</a>
+  <ul class="collapse">
+  <li><a href="#the-traffic-flow-model" id="toc-the-traffic-flow-model" class="nav-link" data-scroll-target="#the-traffic-flow-model"><span class="header-section-number">7.1</span> 🚗 The Traffic Flow Model</a></li>
+  <li><a href="#conservation-of-cars" id="toc-conservation-of-cars" class="nav-link" data-scroll-target="#conservation-of-cars"><span class="header-section-number">7.2</span> ⚙️ Conservation of Cars</a>
+  <ul class="collapse">
+  <li><a href="#step-1-apply-the-fundamental-theorem-of-calculus" id="toc-step-1-apply-the-fundamental-theorem-of-calculus" class="nav-link" data-scroll-target="#step-1-apply-the-fundamental-theorem-of-calculus"><span class="header-section-number">7.2.1</span> 🔹 Step 1: Apply the Fundamental Theorem of Calculus</a></li>
+  <li><a href="#step-2-move-the-time-derivative-inside-the-integral" id="toc-step-2-move-the-time-derivative-inside-the-integral" class="nav-link" data-scroll-target="#step-2-move-the-time-derivative-inside-the-integral"><span class="header-section-number">7.2.2</span> 🔹 Step 2: Move the time derivative inside the integral</a></li>
+  <li><a href="#step-3-the-local-pointwise-conservation-law" id="toc-step-3-the-local-pointwise-conservation-law" class="nav-link" data-scroll-target="#step-3-the-local-pointwise-conservation-law"><span class="header-section-number">7.2.3</span> 🔹 Step 3: The local (pointwise) conservation law</a></li>
+  </ul></li>
+  <li><a href="#try-to-predict" id="toc-try-to-predict" class="nav-link" data-scroll-target="#try-to-predict"><span class="header-section-number">7.3</span> ✏️ Try to Predict</a></li>
+  <li><a href="#characteristics-and-the-solution-of-the-linear-advection-equation" id="toc-characteristics-and-the-solution-of-the-linear-advection-equation" class="nav-link" data-scroll-target="#characteristics-and-the-solution-of-the-linear-advection-equation"><span class="header-section-number">7.4</span> 🌊 Characteristics and the Solution of the Linear Advection Equation</a>
+  <ul class="collapse">
+  <li><a href="#deriving-the-characteristic-curves" id="toc-deriving-the-characteristic-curves" class="nav-link" data-scroll-target="#deriving-the-characteristic-curves"><span class="header-section-number">7.4.1</span> Deriving the Characteristic Curves</a></li>
+  <li><a href="#the-meaning-of-characteristics" id="toc-the-meaning-of-characteristics" class="nav-link" data-scroll-target="#the-meaning-of-characteristics"><span class="header-section-number">7.4.2</span> The Meaning of Characteristics</a></li>
+  <li><a href="#verifying-the-solution" id="toc-verifying-the-solution" class="nav-link" data-scroll-target="#verifying-the-solution"><span class="header-section-number">7.4.3</span> Verifying the Solution</a></li>
+  <li><a href="#understanding-finite-propagation-speed" id="toc-understanding-finite-propagation-speed" class="nav-link" data-scroll-target="#understanding-finite-propagation-speed"><span class="header-section-number">7.4.4</span> Understanding Finite Propagation Speed</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">7.4.5</span> Example</a></li>
+  <li><a href="#visualizing-characteristics" id="toc-visualizing-characteristics" class="nav-link" data-scroll-target="#visualizing-characteristics"><span class="header-section-number">7.4.6</span> Visualizing Characteristics</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5 — Hyperbolic PDEs: Wave Equation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="level-5-hyperbolic-pdes-wave-equation" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Level 5: Hyperbolic PDEs — Wave Equation</h1>
+<p><strong>Pavni:</strong> Acharya, we’ve studied the heat equation. From theory we know that it seems to <em>spread</em> information everywhere. Does every PDE behave like that?</p>
+<p><strong>Acharya:</strong> That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parabolic heat equation.<br>
+Some equations describe situations where information or disturbances travel at a <em>finite speed</em> — like waves or moving traffic.</p>
+<p><strong>Pavni:</strong> So these are called <em>hyperbolic equations</em>?</p>
+<p><strong>Acharya:</strong> Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that <em>move</em> through a medium rather than <em>diffuse</em>.<br>
+For example — a vibrating string, sound waves in air, or even cars moving on a road.</p>
+<p><strong>Pavni:</strong> Interesting! But why are they so different from diffusion equations like the heat equation?</p>
+<p><strong>Acharya:</strong> Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.<br>
+That’s called <strong>infinite propagation speed</strong>.<br>
+But hyperbolic equations restrict influence to certain <em>paths</em> in the <span class="math inline">\((x,t)\)</span>-plane, called <strong>characteristics</strong>.<br>
+Information travels only along these paths at a finite speed.</p>
+<p><strong>Pavni:</strong> That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!</p>
+<p><strong>Acharya:</strong> Exactly. Let’s begin with a simple and familiar example — <strong>traffic flow</strong>.<br>
+It beautifully captures the idea of <em>conservation</em> and <em>finite-speed motion</em>.</p>
+<hr>
+<section id="the-traffic-flow-model" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="the-traffic-flow-model"><span class="header-section-number">7.1</span> 🚗 The Traffic Flow Model</h2>
+<p><strong>Pavni:</strong> So, where do we begin?</p>
+<p><strong>Acharya:</strong> Let’s define some quantities.</p>
+<ul>
+<li><span class="math inline">\(\rho(x,t)\)</span>: density of cars at position <span class="math inline">\(x\)</span> and time <span class="math inline">\(t\)</span> (cars/km)<br>
+</li>
+<li><span class="math inline">\(v(x,t)\)</span>: average speed of cars (km/h)<br>
+</li>
+<li><span class="math inline">\(q(x,t)\)</span>: flow rate — number of cars passing a point per unit time (cars/hour)</li>
+</ul>
+<p><strong>Pavni:</strong> So <span class="math inline">\(q\)</span> must depend on both how many cars there are and how fast they move?</p>
+<p><strong>Acharya:</strong> Precisely. That leads us to the simple physical relation: <span class="math display">\[
+q = \rho v.
+\]</span></p>
+<details>
+<summary>
+💡 Why <span class="math inline">\(q = \rho v\)</span>?
+</summary>
+If a small segment of road of length <span class="math inline">\(\Delta x\)</span> contains <span class="math inline">\(\rho \, \Delta x\)</span> cars,<br>
+and each car moves with velocity <span class="math inline">\(v\)</span>, then in time <span class="math inline">\(\Delta t\)</span> each car covers <span class="math inline">\(v \, \Delta t\)</span> km.<br>
+So, the number of cars passing a fixed point in time <span class="math inline">\(\Delta t\)</span> is<br>
+<span class="math display">\[
+(\rho \, \Delta x) \cdot \frac{v \, \Delta t}{\Delta x} = \rho v \, \Delta t.
+\]</span> Dividing by <span class="math inline">\(\Delta t\)</span> gives <span class="math inline">\(q = \rho v\)</span>.
+</details>
+<hr>
+</section>
+<section id="conservation-of-cars" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="conservation-of-cars"><span class="header-section-number">7.2</span> ⚙️ Conservation of Cars</h2>
+<p><strong>Acharya:</strong> Now, think of a small stretch of road between <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.<br>
+Cars can only leave or enter through the ends.</p>
+<p><span class="math display">\[
+\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).
+\]</span></p>
+<p><strong>Pavni:</strong> That looks like conservation of mass!</p>
+<p><strong>Acharya:</strong> Exactly — just conservation of the <em>number of cars</em>.<br>
+The total number of cars in the interval changes only because of the <em>net flow</em> at the boundaries.</p>
+<p>Now, let’s use the <strong>Fundamental Theorem of Calculus</strong> to convert this integral form into a <em>local differential equation</em>.</p>
+<hr>
+<section id="step-1-apply-the-fundamental-theorem-of-calculus" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="step-1-apply-the-fundamental-theorem-of-calculus"><span class="header-section-number">7.2.1</span> 🔹 Step 1: Apply the Fundamental Theorem of Calculus</h3>
+<p>By the Fundamental Theorem of Calculus, <span class="math display">\[
+q(x_2,t) - q(x_1,t) = \int_{x_1}^{x_2} q_x(x,t)\,dx.
+\]</span></p>
+<p>Substitute this into our conservation statement: <span class="math display">\[
+\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.
+\]</span></p>
+<hr>
+</section>
+<section id="step-2-move-the-time-derivative-inside-the-integral" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="step-2-move-the-time-derivative-inside-the-integral"><span class="header-section-number">7.2.2</span> 🔹 Step 2: Move the time derivative inside the integral</h3>
+<p>Assuming <span class="math inline">\(\rho\)</span> is smooth enough to interchange differentiation and integration: <span class="math display">\[
+\int_{x_1}^{x_2} \rho_t(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.
+\]</span></p>
+<p>Combine both integrals: <span class="math display">\[
+\int_{x_1}^{x_2} \big[\rho_t(x,t) + q_x(x,t)\big]\,dx = 0.
+\]</span></p>
+<hr>
+</section>
+<section id="step-3-the-local-pointwise-conservation-law" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="step-3-the-local-pointwise-conservation-law"><span class="header-section-number">7.2.3</span> 🔹 Step 3: The local (pointwise) conservation law</h3>
+<p><strong>Acharya:</strong> Now, Pavni, what does this equation tell us?</p>
+<p><strong>Pavni:</strong> It says that the integral of <span class="math inline">\(\rho_t + q_x\)</span> over <em>any</em> interval is zero.</p>
+<p><strong>Acharya:</strong> Exactly! And that can only happen if the integrand itself is zero <em>everywhere</em>.<br>
+Hence, we get the <strong>local conservation law</strong>: <span class="math display">\[
+\boxed{\rho_t + q_x = 0.}
+\]</span></p>
+<p><strong>Pavni:</strong> So the integral form expresses the total number of cars in a segment being conserved,<br>
+and this differential form expresses that conservation <em>at every point</em> on the road!</p>
+<p><strong>Acharya:</strong> Perfectly said. This is the basic <strong>conservation law</strong> for one-dimensional flow.<br>
+Next, if we assume each car moves at a constant speed <span class="math inline">\(a\)</span>, we’ll get the <strong>linear advection equation.</strong></p>
+<p><strong>Pavni:</strong> So this describes a traffic pattern moving forward without changing its shape?</p>
+<p><strong>Acharya:</strong> Exactly. The entire profile of car density just shifts rightward with speed <span class="math inline">\(a\)</span>.</p>
+<hr>
+</section>
+</section>
+<section id="try-to-predict" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="try-to-predict"><span class="header-section-number">7.3</span> ✏️ Try to Predict</h2>
+<p><strong>Acharya:</strong> Before solving it, can you guess how the density will evolve if initially the density is a bump — say, <span class="math display">\[
+\rho(x,0) = e^{-x^2}?
+\]</span></p>
+<p><strong>Pavni:</strong> I think it will move to the right, keeping its shape.</p>
+<p><strong>Acharya:</strong> Perfect intuition. We’ll now confirm this mathematically using <strong>characteristics</strong> — special curves along which information travels.</p>
+<hr>
+</section>
+<section id="characteristics-and-the-solution-of-the-linear-advection-equation" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="characteristics-and-the-solution-of-the-linear-advection-equation"><span class="header-section-number">7.4</span> 🌊 Characteristics and the Solution of the Linear Advection Equation</h2>
+<p><strong>Pavni:</strong> Acharya, now that we have derived the equation<br>
+<span class="math display">\[
+\rho_t + a\rho_x = 0, \quad a &gt; 0,
+\]</span><br>
+for cars moving at constant speed, how do we actually find <span class="math inline">\(\rho(x,t)\)</span> from this?</p>
+<p><strong>Acharya:</strong> Excellent question. This equation may look simple, but it contains a beautiful idea — that <strong>information travels along certain paths</strong> in the <span class="math inline">\((x,t)\)</span>-plane. These paths are called <em>characteristics</em>.</p>
+<hr>
+<section id="deriving-the-characteristic-curves" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="deriving-the-characteristic-curves"><span class="header-section-number">7.4.1</span> Deriving the Characteristic Curves</h3>
+<p><strong>Acharya:</strong> Let’s think of <span class="math inline">\(\rho\)</span> as a function of both <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span>.<br>
+Suppose we move along a curve <span class="math inline">\(x = x(t)\)</span> in the <span class="math inline">\((x,t)\)</span>-plane.<br>
+By the chain rule, the total derivative of <span class="math inline">\(\rho\)</span> along that curve is <span class="math display">\[
+\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.
+\]</span></p>
+<p>Now, if we choose <span class="math inline">\(\dfrac{dx}{dt} = a\)</span>, then <span class="math display">\[
+\frac{d\rho}{dt} = \rho_t + a\rho_x = 0.
+\]</span></p>
+<p>That means <span class="math inline">\(\rho\)</span> is <strong>constant</strong> along any curve that satisfies <span class="math inline">\(\dfrac{dx}{dt} = a\)</span>.</p>
+<p><strong>Pavni:</strong> So those are the characteristic curves?</p>
+<p><strong>Acharya:</strong> Exactly! Integrating <span class="math inline">\(\dfrac{dx}{dt} = a\)</span> gives <span class="math display">\[
+x = a t + x_0, \quad \text{or} \quad x - a t = x_0 = \text{constant}.
+\]</span></p>
+<p>Each line <span class="math inline">\(x - a t = \text{constant}\)</span> is a <strong>characteristic line</strong>.</p>
+<hr>
+</section>
+<section id="the-meaning-of-characteristics" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="the-meaning-of-characteristics"><span class="header-section-number">7.4.2</span> The Meaning of Characteristics</h3>
+<p><strong>Pavni:</strong> What does it mean that <span class="math inline">\(\rho\)</span> is constant along these lines?</p>
+<p><strong>Acharya:</strong> It means that the value of <span class="math inline">\(\rho\)</span> at time <span class="math inline">\(t\)</span> and position <span class="math inline">\(x\)</span><br>
+is exactly the same as its value at the point where that characteristic line started on the <span class="math inline">\(x\)</span>-axis (that is, at time <span class="math inline">\(t=0\)</span>).</p>
+<p>So, <span class="math display">\[
+\rho(x,t) = \rho_0(x - a t),
+\]</span> where <span class="math inline">\(\rho_0(x)\)</span> is the initial density at <span class="math inline">\(t=0\)</span>.</p>
+<p><strong>Pavni:</strong> Oh! So the initial profile just shifts by <span class="math inline">\(a t\)</span>?</p>
+<p><strong>Acharya:</strong> Exactly — it moves to the right if <span class="math inline">\(a&gt;0\)</span> and to the left if <span class="math inline">\(a&lt;0\)</span>.<br>
+No change in shape — pure translation.</p>
+<hr>
+</section>
+<section id="verifying-the-solution" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="verifying-the-solution"><span class="header-section-number">7.4.3</span> Verifying the Solution</h3>
+<p><strong>Pavni:</strong> Let’s check if this really satisfies the PDE.</p>
+<p><strong>Acharya:</strong> Sure! Let <span class="math inline">\(\rho(x,t) = \rho_0(x - a t)\)</span>.<br>
+Then <span class="math display">\[
+\rho_t = -a\rho_0'(x - a t), \quad \rho_x = \rho_0'(x - a t).
+\]</span> Substitute into <span class="math inline">\(\rho_t + a\rho_x = 0\)</span>: <span class="math display">\[
+(-a\rho_0') + a\rho_0' = 0.
+\]</span> ✅ It satisfies the equation perfectly.</p>
+<hr>
+</section>
+<section id="understanding-finite-propagation-speed" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="understanding-finite-propagation-speed"><span class="header-section-number">7.4.4</span> Understanding Finite Propagation Speed</h3>
+<p><strong>Acharya:</strong> The key property of this equation is that information moves at a <em>finite speed</em>.</p>
+<p>If a disturbance is initially present only between <span class="math inline">\(x=0\)</span> and <span class="math inline">\(x=1\)</span>,<br>
+then at time <span class="math inline">\(t\)</span> it will be found only between <span class="math inline">\(x=a t\)</span> and <span class="math inline">\(x=1+a t\)</span>.<br>
+Every point outside this region remains unaffected.</p>
+<p><strong>Pavni:</strong> So information doesn’t spread instantly like in the heat equation?</p>
+<p><strong>Acharya:</strong> Exactly. In the <strong>heat equation</strong>, even a small bump affects the whole line immediately — infinite propagation speed.<br>
+But here, the influence travels only along straight lines <span class="math inline">\(x - a t = \text{constant}\)</span> — that’s <strong>finite-speed propagation</strong>.</p>
+<hr>
+</section>
+<section id="example" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="example"><span class="header-section-number">7.4.5</span> Example</h3>
+<p>Let’s take an initial density <span class="math display">\[
+\rho_0(x) =
+\begin{cases}
+1, &amp; 0 &lt; x &lt; 1, \\
+0, &amp; \text{otherwise}.
+\end{cases}
+\]</span></p>
+<p>Then <span class="math display">\[
+\rho(x,t) =
+\begin{cases}
+1, &amp; a t &lt; x &lt; 1 + a t, \\
+0, &amp; \text{otherwise}.
+\end{cases}
+\]</span></p>
+<p><strong>Pavni:</strong> So the block of cars just moves forward as a group?</p>
+<p><strong>Acharya:</strong> Exactly — like a moving traffic wave with constant shape.</p>
+<hr>
+</section>
+<section id="visualizing-characteristics" class="level3" data-number="7.4.6">
+<h3 data-number="7.4.6" class="anchored" data-anchor-id="visualizing-characteristics"><span class="header-section-number">7.4.6</span> Visualizing Characteristics</h3>
+<p>Each characteristic line shows where information travels:</p>
+<pre class="plaintext"><code>t ↑
+  |
+  |       /    /    /    /    /    /    /
+  |      /    /    /    /    /    /    /
+  |     /    /    /    /    /    /    /
+  |____/____/____/____/____/____/____/→ x
+</code></pre>
+
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/level4_finite_differences.html" class="pagination-link" aria-label="Level 4: Finite Differences and the Heat Equation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Level 4: Finite Differences and the Heat Equation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Level 5 — Hyperbolic PDEs: Wave Equation"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">    math: mathjax</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Level 5: Hyperbolic PDEs — Wave Equation</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>**Acharya:** That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parabolic heat equation.  </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>Some equations describe situations where information or disturbances travel at a *finite speed* — like waves or moving traffic.</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>**Pavni:** So these are called *hyperbolic equations*?</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that *move* through a medium rather than *diffuse*.  </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>For example — a vibrating string, sound waves in air, or even cars moving on a road.</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>**Pavni:** Interesting! But why are they so different from diffusion equations like the heat equation?</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>**Acharya:** Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.  </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>That’s called **infinite propagation speed**.  </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>But hyperbolic equations restrict influence to certain *paths* in the $(x,t)$-plane, called **characteristics**.  </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>Information travels only along these paths at a finite speed.</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>**Pavni:** That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Let’s begin with a simple and familiar example — **traffic flow**.  </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>It beautifully captures the idea of *conservation* and *finite-speed motion*.</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🚗 The Traffic Flow Model</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>**Pavni:** So, where do we begin?</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s define some quantities.</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$v(x,t)$: average speed of cars (km/h)  </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$q(x,t)$: flow rate — number of cars passing a point per unit time (cars/hour)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>**Pavni:** So $q$ must depend on both how many cars there are and how fast they move?</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely. That leads us to the simple physical relation:</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>q = \rho v.</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>💡 Why $q = \rho v$?<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>If a small segment of road of length $\Delta x$ contains $\rho \, \Delta x$ cars,  </span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>and each car moves with velocity $v$, then in time $\Delta t$ each car covers $v \, \Delta t$ km.  </span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>So, the number of cars passing a fixed point in time $\Delta t$ is  </span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>(\rho \, \Delta x) \cdot \frac{v \, \Delta t}{\Delta x} = \rho v \, \Delta t.</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>Dividing by $\Delta t$ gives $q = \rho v$.</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Conservation of Cars</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>**Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  </span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>Cars can only leave or enter through the ends.</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>**Pavni:** That looks like conservation of mass!</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — just conservation of the *number of cars*.  </span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>The total number of cars in the interval changes only because of the *net flow* at the boundaries.  </span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>Now, let’s use the **Fundamental Theorem of Calculus** to convert this integral form into a *local differential equation*.</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="fu">### 🔹 Step 1: Apply the Fundamental Theorem of Calculus</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>By the Fundamental Theorem of Calculus,</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>q(x_2,t) - q(x_1,t) = \int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>Substitute this into our conservation statement:</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### 🔹 Step 2: Move the time derivative inside the integral</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>Assuming $\rho$ is smooth enough to interchange differentiation and integration:</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>\int_{x_1}^{x_2} \rho_t(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>Combine both integrals:</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>\int_{x_1}^{x_2} \big<span class="co">[</span><span class="ot">\rho_t(x,t) + q_x(x,t)\big</span><span class="co">]</span>\,dx = 0.</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a><span class="fu">### 🔹 Step 3: The local (pointwise) conservation law</span></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>**Acharya:** Now, Pavni, what does this equation tell us?</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>**Pavni:** It says that the integral of $\rho_t + q_x$ over *any* interval is zero.</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! And that can only happen if the integrand itself is zero *everywhere*.  </span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>Hence, we get the **local conservation law**:</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>\boxed{\rho_t + q_x = 0.}</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the integral form expresses the total number of cars in a segment being conserved,  </span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>and this differential form expresses that conservation *at every point* on the road!</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfectly said. This is the basic **conservation law** for one-dimensional flow.  </span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>Next, if we assume each car moves at a constant speed $a$, we’ll get the **linear advection equation.**</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>**Pavni:** So this describes a traffic pattern moving forward without changing its shape?</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. The entire profile of car density just shifts rightward with speed $a$.</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## ✏️ Try to Predict</span></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>\rho(x,0) = e^{-x^2}?</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>**Pavni:** I think it will move to the right, keeping its shape.</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfect intuition. We’ll now confirm this mathematically using **characteristics** — special curves along which information travels.</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🌊 Characteristics and the Solution of the Linear Advection Equation</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, now that we have derived the equation  </span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>\rho_t + a\rho_x = 0, \quad a &gt; 0,</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>for cars moving at constant speed, how do we actually find $\rho(x,t)$ from this?</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>**Acharya:** Excellent question. This equation may look simple, but it contains a beautiful idea — that **information travels along certain paths** in the $(x,t)$-plane. These paths are called *characteristics*.</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="fu">### Deriving the Characteristic Curves</span></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s think of $\rho$ as a function of both $x$ and $t$.  </span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>Suppose we move along a curve $x = x(t)$ in the $(x,t)$-plane.  </span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>By the chain rule, the total derivative of $\rho$ along that curve is</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>Now, if we choose $\dfrac{dx}{dt} = a$, then</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + a\rho_x = 0.</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>That means $\rho$ is **constant** along any curve that satisfies $\dfrac{dx}{dt} = a$.</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>**Pavni:** So those are the characteristic curves?</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! Integrating $\dfrac{dx}{dt} = a$ gives</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>x = a t + x_0, \quad \text{or} \quad x - a t = x_0 = \text{constant}.</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>Each line $x - a t = \text{constant}$ is a **characteristic line**.</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Meaning of Characteristics</span></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>**Pavni:** What does it mean that $\rho$ is constant along these lines?</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>**Acharya:** It means that the value of $\rho$ at time $t$ and position $x$  </span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>is exactly the same as its value at the point where that characteristic line started on the $x$-axis (that is, at time $t=0$).</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>So,</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>\rho(x,t) = \rho_0(x - a t),</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>where $\rho_0(x)$ is the initial density at $t=0$.</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>**Pavni:** Oh! So the initial profile just shifts by $a t$?</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — it moves to the right if $a&gt;0$ and to the left if $a&lt;0$.  </span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>No change in shape — pure translation.</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a><span class="fu">### Verifying the Solution</span></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>**Pavni:** Let’s check if this really satisfies the PDE.</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>**Acharya:** Sure! Let $\rho(x,t) = \rho_0(x - a t)$.  </span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>Then</span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>\rho_t = -a\rho_0'(x - a t), \quad \rho_x = \rho_0'(x - a t).</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>Substitute into $\rho_t + a\rho_x = 0$:</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>(-a\rho_0') + a\rho_0' = 0.</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a>✅ It satisfies the equation perfectly.</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Understanding Finite Propagation Speed</span></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>**Acharya:** The key property of this equation is that information moves at a *finite speed*.</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>If a disturbance is initially present only between $x=0$ and $x=1$,  </span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>then at time $t$ it will be found only between $x=a t$ and $x=1+a t$.  </span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>Every point outside this region remains unaffected.</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>**Pavni:** So information doesn’t spread instantly like in the heat equation?</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. In the **heat equation**, even a small bump affects the whole line immediately — infinite propagation speed.  </span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>But here, the influence travels only along straight lines $x - a t = \text{constant}$ — that’s **finite-speed propagation**.</span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>Let’s take an initial density</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>\rho_0(x) =</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>1, &amp; 0 &lt; x &lt; 1, <span class="sc">\\</span></span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a>0, &amp; \text{otherwise}.</span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>Then</span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>\rho(x,t) =</span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a>1, &amp; a t &lt; x &lt; 1 + a t, <span class="sc">\\</span></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>0, &amp; \text{otherwise}.</span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the block of cars just moves forward as a group?</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — like a moving traffic wave with constant shape.</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing Characteristics</span></span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>Each characteristic line shows where information travels:</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a><span class="in">```plaintext</span></span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>t ↑</span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>  |</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>  |       <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/</span></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a><span class="ot">  </span><span class="ch">|</span><span class="ot">      /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span></span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>  |     <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/</span></span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a><span class="ot">  </span><span class="ch">|</span><span class="ot">____/</span>____/____/____/____/____/____/→ x</span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

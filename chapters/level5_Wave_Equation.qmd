@@ -1,3 +1,10 @@
+---
+title: "Level 5 — Hyperbolic PDEs: Wave Equation"
+format:
+  html:
+    math: mathjax
+---
+
 # Level 5: Hyperbolic PDEs — Wave Equation
 
 **Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?
@@ -54,6 +61,7 @@ Dividing by $\Delta t$ gives $q = \rho v$.
 </details>
 
 ---
+
 ## ⚙️ Conservation of Cars
 
 **Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  
@@ -65,7 +73,7 @@ $$
 
 **Pavni:** That looks like conservation of mass!
 
-**Acharya:** Exactly — just conservation of *number of cars*.  
+**Acharya:** Exactly — just conservation of the *number of cars*.  
 The total number of cars in the interval changes only because of the *net flow* at the boundaries.  
 
 Now, let’s use the **Fundamental Theorem of Calculus** to convert this integral form into a *local differential equation*.
@@ -75,13 +83,11 @@ Now, let’s use the **Fundamental Theorem of Calculus** to convert this integra
 ### 🔹 Step 1: Apply the Fundamental Theorem of Calculus
 
 By the Fundamental Theorem of Calculus,
-
 $$
 q(x_2,t) - q(x_1,t) = \int_{x_1}^{x_2} q_x(x,t)\,dx.
 $$
 
 Substitute this into our conservation statement:
-
 $$
 \frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.
 $$
@@ -89,15 +95,12 @@ $$
 ---
 
 ### 🔹 Step 2: Move the time derivative inside the integral
-
 Assuming $\rho$ is smooth enough to interchange differentiation and integration:
-
 $$
 \int_{x_1}^{x_2} \rho_t(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.
 $$
 
 Combine both integrals:
-
 $$
 \int_{x_1}^{x_2} \big[\rho_t(x,t) + q_x(x,t)\big]\,dx = 0.
 $$
@@ -110,21 +113,17 @@ $$
 
 **Pavni:** It says that the integral of $\rho_t + q_x$ over *any* interval is zero.
 
-**Acharya:** Exactly! And that can only happen if the integrand itself is zero *everywhere* — otherwise, we could find an interval where it’s positive or negative.  
+**Acharya:** Exactly! And that can only happen if the integrand itself is zero *everywhere*.  
 Hence, we get the **local conservation law**:
-
 $$
 \boxed{\rho_t + q_x = 0.}
 $$
-
----
 
 **Pavni:** So the integral form expresses the total number of cars in a segment being conserved,  
 and this differential form expresses that conservation *at every point* on the road!
 
 **Acharya:** Perfectly said. This is the basic **conservation law** for one-dimensional flow.  
-Next, if we assume each car moves at a constant speed $a$, we’ll get the **linear advection equation.
-It’s the simplest hyperbolic equation — it models how a quantity moves steadily with constant speed**.
+Next, if we assume each car moves at a constant speed $a$, we’ll get the **linear advection equation.**
 
 **Pavni:** So this describes a traffic pattern moving forward without changing its shape?
 
@@ -157,18 +156,16 @@ for cars moving at constant speed, how do we actually find $\rho(x,t)$ from this
 
 ---
 
-###  Deriving the Characteristic Curves
+### Deriving the Characteristic Curves
 
 **Acharya:** Let’s think of $\rho$ as a function of both $x$ and $t$.  
 Suppose we move along a curve $x = x(t)$ in the $(x,t)$-plane.  
 By the chain rule, the total derivative of $\rho$ along that curve is
-
 $$
 \frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.
 $$
 
 Now, if we choose $\dfrac{dx}{dt} = a$, then
-
 $$
 \frac{d\rho}{dt} = \rho_t + a\rho_x = 0.
 $$
@@ -178,7 +175,6 @@ That means $\rho$ is **constant** along any curve that satisfies $\dfrac{dx}{dt}
 **Pavni:** So those are the characteristic curves?
 
 **Acharya:** Exactly! Integrating $\dfrac{dx}{dt} = a$ gives
-
 $$
 x = a t + x_0, \quad \text{or} \quad x - a t = x_0 = \text{constant}.
 $$
@@ -224,7 +220,7 @@ $$
 
 ---
 
-###  Understanding Finite Propagation Speed
+### Understanding Finite Propagation Speed
 
 **Acharya:** The key property of this equation is that information moves at a *finite speed*.
 
@@ -239,7 +235,7 @@ But here, the influence travels only along straight lines $x - a t = \text{const
 
 ---
 
-###  Example
+### Example
 
 Let’s take an initial density
 $$
@@ -265,7 +261,7 @@ $$
 
 ---
 
-###  Visualizing Characteristics
+### Visualizing Characteristics
 
 Each characteristic line shows where information travels:
 
@@ -276,3 +272,5 @@ t ↑
   |      /    /    /    /    /    /    /
   |     /    /    /    /    /    /    /
   |____/____/____/____/____/____/____/→ x
+
+```
