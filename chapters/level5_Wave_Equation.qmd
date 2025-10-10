@@ -344,3 +344,23 @@ $$
 [x - c t,\, x + c t].
 $$
 And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region
+```{tikz}
+\begin{tikzpicture}[scale=1.2]
+  % Axes
+  \draw[->] (-2,0) -- (2,0) node[right] {$x$};
+  \draw[->] (0,0) -- (0,3) node[above] {$t$};
+
+  % Point of disturbance
+  \fill (0,0) circle (2pt) node[below left] {$(x_0,t_0)$};
+
+  % Characteristics
+  \draw[thick,red] (0,0) -- (1.5,3) node[right] {$x = x_0 + c(t-t_0)$};
+  \draw[thick,red] (0,0) -- (-1.5,3) node[left] {$x = x_0 - c(t-t_0)$};
+
+  % Shaded influence region
+  \fill[blue!20,opacity=0.5] (-1.5,3) -- (0,0) -- (1.5,3) -- cycle;
+
+  % Labels
+  \node at (0,1.8) {Region of influence};
+\end{tikzpicture}
+```
