@@ -238,19 +238,6 @@ window.Quarto = {
   <li><a href="#example-1-linear-advection" id="toc-example-1-linear-advection" class="nav-link" data-scroll-target="#example-1-linear-advection"><span class="header-section-number">6.5.2</span> Example 1: Linear Advection</a></li>
   <li><a href="#example-2-the-1-d-wave-equation" id="toc-example-2-the-1-d-wave-equation" class="nav-link" data-scroll-target="#example-2-the-1-d-wave-equation"><span class="header-section-number">6.5.3</span> Example 2: The 1-D Wave Equation</a></li>
   </ul></li>
-  <li><a href="#domain-of-dependence-influence-plot-for-1d-wave-equation" id="toc-domain-of-dependence-influence-plot-for-1d-wave-equation" class="nav-link" data-scroll-target="#domain-of-dependence-influence-plot-for-1d-wave-equation"><span class="header-section-number">7</span> Domain of Dependence &amp; Influence plot for 1D wave equation</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">8</span> Parameters</a></li>
-  <li><a href="#plotting-ranges" id="toc-plotting-ranges" class="nav-link" data-scroll-target="#plotting-ranges"><span class="header-section-number">9</span> plotting ranges</a></li>
-  <li><a href="#plot-axes" id="toc-plot-axes" class="nav-link" data-scroll-target="#plot-axes"><span class="header-section-number">10</span> Plot axes</a></li>
-  <li><a href="#domain-of-influence-cone-opening-upward-from-x00" id="toc-domain-of-influence-cone-opening-upward-from-x00" class="nav-link" data-scroll-target="#domain-of-influence-cone-opening-upward-from-x00"><span class="header-section-number">11</span> Domain of Influence: cone opening upward from (x0,0)</a></li>
-  <li><a href="#mark-the-initial-point-x00" id="toc-mark-the-initial-point-x00" class="nav-link" data-scroll-target="#mark-the-initial-point-x00"><span class="header-section-number">12</span> Mark the initial point (x0,0)</a></li>
-  <li><a href="#domain-of-dependence-cone-opening-downward-ending-at-xt" id="toc-domain-of-dependence-cone-opening-downward-ending-at-xt" class="nav-link" data-scroll-target="#domain-of-dependence-cone-opening-downward-ending-at-xt"><span class="header-section-number">13</span> Domain of Dependence: cone opening downward ending at (x,t)</a></li>
-  <li><a href="#mark-the-target-point-xt" id="toc-mark-the-target-point-xt" class="nav-link" data-scroll-target="#mark-the-target-point-xt"><span class="header-section-number">14</span> Mark the target point (x,t)</a></li>
-  <li><a href="#draw-the-two-main-characteristic-lines-for-reference-label-them" id="toc-draw-the-two-main-characteristic-lines-for-reference-label-them" class="nav-link" data-scroll-target="#draw-the-two-main-characteristic-lines-for-reference-label-them"><span class="header-section-number">15</span> Draw the two main characteristic lines (for reference), label them</a></li>
-  <li><a href="#characteristics-through-x0-x-x0-c-t-draw-extended-lines" id="toc-characteristics-through-x0-x-x0-c-t-draw-extended-lines" class="nav-link" data-scroll-target="#characteristics-through-x0-x-x0-c-t-draw-extended-lines"><span class="header-section-number">16</span> characteristics through x0: x = x0 ± c t (draw extended lines)</a></li>
-  <li><a href="#also-label-characteristics-bounding-the-dod-through-the-target-point" id="toc-also-label-characteristics-bounding-the-dod-through-the-target-point" class="nav-link" data-scroll-target="#also-label-characteristics-bounding-the-dod-through-the-target-point"><span class="header-section-number">17</span> also label characteristics bounding the DoD (through the target point)</a></li>
-  <li><a href="#cosmetic" id="toc-cosmetic" class="nav-link" data-scroll-target="#cosmetic"><span class="header-section-number">18</span> cosmetic</a></li>
-  <li><a href="#save-show" id="toc-save-show" class="nav-link" data-scroll-target="#save-show"><span class="header-section-number">19</span> Save &amp; show</a></li>
   </ul>
 </nav>
     </div>
@@ -520,65 +507,21 @@ x - c t \quad \text{and} \quad x + c t.
 [x - c t,\, x + c t].
 \]</span></p>
 <p>And the <strong>domain of influence</strong> of an initial point <span class="math inline">\((x_0,0)\)</span> is the cone-shaped region.</p>
-</section>
-</section>
-<section id="domain-of-dependence-influence-plot-for-1d-wave-equation" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Domain of Dependence &amp; Influence plot for 1D wave equation</h1>
-<p>import numpy as np import matplotlib.pyplot as plt</p>
-</section>
-<section id="parameters" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Parameters</h1>
-<p>x0 = 0.0 # initial point for Domain of Influence x = 1.0 # target point for Domain of Dependence t = 1.0 # time at which we evaluate DoD for (x,t) c = 1.0 # wave speed</p>
-</section>
-<section id="plotting-ranges" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> plotting ranges</h1>
-<p>x_min, x_max = -2.0, 3.0 t_min, t_max = -1.5, 2.0</p>
-<p>fig, ax = plt.subplots(figsize=(7,7))</p>
-</section>
-<section id="plot-axes" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Plot axes</h1>
-<p>ax.axhline(0, color=‘k’, linewidth=0.8) ax.axvline(0, color=‘k’, linewidth=0.8) ax.set_xlim(x_min, x_max) ax.set_ylim(t_min, t_max) ax.set_xlabel(r’<span class="math inline">\(x\)</span>‘) ax.set_ylabel(r’<span class="math inline">\(t\)</span>‘) ax.set_title(’Domain of Influence (upward) and Domain of Dependence (downward)’)</p>
-</section>
-<section id="domain-of-influence-cone-opening-upward-from-x00" class="level1" data-number="11">
-<h1 data-number="11"><span class="header-section-number">11</span> Domain of Influence: cone opening upward from (x0,0)</h1>
-<p>ts_up = np.linspace(0, t_max, 200) x_right_up = x0 + c<em>ts_up x_left_up = x0 - c</em>ts_up ax.fill_betweenx(ts_up, x_left_up, x_right_up, color=‘C0’, alpha=0.25, label=‘Domain of Influence of <span class="math inline">\((x_0,0)\)</span>’) ax.plot(x_right_up, ts_up, linestyle=‘-’, color=‘C0’) ax.plot(x_left_up, ts_up, linestyle=‘-’, color=‘C0’)</p>
-</section>
-<section id="mark-the-initial-point-x00" class="level1" data-number="12">
-<h1 data-number="12"><span class="header-section-number">12</span> Mark the initial point (x0,0)</h1>
-<p>ax.scatter([x0],[0], color=‘C0’, zorder=5) ax.text(x0, -0.15, r’<span class="math inline">\((x_0,0)\)</span>‘, ha=’right’, va=‘top’)</p>
-</section>
-<section id="domain-of-dependence-cone-opening-downward-ending-at-xt" class="level1" data-number="13">
-<h1 data-number="13"><span class="header-section-number">13</span> Domain of Dependence: cone opening downward ending at (x,t)</h1>
-<p>ts_down = np.linspace(0, t, 200) x_right_down = x + c<em>(t - ts_down) # trace back to t=0 x_left_down = x - c</em>(t - ts_down) ax.fill_betweenx(t - ts_down, x_left_down, x_right_down, color=‘C1’, alpha=0.25, label=f’DoD of <span class="math inline">\(({x},{t})\)</span>‘) ax.plot(x + c<em>(np.linspace(-0.0, t, 200) ), np.linspace(t,0,200), linestyle=’-’, color=’C1’) ax.plot(x - c</em>(np.linspace(-0.0, t, 200) ), np.linspace(t,0,200), linestyle=’-‘, color=’C1’)</p>
-</section>
-<section id="mark-the-target-point-xt" class="level1" data-number="14">
-<h1 data-number="14"><span class="header-section-number">14</span> Mark the target point (x,t)</h1>
-<p>ax.scatter([x],[t], color=‘C1’, zorder=6) ax.text(x, t+0.05, rf’<span class="math inline">\((x,t)=({x},{t})\)</span>‘, ha=’left’, va=‘bottom’)</p>
-</section>
-<section id="draw-the-two-main-characteristic-lines-for-reference-label-them" class="level1" data-number="15">
-<h1 data-number="15"><span class="header-section-number">15</span> Draw the two main characteristic lines (for reference), label them</h1>
-</section>
-<section id="characteristics-through-x0-x-x0-c-t-draw-extended-lines" class="level1" data-number="16">
-<h1 data-number="16"><span class="header-section-number">16</span> characteristics through x0: x = x0 ± c t (draw extended lines)</h1>
-<p>tline = np.linspace(t_min, t_max, 400) ax.plot(x0 + c<em>tline, tline, color=‘gray’, linestyle=‘–’, linewidth=1) ax.plot(x0 - c</em>tline, tline, color=‘gray’, linestyle=‘–’, linewidth=1) ax.text(x0 + c<em>(t_max-0.1), t_max-0.05, r’<span class="math inline">\(x = x_0 + ct\)</span>‘, color=’gray’, va=‘top’, ha=‘right’) ax.text(x0 - c</em>(t_max-0.1), t_max-0.05, r’<span class="math inline">\(x = x_0 - ct\)</span>‘, color=’gray’, va=‘top’, ha=‘left’)</p>
-</section>
-<section id="also-label-characteristics-bounding-the-dod-through-the-target-point" class="level1" data-number="17">
-<h1 data-number="17"><span class="header-section-number">17</span> also label characteristics bounding the DoD (through the target point)</h1>
-<p>ax.text(x + c*(t/2), t/2, r’<span class="math inline">\(x = x + ct\)</span> (backwards)<span class="math inline">\(', color='C1', fontsize=8, rotation=20)
-ax.text(x - c*(t/2), t/2, r'\)</span>x = x - ct$ (backwards)$‘, color=’C1’, fontsize=8, rotation=-20)</p>
-</section>
-<section id="cosmetic" class="level1" data-number="18">
-<h1 data-number="18"><span class="header-section-number">18</span> cosmetic</h1>
-<p>ax.set_aspect(‘auto’) ax.legend(loc=‘upper right’) ax.grid(alpha=0.2)</p>
-</section>
-<section id="save-show" class="level1" data-number="19">
-<h1 data-number="19"><span class="header-section-number">19</span> Save &amp; show</h1>
-<p>plt.tight_layout() plt.savefig(‘doidod_plot.png’, dpi=200) plt.show()</p>
+<div id="15614b4f" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="level5_Wave_Equation_files/figure-html/cell-2-output-1.png" width="662" height="662" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 
 <!-- -->
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1391,23 +1334,23 @@ ax.text(x - c*(t/2), t/2, r'\)</span>x = x - ct$ (backwards)$‘, color=’C1’
 <span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a>And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region.</span>
 <span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a><span class="co"># Domain of Dependence &amp; Influence plot for 1D wave equation</span></span>
+<span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
 <span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">0.0</span>      <span class="co"># initial point for Domain of Influence</span></span>
 <span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">1.0</span>       <span class="co"># target point for Domain of Dependence</span></span>
 <span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">1.0</span>       <span class="co"># time at which we evaluate DoD for (x,t)</span></span>
 <span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.0</span>       <span class="co"># wave speed</span></span>
 <span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ranges</span></span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> <span class="op">-</span><span class="fl">2.0</span>, <span class="fl">3.0</span></span>
 <span id="cb2-364"><a href="#cb2-364" aria-hidden="true" tabindex="-1"></a>t_min, t_max <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span>, <span class="fl">2.0</span></span>
 <span id="cb2-365"><a href="#cb2-365" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-366"><a href="#cb2-366" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">7</span>))</span>
 <span id="cb2-367"><a href="#cb2-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-368"><a href="#cb2-368" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot axes</span></span>
+<span id="cb2-368"><a href="#cb2-368" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-369"><a href="#cb2-369" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
 <span id="cb2-370"><a href="#cb2-370" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
 <span id="cb2-371"><a href="#cb2-371" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(x_min, x_max)</span>
@@ -1416,7 +1359,7 @@ ax.text(x - c*(t/2), t/2, r'\)</span>x = x - ct$ (backwards)$‘, color=’C1’
 <span id="cb2-374"><a href="#cb2-374" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'</span><span class="dv">$</span><span class="vs">t</span><span class="dv">$</span><span class="vs">'</span>)</span>
 <span id="cb2-375"><a href="#cb2-375" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Domain of Influence (upward) and Domain of Dependence (downward)'</span>)</span>
 <span id="cb2-376"><a href="#cb2-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-377"><a href="#cb2-377" aria-hidden="true" tabindex="-1"></a><span class="co"># Domain of Influence: cone opening upward from (x0,0)</span></span>
+<span id="cb2-377"><a href="#cb2-377" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-378"><a href="#cb2-378" aria-hidden="true" tabindex="-1"></a>ts_up <span class="op">=</span> np.linspace(<span class="dv">0</span>, t_max, <span class="dv">200</span>)</span>
 <span id="cb2-379"><a href="#cb2-379" aria-hidden="true" tabindex="-1"></a>x_right_up <span class="op">=</span> x0 <span class="op">+</span> c<span class="op">*</span>ts_up</span>
 <span id="cb2-380"><a href="#cb2-380" aria-hidden="true" tabindex="-1"></a>x_left_up  <span class="op">=</span> x0 <span class="op">-</span> c<span class="op">*</span>ts_up</span>
@@ -1424,11 +1367,11 @@ ax.text(x - c*(t/2), t/2, r'\)</span>x = x - ct$ (backwards)$‘, color=’C1’
 <span id="cb2-382"><a href="#cb2-382" aria-hidden="true" tabindex="-1"></a>ax.plot(x_right_up, ts_up, linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C0'</span>)</span>
 <span id="cb2-383"><a href="#cb2-383" aria-hidden="true" tabindex="-1"></a>ax.plot(x_left_up, ts_up, linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C0'</span>)</span>
 <span id="cb2-384"><a href="#cb2-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-385"><a href="#cb2-385" aria-hidden="true" tabindex="-1"></a><span class="co"># Mark the initial point (x0,0)</span></span>
+<span id="cb2-385"><a href="#cb2-385" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-386"><a href="#cb2-386" aria-hidden="true" tabindex="-1"></a>ax.scatter([x0],[<span class="dv">0</span>], color<span class="op">=</span><span class="st">'C0'</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb2-387"><a href="#cb2-387" aria-hidden="true" tabindex="-1"></a>ax.text(x0, <span class="op">-</span><span class="fl">0.15</span>, <span class="vs">r'</span><span class="dv">$</span><span class="kw">(</span><span class="vs">x_0,0</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>)</span>
 <span id="cb2-388"><a href="#cb2-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a><span class="co"># Domain of Dependence: cone opening downward ending at (x,t)</span></span>
+<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-390"><a href="#cb2-390" aria-hidden="true" tabindex="-1"></a>ts_down <span class="op">=</span> np.linspace(<span class="dv">0</span>, t, <span class="dv">200</span>)</span>
 <span id="cb2-391"><a href="#cb2-391" aria-hidden="true" tabindex="-1"></a>x_right_down <span class="op">=</span> x <span class="op">+</span> c<span class="op">*</span>(t <span class="op">-</span> ts_down)   <span class="co"># trace back to t=0</span></span>
 <span id="cb2-392"><a href="#cb2-392" aria-hidden="true" tabindex="-1"></a>x_left_down  <span class="op">=</span> x <span class="op">-</span> c<span class="op">*</span>(t <span class="op">-</span> ts_down)</span>
@@ -1436,31 +1379,29 @@ ax.text(x - c*(t/2), t/2, r'\)</span>x = x - ct$ (backwards)$‘, color=’C1’
 <span id="cb2-394"><a href="#cb2-394" aria-hidden="true" tabindex="-1"></a>ax.plot(x <span class="op">+</span> c<span class="op">*</span>(np.linspace(<span class="op">-</span><span class="fl">0.0</span>, t, <span class="dv">200</span>) ), np.linspace(t,<span class="dv">0</span>,<span class="dv">200</span>), linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C1'</span>)</span>
 <span id="cb2-395"><a href="#cb2-395" aria-hidden="true" tabindex="-1"></a>ax.plot(x <span class="op">-</span> c<span class="op">*</span>(np.linspace(<span class="op">-</span><span class="fl">0.0</span>, t, <span class="dv">200</span>) ), np.linspace(t,<span class="dv">0</span>,<span class="dv">200</span>), linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C1'</span>)</span>
 <span id="cb2-396"><a href="#cb2-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a><span class="co"># Mark the target point (x,t)</span></span>
+<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-398"><a href="#cb2-398" aria-hidden="true" tabindex="-1"></a>ax.scatter([x],[t], color<span class="op">=</span><span class="st">'C1'</span>, zorder<span class="op">=</span><span class="dv">6</span>)</span>
 <span id="cb2-399"><a href="#cb2-399" aria-hidden="true" tabindex="-1"></a>ax.text(x, t<span class="op">+</span><span class="fl">0.05</span>, <span class="vs">rf'</span><span class="dv">$</span><span class="kw">(</span><span class="vs">x,t</span><span class="kw">)</span><span class="vs">=</span><span class="kw">(</span><span class="sc">{</span>x<span class="sc">}</span><span class="vs">,</span><span class="sc">{</span>t<span class="sc">}</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, ha<span class="op">=</span><span class="st">'left'</span>, va<span class="op">=</span><span class="st">'bottom'</span>)</span>
 <span id="cb2-400"><a href="#cb2-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the two main characteristic lines (for reference), label them</span></span>
-<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a><span class="co"># characteristics through x0: x = x0 ± c t (draw extended lines)</span></span>
-<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a>tline <span class="op">=</span> np.linspace(t_min, t_max, <span class="dv">400</span>)</span>
-<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a>ax.plot(x0 <span class="op">+</span> c<span class="op">*</span>tline, tline, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a>ax.plot(x0 <span class="op">-</span> c<span class="op">*</span>tline, tline, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a>ax.text(x0 <span class="op">+</span> c<span class="op">*</span>(t_max<span class="op">-</span><span class="fl">0.1</span>), t_max<span class="op">-</span><span class="fl">0.05</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x_0 </span><span class="op">+</span><span class="vs"> ct</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'gray'</span>, va<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
-<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a>ax.text(x0 <span class="op">-</span> c<span class="op">*</span>(t_max<span class="op">-</span><span class="fl">0.1</span>), t_max<span class="op">-</span><span class="fl">0.05</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x_0 - ct</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'gray'</span>, va<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'left'</span>)</span>
-<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a><span class="co"># also label characteristics bounding the DoD (through the target point)</span></span>
-<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a>ax.text(x <span class="op">+</span> c<span class="op">*</span>(t<span class="op">/</span><span class="dv">2</span>), t<span class="op">/</span><span class="dv">2</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x </span><span class="op">+</span><span class="vs"> ct</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">backwards</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'C1'</span>, fontsize<span class="op">=</span><span class="dv">8</span>, rotation<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a>ax.text(x <span class="op">-</span> c<span class="op">*</span>(t<span class="op">/</span><span class="dv">2</span>), t<span class="op">/</span><span class="dv">2</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x - ct</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">backwards</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'C1'</span>, fontsize<span class="op">=</span><span class="dv">8</span>, rotation<span class="op">=-</span><span class="dv">20</span>)</span>
-<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a><span class="co"># cosmetic</span></span>
-<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">'auto'</span>)</span>
-<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
-<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>ax.grid(alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a><span class="co"># Save &amp; show</span></span>
-<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'doidod_plot.png'</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
-<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a>tline <span class="op">=</span> np.linspace(t_min, t_max, <span class="dv">400</span>)</span>
+<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a>ax.plot(x0 <span class="op">+</span> c<span class="op">*</span>tline, tline, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a>ax.plot(x0 <span class="op">-</span> c<span class="op">*</span>tline, tline, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a>ax.text(x0 <span class="op">+</span> c<span class="op">*</span>(t_max<span class="op">-</span><span class="fl">0.1</span>), t_max<span class="op">-</span><span class="fl">0.05</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x_0 </span><span class="op">+</span><span class="vs"> ct</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'gray'</span>, va<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a>ax.text(x0 <span class="op">-</span> c<span class="op">*</span>(t_max<span class="op">-</span><span class="fl">0.1</span>), t_max<span class="op">-</span><span class="fl">0.05</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x_0 - ct</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'gray'</span>, va<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a>ax.text(x <span class="op">+</span> c<span class="op">*</span>(t<span class="op">/</span><span class="dv">2</span>), t<span class="op">/</span><span class="dv">2</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x </span><span class="op">+</span><span class="vs"> ct</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">backwards</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'C1'</span>, fontsize<span class="op">=</span><span class="dv">8</span>, rotation<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a>ax.text(x <span class="op">-</span> c<span class="op">*</span>(t<span class="op">/</span><span class="dv">2</span>), t<span class="op">/</span><span class="dv">2</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x - ct</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">backwards</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'C1'</span>, fontsize<span class="op">=</span><span class="dv">8</span>, rotation<span class="op">=-</span><span class="dv">20</span>)</span>
+<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">'auto'</span>)</span>
+<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a>ax.grid(alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'doidod_plot.png'</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
