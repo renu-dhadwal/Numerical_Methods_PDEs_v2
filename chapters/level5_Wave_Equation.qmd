@@ -343,24 +343,77 @@ $$
 $$
 [x - c t,\, x + c t].
 $$
-And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region
-```{tikz}
-\begin{tikzpicture}[scale=1.2]
-  % Axes
-  \draw[->] (-2,0) -- (2,0) node[right] {$x$};
-  \draw[->] (0,0) -- (0,3) node[above] {$t$};
 
-  % Point of disturbance
-  \fill (0,0) circle (2pt) node[below left] {$(x_0,t_0)$};
+And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region.
 
-  % Characteristics
-  \draw[thick,red] (0,0) -- (1.5,3) node[right] {$x = x_0 + c(t-t_0)$};
-  \draw[thick,red] (0,0) -- (-1.5,3) node[left] {$x = x_0 - c(t-t_0)$};
+```{python}
+# Domain of Dependence & Influence plot for 1D wave equation
+import numpy as np
+import matplotlib.pyplot as plt
 
-  % Shaded influence region
-  \fill[blue!20,opacity=0.5] (-1.5,3) -- (0,0) -- (1.5,3) -- cycle;
+# Parameters
+x0 = 0.0      # initial point for Domain of Influence
+x = 1.0       # target point for Domain of Dependence
+t = 1.0       # time at which we evaluate DoD for (x,t)
+c = 1.0       # wave speed
 
-  % Labels
-  \node at (0,1.8) {Region of influence};
-\end{tikzpicture}
-```
+# plotting ranges
+x_min, x_max = -2.0, 3.0
+t_min, t_max = -1.5, 2.0
+
+fig, ax = plt.subplots(figsize=(7,7))
+
+# Plot axes
+ax.axhline(0, color='k', linewidth=0.8)
+ax.axvline(0, color='k', linewidth=0.8)
+ax.set_xlim(x_min, x_max)
+ax.set_ylim(t_min, t_max)
+ax.set_xlabel(r'$x$')
+ax.set_ylabel(r'$t$')
+ax.set_title('Domain of Influence (upward) and Domain of Dependence (downward)')
+
+# Domain of Influence: cone opening upward from (x0,0)
+ts_up = np.linspace(0, t_max, 200)
+x_right_up = x0 + c*ts_up
+x_left_up  = x0 - c*ts_up
+ax.fill_betweenx(ts_up, x_left_up, x_right_up, color='C0', alpha=0.25, label='Domain of Influence of $(x_0,0)$')
+ax.plot(x_right_up, ts_up, linestyle='-', color='C0')
+ax.plot(x_left_up, ts_up, linestyle='-', color='C0')
+
+# Mark the initial point (x0,0)
+ax.scatter([x0],[0], color='C0', zorder=5)
+ax.text(x0, -0.15, r'$(x_0,0)$', ha='right', va='top')
+
+# Domain of Dependence: cone opening downward ending at (x,t)
+ts_down = np.linspace(0, t, 200)
+x_right_down = x + c*(t - ts_down)   # trace back to t=0
+x_left_down  = x - c*(t - ts_down)
+ax.fill_betweenx(t - ts_down, x_left_down, x_right_down, color='C1', alpha=0.25, label=f'DoD of $({x},{t})$')
+ax.plot(x + c*(np.linspace(-0.0, t, 200) ), np.linspace(t,0,200), linestyle='-', color='C1')
+ax.plot(x - c*(np.linspace(-0.0, t, 200) ), np.linspace(t,0,200), linestyle='-', color='C1')
+
+# Mark the target point (x,t)
+ax.scatter([x],[t], color='C1', zorder=6)
+ax.text(x, t+0.05, rf'$(x,t)=({x},{t})$', ha='left', va='bottom')
+
+# Draw the two main characteristic lines (for reference), label them
+# characteristics through x0: x = x0 ± c t (draw extended lines)
+tline = np.linspace(t_min, t_max, 400)
+ax.plot(x0 + c*tline, tline, color='gray', linestyle='--', linewidth=1)
+ax.plot(x0 - c*tline, tline, color='gray', linestyle='--', linewidth=1)
+ax.text(x0 + c*(t_max-0.1), t_max-0.05, r'$x = x_0 + ct$', color='gray', va='top', ha='right')
+ax.text(x0 - c*(t_max-0.1), t_max-0.05, r'$x = x_0 - ct$', color='gray', va='top', ha='left')
+
+# also label characteristics bounding the DoD (through the target point)
+ax.text(x + c*(t/2), t/2, r'$x = x + ct$ (backwards)$', color='C1', fontsize=8, rotation=20)
+ax.text(x - c*(t/2), t/2, r'$x = x - ct$ (backwards)$', color='C1', fontsize=8, rotation=-20)
+
+# cosmetic
+ax.set_aspect('auto')
+ax.legend(loc='upper right')
+ax.grid(alpha=0.2)
+
+# Save & show
+plt.tight_layout()
+plt.savefig('doidod_plot.png', dpi=200)
+plt.show()

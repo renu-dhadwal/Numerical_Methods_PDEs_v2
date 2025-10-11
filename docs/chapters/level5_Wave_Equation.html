@@ -238,6 +238,19 @@ window.Quarto = {
   <li><a href="#example-1-linear-advection" id="toc-example-1-linear-advection" class="nav-link" data-scroll-target="#example-1-linear-advection"><span class="header-section-number">6.5.2</span> Example 1: Linear Advection</a></li>
   <li><a href="#example-2-the-1-d-wave-equation" id="toc-example-2-the-1-d-wave-equation" class="nav-link" data-scroll-target="#example-2-the-1-d-wave-equation"><span class="header-section-number">6.5.3</span> Example 2: The 1-D Wave Equation</a></li>
   </ul></li>
+  <li><a href="#domain-of-dependence-influence-plot-for-1d-wave-equation" id="toc-domain-of-dependence-influence-plot-for-1d-wave-equation" class="nav-link" data-scroll-target="#domain-of-dependence-influence-plot-for-1d-wave-equation"><span class="header-section-number">7</span> Domain of Dependence &amp; Influence plot for 1D wave equation</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">8</span> Parameters</a></li>
+  <li><a href="#plotting-ranges" id="toc-plotting-ranges" class="nav-link" data-scroll-target="#plotting-ranges"><span class="header-section-number">9</span> plotting ranges</a></li>
+  <li><a href="#plot-axes" id="toc-plot-axes" class="nav-link" data-scroll-target="#plot-axes"><span class="header-section-number">10</span> Plot axes</a></li>
+  <li><a href="#domain-of-influence-cone-opening-upward-from-x00" id="toc-domain-of-influence-cone-opening-upward-from-x00" class="nav-link" data-scroll-target="#domain-of-influence-cone-opening-upward-from-x00"><span class="header-section-number">11</span> Domain of Influence: cone opening upward from (x0,0)</a></li>
+  <li><a href="#mark-the-initial-point-x00" id="toc-mark-the-initial-point-x00" class="nav-link" data-scroll-target="#mark-the-initial-point-x00"><span class="header-section-number">12</span> Mark the initial point (x0,0)</a></li>
+  <li><a href="#domain-of-dependence-cone-opening-downward-ending-at-xt" id="toc-domain-of-dependence-cone-opening-downward-ending-at-xt" class="nav-link" data-scroll-target="#domain-of-dependence-cone-opening-downward-ending-at-xt"><span class="header-section-number">13</span> Domain of Dependence: cone opening downward ending at (x,t)</a></li>
+  <li><a href="#mark-the-target-point-xt" id="toc-mark-the-target-point-xt" class="nav-link" data-scroll-target="#mark-the-target-point-xt"><span class="header-section-number">14</span> Mark the target point (x,t)</a></li>
+  <li><a href="#draw-the-two-main-characteristic-lines-for-reference-label-them" id="toc-draw-the-two-main-characteristic-lines-for-reference-label-them" class="nav-link" data-scroll-target="#draw-the-two-main-characteristic-lines-for-reference-label-them"><span class="header-section-number">15</span> Draw the two main characteristic lines (for reference), label them</a></li>
+  <li><a href="#characteristics-through-x0-x-x0-c-t-draw-extended-lines" id="toc-characteristics-through-x0-x-x0-c-t-draw-extended-lines" class="nav-link" data-scroll-target="#characteristics-through-x0-x-x0-c-t-draw-extended-lines"><span class="header-section-number">16</span> characteristics through x0: x = x0 ± c t (draw extended lines)</a></li>
+  <li><a href="#also-label-characteristics-bounding-the-dod-through-the-target-point" id="toc-also-label-characteristics-bounding-the-dod-through-the-target-point" class="nav-link" data-scroll-target="#also-label-characteristics-bounding-the-dod-through-the-target-point"><span class="header-section-number">17</span> also label characteristics bounding the DoD (through the target point)</a></li>
+  <li><a href="#cosmetic" id="toc-cosmetic" class="nav-link" data-scroll-target="#cosmetic"><span class="header-section-number">18</span> cosmetic</a></li>
+  <li><a href="#save-show" id="toc-save-show" class="nav-link" data-scroll-target="#save-show"><span class="header-section-number">19</span> Save &amp; show</a></li>
   </ul>
 </nav>
     </div>
@@ -505,31 +518,67 @@ x - c t \quad \text{and} \quad x + c t.
 <p><strong>Acharya:</strong> Yes. The <strong>domain of dependence</strong> is<br>
 <span class="math display">\[
 [x - c t,\, x + c t].
-\]</span> And the <strong>domain of influence</strong> of an initial point <span class="math inline">\((x_0,0)\)</span> is the cone-shaped region</p>
-<pre class="{tikz}"><code>\begin{tikzpicture}[scale=1.2]
-  % Axes
-  \draw[-&gt;] (-2,0) -- (2,0) node[right] {$x$};
-  \draw[-&gt;] (0,0) -- (0,3) node[above] {$t$};
-
-  % Point of disturbance
-  \fill (0,0) circle (2pt) node[below left] {$(x_0,t_0)$};
-
-  % Characteristics
-  \draw[thick,red] (0,0) -- (1.5,3) node[right] {$x = x_0 + c(t-t_0)$};
-  \draw[thick,red] (0,0) -- (-1.5,3) node[left] {$x = x_0 - c(t-t_0)$};
-
-  % Shaded influence region
-  \fill[blue!20,opacity=0.5] (-1.5,3) -- (0,0) -- (1.5,3) -- cycle;
-
-  % Labels
-  \node at (0,1.8) {Region of influence};
-\end{tikzpicture}</code></pre>
+\]</span></p>
+<p>And the <strong>domain of influence</strong> of an initial point <span class="math inline">\((x_0,0)\)</span> is the cone-shaped region.</p>
+</section>
+</section>
+<section id="domain-of-dependence-influence-plot-for-1d-wave-equation" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Domain of Dependence &amp; Influence plot for 1D wave equation</h1>
+<p>import numpy as np import matplotlib.pyplot as plt</p>
+</section>
+<section id="parameters" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Parameters</h1>
+<p>x0 = 0.0 # initial point for Domain of Influence x = 1.0 # target point for Domain of Dependence t = 1.0 # time at which we evaluate DoD for (x,t) c = 1.0 # wave speed</p>
+</section>
+<section id="plotting-ranges" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> plotting ranges</h1>
+<p>x_min, x_max = -2.0, 3.0 t_min, t_max = -1.5, 2.0</p>
+<p>fig, ax = plt.subplots(figsize=(7,7))</p>
+</section>
+<section id="plot-axes" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Plot axes</h1>
+<p>ax.axhline(0, color=‘k’, linewidth=0.8) ax.axvline(0, color=‘k’, linewidth=0.8) ax.set_xlim(x_min, x_max) ax.set_ylim(t_min, t_max) ax.set_xlabel(r’<span class="math inline">\(x\)</span>‘) ax.set_ylabel(r’<span class="math inline">\(t\)</span>‘) ax.set_title(’Domain of Influence (upward) and Domain of Dependence (downward)’)</p>
+</section>
+<section id="domain-of-influence-cone-opening-upward-from-x00" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Domain of Influence: cone opening upward from (x0,0)</h1>
+<p>ts_up = np.linspace(0, t_max, 200) x_right_up = x0 + c<em>ts_up x_left_up = x0 - c</em>ts_up ax.fill_betweenx(ts_up, x_left_up, x_right_up, color=‘C0’, alpha=0.25, label=‘Domain of Influence of <span class="math inline">\((x_0,0)\)</span>’) ax.plot(x_right_up, ts_up, linestyle=‘-’, color=‘C0’) ax.plot(x_left_up, ts_up, linestyle=‘-’, color=‘C0’)</p>
+</section>
+<section id="mark-the-initial-point-x00" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Mark the initial point (x0,0)</h1>
+<p>ax.scatter([x0],[0], color=‘C0’, zorder=5) ax.text(x0, -0.15, r’<span class="math inline">\((x_0,0)\)</span>‘, ha=’right’, va=‘top’)</p>
+</section>
+<section id="domain-of-dependence-cone-opening-downward-ending-at-xt" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Domain of Dependence: cone opening downward ending at (x,t)</h1>
+<p>ts_down = np.linspace(0, t, 200) x_right_down = x + c<em>(t - ts_down) # trace back to t=0 x_left_down = x - c</em>(t - ts_down) ax.fill_betweenx(t - ts_down, x_left_down, x_right_down, color=‘C1’, alpha=0.25, label=f’DoD of <span class="math inline">\(({x},{t})\)</span>‘) ax.plot(x + c<em>(np.linspace(-0.0, t, 200) ), np.linspace(t,0,200), linestyle=’-’, color=’C1’) ax.plot(x - c</em>(np.linspace(-0.0, t, 200) ), np.linspace(t,0,200), linestyle=’-‘, color=’C1’)</p>
+</section>
+<section id="mark-the-target-point-xt" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Mark the target point (x,t)</h1>
+<p>ax.scatter([x],[t], color=‘C1’, zorder=6) ax.text(x, t+0.05, rf’<span class="math inline">\((x,t)=({x},{t})\)</span>‘, ha=’left’, va=‘bottom’)</p>
+</section>
+<section id="draw-the-two-main-characteristic-lines-for-reference-label-them" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Draw the two main characteristic lines (for reference), label them</h1>
+</section>
+<section id="characteristics-through-x0-x-x0-c-t-draw-extended-lines" class="level1" data-number="16">
+<h1 data-number="16"><span class="header-section-number">16</span> characteristics through x0: x = x0 ± c t (draw extended lines)</h1>
+<p>tline = np.linspace(t_min, t_max, 400) ax.plot(x0 + c<em>tline, tline, color=‘gray’, linestyle=‘–’, linewidth=1) ax.plot(x0 - c</em>tline, tline, color=‘gray’, linestyle=‘–’, linewidth=1) ax.text(x0 + c<em>(t_max-0.1), t_max-0.05, r’<span class="math inline">\(x = x_0 + ct\)</span>‘, color=’gray’, va=‘top’, ha=‘right’) ax.text(x0 - c</em>(t_max-0.1), t_max-0.05, r’<span class="math inline">\(x = x_0 - ct\)</span>‘, color=’gray’, va=‘top’, ha=‘left’)</p>
+</section>
+<section id="also-label-characteristics-bounding-the-dod-through-the-target-point" class="level1" data-number="17">
+<h1 data-number="17"><span class="header-section-number">17</span> also label characteristics bounding the DoD (through the target point)</h1>
+<p>ax.text(x + c*(t/2), t/2, r’<span class="math inline">\(x = x + ct\)</span> (backwards)<span class="math inline">\(', color='C1', fontsize=8, rotation=20)
+ax.text(x - c*(t/2), t/2, r'\)</span>x = x - ct$ (backwards)$‘, color=’C1’, fontsize=8, rotation=-20)</p>
+</section>
+<section id="cosmetic" class="level1" data-number="18">
+<h1 data-number="18"><span class="header-section-number">18</span> cosmetic</h1>
+<p>ax.set_aspect(‘auto’) ax.legend(loc=‘upper right’) ax.grid(alpha=0.2)</p>
+</section>
+<section id="save-show" class="level1" data-number="19">
+<h1 data-number="19"><span class="header-section-number">19</span> Save &amp; show</h1>
+<p>plt.tight_layout() plt.savefig(‘doidod_plot.png’, dpi=200) plt.show()</p>
 
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -993,372 +1042,425 @@ x - c t \quad \text{and} \quad x + c t.
   <div class="nav-page nav-page-next">
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Level 5 — Hyperbolic PDEs: Wave Equation"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    math: mathjax</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>**Acharya:** That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parabolic heat equation.  </span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>Some equations describe situations where information or disturbances travel at a *finite speed* — like waves or moving traffic.</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>**Pavni:** So these are called *hyperbolic equations*?</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that *move* through a medium rather than *diffuse*.  </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>For example — a vibrating string, sound waves in air, or even cars moving on a road.</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>**Pavni:** Interesting! But why are they so different from diffusion equations like the heat equation?</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>**Acharya:** Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.  </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>That’s called **infinite propagation speed**.  </span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>But hyperbolic equations restrict influence to certain *paths* in the $(x,t)$-plane, called **characteristics**.  </span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>Information travels only along these paths at a finite speed.</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>**Pavni:** That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Let’s begin with a simple and familiar example — **traffic flow**.  </span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>It beautifully captures the idea of *conservation* and *finite-speed motion*.</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🚗 The Traffic Flow Model</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>**Pavni:** So, where do we begin?</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s define some quantities.</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  </span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$v(x,t)$: average speed of cars (km/h)  </span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$q(x,t)$: flow rate — number of cars passing a point per unit time (cars/hour)</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>**Pavni:** So $q$ must depend on both how many cars there are and how fast they move?</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely. That leads us to the simple physical relation:</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>q = \rho v.</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>💡 Why $q = \rho v$?<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>If a small segment of road of length $\Delta x$ contains $\rho \, \Delta x$ cars,  </span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>and each car moves with velocity $v$, then in time $\Delta t$ each car covers $v \, \Delta t$ km.  </span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>So, the number of cars passing a fixed point in time $\Delta t$ is  </span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>(\rho \, \Delta x) \cdot \frac{v \, \Delta t}{\Delta x} = \rho v \, \Delta t.</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>Dividing by $\Delta t$ gives $q = \rho v$.</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Conservation of Cars</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>**Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  </span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>Cars can only leave or enter through the ends.</span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>**Pavni:** That looks like conservation of mass!</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — just conservation of the *number of cars*.  </span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>The total number of cars in the interval changes only because of the *net flow* at the boundaries.  </span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>Now, let’s use the **Fundamental Theorem of Calculus** to convert this integral form into a *local differential equation*.</span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>By the Fundamental Theorem of Calculus,</span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>q(x_2,t) - q(x_1,t) = \int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>Substitute this into our conservation statement:</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>Assuming $\rho$ is smooth enough to interchange differentiation and integration:</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>\int_{x_1}^{x_2} \rho_t(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>Combine both integrals:</span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>\int_{x_1}^{x_2} \big<span class="co">[</span><span class="ot">\rho_t(x,t) + q_x(x,t)\big</span><span class="co">]</span>\,dx = 0.</span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>**Acharya:** Now, Pavni, what does this equation tell us?</span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>**Pavni:** It says that the integral of $\rho_t + q_x$ over *any* interval is zero.</span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! And that can only happen if the integrand itself is zero *everywhere*.  </span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>Hence, we get the **local conservation law**:</span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>\boxed{\rho_t + q_x = 0.}</span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the integral form expresses the total number of cars in a segment being conserved,  </span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>and this differential form expresses that conservation *at every point* on the road!</span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfectly said. This is the basic **conservation law** for one-dimensional flow.  </span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>Next, if we assume each car moves at a constant speed $a$, we’ll get the **linear advection equation.**</span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>**Pavni:** So this describes a traffic pattern moving forward without changing its shape?</span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. The entire profile of car density just shifts rightward with speed $a$.</span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## ✏️ Try to Predict</span></span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,</span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>\rho(x,0) = e^{-x^2}?</span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>**Pavni:** I think it will move to the right, keeping its shape.</span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfect intuition. We’ll now confirm this mathematically using **characteristics** — special curves along which information travels.</span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🌊 Characteristics and the Solution of the Linear Advection Equation</span></span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, now that we have derived the equation  </span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>\rho_t + a\rho_x = 0, \quad a &gt; 0,</span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>for cars moving at constant speed, how do we actually find $\rho(x,t)$ from this?</span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>**Acharya:** Excellent question. This equation may look simple, but it contains a beautiful idea — that **information travels along certain paths** in the $(x,t)$-plane. These paths are called *characteristics*.</span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### Deriving the Characteristic Curves</span></span>
-<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s think of $\rho$ as a function of both $x$ and $t$.  </span>
-<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>Suppose we move along a curve $x = x(t)$ in the $(x,t)$-plane.  </span>
-<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>By the chain rule, the total derivative of $\rho$ along that curve is</span>
-<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.</span>
-<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>Now, if we choose $\dfrac{dx}{dt} = a$, then</span>
-<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + a\rho_x = 0.</span>
-<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>That means $\rho$ is **constant** along any curve that satisfies $\dfrac{dx}{dt} = a$.</span>
-<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>**Pavni:** So those are the characteristic curves?</span>
-<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! Integrating $\dfrac{dx}{dt} = a$ gives</span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>x = a t + x_0, \quad \text{or} \quad x - a t = x_0 = \text{constant}.</span>
-<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>Each line $x - a t = \text{constant}$ is a **characteristic line**.</span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Meaning of Characteristics</span></span>
-<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>**Pavni:** What does it mean that $\rho$ is constant along these lines?</span>
-<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>**Acharya:** It means that the value of $\rho$ at time $t$ and position $x$  </span>
-<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>is exactly the same as its value at the point where that characteristic line started on the $x$-axis (that is, at time $t=0$).</span>
-<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>So,</span>
-<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>\rho(x,t) = \rho_0(x - a t),</span>
-<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>where $\rho_0(x)$ is the initial density at $t=0$.</span>
-<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>**Pavni:** Oh! So the initial profile just shifts by $a t$?</span>
-<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — it moves to the right if $a&gt;0$ and to the left if $a&lt;0$.  </span>
-<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a>No change in shape — pure translation.</span>
-<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### Verifying the Solution</span></span>
-<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a>**Pavni:** Let’s check if this really satisfies the PDE.</span>
-<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a>**Acharya:** Sure! Let $\rho(x,t) = \rho_0(x - a t)$.  </span>
-<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a>Then</span>
-<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a>\rho_t = -a\rho_0'(x - a t), \quad \rho_x = \rho_0'(x - a t).</span>
-<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a>Substitute into $\rho_t + a\rho_x = 0$:</span>
-<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a>(-a\rho_0') + a\rho_0' = 0.</span>
-<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a>✅ It satisfies the equation perfectly.</span>
-<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="fu">### Understanding Finite Propagation Speed</span></span>
-<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a>**Acharya:** The key property of this equation is that information moves at a *finite speed*.</span>
-<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a>If a disturbance is initially present only between $x=0$ and $x=1$,  </span>
-<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>then at time $t$ it will be found only between $x=a t$ and $x=1+a t$.  </span>
-<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>Every point outside this region remains unaffected.</span>
-<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>**Pavni:** So information doesn’t spread instantly like in the heat equation?</span>
-<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. In the **heat equation**, even a small bump affects the whole line immediately — infinite propagation speed.  </span>
-<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>But here, the influence travels only along straight lines $x - a t = \text{constant}$ — that’s **finite-speed propagation**.</span>
-<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
-<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>Let’s take an initial density</span>
-<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>\rho_0(x) =</span>
-<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
-<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a>1, &amp; 0 &lt; x &lt; 1, <span class="sc">\\</span></span>
-<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>0, &amp; \text{otherwise}.</span>
-<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
-<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a>Then</span>
-<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>\rho(x,t) =</span>
-<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
-<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a>1, &amp; a t &lt; x &lt; 1 + a t, <span class="sc">\\</span></span>
-<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a>0, &amp; \text{otherwise}.</span>
-<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
-<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the block of cars just moves forward as a group?</span>
-<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — like a moving traffic wave with constant shape.</span>
-<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing Characteristics</span></span>
-<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>Each characteristic line shows where information travels:</span>
-<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a><span class="in">```plaintext</span></span>
-<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a>t ↑</span>
-<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a>  |</span>
-<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a>  |       <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/</span></span>
-<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a><span class="ot">  </span><span class="ch">|</span><span class="ot">      /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span></span>
-<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a>  |     <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/</span></span>
-<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a><span class="ot">  </span><span class="ch">|</span><span class="ot">____/</span>____/____/____/____/____/____/→ x</span>
-<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🕸️ Domain of Dependence and Domain of Influence</span></span>
-<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, you mentioned earlier that information in hyperbolic equations travels along characteristics. But how exactly do we describe *which* parts of the initial data influence the solution at a given point?</span>
-<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a>**Acharya:** Excellent question, Pavni. To answer that, we introduce two key ideas — the **domain of dependence** and the **domain of influence**. These describe how information moves through space and time.</span>
-<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a><span class="fu">###  What do these mean?</span></span>
-<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s begin intuitively.</span>
-<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of dependence (DoD)** of a point $(x,t)$ is the set of points in the initial data that can *affect* the solution at $(x,t)$.  </span>
-<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a>  In other words: *Which initial points influence the value here?*</span>
-<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of influence (DoI)** of a point $(x_0,0)$ is the set of space–time points $(x,t)$ that can be affected by that initial point.  </span>
-<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>  In other words: *Where does the information starting at $x_0$ go?*</span>
-<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the DoD looks backward in time, and the DoI looks forward?</span>
-<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. They’re like mirror images of each other.  </span>
-<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a>For hyperbolic PDEs, these regions are bounded by **characteristics** — the paths along which information travels at finite speed.</span>
-<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a><span class="fu">###  Example 1: Linear Advection</span></span>
-<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a>**Pavni:** Let’s try this with the advection equation again:  </span>
-<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a>u_t + a\,u_x = 0, \quad u(x,0) = u_0(x).</span>
-<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a>**Acharya:** Good. The characteristics are the straight lines</span>
-<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a>x - a t = \text{constant}.</span>
-<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>So each point $(x,t)$ connects to exactly one point on the $x$–axis: $x_0 = x - a t$.</span>
-<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the value $u(x,t)$ depends only on $u_0(x - a t)$?</span>
-<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. That means:</span>
-<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of dependence** of $(x,t)$ is the **single point** $x_0 = x - a t$.  </span>
-<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of influence** of an initial point $(x_0,0)$ is the **straight line** $x = x_0 + a t$.</span>
-<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>**Pavni:** So for advection, both DoD and DoI are just lines — not regions?</span>
-<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>**Acharya:** Right. A *single characteristic line* carries all the information.  </span>
-<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a>This is why the advection equation has such a clean propagation behavior — each point of initial data simply moves at speed $a$ without interacting with others.</span>
-<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a><span class="fu">###  Example 2: The 1-D Wave Equation</span></span>
-<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a>**Pavni:** What happens for the wave equation?  </span>
-<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a>u_{tt} = c^2 u_{xx}.</span>
-<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>**Acharya:** Ah, this one is a bit richer. The general solution is given by d’Alembert’s formula:</span>
-<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a>u(x,t) = F(x - c t) + G(x + c t).</span>
-<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a>**Pavni:** So now we have two families of characteristics — one moving right, one left?</span>
-<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely! For this equation:</span>
-<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Right-moving characteristics: $x - c t = \text{constant}$  </span>
-<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Left-moving characteristics: $x + c t = \text{constant}$</span>
-<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a>Now, to find the value at $(x,t)$, you need both $F$ and $G$ — meaning information from **two points** on the initial line:</span>
-<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a>x - c t \quad \text{and} \quad x + c t.</span>
-<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the DoD of $(x,t)$ is the interval between those two points?</span>
-<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a>**Acharya:** Yes. The **domain of dependence** is  </span>
-<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">x - c t,\, x + c t</span><span class="co">]</span>.</span>
-<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a>And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region</span>
-<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{tikz}</span></span>
-<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{tikzpicture}[scale=1.2]</span></span>
-<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a><span class="in">  % Axes</span></span>
-<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[-&gt;] (-2,0) -- (2,0) node[right] {$x$};</span></span>
-<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[-&gt;] (0,0) -- (0,3) node[above] {$t$};</span></span>
-<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a><span class="in">  % Point of disturbance</span></span>
-<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a><span class="in">  \fill (0,0) circle (2pt) node[below left] {$(x_0,t_0)$};</span></span>
-<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a><span class="in">  % Characteristics</span></span>
-<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[thick,red] (0,0) -- (1.5,3) node[right] {$x = x_0 + c(t-t_0)$};</span></span>
-<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a><span class="in">  \draw[thick,red] (0,0) -- (-1.5,3) node[left] {$x = x_0 - c(t-t_0)$};</span></span>
-<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a><span class="in">  % Shaded influence region</span></span>
-<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a><span class="in">  \fill[blue!20,opacity=0.5] (-1.5,3) -- (0,0) -- (1.5,3) -- cycle;</span></span>
-<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a><span class="in">  % Labels</span></span>
-<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a><span class="in">  \node at (0,1.8) {Region of influence};</span></span>
-<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a><span class="in">\end{tikzpicture}</span></span>
-<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Level 5 — Hyperbolic PDEs: Wave Equation"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">    math: mathjax</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, we’ve studied the heat equation. From theory we know that it seems to *spread* information everywhere. Does every PDE behave like that?</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>**Acharya:** That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parabolic heat equation.  </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>Some equations describe situations where information or disturbances travel at a *finite speed* — like waves or moving traffic.</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>**Pavni:** So these are called *hyperbolic equations*?</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that *move* through a medium rather than *diffuse*.  </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>For example — a vibrating string, sound waves in air, or even cars moving on a road.</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>**Pavni:** Interesting! But why are they so different from diffusion equations like the heat equation?</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>**Acharya:** Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.  </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>That’s called **infinite propagation speed**.  </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>But hyperbolic equations restrict influence to certain *paths* in the $(x,t)$-plane, called **characteristics**.  </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>Information travels only along these paths at a finite speed.</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>**Pavni:** That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Let’s begin with a simple and familiar example — **traffic flow**.  </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>It beautifully captures the idea of *conservation* and *finite-speed motion*.</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🚗 The Traffic Flow Model</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>**Pavni:** So, where do we begin?</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s define some quantities.</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\rho(x,t)$: density of cars at position $x$ and time $t$ (cars/km)  </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$v(x,t)$: average speed of cars (km/h)  </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$q(x,t)$: flow rate — number of cars passing a point per unit time (cars/hour)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>**Pavni:** So $q$ must depend on both how many cars there are and how fast they move?</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely. That leads us to the simple physical relation:</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>q = \rho v.</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>💡 Why $q = \rho v$?<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>If a small segment of road of length $\Delta x$ contains $\rho \, \Delta x$ cars,  </span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>and each car moves with velocity $v$, then in time $\Delta t$ each car covers $v \, \Delta t$ km.  </span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>So, the number of cars passing a fixed point in time $\Delta t$ is  </span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>(\rho \, \Delta x) \cdot \frac{v \, \Delta t}{\Delta x} = \rho v \, \Delta t.</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>Dividing by $\Delta t$ gives $q = \rho v$.</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Conservation of Cars</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>**Acharya:** Now, think of a small stretch of road between $x_1$ and $x_2$.  </span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>Cars can only leave or enter through the ends.</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = q(x_1,t) - q(x_2,t).</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>**Pavni:** That looks like conservation of mass!</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — just conservation of the *number of cars*.  </span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>The total number of cars in the interval changes only because of the *net flow* at the boundaries.  </span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>Now, let’s use the **Fundamental Theorem of Calculus** to convert this integral form into a *local differential equation*.</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>By the Fundamental Theorem of Calculus,</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>q(x_2,t) - q(x_1,t) = \int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>Substitute this into our conservation statement:</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>Assuming $\rho$ is smooth enough to interchange differentiation and integration:</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>\int_{x_1}^{x_2} \rho_t(x,t)\,dx = -\int_{x_1}^{x_2} q_x(x,t)\,dx.</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>Combine both integrals:</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>\int_{x_1}^{x_2} \big<span class="co">[</span><span class="ot">\rho_t(x,t) + q_x(x,t)\big</span><span class="co">]</span>\,dx = 0.</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>**Acharya:** Now, Pavni, what does this equation tell us?</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>**Pavni:** It says that the integral of $\rho_t + q_x$ over *any* interval is zero.</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! And that can only happen if the integrand itself is zero *everywhere*.  </span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>Hence, we get the **local conservation law**:</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>\boxed{\rho_t + q_x = 0.}</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the integral form expresses the total number of cars in a segment being conserved,  </span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>and this differential form expresses that conservation *at every point* on the road!</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfectly said. This is the basic **conservation law** for one-dimensional flow.  </span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>Next, if we assume each car moves at a constant speed $a$, we’ll get the **linear advection equation.**</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>**Pavni:** So this describes a traffic pattern moving forward without changing its shape?</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. The entire profile of car density just shifts rightward with speed $a$.</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## ✏️ Try to Predict</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>**Acharya:** Before solving it, can you guess how the density will evolve if initially the density is a bump — say,</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>\rho(x,0) = e^{-x^2}?</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>**Pavni:** I think it will move to the right, keeping its shape.</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfect intuition. We’ll now confirm this mathematically using **characteristics** — special curves along which information travels.</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🌊 Characteristics and the Solution of the Linear Advection Equation</span></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, now that we have derived the equation  </span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>\rho_t + a\rho_x = 0, \quad a &gt; 0,</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>for cars moving at constant speed, how do we actually find $\rho(x,t)$ from this?</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>**Acharya:** Excellent question. This equation may look simple, but it contains a beautiful idea — that **information travels along certain paths** in the $(x,t)$-plane. These paths are called *characteristics*.</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### Deriving the Characteristic Curves</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s think of $\rho$ as a function of both $x$ and $t$.  </span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>Suppose we move along a curve $x = x(t)$ in the $(x,t)$-plane.  </span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>By the chain rule, the total derivative of $\rho$ along that curve is</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>Now, if we choose $\dfrac{dx}{dt} = a$, then</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + a\rho_x = 0.</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>That means $\rho$ is **constant** along any curve that satisfies $\dfrac{dx}{dt} = a$.</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>**Pavni:** So those are the characteristic curves?</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! Integrating $\dfrac{dx}{dt} = a$ gives</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>x = a t + x_0, \quad \text{or} \quad x - a t = x_0 = \text{constant}.</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>Each line $x - a t = \text{constant}$ is a **characteristic line**.</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Meaning of Characteristics</span></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>**Pavni:** What does it mean that $\rho$ is constant along these lines?</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>**Acharya:** It means that the value of $\rho$ at time $t$ and position $x$  </span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>is exactly the same as its value at the point where that characteristic line started on the $x$-axis (that is, at time $t=0$).</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>So,</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>\rho(x,t) = \rho_0(x - a t),</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>where $\rho_0(x)$ is the initial density at $t=0$.</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>**Pavni:** Oh! So the initial profile just shifts by $a t$?</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — it moves to the right if $a&gt;0$ and to the left if $a&lt;0$.  </span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>No change in shape — pure translation.</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### Verifying the Solution</span></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>**Pavni:** Let’s check if this really satisfies the PDE.</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>**Acharya:** Sure! Let $\rho(x,t) = \rho_0(x - a t)$.  </span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>Then</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>\rho_t = -a\rho_0'(x - a t), \quad \rho_x = \rho_0'(x - a t).</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>Substitute into $\rho_t + a\rho_x = 0$:</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>(-a\rho_0') + a\rho_0' = 0.</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>✅ It satisfies the equation perfectly.</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a><span class="fu">### Understanding Finite Propagation Speed</span></span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>**Acharya:** The key property of this equation is that information moves at a *finite speed*.</span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>If a disturbance is initially present only between $x=0$ and $x=1$,  </span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>then at time $t$ it will be found only between $x=a t$ and $x=1+a t$.  </span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>Every point outside this region remains unaffected.</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>**Pavni:** So information doesn’t spread instantly like in the heat equation?</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. In the **heat equation**, even a small bump affects the whole line immediately — infinite propagation speed.  </span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>But here, the influence travels only along straight lines $x - a t = \text{constant}$ — that’s **finite-speed propagation**.</span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>Let’s take an initial density</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>\rho_0(x) =</span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>1, &amp; 0 &lt; x &lt; 1, <span class="sc">\\</span></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>0, &amp; \text{otherwise}.</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>Then</span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>\rho(x,t) =</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>1, &amp; a t &lt; x &lt; 1 + a t, <span class="sc">\\</span></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>0, &amp; \text{otherwise}.</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the block of cars just moves forward as a group?</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — like a moving traffic wave with constant shape.</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing Characteristics</span></span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>Each characteristic line shows where information travels:</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a><span class="in">```plaintext</span></span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>t ↑</span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>  |</span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a>  |       <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/</span></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a><span class="ot">  </span><span class="ch">|</span><span class="ot">      /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span></span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>  |     <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/    /</span>    <span class="ot">/</span></span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a><span class="ot">  </span><span class="ch">|</span><span class="ot">____/</span>____/____/____/____/____/____/→ x</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🕸️ Domain of Dependence and Domain of Influence</span></span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, you mentioned earlier that information in hyperbolic equations travels along characteristics. But how exactly do we describe *which* parts of the initial data influence the solution at a given point?</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>**Acharya:** Excellent question, Pavni. To answer that, we introduce two key ideas — the **domain of dependence** and the **domain of influence**. These describe how information moves through space and time.</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a><span class="fu">###  What do these mean?</span></span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s begin intuitively.</span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of dependence (DoD)** of a point $(x,t)$ is the set of points in the initial data that can *affect* the solution at $(x,t)$.  </span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a>  In other words: *Which initial points influence the value here?*</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of influence (DoI)** of a point $(x_0,0)$ is the set of space–time points $(x,t)$ that can be affected by that initial point.  </span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a>  In other words: *Where does the information starting at $x_0$ go?*</span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the DoD looks backward in time, and the DoI looks forward?</span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. They’re like mirror images of each other.  </span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a>For hyperbolic PDEs, these regions are bounded by **characteristics** — the paths along which information travels at finite speed.</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a><span class="fu">###  Example 1: Linear Advection</span></span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>**Pavni:** Let’s try this with the advection equation again:  </span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>u_t + a\,u_x = 0, \quad u(x,0) = u_0(x).</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a>**Acharya:** Good. The characteristics are the straight lines</span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a>x - a t = \text{constant}.</span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>So each point $(x,t)$ connects to exactly one point on the $x$–axis: $x_0 = x - a t$.</span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the value $u(x,t)$ depends only on $u_0(x - a t)$?</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. That means:</span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of dependence** of $(x,t)$ is the **single point** $x_0 = x - a t$.  </span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **domain of influence** of an initial point $(x_0,0)$ is the **straight line** $x = x_0 + a t$.</span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a>**Pavni:** So for advection, both DoD and DoI are just lines — not regions?</span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>**Acharya:** Right. A *single characteristic line* carries all the information.  </span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a>This is why the advection equation has such a clean propagation behavior — each point of initial data simply moves at speed $a$ without interacting with others.</span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a><span class="fu">###  Example 2: The 1-D Wave Equation</span></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>**Pavni:** What happens for the wave equation?  </span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a>u_{tt} = c^2 u_{xx}.</span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a>**Acharya:** Ah, this one is a bit richer. The general solution is given by d’Alembert’s formula:</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>u(x,t) = F(x - c t) + G(x + c t).</span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a>**Pavni:** So now we have two families of characteristics — one moving right, one left?</span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely! For this equation:</span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Right-moving characteristics: $x - c t = \text{constant}$  </span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Left-moving characteristics: $x + c t = \text{constant}$</span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a>Now, to find the value at $(x,t)$, you need both $F$ and $G$ — meaning information from **two points** on the initial line:</span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a>x - c t \quad \text{and} \quad x + c t.</span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the DoD of $(x,t)$ is the interval between those two points?</span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a>**Acharya:** Yes. The **domain of dependence** is  </span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">x - c t,\, x + c t</span><span class="co">]</span>.</span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-346"><a href="#cb2-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a>And the **domain of influence** of an initial point $(x_0,0)$ is the cone-shaped region.</span>
+<span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a><span class="co"># Domain of Dependence &amp; Influence plot for 1D wave equation</span></span>
+<span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">0.0</span>      <span class="co"># initial point for Domain of Influence</span></span>
+<span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">1.0</span>       <span class="co"># target point for Domain of Dependence</span></span>
+<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">1.0</span>       <span class="co"># time at which we evaluate DoD for (x,t)</span></span>
+<span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.0</span>       <span class="co"># wave speed</span></span>
+<span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ranges</span></span>
+<span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> <span class="op">-</span><span class="fl">2.0</span>, <span class="fl">3.0</span></span>
+<span id="cb2-364"><a href="#cb2-364" aria-hidden="true" tabindex="-1"></a>t_min, t_max <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span>, <span class="fl">2.0</span></span>
+<span id="cb2-365"><a href="#cb2-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-366"><a href="#cb2-366" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">7</span>))</span>
+<span id="cb2-367"><a href="#cb2-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-368"><a href="#cb2-368" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot axes</span></span>
+<span id="cb2-369"><a href="#cb2-369" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb2-370"><a href="#cb2-370" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb2-371"><a href="#cb2-371" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(x_min, x_max)</span>
+<span id="cb2-372"><a href="#cb2-372" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(t_min, t_max)</span>
+<span id="cb2-373"><a href="#cb2-373" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'</span><span class="dv">$</span><span class="vs">x</span><span class="dv">$</span><span class="vs">'</span>)</span>
+<span id="cb2-374"><a href="#cb2-374" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'</span><span class="dv">$</span><span class="vs">t</span><span class="dv">$</span><span class="vs">'</span>)</span>
+<span id="cb2-375"><a href="#cb2-375" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Domain of Influence (upward) and Domain of Dependence (downward)'</span>)</span>
+<span id="cb2-376"><a href="#cb2-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-377"><a href="#cb2-377" aria-hidden="true" tabindex="-1"></a><span class="co"># Domain of Influence: cone opening upward from (x0,0)</span></span>
+<span id="cb2-378"><a href="#cb2-378" aria-hidden="true" tabindex="-1"></a>ts_up <span class="op">=</span> np.linspace(<span class="dv">0</span>, t_max, <span class="dv">200</span>)</span>
+<span id="cb2-379"><a href="#cb2-379" aria-hidden="true" tabindex="-1"></a>x_right_up <span class="op">=</span> x0 <span class="op">+</span> c<span class="op">*</span>ts_up</span>
+<span id="cb2-380"><a href="#cb2-380" aria-hidden="true" tabindex="-1"></a>x_left_up  <span class="op">=</span> x0 <span class="op">-</span> c<span class="op">*</span>ts_up</span>
+<span id="cb2-381"><a href="#cb2-381" aria-hidden="true" tabindex="-1"></a>ax.fill_betweenx(ts_up, x_left_up, x_right_up, color<span class="op">=</span><span class="st">'C0'</span>, alpha<span class="op">=</span><span class="fl">0.25</span>, label<span class="op">=</span><span class="st">'Domain of Influence of $(x_0,0)$'</span>)</span>
+<span id="cb2-382"><a href="#cb2-382" aria-hidden="true" tabindex="-1"></a>ax.plot(x_right_up, ts_up, linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C0'</span>)</span>
+<span id="cb2-383"><a href="#cb2-383" aria-hidden="true" tabindex="-1"></a>ax.plot(x_left_up, ts_up, linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C0'</span>)</span>
+<span id="cb2-384"><a href="#cb2-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-385"><a href="#cb2-385" aria-hidden="true" tabindex="-1"></a><span class="co"># Mark the initial point (x0,0)</span></span>
+<span id="cb2-386"><a href="#cb2-386" aria-hidden="true" tabindex="-1"></a>ax.scatter([x0],[<span class="dv">0</span>], color<span class="op">=</span><span class="st">'C0'</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb2-387"><a href="#cb2-387" aria-hidden="true" tabindex="-1"></a>ax.text(x0, <span class="op">-</span><span class="fl">0.15</span>, <span class="vs">r'</span><span class="dv">$</span><span class="kw">(</span><span class="vs">x_0,0</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>)</span>
+<span id="cb2-388"><a href="#cb2-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a><span class="co"># Domain of Dependence: cone opening downward ending at (x,t)</span></span>
+<span id="cb2-390"><a href="#cb2-390" aria-hidden="true" tabindex="-1"></a>ts_down <span class="op">=</span> np.linspace(<span class="dv">0</span>, t, <span class="dv">200</span>)</span>
+<span id="cb2-391"><a href="#cb2-391" aria-hidden="true" tabindex="-1"></a>x_right_down <span class="op">=</span> x <span class="op">+</span> c<span class="op">*</span>(t <span class="op">-</span> ts_down)   <span class="co"># trace back to t=0</span></span>
+<span id="cb2-392"><a href="#cb2-392" aria-hidden="true" tabindex="-1"></a>x_left_down  <span class="op">=</span> x <span class="op">-</span> c<span class="op">*</span>(t <span class="op">-</span> ts_down)</span>
+<span id="cb2-393"><a href="#cb2-393" aria-hidden="true" tabindex="-1"></a>ax.fill_betweenx(t <span class="op">-</span> ts_down, x_left_down, x_right_down, color<span class="op">=</span><span class="st">'C1'</span>, alpha<span class="op">=</span><span class="fl">0.25</span>, label<span class="op">=</span><span class="ss">f'DoD of $(</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">,</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">)$'</span>)</span>
+<span id="cb2-394"><a href="#cb2-394" aria-hidden="true" tabindex="-1"></a>ax.plot(x <span class="op">+</span> c<span class="op">*</span>(np.linspace(<span class="op">-</span><span class="fl">0.0</span>, t, <span class="dv">200</span>) ), np.linspace(t,<span class="dv">0</span>,<span class="dv">200</span>), linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C1'</span>)</span>
+<span id="cb2-395"><a href="#cb2-395" aria-hidden="true" tabindex="-1"></a>ax.plot(x <span class="op">-</span> c<span class="op">*</span>(np.linspace(<span class="op">-</span><span class="fl">0.0</span>, t, <span class="dv">200</span>) ), np.linspace(t,<span class="dv">0</span>,<span class="dv">200</span>), linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'C1'</span>)</span>
+<span id="cb2-396"><a href="#cb2-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a><span class="co"># Mark the target point (x,t)</span></span>
+<span id="cb2-398"><a href="#cb2-398" aria-hidden="true" tabindex="-1"></a>ax.scatter([x],[t], color<span class="op">=</span><span class="st">'C1'</span>, zorder<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb2-399"><a href="#cb2-399" aria-hidden="true" tabindex="-1"></a>ax.text(x, t<span class="op">+</span><span class="fl">0.05</span>, <span class="vs">rf'</span><span class="dv">$</span><span class="kw">(</span><span class="vs">x,t</span><span class="kw">)</span><span class="vs">=</span><span class="kw">(</span><span class="sc">{</span>x<span class="sc">}</span><span class="vs">,</span><span class="sc">{</span>t<span class="sc">}</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, ha<span class="op">=</span><span class="st">'left'</span>, va<span class="op">=</span><span class="st">'bottom'</span>)</span>
+<span id="cb2-400"><a href="#cb2-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the two main characteristic lines (for reference), label them</span></span>
+<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a><span class="co"># characteristics through x0: x = x0 ± c t (draw extended lines)</span></span>
+<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a>tline <span class="op">=</span> np.linspace(t_min, t_max, <span class="dv">400</span>)</span>
+<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a>ax.plot(x0 <span class="op">+</span> c<span class="op">*</span>tline, tline, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a>ax.plot(x0 <span class="op">-</span> c<span class="op">*</span>tline, tline, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a>ax.text(x0 <span class="op">+</span> c<span class="op">*</span>(t_max<span class="op">-</span><span class="fl">0.1</span>), t_max<span class="op">-</span><span class="fl">0.05</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x_0 </span><span class="op">+</span><span class="vs"> ct</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'gray'</span>, va<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a>ax.text(x0 <span class="op">-</span> c<span class="op">*</span>(t_max<span class="op">-</span><span class="fl">0.1</span>), t_max<span class="op">-</span><span class="fl">0.05</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x_0 - ct</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'gray'</span>, va<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a><span class="co"># also label characteristics bounding the DoD (through the target point)</span></span>
+<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a>ax.text(x <span class="op">+</span> c<span class="op">*</span>(t<span class="op">/</span><span class="dv">2</span>), t<span class="op">/</span><span class="dv">2</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x </span><span class="op">+</span><span class="vs"> ct</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">backwards</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'C1'</span>, fontsize<span class="op">=</span><span class="dv">8</span>, rotation<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a>ax.text(x <span class="op">-</span> c<span class="op">*</span>(t<span class="op">/</span><span class="dv">2</span>), t<span class="op">/</span><span class="dv">2</span>, <span class="vs">r'</span><span class="dv">$</span><span class="vs">x = x - ct</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">backwards</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, color<span class="op">=</span><span class="st">'C1'</span>, fontsize<span class="op">=</span><span class="dv">8</span>, rotation<span class="op">=-</span><span class="dv">20</span>)</span>
+<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a><span class="co"># cosmetic</span></span>
+<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">'auto'</span>)</span>
+<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>ax.grid(alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a><span class="co"># Save &amp; show</span></span>
+<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'doidod_plot.png'</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
