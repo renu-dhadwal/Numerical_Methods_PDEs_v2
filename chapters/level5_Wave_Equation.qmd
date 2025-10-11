@@ -403,8 +403,8 @@ ax.plot(x0 - c*tline, tline, color='gray', linestyle='--', linewidth=1)
 ax.text(x0 + c*(t_max-0.1), t_max-0.05, r'$x = x_0 + ct$', color='gray', va='top', ha='right')
 ax.text(x0 - c*(t_max-0.1), t_max-0.05, r'$x = x_0 - ct$', color='gray', va='top', ha='left')
 
-ax.text(x + c*(t/2), t/2, r'$x = x + ct$ (backwards)$', color='C1', fontsize=8, rotation=20)
-ax.text(x - c*(t/2), t/2, r'$x = x - ct$ (backwards)$', color='C1', fontsize=8, rotation=-20)
+ax.text(x + c*(t/2), t/2, r'x = x + ct ', color='C1', fontsize=8, rotation=20)
+ax.text(x - c*(t/2), t/2, r'x = x - ct ', color='C1', fontsize=8, rotation=-20)
 
 
 ax.set_aspect('auto')
