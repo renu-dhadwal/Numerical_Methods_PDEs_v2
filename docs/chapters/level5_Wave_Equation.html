@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Level 5 — Hyperbolic PDEs: Wave Equation – Numerical Methods for PDEs: An Interactive Journey</title>
+<title>Shock Waves (Dialogues): Burgers’ Equation Example – Numerical Methods for PDEs: An Interactive Journey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level5_Wave_Equation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5 — Hyperbolic PDEs: Wave Equation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level5_Wave_Equation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Shock Waves (Dialogues): Burgers’ Equation Example</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -207,7 +207,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/level5_Wave_Equation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5 — Hyperbolic PDEs: Wave Equation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Shock Waves (Dialogues): Burgers’ Equation Example</span></span></a>
   </div>
 </li>
     </ul>
@@ -247,6 +247,25 @@ window.Quarto = {
   <li><a href="#the-shock-speed-rankinehugoniot-condition" id="toc-the-shock-speed-rankinehugoniot-condition" class="nav-link" data-scroll-target="#the-shock-speed-rankinehugoniot-condition"><span class="header-section-number">6.9</span> ⚡ The Shock Speed (Rankine–Hugoniot Condition)</a></li>
   <li><a href="#example-a-forming-traffic-jam" id="toc-example-a-forming-traffic-jam" class="nav-link" data-scroll-target="#example-a-forming-traffic-jam"><span class="header-section-number">6.10</span> 🌊 Example: A Forming Traffic Jam</a></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">6.11</span> ✨ Key Takeaways</a></li>
+  <li><a href="#shock-waves-pavni-acharya-explore-an-example" id="toc-shock-waves-pavni-acharya-explore-an-example" class="nav-link" data-scroll-target="#shock-waves-pavni-acharya-explore-an-example"><span class="header-section-number">6.12</span> 🚦 Shock Waves — Pavni &amp; Acharya Explore an Example</a>
+  <ul class="collapse">
+  <li><a href="#interactive-visualization-characteristics-shock" id="toc-interactive-visualization-characteristics-shock" class="nav-link" data-scroll-target="#interactive-visualization-characteristics-shock"><span class="header-section-number">6.12.1</span> Interactive visualization (characteristics + shock)</a></li>
+  </ul></li>
+  <li><a href="#parameters-for-the-example" id="toc-parameters-for-the-example" class="nav-link" data-scroll-target="#parameters-for-the-example"><span class="header-section-number">7</span> Parameters for the example</a></li>
+  <li><a href="#characteristic-speeds-from-leftright-states" id="toc-characteristic-speeds-from-leftright-states" class="nav-link" data-scroll-target="#characteristic-speeds-from-leftright-states"><span class="header-section-number">8</span> Characteristic speeds from left/right states</a></li>
+  <li><a href="#shock-speed-from-rankine-hugoniot" id="toc-shock-speed-from-rankine-hugoniot" class="nav-link" data-scroll-target="#shock-speed-from-rankine-hugoniot"><span class="header-section-number">9</span> Shock speed from Rankine-Hugoniot</a></li>
+  <li><a href="#parameters-for-plotting" id="toc-parameters-for-plotting" class="nav-link" data-scroll-target="#parameters-for-plotting"><span class="header-section-number">10</span> Parameters for plotting</a></li>
+  <li><a href="#build-figure-and-frames" id="toc-build-figure-and-frames" class="nav-link" data-scroll-target="#build-figure-and-frames"><span class="header-section-number">11</span> Build figure and frames</a></li>
+  <li><a href="#base-traces-initial-condition-markers-on-t0-line-for-visual-reference" id="toc-base-traces-initial-condition-markers-on-t0-line-for-visual-reference" class="nav-link" data-scroll-target="#base-traces-initial-condition-markers-on-t0-line-for-visual-reference"><span class="header-section-number">12</span> Base traces: initial condition markers on t=0 line (for visual reference)</a></li>
+  <li><a href="#add-characteristic-traces-for-the-final-frame-will-be-updated-by-frames" id="toc-add-characteristic-traces-for-the-final-frame-will-be-updated-by-frames" class="nav-link" data-scroll-target="#add-characteristic-traces-for-the-final-frame-will-be-updated-by-frames"><span class="header-section-number">13</span> Add characteristic traces for the final frame (will be updated by frames)</a></li>
+  <li><a href="#but-we-add-all-traces-for-a-single-frame-to-set-layout" id="toc-but-we-add-all-traces-for-a-single-frame-to-set-layout" class="nav-link" data-scroll-target="#but-we-add-all-traces-for-a-single-frame-to-set-layout"><span class="header-section-number">14</span> But we add all traces for a single frame to set layout</a></li>
+  <li><a href="#add-shock-trace-vertical-line-as-separate-trace" id="toc-add-shock-trace-vertical-line-as-separate-trace" class="nav-link" data-scroll-target="#add-shock-trace-vertical-line-as-separate-trace"><span class="header-section-number">15</span> Add shock trace (vertical line) as separate trace</a></li>
+  <li><a href="#shock-position-st-s0-s_speed-t-for-canonical-example-s0-0" id="toc-shock-position-st-s0-s_speed-t-for-canonical-example-s0-0" class="nav-link" data-scroll-target="#shock-position-st-s0-s_speed-t-for-canonical-example-s0-0"><span class="header-section-number">16</span> Shock position s(t) = s0 + s_speed * t; for canonical example s0 = 0</a></li>
+  <li><a href="#create-frames-each-frame-draws-char-segments-up-to-time-t_k-and-shock-up-to-t_k" id="toc-create-frames-each-frame-draws-char-segments-up-to-time-t_k-and-shock-up-to-t_k" class="nav-link" data-scroll-target="#create-frames-each-frame-draws-char-segments-up-to-time-t_k-and-shock-up-to-t_k"><span class="header-section-number">17</span> Create frames: each frame draws char segments up to time t_k and shock up to t_k</a></li>
+  <li><a href="#slider-steps" id="toc-slider-steps" class="nav-link" data-scroll-target="#slider-steps"><span class="header-section-number">18</span> Slider steps</a></li>
+  <li><a href="#layout-and-animation-buttons" id="toc-layout-and-animation-buttons" class="nav-link" data-scroll-target="#layout-and-animation-buttons"><span class="header-section-number">19</span> Layout and animation buttons</a></li>
+  <li><a href="#initial-frame-show-nothing-empty-well-set-frame-0-state-by-animation" id="toc-initial-frame-show-nothing-empty-well-set-frame-0-state-by-animation" class="nav-link" data-scroll-target="#initial-frame-show-nothing-empty-well-set-frame-0-state-by-animation"><span class="header-section-number">20</span> Initial frame: show nothing (empty) – we’ll set frame 0 state by animation</a></li>
+  <li><a href="#show-the-figure" id="toc-show-the-figure" class="nav-link" data-scroll-target="#show-the-figure"><span class="header-section-number">21</span> Show the figure</a></li>
   </ul>
 </nav>
     </div>
@@ -255,7 +274,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5 — Hyperbolic PDEs: Wave Equation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Shock Waves (Dialogues): Burgers’ Equation Example</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -516,7 +535,7 @@ x - c t \quad \text{and} \quad x + c t.
 [x - c t,\, x + c t].
 \]</span></p>
 <p>And the <strong>domain of influence</strong> of an initial point <span class="math inline">\((x_0,0)\)</span> is the cone-shaped region.</p>
-<div id="4e0c1ff5" class="cell" data-execution_count="1">
+<div id="98d0d7bc" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -653,6 +672,109 @@ If we reverse the situation — slower cars behind faster ones — the character
 That’s amazing — how a simple conservation law captures such complex behavior.</p>
 <p><strong>Acharya:</strong> That’s the beauty of hyperbolic equations — they describe how <em>information</em> and <em>discontinuities</em> propagate in nature.<br>
 Next, we’ll explore how to capture all this using <strong>numerical methods</strong> — because analytic solutions won’t always be possible.</p>
+</section>
+<section id="shock-waves-pavni-acharya-explore-an-example" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="shock-waves-pavni-acharya-explore-an-example"><span class="header-section-number">6.12</span> 🚦 Shock Waves — Pavni &amp; Acharya Explore an Example</h2>
+<p><strong>Pavni:</strong> Acharya, we saw how nonlinear advection can either <em>spread out</em> into a rarefaction or <em>pile up</em> into a shock. Can we work through a concrete example — step by step — and actually <em>see</em> the shock form?</p>
+<p><strong>Acharya:</strong> Absolutely. Let’s use the simple traffic-inspired Burgers’-type model we had earlier: <span class="math display">\[
+\rho_t + (1-2\rho)\,\rho_x = 0,
+\]</span> so the characteristic speed is <span class="math display">\[
+c(\rho) = 1 - 2\rho.
+\]</span></p>
+<p>We will pick an initial condition that produces a shock: <span class="math display">\[
+\rho(x,0)=\begin{cases}
+0.2, &amp; x&lt;0,\\[4pt]
+0.8, &amp; x&gt;0.
+\end{cases}
+\]</span></p>
+<p><strong>Pavni:</strong> That’s the case where the left side is sparse (fast) and the right side is dense (slow), so I expect traffic from the left to run into slow traffic on the right. That should make a shock, right?</p>
+<p><strong>Acharya:</strong> Exactly. Let’s make the statements precise.</p>
+<ul>
+<li>Left state: <span class="math inline">\(\rho_L=0.2 \Rightarrow c_L = 1-2(0.2)=0.6\)</span> (moves right).<br>
+</li>
+<li>Right state: <span class="math inline">\(\rho_R=0.8 \Rightarrow c_R = 1-2(0.8)=-0.6\)</span> (moves left).</li>
+</ul>
+<p>The two families of characteristics coming from left and right <strong>collide</strong> — they cross in the <span class="math inline">\((x,t)\)</span>-plane — so the continuous solution breaks down and a shock forms.</p>
+<p><strong>Pavni:</strong> And the shock speed is given by the Rankine–Hugoniot condition?</p>
+<p><strong>Acharya:</strong> Correct. For a conservation law <span class="math inline">\(\rho_t + f(\rho)_x=0\)</span> the shock speed <span class="math inline">\(s\)</span> satisfies <span class="math display">\[
+s = \frac{f(\rho_L)-f(\rho_R)}{\rho_L-\rho_R}.
+\]</span> Here <span class="math inline">\(f(\rho)=\rho(1-\rho)\)</span>, so for our numbers <span class="math display">\[
+f(\rho_L)=0.2(0.8)=0.16,\qquad f(\rho_R)=0.8(0.2)=0.16,
+\]</span> hence <span class="math inline">\(s = \dfrac{0.16-0.16}{0.2-0.8}=0\)</span>.<br>
+So this particular shock is <em>stationary</em> — the discontinuity sits at <span class="math inline">\(x=0\)</span> while characteristics run into it.</p>
+<hr>
+<section id="interactive-visualization-characteristics-shock" class="level3" data-number="6.12.1">
+<h3 data-number="6.12.1" class="anchored" data-anchor-id="interactive-visualization-characteristics-shock"><span class="header-section-number">6.12.1</span> Interactive visualization (characteristics + shock)</h3>
+<p>Below is an interactive figure: each line is a characteristic starting from an initial position <span class="math inline">\(x_0\)</span>.<br>
+The slider controls the time up to which characteristics are drawn; you can also play the animation to see characteristics approach and intersect the shock.<br>
+The red vertical line shows the shock position <span class="math inline">\(x=s(t)\)</span> (here <span class="math inline">\(s(t)=0\)</span> for our chosen values), and the thin colored fan shows characteristics.</p>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> This plot uses Plotly and runs interactively in HTML output (works in your Quarto book). It will not be interactive in the PDF export — PDF gets a static snapshot.</p>
+</blockquote>
+<p>#| echo: false #| fig-cap: “Interactive characteristic lines for the shock example (Burgers’ equation).” #| warning: false</p>
+<p>import numpy as np import plotly.graph_objects as go</p>
+</section>
+</section>
+<section id="parameters-for-the-example" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Parameters for the example</h1>
+<p>rho_L = 0.2 rho_R = 0.8 f = lambda r: r*(1-r)</p>
+</section>
+<section id="characteristic-speeds-from-leftright-states" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Characteristic speeds from left/right states</h1>
+<p>c_L = 1 - 2<em>rho_L c_R = 1 - 2</em>rho_R</p>
+</section>
+<section id="shock-speed-from-rankine-hugoniot" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Shock speed from Rankine-Hugoniot</h1>
+<p>s_speed = (f(rho_L) - f(rho_R)) / (rho_L - rho_R)</p>
+</section>
+<section id="parameters-for-plotting" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Parameters for plotting</h1>
+<p>x0_vals = np.linspace(-2.0, 2.0, 41) # starting x0 positions # define initial rho(x0) rho0 = np.where(x0_vals &lt; 0, rho_L, rho_R) c_vals = 1 - 2 * rho0</p>
+<p>t_frames = np.linspace(0.0, 2.0, 41) # animation times</p>
+</section>
+<section id="build-figure-and-frames" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Build figure and frames</h1>
+<p>fig = go.Figure()</p>
+</section>
+<section id="base-traces-initial-condition-markers-on-t0-line-for-visual-reference" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Base traces: initial condition markers on t=0 line (for visual reference)</h1>
+<p>fig.add_trace(go.Scatter(x=x0_vals, y=np.zeros_like(x0_vals), mode=‘markers’, marker=dict(color=‘black’, size=6), name=‘Initial x0’, hoverinfo=‘x’))</p>
+</section>
+<section id="add-characteristic-traces-for-the-final-frame-will-be-updated-by-frames" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Add characteristic traces for the final frame (will be updated by frames)</h1>
+</section>
+<section id="but-we-add-all-traces-for-a-single-frame-to-set-layout" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> But we add all traces for a single frame to set layout</h1>
+<p>for i, x0 in enumerate(x0_vals): x_t = x0 + c_vals[i] * t_frames fig.add_trace(go.Scatter(x=x_t, y=t_frames, mode=‘lines’, line=dict(color=‘royalblue’, width=1), showlegend=False, opacity=0.6, name=f’char {i}’))</p>
+</section>
+<section id="add-shock-trace-vertical-line-as-separate-trace" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Add shock trace (vertical line) as separate trace</h1>
+</section>
+<section id="shock-position-st-s0-s_speed-t-for-canonical-example-s0-0" class="level1" data-number="16">
+<h1 data-number="16"><span class="header-section-number">16</span> Shock position s(t) = s0 + s_speed * t; for canonical example s0 = 0</h1>
+<p>s0 = 0.0 shock_x = s0 + s_speed * t_frames # We’ll show the shock as a red line at each frame (vertical segment spanning [0,t]) fig.add_trace(go.Scatter(x=[s0, s0], y=[0, t_frames[-1]], mode=‘lines’, line=dict(color=‘red’, width=3), name=‘Shock (x=s(t))’))</p>
+</section>
+<section id="create-frames-each-frame-draws-char-segments-up-to-time-t_k-and-shock-up-to-t_k" class="level1" data-number="17">
+<h1 data-number="17"><span class="header-section-number">17</span> Create frames: each frame draws char segments up to time t_k and shock up to t_k</h1>
+<p>frames = [] for k, tk in enumerate(t_frames): traces = [] # For each characteristic, compute x(t) for times &lt;= tk for i, x0 in enumerate(x0_vals): xs = (x0 + c_vals[i] * np.linspace(0, tk, 10)).tolist() ts = np.linspace(0, tk, 10).tolist() traces.append(go.Scatter(x=xs, y=ts)) # Shock line from y=0 to y=tk at x = s(t) = s0 + s_speed * tk sx = s0 + s_speed * tk traces.append(go.Scatter(x=[sx, sx], y=[0, tk], mode=‘lines’)) frames.append(go.Frame(data=traces, name=str(k)))</p>
+<p>fig.frames = frames</p>
+</section>
+<section id="slider-steps" class="level1" data-number="18">
+<h1 data-number="18"><span class="header-section-number">18</span> Slider steps</h1>
+<p>steps = [] for i, tk in enumerate(t_frames): step = dict( method=“animate”, args=[[str(i)], dict(mode=“immediate”, frame=dict(duration=50, redraw=True), transition=dict(duration=0))], label=f”{tk:.2f}” ) steps.append(step)</p>
+<p>sliders = [dict(active=0, pad={“t”: 30}, steps=steps, currentvalue={“prefix”:“t =”})]</p>
+</section>
+<section id="layout-and-animation-buttons" class="level1" data-number="19">
+<h1 data-number="19"><span class="header-section-number">19</span> Layout and animation buttons</h1>
+<p>fig.update_layout( title=“Characteristics and Shock (Burgers’ equation). Slide or play to animate.”, xaxis_title=“x”, yaxis_title=“t”, yaxis=dict(autorange=‘reversed’, range=[2.0, 0.0]), # flip vertical so t grows upward visually updatemenus=[dict(type=“buttons”, showactive=False, y=1.05, x=1.15, xanchor=“right”, yanchor=“top”, buttons=[dict(label=“Play”, method=“animate”, args=[None, {“frame”: {“duration”: 100, “redraw”: True}, “fromcurrent”: True, “transition”: {“duration”: 0}}]), dict(label=“Pause”, method=“animate”, args=[[None], {“frame”: {“duration”: 0, “redraw”: False}, “mode”: “immediate”, “transition”: {“duration”: 0}}])])], sliders=sliders, showlegend=True, width=760, height=520 )</p>
+</section>
+<section id="initial-frame-show-nothing-empty-well-set-frame-0-state-by-animation" class="level1" data-number="20">
+<h1 data-number="20"><span class="header-section-number">20</span> Initial frame: show nothing (empty) – we’ll set frame 0 state by animation</h1>
+<p>fig.update_layout(legend=dict(yanchor=“top”, y=0.95, xanchor=“left”, x=0.01))</p>
+</section>
+<section id="show-the-figure" class="level1" data-number="21">
+<h1 data-number="21"><span class="header-section-number">21</span> Show the figure</h1>
+<p>fig.show()</p>
 
 
 
@@ -1707,6 +1829,179 @@ Next, we’ll explore how to capture all this using <strong>numerical methods</s
 <span id="cb2-586"><a href="#cb2-586" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-587"><a href="#cb2-587" aria-hidden="true" tabindex="-1"></a>**Acharya:** That’s the beauty of hyperbolic equations — they describe how *information* and *discontinuities* propagate in nature.  </span>
 <span id="cb2-588"><a href="#cb2-588" aria-hidden="true" tabindex="-1"></a>Next, we’ll explore how to capture all this using **numerical methods** — because analytic solutions won’t always be possible.</span>
+<span id="cb2-589"><a href="#cb2-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-590"><a href="#cb2-590" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-591"><a href="#cb2-591" aria-hidden="true" tabindex="-1"></a>title: "Shock Waves (Dialogues): Burgers' Equation Example"</span>
+<span id="cb2-592"><a href="#cb2-592" aria-hidden="true" tabindex="-1"></a>format:</span>
+<span id="cb2-593"><a href="#cb2-593" aria-hidden="true" tabindex="-1"></a>  html:</span>
+<span id="cb2-594"><a href="#cb2-594" aria-hidden="true" tabindex="-1"></a>    math: mathjax</span>
+<span id="cb2-595"><a href="#cb2-595" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-596"><a href="#cb2-596" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-597"><a href="#cb2-597" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🚦 Shock Waves — Pavni &amp; Acharya Explore an Example</span></span>
+<span id="cb2-598"><a href="#cb2-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-599"><a href="#cb2-599" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, we saw how nonlinear advection can either *spread out* into a rarefaction or *pile up* into a shock. Can we work through a concrete example — step by step — and actually *see* the shock form?</span>
+<span id="cb2-600"><a href="#cb2-600" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-601"><a href="#cb2-601" aria-hidden="true" tabindex="-1"></a>**Acharya:** Absolutely. Let’s use the simple traffic-inspired Burgers'-type model we had earlier:</span>
+<span id="cb2-602"><a href="#cb2-602" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-603"><a href="#cb2-603" aria-hidden="true" tabindex="-1"></a>\rho_t + (1-2\rho)\,\rho_x = 0,</span>
+<span id="cb2-604"><a href="#cb2-604" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-605"><a href="#cb2-605" aria-hidden="true" tabindex="-1"></a>so the characteristic speed is</span>
+<span id="cb2-606"><a href="#cb2-606" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-607"><a href="#cb2-607" aria-hidden="true" tabindex="-1"></a>c(\rho) = 1 - 2\rho.</span>
+<span id="cb2-608"><a href="#cb2-608" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-609"><a href="#cb2-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-610"><a href="#cb2-610" aria-hidden="true" tabindex="-1"></a>We will pick an initial condition that produces a shock:</span>
+<span id="cb2-611"><a href="#cb2-611" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-612"><a href="#cb2-612" aria-hidden="true" tabindex="-1"></a>\rho(x,0)=\begin{cases}</span>
+<span id="cb2-613"><a href="#cb2-613" aria-hidden="true" tabindex="-1"></a>0.2, &amp; x&lt;0,<span class="sc">\\</span><span class="co">[</span><span class="ot">4pt</span><span class="co">]</span></span>
+<span id="cb2-614"><a href="#cb2-614" aria-hidden="true" tabindex="-1"></a>0.8, &amp; x&gt;0.</span>
+<span id="cb2-615"><a href="#cb2-615" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb2-616"><a href="#cb2-616" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-617"><a href="#cb2-617" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-618"><a href="#cb2-618" aria-hidden="true" tabindex="-1"></a>**Pavni:** That’s the case where the left side is sparse (fast) and the right side is dense (slow), so I expect traffic from the left to run into slow traffic on the right. That should make a shock, right?</span>
+<span id="cb2-619"><a href="#cb2-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-620"><a href="#cb2-620" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Let’s make the statements precise.</span>
+<span id="cb2-621"><a href="#cb2-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-622"><a href="#cb2-622" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Left state: $\rho_L=0.2 \Rightarrow c_L = 1-2(0.2)=0.6$ (moves right).  </span>
+<span id="cb2-623"><a href="#cb2-623" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Right state: $\rho_R=0.8 \Rightarrow c_R = 1-2(0.8)=-0.6$ (moves left).</span>
+<span id="cb2-624"><a href="#cb2-624" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-625"><a href="#cb2-625" aria-hidden="true" tabindex="-1"></a>The two families of characteristics coming from left and right **collide** — they cross in the $(x,t)$-plane — so the continuous solution breaks down and a shock forms.</span>
+<span id="cb2-626"><a href="#cb2-626" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-627"><a href="#cb2-627" aria-hidden="true" tabindex="-1"></a>**Pavni:** And the shock speed is given by the Rankine–Hugoniot condition?</span>
+<span id="cb2-628"><a href="#cb2-628" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-629"><a href="#cb2-629" aria-hidden="true" tabindex="-1"></a>**Acharya:** Correct. For a conservation law $\rho_t + f(\rho)_x=0$ the shock speed $s$ satisfies</span>
+<span id="cb2-630"><a href="#cb2-630" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-631"><a href="#cb2-631" aria-hidden="true" tabindex="-1"></a>s = \frac{f(\rho_L)-f(\rho_R)}{\rho_L-\rho_R}.</span>
+<span id="cb2-632"><a href="#cb2-632" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-633"><a href="#cb2-633" aria-hidden="true" tabindex="-1"></a>Here $f(\rho)=\rho(1-\rho)$, so for our numbers</span>
+<span id="cb2-634"><a href="#cb2-634" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-635"><a href="#cb2-635" aria-hidden="true" tabindex="-1"></a>f(\rho_L)=0.2(0.8)=0.16,\qquad f(\rho_R)=0.8(0.2)=0.16,</span>
+<span id="cb2-636"><a href="#cb2-636" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-637"><a href="#cb2-637" aria-hidden="true" tabindex="-1"></a>hence $s = \dfrac{0.16-0.16}{0.2-0.8}=0$.  </span>
+<span id="cb2-638"><a href="#cb2-638" aria-hidden="true" tabindex="-1"></a>So this particular shock is *stationary* — the discontinuity sits at $x=0$ while characteristics run into it.</span>
+<span id="cb2-639"><a href="#cb2-639" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-640"><a href="#cb2-640" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-641"><a href="#cb2-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-642"><a href="#cb2-642" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interactive visualization (characteristics + shock)</span></span>
+<span id="cb2-643"><a href="#cb2-643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-644"><a href="#cb2-644" aria-hidden="true" tabindex="-1"></a>Below is an interactive figure: each line is a characteristic starting from an initial position $x_0$.  </span>
+<span id="cb2-645"><a href="#cb2-645" aria-hidden="true" tabindex="-1"></a>The slider controls the time up to which characteristics are drawn; you can also play the animation to see characteristics approach and intersect the shock.  </span>
+<span id="cb2-646"><a href="#cb2-646" aria-hidden="true" tabindex="-1"></a>The red vertical line shows the shock position $x=s(t)$ (here $s(t)=0$ for our chosen values), and the thin colored fan shows characteristics.</span>
+<span id="cb2-647"><a href="#cb2-647" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-648"><a href="#cb2-648" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note:** This plot uses Plotly and runs interactively in HTML output (works in your Quarto book). It will not be interactive in the PDF export — PDF gets a static snapshot.</span></span>
+<span id="cb2-649"><a href="#cb2-649" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-652"><a href="#cb2-652" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb2-653"><a href="#cb2-653" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb2-654"><a href="#cb2-654" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Interactive characteristic lines for the shock example (Burgers' equation)."</span></span>
+<span id="cb2-655"><a href="#cb2-655" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb2-656"><a href="#cb2-656" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-657"><a href="#cb2-657" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-658"><a href="#cb2-658" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb2-659"><a href="#cb2-659" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-660"><a href="#cb2-660" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for the example</span></span>
+<span id="cb2-661"><a href="#cb2-661" aria-hidden="true" tabindex="-1"></a>rho_L <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb2-662"><a href="#cb2-662" aria-hidden="true" tabindex="-1"></a>rho_R <span class="op">=</span> <span class="fl">0.8</span></span>
+<span id="cb2-663"><a href="#cb2-663" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> r: r<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>r)</span>
+<span id="cb2-664"><a href="#cb2-664" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-665"><a href="#cb2-665" aria-hidden="true" tabindex="-1"></a><span class="co"># Characteristic speeds from left/right states</span></span>
+<span id="cb2-666"><a href="#cb2-666" aria-hidden="true" tabindex="-1"></a>c_L <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>rho_L</span>
+<span id="cb2-667"><a href="#cb2-667" aria-hidden="true" tabindex="-1"></a>c_R <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>rho_R</span>
+<span id="cb2-668"><a href="#cb2-668" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-669"><a href="#cb2-669" aria-hidden="true" tabindex="-1"></a><span class="co"># Shock speed from Rankine-Hugoniot</span></span>
+<span id="cb2-670"><a href="#cb2-670" aria-hidden="true" tabindex="-1"></a>s_speed <span class="op">=</span> (f(rho_L) <span class="op">-</span> f(rho_R)) <span class="op">/</span> (rho_L <span class="op">-</span> rho_R)</span>
+<span id="cb2-671"><a href="#cb2-671" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-672"><a href="#cb2-672" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for plotting</span></span>
+<span id="cb2-673"><a href="#cb2-673" aria-hidden="true" tabindex="-1"></a>x0_vals <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.0</span>, <span class="fl">2.0</span>, <span class="dv">41</span>)   <span class="co"># starting x0 positions</span></span>
+<span id="cb2-674"><a href="#cb2-674" aria-hidden="true" tabindex="-1"></a><span class="co"># define initial rho(x0)</span></span>
+<span id="cb2-675"><a href="#cb2-675" aria-hidden="true" tabindex="-1"></a>rho0 <span class="op">=</span> np.where(x0_vals <span class="op">&lt;</span> <span class="dv">0</span>, rho_L, rho_R)</span>
+<span id="cb2-676"><a href="#cb2-676" aria-hidden="true" tabindex="-1"></a>c_vals <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> rho0</span>
+<span id="cb2-677"><a href="#cb2-677" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-678"><a href="#cb2-678" aria-hidden="true" tabindex="-1"></a>t_frames <span class="op">=</span> np.linspace(<span class="fl">0.0</span>, <span class="fl">2.0</span>, <span class="dv">41</span>)   <span class="co"># animation times</span></span>
+<span id="cb2-679"><a href="#cb2-679" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-680"><a href="#cb2-680" aria-hidden="true" tabindex="-1"></a><span class="co"># Build figure and frames</span></span>
+<span id="cb2-681"><a href="#cb2-681" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb2-682"><a href="#cb2-682" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-683"><a href="#cb2-683" aria-hidden="true" tabindex="-1"></a><span class="co"># Base traces: initial condition markers on t=0 line (for visual reference)</span></span>
+<span id="cb2-684"><a href="#cb2-684" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(x<span class="op">=</span>x0_vals, y<span class="op">=</span>np.zeros_like(x0_vals),</span>
+<span id="cb2-685"><a href="#cb2-685" aria-hidden="true" tabindex="-1"></a>                         mode<span class="op">=</span><span class="st">'markers'</span>, marker<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">'black'</span>, size<span class="op">=</span><span class="dv">6</span>),</span>
+<span id="cb2-686"><a href="#cb2-686" aria-hidden="true" tabindex="-1"></a>                         name<span class="op">=</span><span class="st">'Initial x0'</span>, hoverinfo<span class="op">=</span><span class="st">'x'</span>))</span>
+<span id="cb2-687"><a href="#cb2-687" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-688"><a href="#cb2-688" aria-hidden="true" tabindex="-1"></a><span class="co"># Add characteristic traces for the final frame (will be updated by frames)</span></span>
+<span id="cb2-689"><a href="#cb2-689" aria-hidden="true" tabindex="-1"></a><span class="co"># But we add all traces for a single frame to set layout</span></span>
+<span id="cb2-690"><a href="#cb2-690" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, x0 <span class="kw">in</span> <span class="bu">enumerate</span>(x0_vals):</span>
+<span id="cb2-691"><a href="#cb2-691" aria-hidden="true" tabindex="-1"></a>    x_t <span class="op">=</span> x0 <span class="op">+</span> c_vals[i] <span class="op">*</span> t_frames</span>
+<span id="cb2-692"><a href="#cb2-692" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scatter(x<span class="op">=</span>x_t, y<span class="op">=</span>t_frames,</span>
+<span id="cb2-693"><a href="#cb2-693" aria-hidden="true" tabindex="-1"></a>                             mode<span class="op">=</span><span class="st">'lines'</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">'royalblue'</span>, width<span class="op">=</span><span class="dv">1</span>),</span>
+<span id="cb2-694"><a href="#cb2-694" aria-hidden="true" tabindex="-1"></a>                             showlegend<span class="op">=</span><span class="va">False</span>, opacity<span class="op">=</span><span class="fl">0.6</span>, name<span class="op">=</span><span class="ss">f'char </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>))</span>
+<span id="cb2-695"><a href="#cb2-695" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-696"><a href="#cb2-696" aria-hidden="true" tabindex="-1"></a><span class="co"># Add shock trace (vertical line) as separate trace</span></span>
+<span id="cb2-697"><a href="#cb2-697" aria-hidden="true" tabindex="-1"></a><span class="co"># Shock position s(t) = s0 + s_speed * t; for canonical example s0 = 0</span></span>
+<span id="cb2-698"><a href="#cb2-698" aria-hidden="true" tabindex="-1"></a>s0 <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb2-699"><a href="#cb2-699" aria-hidden="true" tabindex="-1"></a>shock_x <span class="op">=</span> s0 <span class="op">+</span> s_speed <span class="op">*</span> t_frames</span>
+<span id="cb2-700"><a href="#cb2-700" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll show the shock as a red line at each frame (vertical segment spanning [0,t])</span></span>
+<span id="cb2-701"><a href="#cb2-701" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(x<span class="op">=</span>[s0, s0], y<span class="op">=</span>[<span class="dv">0</span>, t_frames[<span class="op">-</span><span class="dv">1</span>]],</span>
+<span id="cb2-702"><a href="#cb2-702" aria-hidden="true" tabindex="-1"></a>                         mode<span class="op">=</span><span class="st">'lines'</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">'red'</span>, width<span class="op">=</span><span class="dv">3</span>),</span>
+<span id="cb2-703"><a href="#cb2-703" aria-hidden="true" tabindex="-1"></a>                         name<span class="op">=</span><span class="st">'Shock (x=s(t))'</span>))</span>
+<span id="cb2-704"><a href="#cb2-704" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-705"><a href="#cb2-705" aria-hidden="true" tabindex="-1"></a><span class="co"># Create frames: each frame draws char segments up to time t_k and shock up to t_k</span></span>
+<span id="cb2-706"><a href="#cb2-706" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
+<span id="cb2-707"><a href="#cb2-707" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, tk <span class="kw">in</span> <span class="bu">enumerate</span>(t_frames):</span>
+<span id="cb2-708"><a href="#cb2-708" aria-hidden="true" tabindex="-1"></a>    traces <span class="op">=</span> []</span>
+<span id="cb2-709"><a href="#cb2-709" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For each characteristic, compute x(t) for times &lt;= tk</span></span>
+<span id="cb2-710"><a href="#cb2-710" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, x0 <span class="kw">in</span> <span class="bu">enumerate</span>(x0_vals):</span>
+<span id="cb2-711"><a href="#cb2-711" aria-hidden="true" tabindex="-1"></a>        xs <span class="op">=</span> (x0 <span class="op">+</span> c_vals[i] <span class="op">*</span> np.linspace(<span class="dv">0</span>, tk, <span class="dv">10</span>)).tolist()</span>
+<span id="cb2-712"><a href="#cb2-712" aria-hidden="true" tabindex="-1"></a>        ts <span class="op">=</span> np.linspace(<span class="dv">0</span>, tk, <span class="dv">10</span>).tolist()</span>
+<span id="cb2-713"><a href="#cb2-713" aria-hidden="true" tabindex="-1"></a>        traces.append(go.Scatter(x<span class="op">=</span>xs, y<span class="op">=</span>ts))</span>
+<span id="cb2-714"><a href="#cb2-714" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Shock line from y=0 to y=tk at x = s(t) = s0 + s_speed * tk</span></span>
+<span id="cb2-715"><a href="#cb2-715" aria-hidden="true" tabindex="-1"></a>    sx <span class="op">=</span> s0 <span class="op">+</span> s_speed <span class="op">*</span> tk</span>
+<span id="cb2-716"><a href="#cb2-716" aria-hidden="true" tabindex="-1"></a>    traces.append(go.Scatter(x<span class="op">=</span>[sx, sx], y<span class="op">=</span>[<span class="dv">0</span>, tk], mode<span class="op">=</span><span class="st">'lines'</span>))</span>
+<span id="cb2-717"><a href="#cb2-717" aria-hidden="true" tabindex="-1"></a>    frames.append(go.Frame(data<span class="op">=</span>traces, name<span class="op">=</span><span class="bu">str</span>(k)))</span>
+<span id="cb2-718"><a href="#cb2-718" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-719"><a href="#cb2-719" aria-hidden="true" tabindex="-1"></a>fig.frames <span class="op">=</span> frames</span>
+<span id="cb2-720"><a href="#cb2-720" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-721"><a href="#cb2-721" aria-hidden="true" tabindex="-1"></a><span class="co"># Slider steps</span></span>
+<span id="cb2-722"><a href="#cb2-722" aria-hidden="true" tabindex="-1"></a>steps <span class="op">=</span> []</span>
+<span id="cb2-723"><a href="#cb2-723" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, tk <span class="kw">in</span> <span class="bu">enumerate</span>(t_frames):</span>
+<span id="cb2-724"><a href="#cb2-724" aria-hidden="true" tabindex="-1"></a>    step <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb2-725"><a href="#cb2-725" aria-hidden="true" tabindex="-1"></a>        method<span class="op">=</span><span class="st">"animate"</span>,</span>
+<span id="cb2-726"><a href="#cb2-726" aria-hidden="true" tabindex="-1"></a>        args<span class="op">=</span>[[<span class="bu">str</span>(i)], <span class="bu">dict</span>(mode<span class="op">=</span><span class="st">"immediate"</span>, frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">50</span>, redraw<span class="op">=</span><span class="va">True</span>), transition<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">0</span>))],</span>
+<span id="cb2-727"><a href="#cb2-727" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>tk<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb2-728"><a href="#cb2-728" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-729"><a href="#cb2-729" aria-hidden="true" tabindex="-1"></a>    steps.append(step)</span>
+<span id="cb2-730"><a href="#cb2-730" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-731"><a href="#cb2-731" aria-hidden="true" tabindex="-1"></a>sliders <span class="op">=</span> [<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, pad<span class="op">=</span>{<span class="st">"t"</span>: <span class="dv">30</span>}, steps<span class="op">=</span>steps, currentvalue<span class="op">=</span>{<span class="st">"prefix"</span>:<span class="st">"t = "</span>})]</span>
+<span id="cb2-732"><a href="#cb2-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-733"><a href="#cb2-733" aria-hidden="true" tabindex="-1"></a><span class="co"># Layout and animation buttons</span></span>
+<span id="cb2-734"><a href="#cb2-734" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb2-735"><a href="#cb2-735" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Characteristics and Shock (Burgers' equation). Slide or play to animate."</span>,</span>
+<span id="cb2-736"><a href="#cb2-736" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"x"</span>,</span>
+<span id="cb2-737"><a href="#cb2-737" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">"t"</span>,</span>
+<span id="cb2-738"><a href="#cb2-738" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(autorange<span class="op">=</span><span class="st">'reversed'</span>, <span class="bu">range</span><span class="op">=</span>[<span class="fl">2.0</span>, <span class="fl">0.0</span>]),  <span class="co"># flip vertical so t grows upward visually</span></span>
+<span id="cb2-739"><a href="#cb2-739" aria-hidden="true" tabindex="-1"></a>    updatemenus<span class="op">=</span>[<span class="bu">dict</span>(<span class="bu">type</span><span class="op">=</span><span class="st">"buttons"</span>, showactive<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb2-740"><a href="#cb2-740" aria-hidden="true" tabindex="-1"></a>                      y<span class="op">=</span><span class="fl">1.05</span>,</span>
+<span id="cb2-741"><a href="#cb2-741" aria-hidden="true" tabindex="-1"></a>                      x<span class="op">=</span><span class="fl">1.15</span>,</span>
+<span id="cb2-742"><a href="#cb2-742" aria-hidden="true" tabindex="-1"></a>                      xanchor<span class="op">=</span><span class="st">"right"</span>,</span>
+<span id="cb2-743"><a href="#cb2-743" aria-hidden="true" tabindex="-1"></a>                      yanchor<span class="op">=</span><span class="st">"top"</span>,</span>
+<span id="cb2-744"><a href="#cb2-744" aria-hidden="true" tabindex="-1"></a>                      buttons<span class="op">=</span>[<span class="bu">dict</span>(label<span class="op">=</span><span class="st">"Play"</span>,</span>
+<span id="cb2-745"><a href="#cb2-745" aria-hidden="true" tabindex="-1"></a>                                    method<span class="op">=</span><span class="st">"animate"</span>,</span>
+<span id="cb2-746"><a href="#cb2-746" aria-hidden="true" tabindex="-1"></a>                                    args<span class="op">=</span>[<span class="va">None</span>, {<span class="st">"frame"</span>: {<span class="st">"duration"</span>: <span class="dv">100</span>, <span class="st">"redraw"</span>: <span class="va">True</span>},</span>
+<span id="cb2-747"><a href="#cb2-747" aria-hidden="true" tabindex="-1"></a>                                                 <span class="st">"fromcurrent"</span>: <span class="va">True</span>, <span class="st">"transition"</span>: {<span class="st">"duration"</span>: <span class="dv">0</span>}}]),</span>
+<span id="cb2-748"><a href="#cb2-748" aria-hidden="true" tabindex="-1"></a>                               <span class="bu">dict</span>(label<span class="op">=</span><span class="st">"Pause"</span>,</span>
+<span id="cb2-749"><a href="#cb2-749" aria-hidden="true" tabindex="-1"></a>                                    method<span class="op">=</span><span class="st">"animate"</span>,</span>
+<span id="cb2-750"><a href="#cb2-750" aria-hidden="true" tabindex="-1"></a>                                    args<span class="op">=</span>[[<span class="va">None</span>], {<span class="st">"frame"</span>: {<span class="st">"duration"</span>: <span class="dv">0</span>, <span class="st">"redraw"</span>: <span class="va">False</span>},</span>
+<span id="cb2-751"><a href="#cb2-751" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">"mode"</span>: <span class="st">"immediate"</span>,</span>
+<span id="cb2-752"><a href="#cb2-752" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">"transition"</span>: {<span class="st">"duration"</span>: <span class="dv">0</span>}}])])],</span>
+<span id="cb2-753"><a href="#cb2-753" aria-hidden="true" tabindex="-1"></a>    sliders<span class="op">=</span>sliders,</span>
+<span id="cb2-754"><a href="#cb2-754" aria-hidden="true" tabindex="-1"></a>    showlegend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-755"><a href="#cb2-755" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">760</span>,</span>
+<span id="cb2-756"><a href="#cb2-756" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">520</span></span>
+<span id="cb2-757"><a href="#cb2-757" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-758"><a href="#cb2-758" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-759"><a href="#cb2-759" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial frame: show nothing (empty) -- we'll set frame 0 state by animation</span></span>
+<span id="cb2-760"><a href="#cb2-760" aria-hidden="true" tabindex="-1"></a>fig.update_layout(legend<span class="op">=</span><span class="bu">dict</span>(yanchor<span class="op">=</span><span class="st">"top"</span>, y<span class="op">=</span><span class="fl">0.95</span>, xanchor<span class="op">=</span><span class="st">"left"</span>, x<span class="op">=</span><span class="fl">0.01</span>))</span>
+<span id="cb2-761"><a href="#cb2-761" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-762"><a href="#cb2-762" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the figure</span></span>
+<span id="cb2-763"><a href="#cb2-763" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

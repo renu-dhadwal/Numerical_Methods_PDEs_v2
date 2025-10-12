@@ -584,3 +584,176 @@ That’s amazing — how a simple conservation law captures such complex behavio
 
 **Acharya:** That’s the beauty of hyperbolic equations — they describe how *information* and *discontinuities* propagate in nature.  
 Next, we’ll explore how to capture all this using **numerical methods** — because analytic solutions won’t always be possible.
+
+---
+title: "Shock Waves (Dialogues): Burgers' Equation Example"
+format:
+  html:
+    math: mathjax
+---
+
+## 🚦 Shock Waves — Pavni & Acharya Explore an Example
+
+**Pavni:** Acharya, we saw how nonlinear advection can either *spread out* into a rarefaction or *pile up* into a shock. Can we work through a concrete example — step by step — and actually *see* the shock form?
+
+**Acharya:** Absolutely. Let’s use the simple traffic-inspired Burgers'-type model we had earlier:
+$$
+\rho_t + (1-2\rho)\,\rho_x = 0,
+$$
+so the characteristic speed is
+$$
+c(\rho) = 1 - 2\rho.
+$$
+
+We will pick an initial condition that produces a shock:
+$$
+\rho(x,0)=\begin{cases}
+0.2, & x<0,\\[4pt]
+0.8, & x>0.
+\end{cases}
+$$
+
+**Pavni:** That’s the case where the left side is sparse (fast) and the right side is dense (slow), so I expect traffic from the left to run into slow traffic on the right. That should make a shock, right?
+
+**Acharya:** Exactly. Let’s make the statements precise.
+
+- Left state: $\rho_L=0.2 \Rightarrow c_L = 1-2(0.2)=0.6$ (moves right).  
+- Right state: $\rho_R=0.8 \Rightarrow c_R = 1-2(0.8)=-0.6$ (moves left).
+
+The two families of characteristics coming from left and right **collide** — they cross in the $(x,t)$-plane — so the continuous solution breaks down and a shock forms.
+
+**Pavni:** And the shock speed is given by the Rankine–Hugoniot condition?
+
+**Acharya:** Correct. For a conservation law $\rho_t + f(\rho)_x=0$ the shock speed $s$ satisfies
+$$
+s = \frac{f(\rho_L)-f(\rho_R)}{\rho_L-\rho_R}.
+$$
+Here $f(\rho)=\rho(1-\rho)$, so for our numbers
+$$
+f(\rho_L)=0.2(0.8)=0.16,\qquad f(\rho_R)=0.8(0.2)=0.16,
+$$
+hence $s = \dfrac{0.16-0.16}{0.2-0.8}=0$.  
+So this particular shock is *stationary* — the discontinuity sits at $x=0$ while characteristics run into it.
+
+---
+
+### Interactive visualization (characteristics + shock)
+
+Below is an interactive figure: each line is a characteristic starting from an initial position $x_0$.  
+The slider controls the time up to which characteristics are drawn; you can also play the animation to see characteristics approach and intersect the shock.  
+The red vertical line shows the shock position $x=s(t)$ (here $s(t)=0$ for our chosen values), and the thin colored fan shows characteristics.
+
+> **Note:** This plot uses Plotly and runs interactively in HTML output (works in your Quarto book). It will not be interactive in the PDF export — PDF gets a static snapshot.
+
+```{python}
+#| echo: false
+#| fig-cap: "Interactive characteristic lines for the shock example (Burgers' equation)."
+#| warning: false
+
+import numpy as np
+import plotly.graph_objects as go
+
+# Parameters for the example
+rho_L = 0.2
+rho_R = 0.8
+f = lambda r: r*(1-r)
+
+# Characteristic speeds from left/right states
+c_L = 1 - 2*rho_L
+c_R = 1 - 2*rho_R
+
+# Shock speed from Rankine-Hugoniot
+s_speed = (f(rho_L) - f(rho_R)) / (rho_L - rho_R)
+
+# Parameters for plotting
+x0_vals = np.linspace(-2.0, 2.0, 41)   # starting x0 positions
+# define initial rho(x0)
+rho0 = np.where(x0_vals < 0, rho_L, rho_R)
+c_vals = 1 - 2 * rho0
+
+t_frames = np.linspace(0.0, 2.0, 41)   # animation times
+
+# Build figure and frames
+fig = go.Figure()
+
+# Base traces: initial condition markers on t=0 line (for visual reference)
+fig.add_trace(go.Scatter(x=x0_vals, y=np.zeros_like(x0_vals),
+                         mode='markers', marker=dict(color='black', size=6),
+                         name='Initial x0', hoverinfo='x'))
+
+# Add characteristic traces for the final frame (will be updated by frames)
+# But we add all traces for a single frame to set layout
+for i, x0 in enumerate(x0_vals):
+    x_t = x0 + c_vals[i] * t_frames
+    fig.add_trace(go.Scatter(x=x_t, y=t_frames,
+                             mode='lines', line=dict(color='royalblue', width=1),
+                             showlegend=False, opacity=0.6, name=f'char {i}'))
+
+# Add shock trace (vertical line) as separate trace
+# Shock position s(t) = s0 + s_speed * t; for canonical example s0 = 0
+s0 = 0.0
+shock_x = s0 + s_speed * t_frames
+# We'll show the shock as a red line at each frame (vertical segment spanning [0,t])
+fig.add_trace(go.Scatter(x=[s0, s0], y=[0, t_frames[-1]],
+                         mode='lines', line=dict(color='red', width=3),
+                         name='Shock (x=s(t))'))
+
+# Create frames: each frame draws char segments up to time t_k and shock up to t_k
+frames = []
+for k, tk in enumerate(t_frames):
+    traces = []
+    # For each characteristic, compute x(t) for times <= tk
+    for i, x0 in enumerate(x0_vals):
+        xs = (x0 + c_vals[i] * np.linspace(0, tk, 10)).tolist()
+        ts = np.linspace(0, tk, 10).tolist()
+        traces.append(go.Scatter(x=xs, y=ts))
+    # Shock line from y=0 to y=tk at x = s(t) = s0 + s_speed * tk
+    sx = s0 + s_speed * tk
+    traces.append(go.Scatter(x=[sx, sx], y=[0, tk], mode='lines'))
+    frames.append(go.Frame(data=traces, name=str(k)))
+
+fig.frames = frames
+
+# Slider steps
+steps = []
+for i, tk in enumerate(t_frames):
+    step = dict(
+        method="animate",
+        args=[[str(i)], dict(mode="immediate", frame=dict(duration=50, redraw=True), transition=dict(duration=0))],
+        label=f"{tk:.2f}"
+    )
+    steps.append(step)
+
+sliders = [dict(active=0, pad={"t": 30}, steps=steps, currentvalue={"prefix":"t = "})]
+
+# Layout and animation buttons
+fig.update_layout(
+    title="Characteristics and Shock (Burgers' equation). Slide or play to animate.",
+    xaxis_title="x",
+    yaxis_title="t",
+    yaxis=dict(autorange='reversed', range=[2.0, 0.0]),  # flip vertical so t grows upward visually
+    updatemenus=[dict(type="buttons", showactive=False,
+                      y=1.05,
+                      x=1.15,
+                      xanchor="right",
+                      yanchor="top",
+                      buttons=[dict(label="Play",
+                                    method="animate",
+                                    args=[None, {"frame": {"duration": 100, "redraw": True},
+                                                 "fromcurrent": True, "transition": {"duration": 0}}]),
+                               dict(label="Pause",
+                                    method="animate",
+                                    args=[[None], {"frame": {"duration": 0, "redraw": False},
+                                                   "mode": "immediate",
+                                                   "transition": {"duration": 0}}])])],
+    sliders=sliders,
+    showlegend=True,
+    width=760,
+    height=520
+)
+
+# Initial frame: show nothing (empty) -- we'll set frame 0 state by animation
+fig.update_layout(legend=dict(yanchor="top", y=0.95, xanchor="left", x=0.01))
+
+# Show the figure
+fig.show()
