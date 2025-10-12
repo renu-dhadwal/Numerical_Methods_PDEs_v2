@@ -714,3 +714,106 @@ fig.update_layout(
 # show the figure (important)
 fig.show()
 ```
+
+## 🚦 A Moving Shock: When the Traffic Jam Travels
+
+**Pavni:** Acharya, earlier we saw a stationary shock where the boundary between two traffic regions just sat still.  
+Can the shock *move*?
+
+**Acharya:** Certainly, Pavni.  
+Let’s take another case:
+
+$$
+\rho(x,0) =
+\begin{cases}
+0.6, & x < 0,\\
+0.2, & x > 0.
+\end{cases}
+$$
+
+Here the left side is denser — more cars — while the right side is freer.  
+Let’s see what happens.
+
+---
+
+### 1️⃣ Compute the fluxes
+
+**Acharya:** Our flux function is still $f(\rho) = \rho(1-\rho)$.  
+So,
+
+$$
+f(0.6) = 0.24, \quad f(0.2) = 0.16.
+$$
+
+The shock speed is found from the **Rankine–Hugoniot condition**:
+
+$$
+s = \frac{f(\rho_L) - f(\rho_R)}{\rho_L - \rho_R}
+= \frac{0.24 - 0.16}{0.6 - 0.2} = 0.2.
+$$
+
+**Pavni:** So the shock moves *to the right* with speed 0.2?
+
+**Acharya:** Exactly.  
+Because the flux on the left is higher, the congested region pushes into the free region —  
+the “traffic jam” moves forward!
+
+---
+
+### 2️⃣ What happens to the characteristics?
+
+**Acharya:** Let’s look at the characteristic speeds:
+
+$$
+c_L = 1 - 2\rho_L = 1 - 1.2 = -0.2, \quad
+c_R = 1 - 2\rho_R = 1 - 0.4 = 0.6.
+$$
+
+So on the left, lines tilt gently left; on the right, they tilt right.  
+They intersect, and the envelope of all those intersections forms the **shock curve**:
+
+$$
+x = s t = 0.2t.
+$$
+
+---
+
+### 3️⃣ Visualizing the moving shock
+
+```{python}
+#| echo: false
+#| warning: false
+import numpy as np
+import plotly.graph_objects as go
+
+rho_L, rho_R = 0.6, 0.2
+c_L, c_R = 1 - 2*rho_L, 1 - 2*rho_R
+s = (rho_L*(1 - rho_L) - rho_R*(1 - rho_R)) / (rho_L - rho_R)
+
+x0_left = np.linspace(-2, 0, 12)
+x0_right = np.linspace(0, 2, 12)
+t = np.linspace(0, 2, 50)
+
+fig = go.Figure()
+
+# Left characteristics
+for x0 in x0_left:
+    fig.add_trace(go.Scatter(x=x0 + c_L*t, y=t, mode='lines',
+                             line=dict(color='royalblue', width=1), showlegend=False))
+# Right characteristics
+for x0 in x0_right:
+    fig.add_trace(go.Scatter(x=x0 + c_R*t, y=t, mode='lines',
+                             line=dict(color='royalblue', width=1), showlegend=False))
+
+# Shock line
+fig.add_trace(go.Scatter(x=s*t, y=t, mode='lines',
+                         line=dict(color='red', width=3), name=f'Shock: s={s:.2f}'))
+
+fig.update_layout(
+    title=f"Moving Shock (ρ_L={rho_L}, ρ_R={rho_R},  s={s:.2f})",
+    xaxis_title="x", yaxis_title="t",
+    yaxis=dict(autorange='reversed'),
+    width=720, height=480
+)
+fig.show()
+```

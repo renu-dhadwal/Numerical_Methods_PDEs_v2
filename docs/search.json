@@ -278,5 +278,15 @@
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Shock Waves (Dialogues): Burgers' Equation Example</span>"
     ]
+  },
+  {
+    "objectID": "chapters/level5_Wave_Equation.html#a-moving-shock-when-the-traffic-jam-travels",
+    "href": "chapters/level5_Wave_Equation.html#a-moving-shock-when-the-traffic-jam-travels",
+    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "section": "6.14 🚦 A Moving Shock: When the Traffic Jam Travels",
+    "text": "6.14 🚦 A Moving Shock: When the Traffic Jam Travels\nPavni: Acharya, earlier we saw a stationary shock where the boundary between two traffic regions just sat still.\nCan the shock move?\nAcharya: Certainly, Pavni.\nLet’s take another case:\n\\[\n\\rho(x,0) =\n\\begin{cases}\n0.6, & x &lt; 0,\\\\\n0.2, & x &gt; 0.\n\\end{cases}\n\\]\nHere the left side is denser — more cars — while the right side is freer.\nLet’s see what happens.\n\n\n6.14.1 1️⃣ Compute the fluxes\nAcharya: Our flux function is still \\(f(\\rho) = \\rho(1-\\rho)\\).\nSo,\n\\[\nf(0.6) = 0.24, \\quad f(0.2) = 0.16.\n\\]\nThe shock speed is found from the Rankine–Hugoniot condition:\n\\[\ns = \\frac{f(\\rho_L) - f(\\rho_R)}{\\rho_L - \\rho_R}\n= \\frac{0.24 - 0.16}{0.6 - 0.2} = 0.2.\n\\]\nPavni: So the shock moves to the right with speed 0.2?\nAcharya: Exactly.\nBecause the flux on the left is higher, the congested region pushes into the free region —\nthe “traffic jam” moves forward!\n\n\n\n6.14.2 2️⃣ What happens to the characteristics?\nAcharya: Let’s look at the characteristic speeds:\n\\[\nc_L = 1 - 2\\rho_L = 1 - 1.2 = -0.2, \\quad\nc_R = 1 - 2\\rho_R = 1 - 0.4 = 0.6.\n\\]\nSo on the left, lines tilt gently left; on the right, they tilt right.\nThey intersect, and the envelope of all those intersections forms the shock curve:\n\\[\nx = s t = 0.2t.\n\\]\n\n\n\n6.14.3 3️⃣ Visualizing the moving shock",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Shock Waves (Dialogues): Burgers' Equation Example</span>"
+    ]
   }
 ]
