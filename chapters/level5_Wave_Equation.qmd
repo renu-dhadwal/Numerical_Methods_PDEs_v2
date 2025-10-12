@@ -649,78 +649,68 @@ format:
 You’ll see how the characteristics behave — whether they *collide* (shock) or *spread out* (rarefaction).
 
 ```{python}
-#| eval: false
 #| echo: false
 #| warning: false
-# interactive shock/rarefaction explorer (Plotly + ipywidgets)
 import numpy as np
 import plotly.graph_objects as go
-import ipywidgets as widgets
-from IPython.display import display, clear_output
+
+# --- User-editable densities (change here) ---
+rho_L = 0.2
+rho_R = 0.8
 
 # flux
-f = lambda r: r * (1 - r)
+f = lambda r: r*(1-r)
 
-def make_figure(rho_L, rho_R, t_max=2.0):
-    # Prepare grid
-    x0_vals = np.linspace(-2.0, 2.0, 41)
-    rho0 = np.where(x0_vals < 0, rho_L, rho_R)
-    c_vals = 1 - 2 * rho0
-    t = np.linspace(0, t_max, 200)
+# grid
+x0_vals = np.linspace(-2.0, 2.0, 41)
+rho0 = np.where(x0_vals < 0, rho_L, rho_R)
+c_vals = 1 - 2 * rho0
 
-    # shock speed
+# time frames for animation
+t_max = 2.0
+n_frames = 40
+t_frames = np.linspace(0, t_max, n_frames)
+
+# Build frames: each frame draws characteristics up to time t_k and a shock line
+frames = []
+for k, tk in enumerate(t_frames):
+    data = []
+    for i, x0 in enumerate(x0_vals):
+        xs = (x0 + c_vals[i]*np.linspace(0, tk, 20)).tolist()
+        ts = np.linspace(0, tk, 20).tolist()
+        data.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=1), showlegend=False))
+    # shock speed (Rankine-Hugoniot)
     if np.isclose(rho_L, rho_R):
-        s = 1 - 2 * rho_L   # same state -> characteristic speed
+        s = 1 - 2*rho_L
     else:
         s = (f(rho_L) - f(rho_R)) / (rho_L - rho_R)
+    data.append(go.Scatter(x=[s, s], y=[0, tk], mode='lines', line=dict(color='red', width=3), name='Shock'))
+    frames.append(go.Frame(data=data, name=str(k)))
 
-    fig = go.Figure()
+# Base figure: start with frame 0 data
+fig = go.Figure(frames=frames)
+fig.add_traces(frames[0].data)
 
-    # Characteristics
-    for i, x0 in enumerate(x0_vals):
-        x = x0 + c_vals[i] * t
-        fig.add_trace(go.Scatter(x=x, y=t, mode='lines',
-                                 line=dict(color='royalblue', width=1),
-                                 showlegend=False))
+# Slider steps
+steps = []
+for i, t in enumerate(t_frames):
+    steps.append(dict(method="animate",
+                      args=[[str(i)], dict(mode="immediate", frame=dict(duration=50, redraw=True), transition=dict(duration=0))],
+                      label=f"{t:.2f}"))
+sliders = [dict(active=0, pad={"t": 30}, steps=steps, currentvalue={"prefix":"t = "})]
 
-    # Shock trajectory (red)
-    fig.add_trace(go.Scatter(x=s * t, y=t, mode='lines',
-                             line=dict(color='red', width=3),
-                             name=f's(t): s={s:.3f}'))
+fig.update_layout(
+    title=f"Characteristics (rho_L={rho_L:.2f}, rho_R={rho_R:.2f})",
+    xaxis_title="x",
+    yaxis_title="t",
+    yaxis=dict(autorange='reversed', range=[t_max, 0]),
+    sliders=sliders,
+    updatemenus=[dict(type="buttons", showactive=False,
+                      buttons=[dict(label="Play", method="animate",
+                                    args=[None, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}])])],
+    width=760, height=520
+)
 
-    # Layout (flip y so origin at bottom visually)
-    fig.update_layout(
-        title=f'Characteristics (ρ_L={rho_L:.2f},  ρ_R={rho_R:.2f}) — shock speed s={s:.3f}',
-        xaxis_title='x',
-        yaxis_title='t',
-        yaxis=dict(autorange='reversed', range=[t_max, 0]),
-        width=760, height=520,
-        template='simple_white'
-    )
-    return fig
-
-# Widgets
-rho_L_slider = widgets.FloatSlider(value=0.2, min=0.0, max=1.0, step=0.01, description='ρ_L')
-rho_R_slider = widgets.FloatSlider(value=0.8, min=0.0, max=1.0, step=0.01, description='ρ_R')
-tmax_slider  = widgets.FloatSlider(value=2.0, min=0.5, max=5.0, step=0.1, description='t_max')
-
-out = widgets.Output()
-
-def update_plot(change=None):
-    # clear and draw into the output widget
-    with out:
-        clear_output(wait=True)
-        fig = make_figure(rho_L_slider.value, rho_R_slider.value, t_max=tmax_slider.value)
-        fig.show()
-
-# Attach observers
-rho_L_slider.observe(update_plot, names='value')
-rho_R_slider.observe(update_plot, names='value')
-tmax_slider.observe(update_plot, names='value')
-
-# Display controls + initial figure
-controls = widgets.HBox([rho_L_slider, rho_R_slider, tmax_slider])
-display(widgets.VBox([controls, out]))
-# initial draw
-update_plot()
+# show the figure (important)
+fig.show()
 ```
