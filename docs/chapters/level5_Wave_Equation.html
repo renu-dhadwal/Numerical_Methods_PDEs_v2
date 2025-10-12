@@ -238,6 +238,15 @@ window.Quarto = {
   <li><a href="#example-1-linear-advection" id="toc-example-1-linear-advection" class="nav-link" data-scroll-target="#example-1-linear-advection"><span class="header-section-number">6.5.2</span> Example 1: Linear Advection</a></li>
   <li><a href="#example-2-the-1-d-wave-equation" id="toc-example-2-the-1-d-wave-equation" class="nav-link" data-scroll-target="#example-2-the-1-d-wave-equation"><span class="header-section-number">6.5.3</span> Example 2: The 1-D Wave Equation</a></li>
   </ul></li>
+  <li><a href="#nonlinear-advection-and-the-formation-of-shocks" id="toc-nonlinear-advection-and-the-formation-of-shocks" class="nav-link" data-scroll-target="#nonlinear-advection-and-the-formation-of-shocks"><span class="header-section-number">6.6</span> 🚦 Nonlinear Advection and the Formation of Shocks</a>
+  <ul class="collapse">
+  <li><a href="#example-traffic-flow-model" id="toc-example-traffic-flow-model" class="nav-link" data-scroll-target="#example-traffic-flow-model"><span class="header-section-number">6.6.1</span> Example: Traffic Flow Model</a></li>
+  </ul></li>
+  <li><a href="#characteristics-in-the-nonlinear-case" id="toc-characteristics-in-the-nonlinear-case" class="nav-link" data-scroll-target="#characteristics-in-the-nonlinear-case"><span class="header-section-number">6.7</span> 🌀 Characteristics in the Nonlinear Case</a></li>
+  <li><a href="#when-characteristics-meet-shock-formation" id="toc-when-characteristics-meet-shock-formation" class="nav-link" data-scroll-target="#when-characteristics-meet-shock-formation"><span class="header-section-number">6.8</span> 🚗 When Characteristics Meet — Shock Formation</a></li>
+  <li><a href="#the-shock-speed-rankinehugoniot-condition" id="toc-the-shock-speed-rankinehugoniot-condition" class="nav-link" data-scroll-target="#the-shock-speed-rankinehugoniot-condition"><span class="header-section-number">6.9</span> ⚡ The Shock Speed (Rankine–Hugoniot Condition)</a></li>
+  <li><a href="#example-a-forming-traffic-jam" id="toc-example-a-forming-traffic-jam" class="nav-link" data-scroll-target="#example-a-forming-traffic-jam"><span class="header-section-number">6.10</span> 🌊 Example: A Forming Traffic Jam</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">6.11</span> ✨ Key Takeaways</a></li>
   </ul>
 </nav>
     </div>
@@ -507,7 +516,7 @@ x - c t \quad \text{and} \quad x + c t.
 [x - c t,\, x + c t].
 \]</span></p>
 <p>And the <strong>domain of influence</strong> of an initial point <span class="math inline">\((x_0,0)\)</span> is the cone-shaped region.</p>
-<div id="6b00cf95" class="cell" data-execution_count="1">
+<div id="4e0c1ff5" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -516,12 +525,139 @@ x - c t \quad \text{and} \quad x + c t.
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="nonlinear-advection-and-the-formation-of-shocks" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="nonlinear-advection-and-the-formation-of-shocks"><span class="header-section-number">6.6</span> 🚦 Nonlinear Advection and the Formation of Shocks</h2>
+<p><strong>Pavni:</strong> Acharya, the linear advection equation made perfect sense — the whole profile just moves without changing shape.<br>
+But traffic jams don’t behave that nicely! Sometimes cars slow down abruptly and the jam gets worse over time.<br>
+Does our model capture that?</p>
+<p><strong>Acharya:</strong> Excellent question, Pavni. The linear advection equation assumes that every car moves with the <em>same constant speed</em> <span class="math inline">\(a\)</span>.<br>
+But in reality, cars move <strong>slower when the road is crowded</strong> — so the speed depends on the density of cars, <span class="math inline">\(\rho\)</span>.</p>
+<p><strong>Pavni:</strong> So <span class="math inline">\(v\)</span> depends on <span class="math inline">\(\rho\)</span>? Like <span class="math inline">\(v = v(\rho)\)</span>?</p>
+<p><strong>Acharya:</strong> Exactly. That makes the flux <span class="math inline">\(q = \rho v(\rho)\)</span> a nonlinear function of <span class="math inline">\(\rho\)</span>.<br>
+Substituting this into the conservation law<br>
+<span class="math display">\[
+\rho_t + q_x = 0,
+\]</span><br>
+we get the <strong>nonlinear advection equation</strong>: <span class="math display">\[
+\rho_t + \big(f(\rho)\big)_x = 0,
+\]</span> where <span class="math inline">\(f(\rho) = \rho v(\rho)\)</span>.</p>
+<hr>
+<section id="example-traffic-flow-model" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="example-traffic-flow-model"><span class="header-section-number">6.6.1</span> Example: Traffic Flow Model</h3>
+<p><strong>Pavni:</strong> What kind of <span class="math inline">\(v(\rho)\)</span> should we take?</p>
+<p><strong>Acharya:</strong> A simple and realistic choice is<br>
+<span class="math display">\[
+v(\rho) = 1 - \rho,
+\]</span><br>
+meaning cars move at unit speed when the road is empty (<span class="math inline">\(\rho=0\)</span>),<br>
+and stop completely when the road is jammed (<span class="math inline">\(\rho=1\)</span>).</p>
+<p>Then<br>
+<span class="math display">\[
+f(\rho) = \rho(1 - \rho) = \rho - \rho^2,
+\]</span><br>
+and our equation becomes <span class="math display">\[
+\rho_t + (\rho - \rho^2)_x = 0.
+\]</span></p>
+<p><strong>Pavni:</strong> Expanding that gives <span class="math display">\[
+\rho_t + (1 - 2\rho)\rho_x = 0.
+\]</span> So it looks just like the advection equation, but the wave speed now depends on <span class="math inline">\(\rho\)</span> itself!</p>
+<p><strong>Acharya:</strong> Exactly! This is called the <strong>nonlinear advection equation</strong> or <strong>inviscid Burgers’ equation</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="characteristics-in-the-nonlinear-case" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="characteristics-in-the-nonlinear-case"><span class="header-section-number">6.7</span> 🌀 Characteristics in the Nonlinear Case</h2>
+<p><strong>Pavni:</strong> Earlier, for <span class="math inline">\(\rho_t + a\rho_x = 0\)</span>, we had straight characteristic lines <span class="math inline">\(x - at = \text{constant}\)</span>.<br>
+How does it work here when the speed depends on <span class="math inline">\(\rho\)</span>?</p>
+<p><strong>Acharya:</strong> Let’s find out. As before, along a curve <span class="math inline">\(x = x(t)\)</span>, the total derivative is <span class="math display">\[
+\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.
+\]</span> From the PDE, <span class="math display">\[
+\rho_t = -(1 - 2\rho)\rho_x.
+\]</span> Substitute this: <span class="math display">\[
+\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x = \big[-(1 - 2\rho) + \frac{dx}{dt}\big]\rho_x.
+\]</span> For <span class="math inline">\(\dfrac{d\rho}{dt}=0\)</span> along a characteristic, we must have <span class="math display">\[
+\frac{dx}{dt} = 1 - 2\rho.
+\]</span></p>
+<p><strong>Pavni:</strong> So, <span class="math inline">\(\rho\)</span> is constant along a curve whose slope depends on <span class="math inline">\(\rho\)</span> itself?</p>
+<p><strong>Acharya:</strong> Precisely!<br>
+Each “traffic packet” (region of constant density) moves with its own speed <span class="math inline">\(1 - 2\rho\)</span>.<br>
+That’s the big difference from the linear case — now the <strong>characteristics themselves depend on the solution</strong>.</p>
+<hr>
+</section>
+<section id="when-characteristics-meet-shock-formation" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="when-characteristics-meet-shock-formation"><span class="header-section-number">6.8</span> 🚗 When Characteristics Meet — Shock Formation</h2>
+<p><strong>Pavni:</strong> What happens if cars ahead are slower than those behind?<br>
+Would the faster ones eventually catch up?</p>
+<p><strong>Acharya:</strong> That’s the perfect intuition. Let’s see what that means mathematically.</p>
+<p>Suppose initially <span class="math inline">\(\rho(x,0)\)</span> decreases with <span class="math inline">\(x\)</span> — that is, higher density (slower cars) ahead, and lower density (faster cars) behind.<br>
+Then the characteristic speed <span class="math inline">\(1 - 2\rho\)</span> is <strong>larger behind</strong> and <strong>smaller ahead</strong>.</p>
+<p>That means characteristics <strong>converge</strong> — they start to intersect.<br>
+When that happens, two different characteristic lines try to assign <em>different values</em> of <span class="math inline">\(\rho\)</span> at the same <span class="math inline">\((x,t)\)</span>.</p>
+<p><strong>Pavni:</strong> So the solution becomes <em>multivalued</em>? That’s not physical.</p>
+<p><strong>Acharya:</strong> Exactly — in reality, when cars catch up, a <strong>shock</strong> forms — a sharp front separating high and low densities.<br>
+The PDE solution must then be replaced by a <em>weak solution</em> that allows for discontinuities satisfying the <strong>Rankine–Hugoniot condition</strong>.</p>
+<hr>
+</section>
+<section id="the-shock-speed-rankinehugoniot-condition" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="the-shock-speed-rankinehugoniot-condition"><span class="header-section-number">6.9</span> ⚡ The Shock Speed (Rankine–Hugoniot Condition)</h2>
+<p>Let the shock position be <span class="math inline">\(x = s(t)\)</span>.<br>
+On the left of the shock, density is <span class="math inline">\(\rho_L\)</span>; on the right, it’s <span class="math inline">\(\rho_R\)</span>.</p>
+<p>Conservation of cars gives the jump condition <span class="math display">\[
+\frac{ds}{dt} = \frac{f(\rho_L) - f(\rho_R)}{\rho_L - \rho_R}.
+\]</span></p>
+<p><strong>Pavni:</strong> So the shock moves at a speed equal to the slope of the line joining the two points on the flux curve <span class="math inline">\(f(\rho)\)</span>?</p>
+<p><strong>Acharya:</strong> Perfect!<br>
+That’s a nice geometric interpretation — the <strong>secant slope</strong> between <span class="math inline">\((\rho_L, f(\rho_L))\)</span> and <span class="math inline">\((\rho_R, f(\rho_R))\)</span>.</p>
+<p>For our example <span class="math inline">\(f(\rho) = \rho(1 - \rho)\)</span>, we get <span class="math display">\[
+\frac{ds}{dt} = \frac{\rho_L(1 - \rho_L) - \rho_R(1 - \rho_R)}{\rho_L - \rho_R}
+              = 1 - (\rho_L + \rho_R).
+\]</span></p>
+<hr>
+</section>
+<section id="example-a-forming-traffic-jam" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="example-a-forming-traffic-jam"><span class="header-section-number">6.10</span> 🌊 Example: A Forming Traffic Jam</h2>
+<p><strong>Pavni:</strong> Let’s take an example!</p>
+<p><strong>Acharya:</strong> Suppose the initial density is <span class="math display">\[
+\rho(x,0) =
+\begin{cases}
+0.8, &amp; x &lt; 0, \\
+0.2, &amp; x &gt; 0.
+\end{cases}
+\]</span></p>
+<p>Then <span class="math inline">\(\rho_L = 0.8\)</span> (slow cars ahead) and <span class="math inline">\(\rho_R = 0.2\)</span> (fast cars behind).<br>
+The shock speed is <span class="math display">\[
+s' = 1 - (0.8 + 0.2) = 0.
+\]</span></p>
+<p><strong>Pavni:</strong> So the shock doesn’t move — it stays fixed in place?</p>
+<p><strong>Acharya:</strong> Exactly! That represents a <em>stationary traffic jam</em> — cars pile up until the density behind adjusts.<br>
+If we reverse the situation — slower cars behind faster ones — the characteristics diverge instead, creating a <strong>rarefaction wave</strong> rather than a shock.</p>
+<hr>
+</section>
+<section id="key-takeaways" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="key-takeaways"><span class="header-section-number">6.11</span> ✨ Key Takeaways</h2>
+<ul>
+<li>Linear advection: constant-speed characteristics → waves move unchanged.<br>
+</li>
+<li>Nonlinear advection: speed depends on <span class="math inline">\(\rho\)</span> → characteristics can intersect.<br>
+</li>
+<li>When they intersect, shocks form — discontinuous but physically meaningful solutions.<br>
+</li>
+<li>The shock speed is determined by the Rankine–Hugoniot condition.<br>
+</li>
+<li>This mechanism underlies shock waves, traffic jams, and compressible fluid flows.</li>
+</ul>
+<hr>
+<p><strong>Pavni:</strong> Wow, so from traffic flow we’ve reached the idea of <em>shock waves</em>!<br>
+That’s amazing — how a simple conservation law captures such complex behavior.</p>
+<p><strong>Acharya:</strong> That’s the beauty of hyperbolic equations — they describe how <em>information</em> and <em>discontinuities</em> propagate in nature.<br>
+Next, we’ll explore how to capture all this using <strong>numerical methods</strong> — because analytic solutions won’t always be possible.</p>
 
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1402,6 +1538,175 @@ x - c t \quad \text{and} \quad x + c t.
 <span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'doidod_plot.png'</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
 <span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
 <span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🚦 Nonlinear Advection and the Formation of Shocks</span></span>
+<span id="cb2-422"><a href="#cb2-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-423"><a href="#cb2-423" aria-hidden="true" tabindex="-1"></a>**Pavni:** Acharya, the linear advection equation made perfect sense — the whole profile just moves without changing shape.  </span>
+<span id="cb2-424"><a href="#cb2-424" aria-hidden="true" tabindex="-1"></a>But traffic jams don’t behave that nicely! Sometimes cars slow down abruptly and the jam gets worse over time.  </span>
+<span id="cb2-425"><a href="#cb2-425" aria-hidden="true" tabindex="-1"></a>Does our model capture that?</span>
+<span id="cb2-426"><a href="#cb2-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-427"><a href="#cb2-427" aria-hidden="true" tabindex="-1"></a>**Acharya:** Excellent question, Pavni. The linear advection equation assumes that every car moves with the *same constant speed* $a$.  </span>
+<span id="cb2-428"><a href="#cb2-428" aria-hidden="true" tabindex="-1"></a>But in reality, cars move **slower when the road is crowded** — so the speed depends on the density of cars, $\rho$.</span>
+<span id="cb2-429"><a href="#cb2-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-430"><a href="#cb2-430" aria-hidden="true" tabindex="-1"></a>**Pavni:** So $v$ depends on $\rho$? Like $v = v(\rho)$?</span>
+<span id="cb2-431"><a href="#cb2-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-432"><a href="#cb2-432" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. That makes the flux $q = \rho v(\rho)$ a nonlinear function of $\rho$.  </span>
+<span id="cb2-433"><a href="#cb2-433" aria-hidden="true" tabindex="-1"></a>Substituting this into the conservation law  </span>
+<span id="cb2-434"><a href="#cb2-434" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-435"><a href="#cb2-435" aria-hidden="true" tabindex="-1"></a>\rho_t + q_x = 0,</span>
+<span id="cb2-436"><a href="#cb2-436" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-437"><a href="#cb2-437" aria-hidden="true" tabindex="-1"></a>we get the **nonlinear advection equation**:</span>
+<span id="cb2-438"><a href="#cb2-438" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-439"><a href="#cb2-439" aria-hidden="true" tabindex="-1"></a>\rho_t + \big(f(\rho)\big)_x = 0,</span>
+<span id="cb2-440"><a href="#cb2-440" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-441"><a href="#cb2-441" aria-hidden="true" tabindex="-1"></a>where $f(\rho) = \rho v(\rho)$.</span>
+<span id="cb2-442"><a href="#cb2-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-443"><a href="#cb2-443" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-444"><a href="#cb2-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-445"><a href="#cb2-445" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Traffic Flow Model</span></span>
+<span id="cb2-446"><a href="#cb2-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-447"><a href="#cb2-447" aria-hidden="true" tabindex="-1"></a>**Pavni:** What kind of $v(\rho)$ should we take?</span>
+<span id="cb2-448"><a href="#cb2-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-449"><a href="#cb2-449" aria-hidden="true" tabindex="-1"></a>**Acharya:** A simple and realistic choice is  </span>
+<span id="cb2-450"><a href="#cb2-450" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-451"><a href="#cb2-451" aria-hidden="true" tabindex="-1"></a>v(\rho) = 1 - \rho,</span>
+<span id="cb2-452"><a href="#cb2-452" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a>meaning cars move at unit speed when the road is empty ($\rho=0$),  </span>
+<span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a>and stop completely when the road is jammed ($\rho=1$).</span>
+<span id="cb2-455"><a href="#cb2-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a>Then  </span>
+<span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>f(\rho) = \rho(1 - \rho) = \rho - \rho^2,</span>
+<span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a>and our equation becomes</span>
+<span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a>\rho_t + (\rho - \rho^2)_x = 0.</span>
+<span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>**Pavni:** Expanding that gives</span>
+<span id="cb2-466"><a href="#cb2-466" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>\rho_t + (1 - 2\rho)\rho_x = 0.</span>
+<span id="cb2-468"><a href="#cb2-468" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a>So it looks just like the advection equation, but the wave speed now depends on $\rho$ itself!</span>
+<span id="cb2-470"><a href="#cb2-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! This is called the **nonlinear advection equation** or **inviscid Burgers’ equation**.</span>
+<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-474"><a href="#cb2-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🌀 Characteristics in the Nonlinear Case</span></span>
+<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a>**Pavni:** Earlier, for $\rho_t + a\rho_x = 0$, we had straight characteristic lines $x - at = \text{constant}$.  </span>
+<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a>How does it work here when the speed depends on $\rho$?</span>
+<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-480"><a href="#cb2-480" aria-hidden="true" tabindex="-1"></a>**Acharya:** Let’s find out. As before, along a curve $x = x(t)$, the total derivative is</span>
+<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-482"><a href="#cb2-482" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.</span>
+<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a>From the PDE,</span>
+<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a>\rho_t = -(1 - 2\rho)\rho_x.</span>
+<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a>Substitute this:</span>
+<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a>\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x = \big<span class="co">[</span><span class="ot">-(1 - 2\rho) + \frac{dx}{dt}\big</span><span class="co">]</span>\rho_x.</span>
+<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-492"><a href="#cb2-492" aria-hidden="true" tabindex="-1"></a>For $\dfrac{d\rho}{dt}=0$ along a characteristic, we must have</span>
+<span id="cb2-493"><a href="#cb2-493" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-494"><a href="#cb2-494" aria-hidden="true" tabindex="-1"></a>\frac{dx}{dt} = 1 - 2\rho.</span>
+<span id="cb2-495"><a href="#cb2-495" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-496"><a href="#cb2-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-497"><a href="#cb2-497" aria-hidden="true" tabindex="-1"></a>**Pavni:** So, $\rho$ is constant along a curve whose slope depends on $\rho$ itself?</span>
+<span id="cb2-498"><a href="#cb2-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-499"><a href="#cb2-499" aria-hidden="true" tabindex="-1"></a>**Acharya:** Precisely!  </span>
+<span id="cb2-500"><a href="#cb2-500" aria-hidden="true" tabindex="-1"></a>Each “traffic packet” (region of constant density) moves with its own speed $1 - 2\rho$.  </span>
+<span id="cb2-501"><a href="#cb2-501" aria-hidden="true" tabindex="-1"></a>That’s the big difference from the linear case — now the **characteristics themselves depend on the solution**.</span>
+<span id="cb2-502"><a href="#cb2-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-503"><a href="#cb2-503" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-504"><a href="#cb2-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-505"><a href="#cb2-505" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🚗 When Characteristics Meet — Shock Formation</span></span>
+<span id="cb2-506"><a href="#cb2-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-507"><a href="#cb2-507" aria-hidden="true" tabindex="-1"></a>**Pavni:** What happens if cars ahead are slower than those behind?  </span>
+<span id="cb2-508"><a href="#cb2-508" aria-hidden="true" tabindex="-1"></a>Would the faster ones eventually catch up?</span>
+<span id="cb2-509"><a href="#cb2-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-510"><a href="#cb2-510" aria-hidden="true" tabindex="-1"></a>**Acharya:** That’s the perfect intuition. Let’s see what that means mathematically.</span>
+<span id="cb2-511"><a href="#cb2-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-512"><a href="#cb2-512" aria-hidden="true" tabindex="-1"></a>Suppose initially $\rho(x,0)$ decreases with $x$ — that is, higher density (slower cars) ahead, and lower density (faster cars) behind.  </span>
+<span id="cb2-513"><a href="#cb2-513" aria-hidden="true" tabindex="-1"></a>Then the characteristic speed $1 - 2\rho$ is **larger behind** and **smaller ahead**.</span>
+<span id="cb2-514"><a href="#cb2-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-515"><a href="#cb2-515" aria-hidden="true" tabindex="-1"></a>That means characteristics **converge** — they start to intersect.  </span>
+<span id="cb2-516"><a href="#cb2-516" aria-hidden="true" tabindex="-1"></a>When that happens, two different characteristic lines try to assign *different values* of $\rho$ at the same $(x,t)$.</span>
+<span id="cb2-517"><a href="#cb2-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-518"><a href="#cb2-518" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the solution becomes *multivalued*? That’s not physical.</span>
+<span id="cb2-519"><a href="#cb2-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-520"><a href="#cb2-520" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly — in reality, when cars catch up, a **shock** forms — a sharp front separating high and low densities.  </span>
+<span id="cb2-521"><a href="#cb2-521" aria-hidden="true" tabindex="-1"></a>The PDE solution must then be replaced by a *weak solution* that allows for discontinuities satisfying the **Rankine–Hugoniot condition**.</span>
+<span id="cb2-522"><a href="#cb2-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-523"><a href="#cb2-523" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-524"><a href="#cb2-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-525"><a href="#cb2-525" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚡ The Shock Speed (Rankine–Hugoniot Condition)</span></span>
+<span id="cb2-526"><a href="#cb2-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-527"><a href="#cb2-527" aria-hidden="true" tabindex="-1"></a>Let the shock position be $x = s(t)$.  </span>
+<span id="cb2-528"><a href="#cb2-528" aria-hidden="true" tabindex="-1"></a>On the left of the shock, density is $\rho_L$; on the right, it’s $\rho_R$.</span>
+<span id="cb2-529"><a href="#cb2-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-530"><a href="#cb2-530" aria-hidden="true" tabindex="-1"></a>Conservation of cars gives the jump condition</span>
+<span id="cb2-531"><a href="#cb2-531" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-532"><a href="#cb2-532" aria-hidden="true" tabindex="-1"></a>\frac{ds}{dt} = \frac{f(\rho_L) - f(\rho_R)}{\rho_L - \rho_R}.</span>
+<span id="cb2-533"><a href="#cb2-533" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-534"><a href="#cb2-534" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-535"><a href="#cb2-535" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the shock moves at a speed equal to the slope of the line joining the two points on the flux curve $f(\rho)$?</span>
+<span id="cb2-536"><a href="#cb2-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-537"><a href="#cb2-537" aria-hidden="true" tabindex="-1"></a>**Acharya:** Perfect!  </span>
+<span id="cb2-538"><a href="#cb2-538" aria-hidden="true" tabindex="-1"></a>That’s a nice geometric interpretation — the **secant slope** between $(\rho_L, f(\rho_L))$ and $(\rho_R, f(\rho_R))$.</span>
+<span id="cb2-539"><a href="#cb2-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-540"><a href="#cb2-540" aria-hidden="true" tabindex="-1"></a>For our example $f(\rho) = \rho(1 - \rho)$, we get</span>
+<span id="cb2-541"><a href="#cb2-541" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-542"><a href="#cb2-542" aria-hidden="true" tabindex="-1"></a>\frac{ds}{dt} = \frac{\rho_L(1 - \rho_L) - \rho_R(1 - \rho_R)}{\rho_L - \rho_R}</span>
+<span id="cb2-543"><a href="#cb2-543" aria-hidden="true" tabindex="-1"></a>              = 1 - (\rho_L + \rho_R).</span>
+<span id="cb2-544"><a href="#cb2-544" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-545"><a href="#cb2-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-546"><a href="#cb2-546" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-547"><a href="#cb2-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-548"><a href="#cb2-548" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🌊 Example: A Forming Traffic Jam</span></span>
+<span id="cb2-549"><a href="#cb2-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-550"><a href="#cb2-550" aria-hidden="true" tabindex="-1"></a>**Pavni:** Let’s take an example!</span>
+<span id="cb2-551"><a href="#cb2-551" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-552"><a href="#cb2-552" aria-hidden="true" tabindex="-1"></a>**Acharya:** Suppose the initial density is</span>
+<span id="cb2-553"><a href="#cb2-553" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-554"><a href="#cb2-554" aria-hidden="true" tabindex="-1"></a>\rho(x,0) =</span>
+<span id="cb2-555"><a href="#cb2-555" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb2-556"><a href="#cb2-556" aria-hidden="true" tabindex="-1"></a>0.8, &amp; x &lt; 0, <span class="sc">\\</span></span>
+<span id="cb2-557"><a href="#cb2-557" aria-hidden="true" tabindex="-1"></a>0.2, &amp; x &gt; 0.</span>
+<span id="cb2-558"><a href="#cb2-558" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb2-559"><a href="#cb2-559" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-560"><a href="#cb2-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-561"><a href="#cb2-561" aria-hidden="true" tabindex="-1"></a>Then $\rho_L = 0.8$ (slow cars ahead) and $\rho_R = 0.2$ (fast cars behind).  </span>
+<span id="cb2-562"><a href="#cb2-562" aria-hidden="true" tabindex="-1"></a>The shock speed is</span>
+<span id="cb2-563"><a href="#cb2-563" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-564"><a href="#cb2-564" aria-hidden="true" tabindex="-1"></a>s' = 1 - (0.8 + 0.2) = 0.</span>
+<span id="cb2-565"><a href="#cb2-565" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-566"><a href="#cb2-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-567"><a href="#cb2-567" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the shock doesn’t move — it stays fixed in place?</span>
+<span id="cb2-568"><a href="#cb2-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-569"><a href="#cb2-569" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly! That represents a *stationary traffic jam* — cars pile up until the density behind adjusts.  </span>
+<span id="cb2-570"><a href="#cb2-570" aria-hidden="true" tabindex="-1"></a>If we reverse the situation — slower cars behind faster ones — the characteristics diverge instead, creating a **rarefaction wave** rather than a shock.</span>
+<span id="cb2-571"><a href="#cb2-571" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-572"><a href="#cb2-572" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-573"><a href="#cb2-573" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-574"><a href="#cb2-574" aria-hidden="true" tabindex="-1"></a><span class="fu">## ✨ Key Takeaways</span></span>
+<span id="cb2-575"><a href="#cb2-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-576"><a href="#cb2-576" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Linear advection: constant-speed characteristics → waves move unchanged.  </span>
+<span id="cb2-577"><a href="#cb2-577" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Nonlinear advection: speed depends on $\rho$ → characteristics can intersect.  </span>
+<span id="cb2-578"><a href="#cb2-578" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When they intersect, shocks form — discontinuous but physically meaningful solutions.  </span>
+<span id="cb2-579"><a href="#cb2-579" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The shock speed is determined by the Rankine–Hugoniot condition.  </span>
+<span id="cb2-580"><a href="#cb2-580" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This mechanism underlies shock waves, traffic jams, and compressible fluid flows.</span>
+<span id="cb2-581"><a href="#cb2-581" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-582"><a href="#cb2-582" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-583"><a href="#cb2-583" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-584"><a href="#cb2-584" aria-hidden="true" tabindex="-1"></a>**Pavni:** Wow, so from traffic flow we’ve reached the idea of *shock waves*!  </span>
+<span id="cb2-585"><a href="#cb2-585" aria-hidden="true" tabindex="-1"></a>That’s amazing — how a simple conservation law captures such complex behavior.</span>
+<span id="cb2-586"><a href="#cb2-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-587"><a href="#cb2-587" aria-hidden="true" tabindex="-1"></a>**Acharya:** That’s the beauty of hyperbolic equations — they describe how *information* and *discontinuities* propagate in nature.  </span>
+<span id="cb2-588"><a href="#cb2-588" aria-hidden="true" tabindex="-1"></a>Next, we’ll explore how to capture all this using **numerical methods** — because analytic solutions won’t always be possible.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

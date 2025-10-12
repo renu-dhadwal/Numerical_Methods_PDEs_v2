@@ -198,5 +198,65 @@
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5 — Hyperbolic PDEs: Wave Equation</span>"
     ]
+  },
+  {
+    "objectID": "chapters/level5_Wave_Equation.html#nonlinear-advection-and-the-formation-of-shocks",
+    "href": "chapters/level5_Wave_Equation.html#nonlinear-advection-and-the-formation-of-shocks",
+    "title": "6  Level 5 — Hyperbolic PDEs: Wave Equation",
+    "section": "6.6 🚦 Nonlinear Advection and the Formation of Shocks",
+    "text": "6.6 🚦 Nonlinear Advection and the Formation of Shocks\nPavni: Acharya, the linear advection equation made perfect sense — the whole profile just moves without changing shape.\nBut traffic jams don’t behave that nicely! Sometimes cars slow down abruptly and the jam gets worse over time.\nDoes our model capture that?\nAcharya: Excellent question, Pavni. The linear advection equation assumes that every car moves with the same constant speed \\(a\\).\nBut in reality, cars move slower when the road is crowded — so the speed depends on the density of cars, \\(\\rho\\).\nPavni: So \\(v\\) depends on \\(\\rho\\)? Like \\(v = v(\\rho)\\)?\nAcharya: Exactly. That makes the flux \\(q = \\rho v(\\rho)\\) a nonlinear function of \\(\\rho\\).\nSubstituting this into the conservation law\n\\[\n\\rho_t + q_x = 0,\n\\]\nwe get the nonlinear advection equation: \\[\n\\rho_t + \\big(f(\\rho)\\big)_x = 0,\n\\] where \\(f(\\rho) = \\rho v(\\rho)\\).\n\n\n6.6.1 Example: Traffic Flow Model\nPavni: What kind of \\(v(\\rho)\\) should we take?\nAcharya: A simple and realistic choice is\n\\[\nv(\\rho) = 1 - \\rho,\n\\]\nmeaning cars move at unit speed when the road is empty (\\(\\rho=0\\)),\nand stop completely when the road is jammed (\\(\\rho=1\\)).\nThen\n\\[\nf(\\rho) = \\rho(1 - \\rho) = \\rho - \\rho^2,\n\\]\nand our equation becomes \\[\n\\rho_t + (\\rho - \\rho^2)_x = 0.\n\\]\nPavni: Expanding that gives \\[\n\\rho_t + (1 - 2\\rho)\\rho_x = 0.\n\\] So it looks just like the advection equation, but the wave speed now depends on \\(\\rho\\) itself!\nAcharya: Exactly! This is called the nonlinear advection equation or inviscid Burgers’ equation.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5 — Hyperbolic PDEs: Wave Equation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level5_Wave_Equation.html#characteristics-in-the-nonlinear-case",
+    "href": "chapters/level5_Wave_Equation.html#characteristics-in-the-nonlinear-case",
+    "title": "6  Level 5 — Hyperbolic PDEs: Wave Equation",
+    "section": "6.7 🌀 Characteristics in the Nonlinear Case",
+    "text": "6.7 🌀 Characteristics in the Nonlinear Case\nPavni: Earlier, for \\(\\rho_t + a\\rho_x = 0\\), we had straight characteristic lines \\(x - at = \\text{constant}\\).\nHow does it work here when the speed depends on \\(\\rho\\)?\nAcharya: Let’s find out. As before, along a curve \\(x = x(t)\\), the total derivative is \\[\n\\frac{d\\rho}{dt} = \\rho_t + \\frac{dx}{dt}\\rho_x.\n\\] From the PDE, \\[\n\\rho_t = -(1 - 2\\rho)\\rho_x.\n\\] Substitute this: \\[\n\\frac{d\\rho}{dt} = \\rho_t + \\frac{dx}{dt}\\rho_x = \\big[-(1 - 2\\rho) + \\frac{dx}{dt}\\big]\\rho_x.\n\\] For \\(\\dfrac{d\\rho}{dt}=0\\) along a characteristic, we must have \\[\n\\frac{dx}{dt} = 1 - 2\\rho.\n\\]\nPavni: So, \\(\\rho\\) is constant along a curve whose slope depends on \\(\\rho\\) itself?\nAcharya: Precisely!\nEach “traffic packet” (region of constant density) moves with its own speed \\(1 - 2\\rho\\).\nThat’s the big difference from the linear case — now the characteristics themselves depend on the solution.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5 — Hyperbolic PDEs: Wave Equation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level5_Wave_Equation.html#when-characteristics-meet-shock-formation",
+    "href": "chapters/level5_Wave_Equation.html#when-characteristics-meet-shock-formation",
+    "title": "6  Level 5 — Hyperbolic PDEs: Wave Equation",
+    "section": "6.8 🚗 When Characteristics Meet — Shock Formation",
+    "text": "6.8 🚗 When Characteristics Meet — Shock Formation\nPavni: What happens if cars ahead are slower than those behind?\nWould the faster ones eventually catch up?\nAcharya: That’s the perfect intuition. Let’s see what that means mathematically.\nSuppose initially \\(\\rho(x,0)\\) decreases with \\(x\\) — that is, higher density (slower cars) ahead, and lower density (faster cars) behind.\nThen the characteristic speed \\(1 - 2\\rho\\) is larger behind and smaller ahead.\nThat means characteristics converge — they start to intersect.\nWhen that happens, two different characteristic lines try to assign different values of \\(\\rho\\) at the same \\((x,t)\\).\nPavni: So the solution becomes multivalued? That’s not physical.\nAcharya: Exactly — in reality, when cars catch up, a shock forms — a sharp front separating high and low densities.\nThe PDE solution must then be replaced by a weak solution that allows for discontinuities satisfying the Rankine–Hugoniot condition.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5 — Hyperbolic PDEs: Wave Equation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level5_Wave_Equation.html#the-shock-speed-rankinehugoniot-condition",
+    "href": "chapters/level5_Wave_Equation.html#the-shock-speed-rankinehugoniot-condition",
+    "title": "6  Level 5 — Hyperbolic PDEs: Wave Equation",
+    "section": "6.9 ⚡ The Shock Speed (Rankine–Hugoniot Condition)",
+    "text": "6.9 ⚡ The Shock Speed (Rankine–Hugoniot Condition)\nLet the shock position be \\(x = s(t)\\).\nOn the left of the shock, density is \\(\\rho_L\\); on the right, it’s \\(\\rho_R\\).\nConservation of cars gives the jump condition \\[\n\\frac{ds}{dt} = \\frac{f(\\rho_L) - f(\\rho_R)}{\\rho_L - \\rho_R}.\n\\]\nPavni: So the shock moves at a speed equal to the slope of the line joining the two points on the flux curve \\(f(\\rho)\\)?\nAcharya: Perfect!\nThat’s a nice geometric interpretation — the secant slope between \\((\\rho_L, f(\\rho_L))\\) and \\((\\rho_R, f(\\rho_R))\\).\nFor our example \\(f(\\rho) = \\rho(1 - \\rho)\\), we get \\[\n\\frac{ds}{dt} = \\frac{\\rho_L(1 - \\rho_L) - \\rho_R(1 - \\rho_R)}{\\rho_L - \\rho_R}\n              = 1 - (\\rho_L + \\rho_R).\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5 — Hyperbolic PDEs: Wave Equation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level5_Wave_Equation.html#example-a-forming-traffic-jam",
+    "href": "chapters/level5_Wave_Equation.html#example-a-forming-traffic-jam",
+    "title": "6  Level 5 — Hyperbolic PDEs: Wave Equation",
+    "section": "6.10 🌊 Example: A Forming Traffic Jam",
+    "text": "6.10 🌊 Example: A Forming Traffic Jam\nPavni: Let’s take an example!\nAcharya: Suppose the initial density is \\[\n\\rho(x,0) =\n\\begin{cases}\n0.8, & x &lt; 0, \\\\\n0.2, & x &gt; 0.\n\\end{cases}\n\\]\nThen \\(\\rho_L = 0.8\\) (slow cars ahead) and \\(\\rho_R = 0.2\\) (fast cars behind).\nThe shock speed is \\[\ns' = 1 - (0.8 + 0.2) = 0.\n\\]\nPavni: So the shock doesn’t move — it stays fixed in place?\nAcharya: Exactly! That represents a stationary traffic jam — cars pile up until the density behind adjusts.\nIf we reverse the situation — slower cars behind faster ones — the characteristics diverge instead, creating a rarefaction wave rather than a shock.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5 — Hyperbolic PDEs: Wave Equation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level5_Wave_Equation.html#key-takeaways",
+    "href": "chapters/level5_Wave_Equation.html#key-takeaways",
+    "title": "6  Level 5 — Hyperbolic PDEs: Wave Equation",
+    "section": "6.11 ✨ Key Takeaways",
+    "text": "6.11 ✨ Key Takeaways\n\nLinear advection: constant-speed characteristics → waves move unchanged.\n\nNonlinear advection: speed depends on \\(\\rho\\) → characteristics can intersect.\n\nWhen they intersect, shocks form — discontinuous but physically meaningful solutions.\n\nThe shock speed is determined by the Rankine–Hugoniot condition.\n\nThis mechanism underlies shock waves, traffic jams, and compressible fluid flows.\n\n\nPavni: Wow, so from traffic flow we’ve reached the idea of shock waves!\nThat’s amazing — how a simple conservation law captures such complex behavior.\nAcharya: That’s the beauty of hyperbolic equations — they describe how information and discontinuities propagate in nature.\nNext, we’ll explore how to capture all this using numerical methods — because analytic solutions won’t always be possible.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Level 5 — Hyperbolic PDEs: Wave Equation</span>"
+    ]
   }
 ]

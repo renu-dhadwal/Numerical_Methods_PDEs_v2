@@ -415,3 +415,172 @@ plt.tight_layout()
 plt.savefig('doidod_plot.png', dpi=200)
 plt.show()
 ```
+
+## 🚦 Nonlinear Advection and the Formation of Shocks
+
+**Pavni:** Acharya, the linear advection equation made perfect sense — the whole profile just moves without changing shape.  
+But traffic jams don’t behave that nicely! Sometimes cars slow down abruptly and the jam gets worse over time.  
+Does our model capture that?
+
+**Acharya:** Excellent question, Pavni. The linear advection equation assumes that every car moves with the *same constant speed* $a$.  
+But in reality, cars move **slower when the road is crowded** — so the speed depends on the density of cars, $\rho$.
+
+**Pavni:** So $v$ depends on $\rho$? Like $v = v(\rho)$?
+
+**Acharya:** Exactly. That makes the flux $q = \rho v(\rho)$ a nonlinear function of $\rho$.  
+Substituting this into the conservation law  
+$$
+\rho_t + q_x = 0,
+$$  
+we get the **nonlinear advection equation**:
+$$
+\rho_t + \big(f(\rho)\big)_x = 0,
+$$
+where $f(\rho) = \rho v(\rho)$.
+
+---
+
+### Example: Traffic Flow Model
+
+**Pavni:** What kind of $v(\rho)$ should we take?
+
+**Acharya:** A simple and realistic choice is  
+$$
+v(\rho) = 1 - \rho,
+$$  
+meaning cars move at unit speed when the road is empty ($\rho=0$),  
+and stop completely when the road is jammed ($\rho=1$).
+
+Then  
+$$
+f(\rho) = \rho(1 - \rho) = \rho - \rho^2,
+$$  
+and our equation becomes
+$$
+\rho_t + (\rho - \rho^2)_x = 0.
+$$
+
+**Pavni:** Expanding that gives
+$$
+\rho_t + (1 - 2\rho)\rho_x = 0.
+$$
+So it looks just like the advection equation, but the wave speed now depends on $\rho$ itself!
+
+**Acharya:** Exactly! This is called the **nonlinear advection equation** or **inviscid Burgers’ equation**.
+
+---
+
+## 🌀 Characteristics in the Nonlinear Case
+
+**Pavni:** Earlier, for $\rho_t + a\rho_x = 0$, we had straight characteristic lines $x - at = \text{constant}$.  
+How does it work here when the speed depends on $\rho$?
+
+**Acharya:** Let’s find out. As before, along a curve $x = x(t)$, the total derivative is
+$$
+\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x.
+$$
+From the PDE,
+$$
+\rho_t = -(1 - 2\rho)\rho_x.
+$$
+Substitute this:
+$$
+\frac{d\rho}{dt} = \rho_t + \frac{dx}{dt}\rho_x = \big[-(1 - 2\rho) + \frac{dx}{dt}\big]\rho_x.
+$$
+For $\dfrac{d\rho}{dt}=0$ along a characteristic, we must have
+$$
+\frac{dx}{dt} = 1 - 2\rho.
+$$
+
+**Pavni:** So, $\rho$ is constant along a curve whose slope depends on $\rho$ itself?
+
+**Acharya:** Precisely!  
+Each “traffic packet” (region of constant density) moves with its own speed $1 - 2\rho$.  
+That’s the big difference from the linear case — now the **characteristics themselves depend on the solution**.
+
+---
+
+## 🚗 When Characteristics Meet — Shock Formation
+
+**Pavni:** What happens if cars ahead are slower than those behind?  
+Would the faster ones eventually catch up?
+
+**Acharya:** That’s the perfect intuition. Let’s see what that means mathematically.
+
+Suppose initially $\rho(x,0)$ decreases with $x$ — that is, higher density (slower cars) ahead, and lower density (faster cars) behind.  
+Then the characteristic speed $1 - 2\rho$ is **larger behind** and **smaller ahead**.
+
+That means characteristics **converge** — they start to intersect.  
+When that happens, two different characteristic lines try to assign *different values* of $\rho$ at the same $(x,t)$.
+
+**Pavni:** So the solution becomes *multivalued*? That’s not physical.
+
+**Acharya:** Exactly — in reality, when cars catch up, a **shock** forms — a sharp front separating high and low densities.  
+The PDE solution must then be replaced by a *weak solution* that allows for discontinuities satisfying the **Rankine–Hugoniot condition**.
+
+---
+
+## ⚡ The Shock Speed (Rankine–Hugoniot Condition)
+
+Let the shock position be $x = s(t)$.  
+On the left of the shock, density is $\rho_L$; on the right, it’s $\rho_R$.
+
+Conservation of cars gives the jump condition
+$$
+\frac{ds}{dt} = \frac{f(\rho_L) - f(\rho_R)}{\rho_L - \rho_R}.
+$$
+
+**Pavni:** So the shock moves at a speed equal to the slope of the line joining the two points on the flux curve $f(\rho)$?
+
+**Acharya:** Perfect!  
+That’s a nice geometric interpretation — the **secant slope** between $(\rho_L, f(\rho_L))$ and $(\rho_R, f(\rho_R))$.
+
+For our example $f(\rho) = \rho(1 - \rho)$, we get
+$$
+\frac{ds}{dt} = \frac{\rho_L(1 - \rho_L) - \rho_R(1 - \rho_R)}{\rho_L - \rho_R}
+              = 1 - (\rho_L + \rho_R).
+$$
+
+---
+
+## 🌊 Example: A Forming Traffic Jam
+
+**Pavni:** Let’s take an example!
+
+**Acharya:** Suppose the initial density is
+$$
+\rho(x,0) =
+\begin{cases}
+0.8, & x < 0, \\
+0.2, & x > 0.
+\end{cases}
+$$
+
+Then $\rho_L = 0.8$ (slow cars ahead) and $\rho_R = 0.2$ (fast cars behind).  
+The shock speed is
+$$
+s' = 1 - (0.8 + 0.2) = 0.
+$$
+
+**Pavni:** So the shock doesn’t move — it stays fixed in place?
+
+**Acharya:** Exactly! That represents a *stationary traffic jam* — cars pile up until the density behind adjusts.  
+If we reverse the situation — slower cars behind faster ones — the characteristics diverge instead, creating a **rarefaction wave** rather than a shock.
+
+---
+
+## ✨ Key Takeaways
+
+- Linear advection: constant-speed characteristics → waves move unchanged.  
+- Nonlinear advection: speed depends on $\rho$ → characteristics can intersect.  
+- When they intersect, shocks form — discontinuous but physically meaningful solutions.  
+- The shock speed is determined by the Rankine–Hugoniot condition.  
+- This mechanism underlies shock waves, traffic jams, and compressible fluid flows.
+
+---
+
+**Pavni:** Wow, so from traffic flow we’ve reached the idea of *shock waves*!  
+That’s amazing — how a simple conservation law captures such complex behavior.
+
+**Acharya:** That’s the beauty of hyperbolic equations — they describe how *information* and *discontinuities* propagate in nature.  
+Next, we’ll explore how to capture all this using **numerical methods** — because analytic solutions won’t always be possible.
