@@ -789,67 +789,122 @@ $$
 #| warning: false
 import numpy as np
 import plotly.graph_objects as go
-
-# --- Riemann data chosen to produce an admissible moving shock ---
-rho_L = 0.1   # left state (x<0)
-rho_R = 0.7   # right state (x>0)
+import ipywidgets as widgets
+from IPython.display import display, clear_output
 
 # flux and derivative
 f = lambda r: r * (1 - r)
 a = lambda r: 1 - 2*r    # f'(r)
 
-# compute shock speed via Rankine-Hugoniot
-fL, fR = f(rho_L), f(rho_R)
-s = (fL - fR) / (rho_L - rho_R)
+def build_animated_figure(rho_L, rho_R, t_max=3.0, n_frames=40, n_x0=61):
+    # compute speeds and shock speed
+    c_L = a(rho_L); c_R = a(rho_R)
+    fL, fR = f(rho_L), f(rho_R)
+    s = (fL - fR) / (rho_L - rho_R) if not np.isclose(rho_L, rho_R) else a(rho_L)
+    compressive = (c_L > c_R)
 
-# grid for characteristics
-x0 = np.linspace(-3.0, 3.0, 401)   # dense sampling for clear intersections
-rho0 = np.where(x0 < 0, rho_L, rho_R)
-a_vals = a(rho0)
+    # time frames
+    t_frames = np.linspace(0, t_max, n_frames)
 
-t_max = 3.0
-n_frames = 60
-t_frames = np.linspace(0, t_max, n_frames)
+    # prepare x0 sampling for characteristics (separate left/right so rays are clear)
+    x0_left = np.linspace(-3.0, -0.01, n_x0//2)
+    x0_right = np.linspace(0.01, 3.0, n_x0//2)
 
-# build animation frames: each frame draws characteristics up to time tk and the shock line x = s*t
-frames = []
-for k, tk in enumerate(t_frames):
-    data = []
-    for i, xinit in enumerate(x0):
-        xs = xinit + a_vals[i] * np.linspace(0, tk, 20)
-        ts = np.linspace(0, tk, 20)
-        data.append(go.Scatter(x=xs, y=ts, mode='lines',
-                               line=dict(color='royalblue', width=0.7),
-                               showlegend=False))
-    # shock line x = s * t from 0..tk
-    data.append(go.Scatter(x=s * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
-                           mode='lines', line=dict(color='red', width=3),
-                           name=f's(t) = {s:.3f} t'))
-    frames.append(go.Frame(data=data, name=str(k)))
+    # create frames
+    frames = []
+    for k, tk in enumerate(t_frames):
+        traces = []
+        if compressive:
+            # characteristics from left and right up to tk
+            for x0 in x0_left:
+                xs = x0 + c_L * np.linspace(0, tk, 30)
+                ts = np.linspace(0, tk, 30)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=0.6), showlegend=False))
+            for x0 in x0_right:
+                xs = x0 + c_R * np.linspace(0, tk, 30)
+                ts = np.linspace(0, tk, 30)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=0.6), showlegend=False))
+            # shock line up to tk
+            traces.append(go.Scatter(x=s * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
+                                     mode='lines', line=dict(color='red', width=3), name=f's={s:.3f}'))
+        else:
+            # rarefaction fan: characteristics issuing from origin with slopes between c_L and c_R
+            slopes = np.linspace(c_L, c_R, 41)
+            for xi in slopes:
+                xs = xi * np.linspace(0, tk, 30)
+                ts = np.linspace(0, tk, 30)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='green', width=0.9), showlegend=False, opacity=0.8))
+            # bounding characteristics
+            traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2), mode='lines',
+                                     line=dict(color='green', width=2, dash='dash'), name=f'c_L={c_L:.3f}'))
+            traces.append(go.Scatter(x=c_R * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2), mode='lines',
+                                     line=dict(color='green', width=2, dash='dash'), name=f'c_R={c_R:.3f}'))
 
-fig = go.Figure(frames=frames)
-fig.add_traces(frames[0].data)
+        frames.append(go.Frame(data=traces, name=str(k)))
 
-# slider steps
-steps = [dict(method="animate",
-              args=[[str(i)], dict(mode="immediate", frame=dict(duration=50, redraw=True), transition=dict(duration=0))],
-              label=f"{t:.2f}") for i, t in enumerate(t_frames)]
-sliders = [dict(active=0, pad={"t": 30}, steps=steps, currentvalue={"prefix":"t = "})]
+    # build figure with frames
+    fig = go.Figure(frames=frames)
+    # initial frame traces
+    fig.add_traces(frames[0].data)
 
-fig.update_layout(
-    title=f"Admissible moving shock: rho_L={rho_L}, rho_R={rho_R}, shock speed s={s:.3f}",
-    xaxis_title="x",
-    yaxis_title="t (time ↑)",
-    yaxis=dict(autorange=False, range=[0, t_max]),   # time increases upward
-    sliders=sliders,
-    updatemenus=[dict(type="buttons", showactive=False,
-                      buttons=[dict(label="Play", method="animate",
-                                    args=[None, {"frame": {"duration": 60, "redraw": True}, "fromcurrent": True}])])],
-    width=900, height=560
-)
+    # slider steps
+    steps = [
+        dict(method="animate",
+             args=[[str(i)], dict(mode="immediate", frame=dict(duration=50, redraw=True), transition=dict(duration=0))],
+             label=f"{t_frames[i]:.2f}")
+        for i in range(len(t_frames))
+    ]
+    sliders = [dict(active=0, pad={"t": 30}, steps=steps, currentvalue={"prefix":"t = "})]
 
-fig.show()
-```
+    # updatemenus play/pause
+    updatemenus = [
+        dict(type="buttons", showactive=False,
+             y=1.05, x=0.0,
+             buttons=[
+                 dict(label="Play", method="animate",
+                      args=[None, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True, "transition": {"duration": 0}}]),
+                 dict(label="Pause", method="animate",
+                      args=[[None], {"frame": {"duration": 0, "redraw": False}, "mode": "immediate", "transition": {"duration": 0}}])
+             ])
+    ]
+
+    regime = "Shock" if compressive else "Rarefaction"
+    title = f"Riemann: ρ_L={rho_L:.3f}, ρ_R={rho_R:.3f} — {regime} (s={s:.3f})" if compressive else f"Riemann: ρ_L={rho_L:.3f}, ρ_R={rho_R:.3f} — {regime}"
+
+    fig.update_layout(
+        title=title,
+        xaxis_title="x",
+        yaxis_title="t (time ↑)",
+        yaxis=dict(autorange=False, range=[0, t_max]),
+        sliders=sliders,
+        updatemenus=updatemenus,
+        width=900, height=560
+    )
+
+    return fig
+
+# Widgets
+rho_L_slider = widgets.FloatSlider(value=0.1, min=0.0, max=1.0, step=0.01, description='ρ_L', continuous_update=False)
+rho_R_slider = widgets.FloatSlider(value=0.7, min=0.0, max=1.0, step=0.01, description='ρ_R', continuous_update=False)
+tmax_slider  = widgets.FloatSlider(value=3.0, min=0.5, max=6.0, step=0.1, description='t_max', continuous_update=False)
+
+out = widgets.Output()
+
+def update(change=None):
+    with out:
+        clear_output(wait=True)
+        fig = build_animated_figure(rho_L_slider.value, rho_R_slider.value, t_max=tmax_slider.value, n_frames=50)
+        fig.show()
+
+rho_L_slider.observe(update, names='value')
+rho_R_slider.observe(update, names='value')
+tmax_slider.observe(update, names='value')
+
+controls = widgets.HBox([rho_L_slider, rho_R_slider, tmax_slider])
+display(widgets.VBox([controls, out]))
+
+# initial draw
+update()
 
 ```{python}
 #| echo: false
