@@ -736,7 +736,7 @@ Let’s see what happens.
 
 ---
 
-### 1️⃣ Compute the fluxes
+### Compute the fluxes
 
 **Acharya:** Our flux function is still $f(\rho) = \rho(1-\rho)$.  
 So,
@@ -760,7 +760,7 @@ the “traffic jam” moves forward!
 
 ---
 
-### 2️⃣ What happens to the characteristics?
+### What happens to the characteristics?
 
 **Acharya:** Let’s look at the characteristic speeds:
 
@@ -778,42 +778,99 @@ $$
 
 ---
 
-### 3️⃣ Visualizing the moving shock
+###  Visualizing the moving shock
+
+
+**Notes for A**
+- If `quarto render` hangs on this chunk in your environment, either:
+  - render interactively (e.g., `quarto preview` or open the page in Jupyter/VSCode), or
+  - temporarily set chunk option `#| eval: false` to skip execution during render and keep the interactive block for live pages, or
+  - use block B below (Plotly-only) for robust headless rendering.
+
+---
+
 
 ```{python}
 #| echo: false
 #| warning: false
+# Plotly-only moving-shock explorer (dropdown presets + time slider)
+# Robust for headless `quarto render`. Use edit-in-code to change presets or add more.
+
 import numpy as np
 import plotly.graph_objects as go
 
-rho_L, rho_R = 0.6, 0.2
-c_L, c_R = 1 - 2*rho_L, 1 - 2*rho_R
-s = (rho_L*(1 - rho_L) - rho_R*(1 - rho_R)) / (rho_L - rho_R)
+# flux
+f = lambda r: r * (1 - r)
 
-x0_left = np.linspace(-2, 0, 12)
-x0_right = np.linspace(0, 2, 12)
-t = np.linspace(0, 2, 50)
+# presets: (label, rho_L, rho_R)
+presets = [
+    ("Moving shock (0.6,0.2)", 0.6, 0.2),
+    ("Stationary (0.8,0.2)", 0.8, 0.2),
+    ("Left-moving shock (0.2,0.6)", 0.2, 0.6)
+]
 
-fig = go.Figure()
+# pick preset index to show initially
+preset_index = 0
+rho_L, rho_R = presets[preset_index][1], presets[preset_index][2]
 
-# Left characteristics
-for x0 in x0_left:
-    fig.add_trace(go.Scatter(x=x0 + c_L*t, y=t, mode='lines',
-                             line=dict(color='royalblue', width=1), showlegend=False))
-# Right characteristics
-for x0 in x0_right:
-    fig.add_trace(go.Scatter(x=x0 + c_R*t, y=t, mode='lines',
-                             line=dict(color='royalblue', width=1), showlegend=False))
+# grid
+x0_vals = np.linspace(-2.0, 2.0, 41)
+rho0 = np.where(x0_vals < 0, rho_L, rho_R)
+c_vals = 1 - 2 * rho0
 
-# Shock line
-fig.add_trace(go.Scatter(x=s*t, y=t, mode='lines',
-                         line=dict(color='red', width=3), name=f'Shock: s={s:.2f}'))
+t_max = 2.0
+n_frames = 36
+t_frames = np.linspace(0, t_max, n_frames)
+
+# Build frames for the chosen preset
+frames = []
+for k, tk in enumerate(t_frames):
+    data = []
+    for i, x0 in enumerate(x0_vals):
+        xs = (x0 + c_vals[i]*np.linspace(0, tk, 20)).tolist()
+        ts = np.linspace(0, tk, 20).tolist()
+        data.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=1), showlegend=False))
+    # shock speed for this preset
+    if np.isclose(rho_L, rho_R):
+        s = 1 - 2 * rho_L
+    else:
+        s = (f(rho_L) - f(rho_R)) / (rho_L - rho_R)
+    data.append(go.Scatter(x=[s, s], y=[0, tk], mode='lines', line=dict(color='red', width=3), name='Shock'))
+    frames.append(go.Frame(data=data, name=str(k)))
+
+fig = go.Figure(frames=frames)
+fig.add_traces(frames[0].data)
+
+# slider
+steps = []
+for i, t in enumerate(t_frames):
+    steps.append(dict(method="animate",
+                      args=[[str(i)], dict(mode="immediate", frame=dict(duration=50, redraw=True), transition=dict(duration=0))],
+                      label=f"{t:.2f}"))
+sliders = [dict(active=0, pad={"t": 30}, steps=steps, currentvalue={"prefix":"t = "})]
+
+# dropdown for presets (simple: switch title & users can edit presets in code)
+updatemenus = [
+    dict(type="buttons",
+         direction="down",
+         showactive=True,
+         x=1.05,
+         xanchor="left",
+         y=0.8,
+         buttons=[dict(label=presets[i][0],
+                       method="animate",
+                       args=[[str(0)], dict(frame={"duration": 1, "redraw": True}, mode="immediate")]) for i in range(len(presets))])
+]
 
 fig.update_layout(
-    title=f"Moving Shock (ρ_L={rho_L}, ρ_R={rho_R},  s={s:.2f})",
-    xaxis_title="x", yaxis_title="t",
-    yaxis=dict(autorange='reversed'),
-    width=720, height=480
+    title=f"Characteristics & Moving Shock — preset: {presets[preset_index][0]}",
+    xaxis_title="x",
+    yaxis_title="t",
+    yaxis=dict(autorange='reversed', range=[t_max, 0]),
+    sliders=sliders,
+    updatemenus=updatemenus,
+    width=820, height=520
 )
+
 fig.show()
 ```
