@@ -1,5 +1,5 @@
 ---
-title: "Level 5 — Hyperbolic PDEs: Wave Equation"
+title: "Level 5 — Hyperbolic PDEs"
 format:
   html:
     math: mathjax
@@ -584,14 +584,8 @@ That’s amazing — how a simple conservation law captures such complex behavio
 
 **Acharya:** That’s the beauty of hyperbolic equations — they describe how *information* and *discontinuities* propagate in nature.  
 
----
-title: "Shock Waves (Dialogues): Burgers' Equation Example"
-format:
-  html:
-    math: mathjax
----
 
-## 🚦 Shock Waves — Pavni & Acharya Explore an Example
+## 🚦 Shock Waves 
 
 **Pavni:** Acharya, we saw how nonlinear advection can either *spread out* into a rarefaction or *pile up* into a shock. Can we work through a concrete example — step by step — and actually *see* the shock form?
 
@@ -812,7 +806,7 @@ else:
     s = (fL - fR) / (rho_L - rho_R)
 
 # plotting grid
-x0 = np.linspace(-2.5, 2.5, 201)   # dense sampling
+x0 = np.linspace(-2.5, 2.5, 101)   # dense sampling
 rho0 = np.where(x0 < 0, rho_L, rho_R)
 a_vals = a(rho0)
 
