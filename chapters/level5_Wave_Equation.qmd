@@ -802,7 +802,7 @@ else:
     s = (fL - fR) / (rho_L - rho_R)
 
 # plotting grid
-x0 = np.linspace(-2.5, 2.5, 401)   # dense sampling
+x0 = np.linspace(-2.5, 2.5, 301)   # dense sampling
 rho0 = np.where(x0 < 0, rho_L, rho_R)
 a_vals = a(rho0)
 
@@ -818,10 +818,12 @@ for k, tk in enumerate(t_frames):
     for i, xinit in enumerate(x0):
         xs = xinit + a_vals[i] * np.linspace(0, tk, 20)
         ts = np.linspace(0, tk, 20)
-        data.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=0.8), showlegend=False))
+        data.append(go.Scatter(x=xs, y=ts, mode='lines',
+                               line=dict(color='royalblue', width=0.8), showlegend=False))
     # shock line x = s * t (from t=0..tk)
     data.append(go.Scatter(x=s * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
-                           mode='lines', line=dict(color='red', width=3), name=f's(t)= {s:.3f}*t'))
+                           mode='lines', line=dict(color='red', width=3),
+                           name=f's(t)= {s:.3f}*t'))
     frames.append(go.Frame(data=data, name=str(k)))
 
 fig = go.Figure(frames=frames)
@@ -836,8 +838,10 @@ sliders = [dict(active=0, pad={"t": 30}, steps=steps, currentvalue={"prefix":"t 
 
 fig.update_layout(
     title=f"Riemann problem: rho_L={rho_L}, rho_R={rho_R}, shock speed s={s:.3f}",
-    xaxis_title="x", yaxis_title="t",
-    yaxis=dict(autorange='reversed', range=[t_max, 0]),
+    xaxis_title="x",
+    yaxis_title="t",
+    # Make time increase upward: set y-range from 0 (bottom) to t_max (top)
+    yaxis=dict(autorange=False, range=[0, t_max]),
     sliders=sliders,
     updatemenus=[dict(type="buttons", showactive=False,
                       buttons=[dict(label="Play", method="animate",
