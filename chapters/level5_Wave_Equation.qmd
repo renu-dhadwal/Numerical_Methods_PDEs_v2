@@ -583,7 +583,6 @@ If we reverse the situation — slower cars behind faster ones — the character
 That’s amazing — how a simple conservation law captures such complex behavior.
 
 **Acharya:** That’s the beauty of hyperbolic equations — they describe how *information* and *discontinuities* propagate in nature.  
-Next, we’ll explore how to capture all this using **numerical methods** — because analytic solutions won’t always be possible.
 
 ---
 title: "Shock Waves (Dialogues): Burgers' Equation Example"
@@ -643,7 +642,6 @@ Below is an interactive figure: each line is a characteristic starting from an i
 The slider controls the time up to which characteristics are drawn; you can also play the animation to see characteristics approach and intersect the shock.  
 The red vertical line shows the shock position $x=s(t)$ (here $s(t)=0$ for our chosen values), and the thin colored fan shows characteristics.
 
-> **Note:** This plot uses Plotly and runs interactively in HTML output (works in your Quarto book). It will not be interactive in the PDF export — PDF gets a static snapshot.
 
 ```{python}
 #| echo: false
