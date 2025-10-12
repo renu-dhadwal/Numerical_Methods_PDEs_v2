@@ -1,4 +1,4 @@
-project:
+﻿project:
   type: book
   output-dir: docs
 
@@ -23,30 +23,22 @@ format:
     toc: true
     number-sections: true
     css: styles.css
-    # If you don't want raw LaTeX source blocks to appear in the HTML,
-    # prefer embedding pre-rendered images (see instructions below).
+
   pdf:
     documentclass: book
     latex-engine: xelatex
     keep-tex: false
+    include-in-header: |
+      % LaTeX packages used for PDF/TikZ rendering
+      \usepackage{tikz}
+      \usetikzlibrary{arrows.meta,shapes,positioning}
+      \usepackage{amsmath,amssymb}
 
 execute:
-  enabled: true         # allow code execution when needed
-  echo: false           # don't show executed code by default
+  enabled: true
+  echo: false
 
-# Header includes for LaTeX builds (TikZ package) so Quarto can compile TikZ blocks.
-# When Quarto renders to PDF it will use these; when rendering HTML, Quarto can
-# produce a small graphic (SVG/PNG) from the LaTeX compilation and embed it.
-header-includes:
-  - \usepackage{tikz}
-  - \usetikzlibrary{arrows.meta,shapes,positioning}
-  - \usepackage{amsmath,amssymb}
-
-# Optional: let Quarto run LaTeX to render standalone tikz blocks to images.
-# (Quarto will call the LaTeX engine when it sees {tikz} blocks in QMD.)
 render:
   tikz:
-    # image format to produce for HTML (svg or png). svg preferred for crispness.
     format: svg
-    # for svg output use the same latex-engine as PDF:
     latex-engine: xelatex
