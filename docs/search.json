@@ -274,7 +274,7 @@
     "href": "chapters/level5_Wave_Equation.html#interactive-exploration-shock-vs-rarefaction",
     "title": "Interactive Shock Formation in Burgers’ Equation",
     "section": "6.13 🚗 Interactive Exploration — Shock vs Rarefaction",
-    "text": "6.13 🚗 Interactive Exploration — Shock vs Rarefaction\nAcharya: Let’s play! Try changing the left and right densities using the sliders below.\nYou’ll see how the characteristics behave — whether they collide (shock) or spread out (rarefaction).\n\n\n\nInteractive plot: adjust densities to see shocks or rarefactions form.",
+    "text": "6.13 🚗 Interactive Exploration — Shock vs Rarefaction\nAcharya: Let’s play! Try changing the left and right densities using the sliders below.\nYou’ll see how the characteristics behave — whether they collide (shock) or spread out (rarefaction).",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Shock Waves (Dialogues): Burgers' Equation Example</span>"
     ]

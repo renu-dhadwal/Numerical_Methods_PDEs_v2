@@ -649,62 +649,78 @@ format:
 You’ll see how the characteristics behave — whether they *collide* (shock) or *spread out* (rarefaction).
 
 ```{python}
+#| eval: false
 #| echo: false
 #| warning: false
-#| fig-cap: "Interactive plot: adjust densities to see shocks or rarefactions form."
-
+# interactive shock/rarefaction explorer (Plotly + ipywidgets)
 import numpy as np
 import plotly.graph_objects as go
 import ipywidgets as widgets
-from ipywidgets import interact
+from IPython.display import display, clear_output
 
-# Flux function
-f = lambda rho: rho * (1 - rho)
+# flux
+f = lambda r: r * (1 - r)
 
-def plot_characteristics(rho_L=0.2, rho_R=0.8):
-    # Characteristic speeds
-    c_L = 1 - 2 * rho_L
-    c_R = 1 - 2 * rho_R
-    
-    # Shock speed (Rankine-Hugoniot)
-    s = (f(rho_L) - f(rho_R)) / (rho_L - rho_R)
-    
-    # Grid setup
-    x0_vals = np.linspace(-2, 2, 21)
+def make_figure(rho_L, rho_R, t_max=2.0):
+    # Prepare grid
+    x0_vals = np.linspace(-2.0, 2.0, 41)
     rho0 = np.where(x0_vals < 0, rho_L, rho_R)
     c_vals = 1 - 2 * rho0
-    t = np.linspace(0, 2, 100)
-    
-    # Build figure
+    t = np.linspace(0, t_max, 200)
+
+    # shock speed
+    if np.isclose(rho_L, rho_R):
+        s = 1 - 2 * rho_L   # same state -> characteristic speed
+    else:
+        s = (f(rho_L) - f(rho_R)) / (rho_L - rho_R)
+
     fig = go.Figure()
-    
-    # Plot characteristics
+
+    # Characteristics
     for i, x0 in enumerate(x0_vals):
         x = x0 + c_vals[i] * t
-        fig.add_trace(go.Scatter(
-            x=x, y=t, mode='lines', line=dict(width=1, color='royalblue'), showlegend=False
-        ))
-    
-    # Plot shock line
-    x_shock = s * t
-    fig.add_trace(go.Scatter(
-        x=x_shock, y=t, mode='lines', line=dict(color='red', width=3), name='Shock'
-    ))
-    
-    # Annotations
-    fig.update_layout(
-        title=f"ρ_L = {rho_L:.2f}, ρ_R = {rho_R:.2f}, Shock speed s = {s:.2f}",
-        xaxis_title="x",
-        yaxis_title="t",
-        yaxis=dict(autorange='reversed', range=[2,0]),
-        width=700, height=500,
-        showlegend=True
-    )
-    
-    fig.show()
+        fig.add_trace(go.Scatter(x=x, y=t, mode='lines',
+                                 line=dict(color='royalblue', width=1),
+                                 showlegend=False))
 
-# Interactive sliders
-interact(plot_characteristics,
-         rho_L=widgets.FloatSlider(value=0.2, min=0.0, max=1.0, step=0.05, description='ρ_L'),
-         rho_R=widgets.FloatSlider(value=0.8, min=0.0, max=1.0, step=0.05, description='ρ_R'));
+    # Shock trajectory (red)
+    fig.add_trace(go.Scatter(x=s * t, y=t, mode='lines',
+                             line=dict(color='red', width=3),
+                             name=f's(t): s={s:.3f}'))
+
+    # Layout (flip y so origin at bottom visually)
+    fig.update_layout(
+        title=f'Characteristics (ρ_L={rho_L:.2f},  ρ_R={rho_R:.2f}) — shock speed s={s:.3f}',
+        xaxis_title='x',
+        yaxis_title='t',
+        yaxis=dict(autorange='reversed', range=[t_max, 0]),
+        width=760, height=520,
+        template='simple_white'
+    )
+    return fig
+
+# Widgets
+rho_L_slider = widgets.FloatSlider(value=0.2, min=0.0, max=1.0, step=0.01, description='ρ_L')
+rho_R_slider = widgets.FloatSlider(value=0.8, min=0.0, max=1.0, step=0.01, description='ρ_R')
+tmax_slider  = widgets.FloatSlider(value=2.0, min=0.5, max=5.0, step=0.1, description='t_max')
+
+out = widgets.Output()
+
+def update_plot(change=None):
+    # clear and draw into the output widget
+    with out:
+        clear_output(wait=True)
+        fig = make_figure(rho_L_slider.value, rho_R_slider.value, t_max=tmax_slider.value)
+        fig.show()
+
+# Attach observers
+rho_L_slider.observe(update_plot, names='value')
+rho_R_slider.observe(update_plot, names='value')
+tmax_slider.observe(update_plot, names='value')
+
+# Display controls + initial figure
+controls = widgets.HBox([rho_L_slider, rho_R_slider, tmax_slider])
+display(widgets.VBox([controls, out]))
+# initial draw
+update_plot()
 ```
