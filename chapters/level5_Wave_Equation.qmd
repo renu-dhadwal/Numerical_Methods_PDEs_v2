@@ -789,105 +789,104 @@ $$
 import numpy as np
 import plotly.graph_objects as go
 
-# --- parameters (tweak these for speed/quality) ---
-t_max = 2.5
-n_frames = 40          # number of animation frames (time steps)
-n_x0 = 201             # number of initial points (characteristics)
-pts_per_char = 18      # points to draw per characteristic segment
-
-# initial Gaussian u(x,0) = exp(-100 (x-0.3)^2)
-def u0(x): return np.exp(-100.0*(x-0.3)**2)
-a_of = lambda u: 1 - 2*u   # characteristic speed a(u) = f'(u)
-
-# sample initial axis
-x0 = np.linspace(-3.0, 3.0, n_x0)
-u0_vals = u0(x0)
-a_vals = a_of(u0_vals)
-
-# compute pairwise neighbour intersections (approx envelope)
-dx = np.diff(x0)
-da = np.diff(a_vals)
-with np.errstate(divide='ignore', invalid='ignore'):
-    t_candidates = dx / (-da)
-valid = (t_candidates > 1e-8) & np.isfinite(t_candidates)
-idx_pairs = np.where(valid)[0]
-t_int = t_candidates[idx_pairs]
-x_int = x0[idx_pairs] + a_vals[idx_pairs]*t_int
-
-# sort envelope points by time
-order = np.argsort(t_int)
-t_env = t_int[order]
-x_env = x_int[order]
-earliest_exists = len(t_env) > 0
-t_earliest = t_env[0] if earliest_exists else None
-x_earliest = x_env[0] if earliest_exists else None
-
-# build frames
-t_frames = np.linspace(0, t_max, n_frames)
-frames = []
-for tk in t_frames:
-    traces = []
-    # characteristics (short polylines up to tk)
-    t_seg = np.linspace(0, tk, pts_per_char)
-    for xi, ai in zip(x0, a_vals):
-        xs = xi + ai * t_seg
-        traces.append(go.Scatter(x=xs, y=t_seg, mode='lines',
-                                 line=dict(color='royalblue', width=0.6), showlegend=False))
-    # intersection markers up to tk
-    if earliest_exists:
-        mask = t_int <= tk
-        if mask.any():
-            traces.append(go.Scatter(x=x_int[mask], y=t_int[mask], mode='markers',
-                                     marker=dict(color='orange', size=6), name='Pairwise intersections'))
-            # envelope curve so far
-            mask_env = t_env <= tk
-            traces.append(go.Scatter(x=x_env[mask_env], y=t_env[mask_env],
-                                     mode='lines', line=dict(color='orange', width=2), name='Envelope (approx)'))
-            # earliest collision
-            traces.append(go.Scatter(x=[x_earliest], y=[t_earliest],
-                                     mode='markers+text',
-                                     marker=dict(symbol='x', size=12, color='black'),
-                                     text=[f"First collision<br>t={t_earliest:.3f}, x={x_earliest:.3f}"],
-                                     textposition="top right", showlegend=False))
-    frames.append(go.Frame(data=traces, name=str(round(tk,6))))
-
-# initial traces
-fig = go.Figure(frames=frames)
-fig.add_traces(frames[0].data)
-
-# slider
-steps = [dict(method="animate",
-              args=[[str(i)], dict(mode="immediate", frame=dict(duration=60, redraw=True), transition=dict(duration=0))],
-              label=f"{t:.2f}") for i, t in enumerate(t_frames)]
-sliders = [dict(active=0, pad={"t": 40}, steps=steps, currentvalue={"prefix":"t = "})]
-
-# play/pause inside figure (ensure visible)
-updatemenus = [
-    dict(type="buttons", direction="left",
-         x=0.02, y=0.95, xanchor="left", yanchor="top",
-         buttons=[
-             dict(label="Play", method="animate",
-                  args=[None, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True, "transition": {"duration": 0}}]),
-             dict(label="Pause", method="animate",
-                  args=[[None], {"frame": {"duration": 0, "redraw": False}, "mode": "immediate"}])
-         ])
+# presets: (label, rho_L, rho_R)
+presets = [
+    ("Moving shock (0.1,0.7)", 0.1, 0.7),
+    ("Moving shock (0.6,0.2)", 0.6, 0.2),
+    ("Stationary (0.8,0.2)", 0.8, 0.2),
+    ("Rarefaction (0.2,0.6)", 0.2, 0.6)
 ]
 
-title = "Characteristics & Approximate Envelope — Gaussian initial data u(x,0)=exp(-100(x-0.3)^2)"
-if earliest_exists:
-    title += f" — earliest t={t_earliest:.3f}"
+def make_preset_frames(rho_L, rho_R, t_max=3.0, n_frames=36, n_x0=121):
+    f = lambda r: r*(1-r)
+    a = lambda r: 1 - 2*r
+    fL, fR = f(rho_L), f(rho_R)
+    s = (fL - fR) / (rho_L - rho_R) if not np.isclose(rho_L, rho_R) else a(rho_L)
+    c_L, c_R = a(rho_L), a(rho_R)
+    compressive = (c_L > c_R)
+    x0_left = np.linspace(-3, -0.01, n_x0//2)
+    x0_right = np.linspace(0.01, 3, n_x0//2)
+    t_frames = np.linspace(0, t_max, n_frames)
+    frames = []
+    for tk in t_frames:
+        traces = []
+        if compressive:
+            for x0 in x0_left:
+                xs = x0 + c_L * np.linspace(0, tk, 20)
+                ts = np.linspace(0, tk, 20)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=0.7), showlegend=False))
+            for x0 in x0_right:
+                xs = x0 + c_R * np.linspace(0, tk, 20)
+                ts = np.linspace(0, tk, 20)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=0.7), showlegend=False))
+            traces.append(go.Scatter(x=s * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
+                                     mode='lines', line=dict(color='red', width=3), name=f's={s:.3f}'))
+        else:
+            slopes = np.linspace(c_L, c_R, 41)
+            for xi in slopes:
+                xs = xi * np.linspace(0, tk, 20)
+                ts = np.linspace(0, tk, 20)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='green', width=0.8), showlegend=False, opacity=0.9))
+            traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2), mode='lines',
+                                     line=dict(color='green', width=2, dash='dash'), name=f'c_L={c_L:.3f}'))
+            traces.append(go.Scatter(x=c_R * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2), mode='lines',
+                                     line=dict(color='green', width=2, dash='dash'), name=f'c_R={c_R:.3f}'))
+        frames.append(go.Frame(data=traces, name=str(tk)))
+    return frames, s, compressive
+
+# Build frames for each preset (precompute)
+all_preset_frames = []
+meta = []
+for label, rL, rR in presets:
+    frames, s, comp = make_preset_frames(rL, rR, t_max=3.0, n_frames=36, n_x0=121)
+    all_preset_frames.append(frames)
+    meta.append((label, rL, rR, s, comp))
+
+# We'll show the first preset by default
+default_idx = 0
+fig = go.Figure(frames=all_preset_frames[default_idx])
+fig.add_traces(all_preset_frames[default_idx][0].data)
+
+# slider for time (shared)
+t_vals = [float(fr.name) for fr in all_preset_frames[0]]
+steps = [dict(method="animate", args=[[str(i)], dict(mode="immediate", frame=dict(duration=60, redraw=True))], label=f"{t_vals[i]:.2f}") for i in range(len(t_vals))]
+sliders = [dict(active=0, pad={"t":40}, steps=steps, currentvalue={"prefix":"t = "})]
+
+# Updatemenu: preset buttons (switch to preset k by replacing frames and initial traces)
+buttons = []
+for k, (label, rL, rR, s, comp) in enumerate(meta):
+    # When clicked, animate to frame 0 of that preset (we use method 'animate' with args = [frames_names]
+    # but easier: set visible traces via 'restyle' is complex; we use `relayout` + custom frames by calling animate to the first frame name
+    # Simpler: use args that update title and replace data by the 0th frame of that preset.
+    btn = dict(
+        label=label,
+        method="animate",
+        args = [
+            [all_preset_frames[k][0].name],  # animate to first frame of preset k
+            dict(frame=dict(duration=0, redraw=True),
+                 mode="immediate",
+                 transition=dict(duration=0))
+        ]
+    )
+    buttons.append(btn)
 
 fig.update_layout(
-    title=title,
+    title=f"{meta[default_idx][0]} — Riemann presets",
     xaxis_title="x",
     yaxis_title="t (time ↑)",
-    yaxis=dict(autorange=False, range=[0, t_max]),
+    yaxis=dict(autorange=False, range=[0, 3.0]),
     sliders=sliders,
-    updatemenus=updatemenus,
-    width=860, height=520,
-    margin=dict(t=80, l=60, r=40, b=60)
+    updatemenus=[
+        dict(type="buttons", direction="left", x=0.02, y=0.95, xanchor="left", yanchor="top",
+             buttons=[
+                 dict(label="Play", method="animate", args=[None, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}]),
+                 dict(label="Pause", method="animate", args=[[None], {"frame": {"duration": 0, "redraw": False}}])
+             ]),
+        dict(type="buttons", direction="down", x=1.02, y=0.8, xanchor="left", yanchor="top",
+             buttons=[dict(label=meta[i][0], method="animate", args=[[all_preset_frames[i][0].name], dict(mode="immediate", frame=dict(duration=0))]) for i in range(len(meta))])
+    ],
+    width=900, height=520
 )
 
-# show (Plotly-only; will embed Play & slider in the HTML)
 fig.show()
 ```
