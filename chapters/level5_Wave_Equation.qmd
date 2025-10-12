@@ -797,95 +797,116 @@ presets = [
     ("Rarefaction (0.2,0.6)", 0.2, 0.6)
 ]
 
-def make_preset_frames(rho_L, rho_R, t_max=3.0, n_frames=36, n_x0=121):
+def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_x0=101):
+    """Return a list of frames for a preset. Frame names are unique: f'p{preset_idx}_f{frame_index}'."""
     f = lambda r: r*(1-r)
     a = lambda r: 1 - 2*r
     fL, fR = f(rho_L), f(rho_R)
     s = (fL - fR) / (rho_L - rho_R) if not np.isclose(rho_L, rho_R) else a(rho_L)
     c_L, c_R = a(rho_L), a(rho_R)
     compressive = (c_L > c_R)
-    x0_left = np.linspace(-3, -0.01, n_x0//2)
-    x0_right = np.linspace(0.01, 3, n_x0//2)
+
+    # sampling tuned for speed (adjust n_x0 if you want denser)
+    x0_left = np.linspace(-2.5, -0.01, n_x0//2)
+    x0_right = np.linspace(0.01, 2.5, n_x0//2)
     t_frames = np.linspace(0, t_max, n_frames)
+
     frames = []
-    for tk in t_frames:
+    for k, tk in enumerate(t_frames):
         traces = []
         if compressive:
+            # left & right characteristics up to tk
             for x0 in x0_left:
-                xs = x0 + c_L * np.linspace(0, tk, 20)
-                ts = np.linspace(0, tk, 20)
-                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=0.7), showlegend=False))
+                xs = x0 + c_L * np.linspace(0, tk, 18)
+                ts = np.linspace(0, tk, 18)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines',
+                                         line=dict(color='royalblue', width=0.8), showlegend=False))
             for x0 in x0_right:
-                xs = x0 + c_R * np.linspace(0, tk, 20)
-                ts = np.linspace(0, tk, 20)
-                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='royalblue', width=0.7), showlegend=False))
+                xs = x0 + c_R * np.linspace(0, tk, 18)
+                ts = np.linspace(0, tk, 18)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines',
+                                         line=dict(color='royalblue', width=0.8), showlegend=False))
+            # shock
             traces.append(go.Scatter(x=s * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
                                      mode='lines', line=dict(color='red', width=3), name=f's={s:.3f}'))
         else:
-            slopes = np.linspace(c_L, c_R, 41)
+            slopes = np.linspace(c_L, c_R, 31)
             for xi in slopes:
-                xs = xi * np.linspace(0, tk, 20)
-                ts = np.linspace(0, tk, 20)
-                traces.append(go.Scatter(x=xs, y=ts, mode='lines', line=dict(color='green', width=0.8), showlegend=False, opacity=0.9))
-            traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2), mode='lines',
-                                     line=dict(color='green', width=2, dash='dash'), name=f'c_L={c_L:.3f}'))
-            traces.append(go.Scatter(x=c_R * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2), mode='lines',
-                                     line=dict(color='green', width=2, dash='dash'), name=f'c_R={c_R:.3f}'))
-        frames.append(go.Frame(data=traces, name=str(tk)))
-    return frames, s, compressive
+                xs = xi * np.linspace(0, tk, 18)
+                ts = np.linspace(0, tk, 18)
+                traces.append(go.Scatter(x=xs, y=ts, mode='lines',
+                                         line=dict(color='green', width=0.8), showlegend=False, opacity=0.9))
+            # bounding characteristics
+            traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
+                                     mode='lines', line=dict(color='green', width=2, dash='dash'),
+                                     name=f'c_L={c_L:.3f}'))
+            traces.append(go.Scatter(x=c_R * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
+                                     mode='lines', line=dict(color='green', width=2, dash='dash'),
+                                     name=f'c_R={c_R:.3f}'))
 
-# Build frames for each preset (precompute)
-all_preset_frames = []
-meta = []
-for label, rL, rR in presets:
-    frames, s, comp = make_preset_frames(rL, rR, t_max=3.0, n_frames=36, n_x0=121)
-    all_preset_frames.append(frames)
-    meta.append((label, rL, rR, s, comp))
+        frame_name = f"p{preset_idx}_f{k}"
+        frames.append(go.Frame(data=traces, name=frame_name))
+    return frames, s, compressive, t_frames
 
-# We'll show the first preset by default
+# Precompute frames for all presets and keep metadata
+all_frames = []
+preset_meta = []
+for i, (label, rL, rR) in enumerate(presets):
+    frames_i, s_i, comp_i, t_frames = make_preset_frames(rL, rR, i, t_max=3.0, n_frames=28, n_x0=101)
+    all_frames.extend(frames_i)
+    preset_meta.append({"label": label, "rho_L": rL, "rho_R": rR, "s": s_i, "compressive": comp_i, "first_frame_name": frames_i[0].name})
+
+# Choose default preset index to display at load
 default_idx = 0
-fig = go.Figure(frames=all_preset_frames[default_idx])
-fig.add_traces(all_preset_frames[default_idx][0].data)
 
-# slider for time (shared)
-t_vals = [float(fr.name) for fr in all_preset_frames[0]]
-steps = [dict(method="animate", args=[[str(i)], dict(mode="immediate", frame=dict(duration=60, redraw=True))], label=f"{t_vals[i]:.2f}") for i in range(len(t_vals))]
-sliders = [dict(active=0, pad={"t":40}, steps=steps, currentvalue={"prefix":"t = "})]
+# Build figure with ALL frames
+fig = go.Figure(frames=all_frames)
 
-# Updatemenu: preset buttons (switch to preset k by replacing frames and initial traces)
-buttons = []
-for k, (label, rL, rR, s, comp) in enumerate(meta):
-    # When clicked, animate to frame 0 of that preset (we use method 'animate' with args = [frames_names]
-    # but easier: set visible traces via 'restyle' is complex; we use `relayout` + custom frames by calling animate to the first frame name
-    # Simpler: use args that update title and replace data by the 0th frame of that preset.
-    btn = dict(
-        label=label,
-        method="animate",
-        args = [
-            [all_preset_frames[k][0].name],  # animate to first frame of preset k
-            dict(frame=dict(duration=0, redraw=True),
-                 mode="immediate",
-                 transition=dict(duration=0))
-        ]
-    )
-    buttons.append(btn)
+# Add initial traces from default preset's first frame
+fig.add_traces([trace for trace in all_frames[0].data])
 
+# Build slider (time) based on the default preset's t_frames length
+# We will use frame names of the default preset to control animation steps
+n_default_frames = len([fr for fr in all_frames if fr.name.startswith(f"p{default_idx}_f")])
+# find those frame names in order
+default_frame_names = [f"p{default_idx}_f{k}" for k in range(n_default_frames)]
+
+steps = [dict(method="animate",
+              args=[[name], dict(mode="immediate", frame=dict(duration=60, redraw=True), transition=dict(duration=0))],
+              label=f"{k}") for k, name in enumerate(default_frame_names)]
+sliders = [dict(active=0, pad={"t":40}, steps=steps, currentvalue={"prefix":"frame: "})]
+
+# Updatemenu: Play/Pause inside figure
+updatemenus = [
+    dict(type="buttons", direction="left", x=0.02, y=0.95, xanchor="left", yanchor="top",
+         buttons=[
+             dict(label="Play", method="animate", args=[default_frame_names, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}]),
+             dict(label="Pause", method="animate", args=[[None], {"frame": {"duration": 0, "redraw": False}}])
+         ])
+]
+
+# Preset buttons (switch to that preset's first frame instantly)
+preset_buttons = []
+for idx, meta in enumerate(preset_meta):
+    # animate to that preset's first frame name; then user can press Play to animate through that preset frames
+    preset_buttons.append(dict(label=meta['label'],
+                               method="animate",
+                               args=[[meta['first_frame_name']],  # animate to that single (first) frame
+                                     dict(frame=dict(duration=0, redraw=True), mode="immediate", transition=dict(duration=0))]))
+
+# Add preset-switching menu placed to the right of the plot
+updatemenus.append(dict(type="buttons", direction="down", x=1.02, y=0.8, xanchor="left", yanchor="top", buttons=preset_buttons))
+
+# Layout
 fig.update_layout(
-    title=f"{meta[default_idx][0]} — Riemann presets",
+    title=f"{preset_meta[default_idx]['label']} — Riemann presets",
     xaxis_title="x",
     yaxis_title="t (time ↑)",
     yaxis=dict(autorange=False, range=[0, 3.0]),
     sliders=sliders,
-    updatemenus=[
-        dict(type="buttons", direction="left", x=0.02, y=0.95, xanchor="left", yanchor="top",
-             buttons=[
-                 dict(label="Play", method="animate", args=[None, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}]),
-                 dict(label="Pause", method="animate", args=[[None], {"frame": {"duration": 0, "redraw": False}}])
-             ]),
-        dict(type="buttons", direction="down", x=1.02, y=0.8, xanchor="left", yanchor="top",
-             buttons=[dict(label=meta[i][0], method="animate", args=[[all_preset_frames[i][0].name], dict(mode="immediate", frame=dict(duration=0))]) for i in range(len(meta))])
-    ],
-    width=900, height=520
+    updatemenus=updatemenus,
+    width=900, height=520,
+    margin=dict(t=80, l=60, r=140, b=60)  # leave space on right for preset menu
 )
 
 fig.show()
