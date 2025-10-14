@@ -1,7 +1,8 @@
 ---
 title: "Von Neumann Stability Analysis"
-format: html
-math: mathjax
+format:
+  html:
+    math: mathjax
 ---
 
 **Pavni:** We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method -- the frequency-by-frequency picture.
