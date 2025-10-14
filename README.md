@@ -11,4 +11,5 @@ Files included:
 - chapters/level3_PDE_BCs.qmd
 - chapters/level4_finite_differences.qmd
 - chapters/level5_Wave_Equation.qmd
+- chapters/level6_von_neumann.qmd
 - styles/course.css

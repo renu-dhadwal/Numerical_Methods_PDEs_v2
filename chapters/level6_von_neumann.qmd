@@ -1,0 +1,105 @@
+---
+title: "Von Neumann Stability Analysis "
+format: html
+---
+# Von Neumann Analysis
+**Pavni:** We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method — the frequency-by-frequency picture. Please explain it like I'm an undergrad.
+
+**Acharya:** Sure. The von Neumann method tests how individual sinusoidal (Fourier) modes are amplified (or damped) by a linear, constant-coefficient finite-difference scheme. Because such schemes act independently on each Fourier mode, we can study one mode at a time and require every mode to be non-amplifying.
+
+# Setup: PDE and FTCS scheme
+
+**Acharya:** Start from the 1-D heat equation
+
+$$
+u_t = \alpha\, u_{xx}, \qquad \alpha > 0,
+$$
+
+discretized on a uniform grid $x_j = j\Delta x$, $t_n = n\Delta t$ with the explicit Forward-Time Centered-Space (FTCS) scheme
+
+$$
+u_j^{\,n+1}=u_j^{\,n}+r\big(u_{j+1}^{\,n}-2u_j^{\,n}+u_{j-1}^{\,n}\big),\qquad r:=\alpha\frac{\Delta t}{\Delta x^2}.
+$$
+
+(When studying errors we set $e_j^n = u_j^n - u(x_j,t_n)$.)
+
+# Dialogue: von Neumann derivation
+
+**Pavni:** Why can we assume a Fourier (sinusoidal) form for the error?
+
+**Acharya:** Because the scheme is linear with constant coefficients. That means if you feed a single Fourier mode into the linear update, it stays a Fourier mode — only its amplitude changes. Fourier modes form a basis for discrete periodic signals, so studying one mode suffices.
+
+Assume an error (or mode) of the form
+
+$$
+e_j^n = \xi^n e^{i k x_j},
+$$
+
+where $k$ is the spatial wavenumber and $\xi$ (the amplification factor) is the complex number that tells how the mode's amplitude changes per time step.
+
+**Pavni:** Plug that into the error update.
+
+**Acharya:** The error update mirrors the scheme:
+
+$$
+e_j^{n+1} = e_j^n + r\big(e_{j+1}^n - 2e_j^n + e_{j-1}^n\big).
+$$
+
+Substitute $e_j^n = \xi^n e^{i k x_j}$ and $x_{j\pm1} = x_j \pm \Delta x$:
+
+$$
+\xi^{n+1} e^{i k x_j} = \xi^n e^{i k x_j} + r\xi^n\big(e^{i k (x_j+\Delta x)} - 2 e^{i k x_j} + e^{i k (x_j-\Delta x)}\big).
+$$
+
+Cancel the common nonzero factor $\xi^n e^{i k x_j}$ to get
+
+$$
+\xi = 1 + r\big(e^{i k \Delta x} - 2 + e^{-i k \Delta x}\big).
+$$
+
+Use $e^{i\theta}+e^{-i\theta}=2\cos\theta$ and simplify:
+
+$$
+\xi = 1 + 2r(\cos(k\Delta x)-1) = 1 - 4r\sin^2\!\left(\frac{k\Delta x}{2}\right).
+$$
+
+This is the amplification factor for a Fourier mode of wavenumber $k$.
+
+# Stability condition
+
+**Pavni:** So what condition on $r$ ensures stability?
+
+**Acharya:** For stability we require that every Fourier mode is not amplified, i.e.
+
+$$
+|\xi| \le 1 \quad\text{for all allowed } k.
+$$
+
+For this FTCS case $\xi$ is real, so the requirement reduces to $-1 \le \xi \le 1$. The maximum value of $\xi$ is $1$ (when $\sin^2=0$), so we only need to check the minimum. The minimum occurs when $\sin^2(\cdot)=1$, giving $\xi_{\min}=1-4r$. Requiring $\xi_{\min}\ge-1$ gives
+
+$$
+1-4r \ge -1 \quad\Longrightarrow\quad r \le \tfrac12.
+$$
+
+Hence the von Neumann stability condition is
+
+$$
+\boxed{\qquad \alpha\frac{\Delta t}{\Delta x^2} \le \tfrac12 \quad\Longleftrightarrow\quad \Delta t \le \frac{\Delta x^2}{2\alpha}\,.}
+$$
+
+# Comments and interpretation
+
+- Long (low-frequency) modes have $\sin^2\!\approx (k\Delta x/2)^2$ and so $\xi$ is near $1$; they decay slowly.  
+- Short (high-frequency) modes have $\sin^2$ near $1$ and so are damped more strongly (smaller $\xi$).  
+- If $r>1/2$ then the shortest modes have $\xi<-1$ leading to oscillatory growth and instability.  
+- The von Neumann method is equivalent to the matrix/eigenvalue analysis for linear constant-coefficient schemes on periodic grids. Fourier modes are eigenvectors of circulant matrices; $\xi(k)$ are the eigenvalues.
+
+# Quick exercise
+
+> **Exercise.** For the heat equation FTCS scheme above, compute $\xi(k)$ for the two extreme wavenumbers on a grid with $N$ points and periodic boundary conditions: $k=0$ and the Nyquist mode $k=\pi/\Delta x$. Interpret the values.
+
+**Answer (sketch).** For $k=0$, $\sin^2(0)=0$ so $\xi=1$ (constant mode preserved). For $k=\pi/\Delta x$, $\sin^2(\pi/2)=1$ so $\xi=1-4r$ (the maximal damping; needs $r\le 1/2$ to avoid instability).
+
+
+---
+
