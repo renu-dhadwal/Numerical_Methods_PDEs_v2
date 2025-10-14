@@ -2,28 +2,25 @@
 title: "Von Neumann Stability Analysis "
 format: html
 ---
-# Von Neumann Analysis
-**Pavni:** We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method — the frequency-by-frequency picture. Please explain it like I'm an undergrad.
+**Pavni:** We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method — the frequency-by-frequency picture.
 
 **Acharya:** Sure. The von Neumann method tests how individual sinusoidal (Fourier) modes are amplified (or damped) by a linear, constant-coefficient finite-difference scheme. Because such schemes act independently on each Fourier mode, we can study one mode at a time and require every mode to be non-amplifying.
 
-# Setup: PDE and FTCS scheme
+##  Von-Neumann anlysis for the FTCS scheme
 
-**Acharya:** Start from the 1-D heat equation
+**Acharya:** Let's start from the 1-D heat equation
 
 $$
-u_t = \alpha\, u_{xx}, \qquad \alpha > 0,
+u_t = \alpha^2 \, u_{xx}, \qquad \alpha > 0,
 $$
 
 discretized on a uniform grid $x_j = j\Delta x$, $t_n = n\Delta t$ with the explicit Forward-Time Centered-Space (FTCS) scheme
 
 $$
-u_j^{\,n+1}=u_j^{\,n}+r\big(u_{j+1}^{\,n}-2u_j^{\,n}+u_{j-1}^{\,n}\big),\qquad r:=\alpha\frac{\Delta t}{\Delta x^2}.
+u_j^{\,n+1}=u_j^{\,n}+r\big(u_{j+1}^{\,n}-2u_j^{\,n}+u_{j-1}^{\,n}\big),\qquad r:=\alpha^2 \frac{\Delta t}{\Delta x^2}.
 $$
 
 (When studying errors we set $e_j^n = u_j^n - u(x_j,t_n)$.)
-
-# Dialogue: von Neumann derivation
 
 **Pavni:** Why can we assume a Fourier (sinusoidal) form for the error?
 
@@ -65,7 +62,7 @@ $$
 
 This is the amplification factor for a Fourier mode of wavenumber $k$.
 
-# Stability condition
+## Stability condition
 
 **Pavni:** So what condition on $r$ ensures stability?
 
@@ -87,7 +84,7 @@ $$
 \boxed{\qquad \alpha\frac{\Delta t}{\Delta x^2} \le \tfrac12 \quad\Longleftrightarrow\quad \Delta t \le \frac{\Delta x^2}{2\alpha}\,.}
 $$
 
-# Comments and interpretation
+## Comments and interpretation
 
 - Long (low-frequency) modes have $\sin^2\!\approx (k\Delta x/2)^2$ and so $\xi$ is near $1$; they decay slowly.  
 - Short (high-frequency) modes have $\sin^2$ near $1$ and so are damped more strongly (smaller $\xi$).  
