@@ -1,30 +1,34 @@
 ---
-title: "Von Neumann Stability Analysis "
+title: "Von Neumann Stability Analysis"
 format: html
+math: mathjax
 ---
-**Pavni:** We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method — the frequency-by-frequency picture.
+
+**Pavni:** We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method -- the frequency-by-frequency picture.
 
 **Acharya:** Sure. The von Neumann method tests how individual sinusoidal (Fourier) modes are amplified (or damped) by a linear, constant-coefficient finite-difference scheme. Because such schemes act independently on each Fourier mode, we can study one mode at a time and require every mode to be non-amplifying.
 
-##  Von-Neumann anlysis for the FTCS scheme
+## Von Neumann analysis for the FTCS scheme
 
 **Acharya:** Let's start from the 1-D heat equation
 
 $$
-u_t = \alpha^2 \, u_{xx}, \qquad \alpha > 0,
+u_t = \alpha\,u_{xx}, \qquad \alpha > 0,
 $$
 
-discretized on a uniform grid $x_j = j\Delta x$, $t_n = n\Delta t$ with the explicit Forward-Time Centered-Space (FTCS) scheme
+discretized on a uniform grid $x_j = j\,\Delta x$, $t_n = n\,\Delta t$ with the explicit Forward-Time Centered-Space (FTCS) scheme
 
 $$
-u_j^{\,n+1}=u_j^{\,n}+r\big(u_{j+1}^{\,n}-2u_j^{\,n}+u_{j-1}^{\,n}\big),\qquad r:=\alpha^2 \frac{\Delta t}{\Delta x^2}.
+u_j^{\,n+1} = u_j^{\,n}
+  + r\big(u_{j+1}^{\,n} - 2u_j^{\,n} + u_{j-1}^{\,n}\big),
+  \qquad r := \alpha\,\frac{\Delta t}{\Delta x^2}.
 $$
 
 (When studying errors we set $e_j^n = u_j^n - u(x_j,t_n)$.)
 
 **Pavni:** Why can we assume a Fourier (sinusoidal) form for the error?
 
-**Acharya:** Because the scheme is linear with constant coefficients. That means if you feed a single Fourier mode into the linear update, it stays a Fourier mode — only its amplitude changes. Fourier modes form a basis for discrete periodic signals, so studying one mode suffices.
+**Acharya:** Because the scheme is linear with constant coefficients. That means if you feed a single Fourier mode into the linear update, it stays a Fourier mode -- only its amplitude changes. Fourier modes form a basis for discrete periodic signals, so studying one mode suffices.
 
 Assume an error (or mode) of the form
 
@@ -39,25 +43,30 @@ where $k$ is the spatial wavenumber and $\xi$ (the amplification factor) is the 
 **Acharya:** The error update mirrors the scheme:
 
 $$
-e_j^{n+1} = e_j^n + r\big(e_{j+1}^n - 2e_j^n + e_{j-1}^n\big).
+e_j^{\,n+1}
+  = e_j^{\,n}
+  + r\big(e_{j+1}^{\,n} - 2e_j^{\,n} + e_{j-1}^{\,n}\big).
 $$
 
-Substitute $e_j^n = \xi^n e^{i k x_j}$ and $x_{j\pm1} = x_j \pm \Delta x$:
+Substitute $e_j^{\,n} = \xi^n e^{i k x_j}$ and $x_{j\pm1} = x_j \pm \Delta x$:
 
 $$
-\xi^{n+1} e^{i k x_j} = \xi^n e^{i k x_j} + r\xi^n\big(e^{i k (x_j+\Delta x)} - 2 e^{i k x_j} + e^{i k (x_j-\Delta x)}\big).
+\xi^{n+1} e^{i k x_j}
+  = \xi^n e^{i k x_j}
+  + r\,\xi^n\!\left(e^{i k (x_j+\Delta x)} - 2 e^{i k x_j} + e^{i k (x_j-\Delta x)}\right).
 $$
 
 Cancel the common nonzero factor $\xi^n e^{i k x_j}$ to get
 
 $$
-\xi = 1 + r\big(e^{i k \Delta x} - 2 + e^{-i k \Delta x}\big).
+\xi = 1 + r\!\left(e^{i k \Delta x} - 2 + e^{-i k \Delta x}\right).
 $$
 
-Use $e^{i\theta}+e^{-i\theta}=2\cos\theta$ and simplify:
+Use $e^{i\theta} + e^{-i\theta} = 2\cos\theta$ and simplify:
 
 $$
-\xi = 1 + 2r(\cos(k\Delta x)-1) = 1 - 4r\sin^2\!\left(\frac{k\Delta x}{2}\right).
+\xi = 1 + 2r(\cos(k\Delta x)-1)
+    = 1 - 4r\sin^2\!\left(\frac{k\Delta x}{2}\right).
 $$
 
 This is the amplification factor for a Fourier mode of wavenumber $k$.
@@ -72,239 +81,139 @@ $$
 |\xi| \le 1 \quad\text{for all allowed } k.
 $$
 
-For this FTCS case $\xi$ is real, so the requirement reduces to $-1 \le \xi \le 1$. The maximum value of $\xi$ is $1$ (when $\sin^2=0$), so we only need to check the minimum. The minimum occurs when $\sin^2(\cdot)=1$, giving $\xi_{\min}=1-4r$. Requiring $\xi_{\min}\ge-1$ gives
+For this FTCS case $\xi$ is real, so the requirement reduces to $-1 \le \xi \le 1$.  
+The maximum value of $\xi$ is $1$ (when $\sin^2=0$), so we only need to check the minimum.  
+The minimum occurs when $\sin^2(\cdot)=1$, giving $\xi_{\min}=1-4r$.  
+Requiring $\xi_{\min}\ge -1$ gives
 
 $$
-1-4r \ge -1 \quad\Longrightarrow\quad r \le \tfrac12.
+1 - 4r \ge -1 \quad\Longrightarrow\quad r \le \tfrac12.
 $$
 
 Hence the von Neumann stability condition is
 
 $$
-\boxed{\qquad \alpha\frac{\Delta t}{\Delta x^2} \le \tfrac12 \quad\Longleftrightarrow\quad \Delta t \le \frac{\Delta x^2}{2\alpha}\,.}
+\boxed{
+  \alpha\,\frac{\Delta t}{\Delta x^2} \le \tfrac12
+  \quad\Longleftrightarrow\quad
+  \Delta t \le \frac{\Delta x^2}{2\alpha}.
+}
 $$
 
 ## Comments and interpretation
 
-- Long (low-frequency) modes have $\sin^2\!\approx (k\Delta x/2)^2$ and so $\xi$ is near $1$; they decay slowly.  
-- Short (high-frequency) modes have $\sin^2$ near $1$ and so are damped more strongly (smaller $\xi$).  
-- If $r>1/2$ then the shortest modes have $\xi<-1$ leading to oscillatory growth and instability.  
+- Long (low-frequency) modes have $\sin^2\!\approx (k\Delta x/2)^2$ and so $\xi$ is near 1; they decay slowly.  
+- Short (high-frequency) modes have $\sin^2$ near 1 and are damped more strongly (smaller $\xi$).  
+- If $r>1/2$, the shortest modes have $\xi<-1$ leading to oscillatory growth and instability.  
 - The von Neumann method is equivalent to the matrix/eigenvalue analysis for linear constant-coefficient schemes on periodic grids. Fourier modes are eigenvectors of circulant matrices; $\xi(k)$ are the eigenvalues.
+
+---
 
 # Quick exercise
 
-> **Exercise.** For the heat equation FTCS scheme above, compute $\xi(k)$ for the two extreme wavenumbers on a grid with $N$ points and periodic boundary conditions: $k=0$ and the Nyquist mode $k=\pi/\Delta x$. Interpret the values.
+> **Exercise.**  
+> For the heat-equation FTCS scheme above, compute $\xi(k)$ for the two extreme wavenumbers on a grid with $N$ points and periodic boundary conditions:  
+> $k=0$ and the Nyquist mode $k=\pi/\Delta x$.  
+> Interpret the values.
 
 <details>
 <summary><b>Click to reveal the answer</b></summary>
 
 **Answer (sketch).**  
 For $k=0$, $\sin^2(0)=0$ so $\xi=1$ (constant mode preserved).  
-For $k=\pi/\Delta x$, $\sin^2(\pi/2)=1$ so $\xi=1-4r$ (the maximal damping; needs $r\le 1/2$ to avoid instability).
+For $k=\pi/\Delta x$, $\sin^2(\pi/2)=1$ so $\xi=1-4r$ (maximal damping; needs $r\le 1/2$ for stability).
 </details>
 
-# Von Neumann analysis for the Upwind and Lax–Friedrichs schemes
+---
 
-**Pavni:** Now that we finished the heat equation, can we do von Neumann analysis for a *hyperbolic* equation — say, the linear advection equation?
+## Von Neumann analysis for the Upwind and Lax–Friedrichs schemes
 
-**Acharya:** Perfect next step. Let’s take the simplest hyperbolic PDE:
+**Pavni:** Now that we finished the heat equation, can we do von Neumann analysis for a hyperbolic equation -- say, the linear advection equation?
+
+**Acharya:** Perfect next step. Let's take the simplest hyperbolic PDE:
 
 $$
 u_t + a\,u_x = 0, \qquad a>0.
 $$
 
-The exact solution is a wave that just travels to the right at speed \(a\) without changing shape.
+The exact solution is a wave that travels to the right at speed $a$ without changing shape.
 
 ---
 
-## 1. Upwind scheme
+### 1. Upwind scheme
 
-**Pavni:** Remind me of the upwind finite difference scheme?
+**Pavni:** Remind me of the upwind finite-difference scheme?
 
-**Acharya:** For \(a>0\), we use the backward spatial difference:
-
-$$
-u_j^{n+1} = u_j^n - C (u_j^n - u_{j-1}^n),
-$$
-
-where \(C = a \frac{\Delta t}{\Delta x}\) is the **Courant number**.
-
----
-
-### Step 1 — Assume a Fourier mode
-
-As before, let the error (or a representative mode) be
+**Acharya:** For $a>0$, we use the backward spatial difference:
 
 $$
-e_j^n = \xi^n e^{i k x_j}.
+u_j^{\,n+1} = u_j^{\,n} - C\,(u_j^{\,n} - u_{j-1}^{\,n}),
 $$
 
-Substitute this into the scheme:
+where $C = a\,\frac{\Delta t}{\Delta x}$ is the Courant number.
+
+Assume $e_j^n = \xi^n e^{i k x_j}$ and substitute to obtain
 
 $$
-\xi^{n+1} e^{i k x_j}
-= \xi^n e^{i k x_j} - C \xi^n \big(e^{i k x_j} - e^{i k (x_j - \Delta x)}\big).
+\xi = 1 - C(1 - e^{-i k \Delta x})
+    = 1 - C\!\big(1 - \cos(k\Delta x) + i\sin(k\Delta x)\big).
 $$
 
-Cancel the common factor \( \xi^n e^{i k x_j}\):
+Then
 
 $$
-\xi = 1 - C(1 - e^{-i k \Delta x}).
+|\xi|^2
+  = [1 - C(1-\cos(k\Delta x))]^2 + [C\sin(k\Delta x)]^2
+  = 1 - 2C(1-C)(1-\cos(k\Delta x)).
 $$
 
-Simplify using Euler’s formula \(e^{-i\theta} = \cos\theta - i\sin\theta\):
+Because $1-\cos(\cdot)\ge0$, the scheme is stable if $0\le C\le1$:
 
 $$
-\boxed{\displaystyle
-\xi = 1 - C(1 - \cos(k\Delta x) + i\sin(k\Delta x)).
-}
+\boxed{\,0 \le a\,\frac{\Delta t}{\Delta x} \le 1.\,}
 $$
 
 ---
 
-### Step 2 — Compute $|\xi|$
+### 2. Lax–Friedrichs scheme
 
-We need \( |\xi| \le 1 \) for stability.
-
-Compute the magnitude squared:
+The Lax–Friedrichs scheme is
 
 $$
-|\xi|^2 = [1 - C(1 - \cos(k\Delta x))]^2 + [C\sin(k\Delta x)]^2.
+u_j^{\,n+1}
+  = \tfrac12(u_{j+1}^{\,n}+u_{j-1}^{\,n})
+    - \tfrac{C}{2}(u_{j+1}^{\,n}-u_{j-1}^{\,n}),
 $$
 
-Simplify a bit:
+which gives
 
 $$
-|\xi|^2 = 1 - 2C(1 - \cos(k\Delta x)) + C^2( (1 - \cos(k\Delta x))^2 + \sin^2(k\Delta x)).
+\xi = \cos(k\Delta x) - i\,C\sin(k\Delta x),
+\qquad
+|\xi|^2 = 1 - (1-C^2)\sin^2(k\Delta x).
 $$
 
-But \( (1-\cos\theta)^2 + \sin^2\theta = 2(1 - \cos\theta) \).  
-Hence,
+Stability requires $|C|\le1$:
 
 $$
-|\xi|^2 = 1 - 2C(1 - \cos(k\Delta x)) + 2C^2(1 - \cos(k\Delta x)).
+\boxed{\,|a|\,\frac{\Delta t}{\Delta x} \le 1.\,}
 $$
-
-Simplify further:
-
-$$
-|\xi|^2 = 1 - 2C(1-C)(1 - \cos(k\Delta x)).
-$$
-
----
-
-### Step 3 — Stability condition
-
-Because \(1 - \cos(k\Delta x) \ge 0\), the worst case is when this factor is maximum, i.e. \(k\Delta x = \pi\).  
-So the scheme is stable if
-
-$$
-|\xi|^2 \le 1 \quad \Rightarrow \quad 2C(1-C) \ge 0.
-$$
-
-This requires \(0 \le C \le 1.\)
-
-✅ **Stability condition for upwind scheme:**
-
-$$
-\boxed{\displaystyle 0 \le a\frac{\Delta t}{\Delta x} \le 1.}
-$$
-
----
-
-**Pavni:** That’s the well-known CFL condition!  
-But does $\xi$ have a complex part? So will the amplitude decay?
-
-**Acharya:** Yes — for $0 < C < 1$, $\xi$ has a nonzero imaginary part (phase) and a real part less than 1, meaning the wave both *advects* and *damps*.  
-So upwind is **stable but diffusive** — short waves decay faster.
-
----
-
-## 2. Lax–Friedrichs scheme
-
-**Pavni:** What about the Lax–Friedrichs scheme?
-
-**Acharya:** It’s another explicit method for the same advection equation:
-
-$$
-u_j^{n+1} = \frac{1}{2}(u_{j+1}^n + u_{j-1}^n) - \frac{C}{2}(u_{j+1}^n - u_{j-1}^n),
-$$
-
-with the same Courant number \( C = a \frac{\Delta t}{\Delta x} \).
-
----
-
-### Step 1 — Substitute Fourier mode
-
-Let \( e_j^n = \xi^n e^{i k x_j} \). Substitute into the scheme:
-
-$$
-\xi^{n+1} e^{i k x_j}
-= \frac{1}{2}\xi^n (e^{i k (x_j + \Delta x)} + e^{i k (x_j - \Delta x)}) - \frac{C}{2}\xi^n (e^{i k (x_j + \Delta x)} - e^{i k (x_j - \Delta x)}).
-$$
-
-Cancel \( \xi^n e^{i k x_j} \):
-
-$$
-\xi = \frac{1}{2}(e^{i k \Delta x} + e^{-i k \Delta x}) - \frac{C}{2}(e^{i k \Delta x} - e^{-i k \Delta x}).
-$$
-
-Simplify using trig identities:
-
-$$
-\xi = \cos(k\Delta x) - i C \sin(k\Delta x).
-$$
-
----
-
-### Step 2 — Magnitude condition
-
-Compute
-
-$$
-|\xi|^2 = \cos^2(k\Delta x) + C^2\sin^2(k\Delta x)
-= 1 - (1 - C^2)\sin^2(k\Delta x).
-$$
-
-For stability, require \( |\xi| \le 1 \), i.e. \( |\xi|^2 \le 1 \).  
-This holds for all $k$ **if and only if** \( |C| \le 1. \)
-
-✅ **Stability condition for Lax–Friedrichs:**
-
-$$
-\boxed{|a|\frac{\Delta t}{\Delta x} \le 1.}
-$$
-
----
-
-### Step 3 — Interpretation
-
-**Pavni:** The condition is the same as for upwind. But the form of $\xi$ is different.
-
-**Acharya:** Exactly.  
-- The magnitude $|\xi| < 1$ for all nonzero $k$ → the scheme has **numerical dissipation** (damps all waves).  
-- The imaginary part causes a **phase error** — the wave travels slightly slower than it should.  
-- As $C \to 1$, the scheme becomes less diffusive but still stable.
-
----
 
 <details>
-<summary><b>Optional check</b>: Derive $|\xi|^2$ for both schemes and compare their dissipation.</summary>
+<summary><b>Optional check</b>: small-wavenumber expansions</summary>
 
-For small $k\Delta x$, expand $\sin$ and $\cos$ to second order.  
-You’ll find:
-- **Upwind:** amplitude decays like $e^{-(1-C)(k\Delta x)^2/2}$ (first-order diffusive error).  
-- **Lax–Friedrichs:** decays like $e^{-(1-C^2)(k\Delta x)^2/2}$ (more diffusive).
+For small $k\Delta x$, expand $\sin$ and $\cos$ to second order:
 
-Hence, Lax–Friedrichs is more smoothing — it damps short waves more strongly than upwind.
+- **Upwind:** leading amplitude decay $\sim e^{-(1-C)(k\Delta x)^2/2}$.  
+- **Lax–Friedrichs:** leading amplitude decay $\sim e^{-(1-C^2)(k\Delta x)^2/2}$.
+
+Hence Lax–Friedrichs damps short waves more strongly.
 </details>
 
 ---
 
-**Pavni:** So both methods are stable under the CFL condition $|C|\le1$, but upwind is less diffusive.
+**Pavni:** So both methods are stable under $|C|\le1$, but upwind is less diffusive.
 
-**Acharya:** Right. That’s why upwind is preferred for advection-dominated problems.  
-Von Neumann analysis clearly shows the trade-off between **stability, dissipation, and dispersion**.
+**Acharya:** Exactly -- von Neumann analysis clearly shows the trade-offs among stability, dissipation, and dispersion.
 
 ---
-
