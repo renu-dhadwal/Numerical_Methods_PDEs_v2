@@ -142,7 +142,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html",
     "href": "chapters/level5_Wave_Equation.html",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "",
     "text": "6.1 🚗 The Traffic Flow Model\nPavni: Acharya, we’ve studied the heat equation. From theory we know that it seems to spread information everywhere. Does every PDE behave like that?\nAcharya: That’s a good observation, Pavni. Not every PDE diffuses information infinitely fast like the parabolic heat equation.\nSome equations describe situations where information or disturbances travel at a finite speed — like waves or moving traffic.\nPavni: So these are called hyperbolic equations?\nAcharya: Exactly. Hyperbolic equations are the mathematical way of describing signals or quantities that move through a medium rather than diffuse.\nFor example — a vibrating string, sound waves in air, or even cars moving on a road.\nPavni: Interesting! But why are they so different from diffusion equations like the heat equation?\nAcharya: Because diffusion equations allow disturbances to spread instantaneously everywhere — a small change at one point affects all others immediately.\nThat’s called infinite propagation speed.\nBut hyperbolic equations restrict influence to certain paths in the \\((x,t)\\)-plane, called characteristics.\nInformation travels only along these paths at a finite speed.\nPavni: That sounds more physical. After all, signals, sound, or cars don’t move infinitely fast!\nAcharya: Exactly. Let’s begin with a simple and familiar example — traffic flow.\nIt beautifully captures the idea of conservation and finite-speed motion.\nPavni: So, where do we begin?\nAcharya: Let’s define some quantities.\nPavni: So \\(q\\) must depend on both how many cars there are and how fast they move?\nAcharya: Precisely. That leads us to the simple physical relation: \\[\nq = \\rho v.\n\\]",
     "crumbs": [
@@ -152,7 +152,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#the-traffic-flow-model",
     "href": "chapters/level5_Wave_Equation.html#the-traffic-flow-model",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "",
     "text": "\\(\\rho(x,t)\\): density of cars at position \\(x\\) and time \\(t\\) (cars/km)\n\n\\(v(x,t)\\): average speed of cars (km/h)\n\n\\(q(x,t)\\): flow rate — number of cars passing a point per unit time (cars/hour)\n\n\n\n\n\n💡 Why \\(q = \\rho v\\)?\n\nIf a small segment of road of length \\(\\Delta x\\) contains \\(\\rho \\, \\Delta x\\) cars,\nand each car moves with velocity \\(v\\), then in time \\(\\Delta t\\) each car covers \\(v \\, \\Delta t\\) km.\nSo, the number of cars passing a fixed point in time \\(\\Delta t\\) is\n\\[\n(\\rho \\, \\Delta x) \\cdot \\frac{v \\, \\Delta t}{\\Delta x} = \\rho v \\, \\Delta t.\n\\] Dividing by \\(\\Delta t\\) gives \\(q = \\rho v\\).",
     "crumbs": [
@@ -162,7 +162,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#conservation-of-cars",
     "href": "chapters/level5_Wave_Equation.html#conservation-of-cars",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.2 ⚙️ Conservation of Cars",
     "text": "6.2 ⚙️ Conservation of Cars\nAcharya: Now, think of a small stretch of road between \\(x_1\\) and \\(x_2\\).\nCars can only leave or enter through the ends.\n\\[\n\\frac{d}{dt}\\int_{x_1}^{x_2} \\rho(x,t)\\,dx = q(x_1,t) - q(x_2,t).\n\\]\nPavni: That looks like conservation of mass!\nAcharya: Exactly — just conservation of the number of cars.\nThe total number of cars in the interval changes only because of the net flow at the boundaries.\nNow, let’s use the Fundamental Theorem of Calculus to convert this integral form into a local differential equation.\nBy the Fundamental Theorem of Calculus, \\[\nq(x_2,t) - q(x_1,t) = \\int_{x_1}^{x_2} q_x(x,t)\\,dx.\n\\]\nSubstitute this into our conservation statement: \\[\n\\frac{d}{dt}\\int_{x_1}^{x_2} \\rho(x,t)\\,dx = -\\int_{x_1}^{x_2} q_x(x,t)\\,dx.\n\\] Assuming \\(\\rho\\) is smooth enough to interchange differentiation and integration: \\[\n\\int_{x_1}^{x_2} \\rho_t(x,t)\\,dx = -\\int_{x_1}^{x_2} q_x(x,t)\\,dx.\n\\]\nCombine both integrals: \\[\n\\int_{x_1}^{x_2} \\big[\\rho_t(x,t) + q_x(x,t)\\big]\\,dx = 0.\n\\]\nAcharya: Now, Pavni, what does this equation tell us?\nPavni: It says that the integral of \\(\\rho_t + q_x\\) over any interval is zero.\nAcharya: Exactly! And that can only happen if the integrand itself is zero everywhere.\nHence, we get the local conservation law: \\[\n\\boxed{\\rho_t + q_x = 0.}\n\\]\nPavni: So the integral form expresses the total number of cars in a segment being conserved,\nand this differential form expresses that conservation at every point on the road!\nAcharya: Perfectly said. This is the basic conservation law for one-dimensional flow.\nNext, if we assume each car moves at a constant speed \\(a\\), we’ll get the linear advection equation.\nPavni: So this describes a traffic pattern moving forward without changing its shape?\nAcharya: Exactly. The entire profile of car density just shifts rightward with speed \\(a\\).",
     "crumbs": [
@@ -172,7 +172,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#try-to-predict",
     "href": "chapters/level5_Wave_Equation.html#try-to-predict",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.3 ✏️ Try to Predict",
     "text": "6.3 ✏️ Try to Predict\nAcharya: Before solving it, can you guess how the density will evolve if initially the density is a bump — say, \\[\n\\rho(x,0) = e^{-x^2}?\n\\]\nPavni: I think it will move to the right, keeping its shape.\nAcharya: Perfect intuition. We’ll now confirm this mathematically using characteristics — special curves along which information travels.",
     "crumbs": [
@@ -182,7 +182,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#characteristics-and-the-solution-of-the-linear-advection-equation",
     "href": "chapters/level5_Wave_Equation.html#characteristics-and-the-solution-of-the-linear-advection-equation",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.4 🌊 Characteristics and the Solution of the Linear Advection Equation",
     "text": "6.4 🌊 Characteristics and the Solution of the Linear Advection Equation\nPavni: Acharya, now that we have derived the equation\n\\[\n\\rho_t + a\\rho_x = 0, \\quad a &gt; 0,\n\\]\nfor cars moving at constant speed, how do we actually find \\(\\rho(x,t)\\) from this?\nAcharya: Excellent question. This equation may look simple, but it contains a beautiful idea — that information travels along certain paths in the \\((x,t)\\)-plane. These paths are called characteristics.\n\n\n6.4.1 Deriving the Characteristic Curves\nAcharya: Let’s think of \\(\\rho\\) as a function of both \\(x\\) and \\(t\\).\nSuppose we move along a curve \\(x = x(t)\\) in the \\((x,t)\\)-plane.\nBy the chain rule, the total derivative of \\(\\rho\\) along that curve is \\[\n\\frac{d\\rho}{dt} = \\rho_t + \\frac{dx}{dt}\\rho_x.\n\\]\nNow, if we choose \\(\\dfrac{dx}{dt} = a\\), then \\[\n\\frac{d\\rho}{dt} = \\rho_t + a\\rho_x = 0.\n\\]\nThat means \\(\\rho\\) is constant along any curve that satisfies \\(\\dfrac{dx}{dt} = a\\).\nPavni: So those are the characteristic curves?\nAcharya: Exactly! Integrating \\(\\dfrac{dx}{dt} = a\\) gives \\[\nx = a t + x_0, \\quad \\text{or} \\quad x - a t = x_0 = \\text{constant}.\n\\]\nEach line \\(x - a t = \\text{constant}\\) is a characteristic line.\n\n\n\n6.4.2 The Meaning of Characteristics\nPavni: What does it mean that \\(\\rho\\) is constant along these lines?\nAcharya: It means that the value of \\(\\rho\\) at time \\(t\\) and position \\(x\\)\nis exactly the same as its value at the point where that characteristic line started on the \\(x\\)-axis (that is, at time \\(t=0\\)).\nSo, \\[\n\\rho(x,t) = \\rho_0(x - a t),\n\\] where \\(\\rho_0(x)\\) is the initial density at \\(t=0\\).\nPavni: Oh! So the initial profile just shifts by \\(a t\\)?\nAcharya: Exactly — it moves to the right if \\(a&gt;0\\) and to the left if \\(a&lt;0\\).\nNo change in shape — pure translation.\n\n\n\n6.4.3 Verifying the Solution\nPavni: Let’s check if this really satisfies the PDE.\nAcharya: Sure! Let \\(\\rho(x,t) = \\rho_0(x - a t)\\).\nThen \\[\n\\rho_t = -a\\rho_0'(x - a t), \\quad \\rho_x = \\rho_0'(x - a t).\n\\] Substitute into \\(\\rho_t + a\\rho_x = 0\\): \\[\n(-a\\rho_0') + a\\rho_0' = 0.\n\\] ✅ It satisfies the equation perfectly.\n\n\n\n6.4.4 Understanding Finite Propagation Speed\nAcharya: The key property of this equation is that information moves at a finite speed.\nIf a disturbance is initially present only between \\(x=0\\) and \\(x=1\\),\nthen at time \\(t\\) it will be found only between \\(x=a t\\) and \\(x=1+a t\\).\nEvery point outside this region remains unaffected.\nPavni: So information doesn’t spread instantly like in the heat equation?\nAcharya: Exactly. In the heat equation, even a small bump affects the whole line immediately — infinite propagation speed.\nBut here, the influence travels only along straight lines \\(x - a t = \\text{constant}\\) — that’s finite-speed propagation.\n\n\n\n6.4.5 Example\nLet’s take an initial density \\[\n\\rho_0(x) =\n\\begin{cases}\n1, & 0 &lt; x &lt; 1, \\\\\n0, & \\text{otherwise}.\n\\end{cases}\n\\]\nThen \\[\n\\rho(x,t) =\n\\begin{cases}\n1, & a t &lt; x &lt; 1 + a t, \\\\\n0, & \\text{otherwise}.\n\\end{cases}\n\\]\nPavni: So the block of cars just moves forward as a group?\nAcharya: Exactly — like a moving traffic wave with constant shape.\n\n\n\n6.4.6 Visualizing Characteristics\nEach characteristic line shows where information travels:\nt ↑\n  |\n  |       /    /    /    /    /    /    /\n  |      /    /    /    /    /    /    /\n  |     /    /    /    /    /    /    /\n  |____/____/____/____/____/____/____/→ x",
     "crumbs": [
@@ -192,7 +192,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#domain-of-dependence-and-domain-of-influence",
     "href": "chapters/level5_Wave_Equation.html#domain-of-dependence-and-domain-of-influence",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.5 🕸️ Domain of Dependence and Domain of Influence",
     "text": "6.5 🕸️ Domain of Dependence and Domain of Influence\nPavni: Acharya, you mentioned earlier that information in hyperbolic equations travels along characteristics. But how exactly do we describe which parts of the initial data influence the solution at a given point?\nAcharya: Excellent question, Pavni. To answer that, we introduce two key ideas — the domain of dependence and the domain of influence. These describe how information moves through space and time.\n\n\n6.5.1 What do these mean?\nAcharya: Let’s begin intuitively.\n\nThe domain of dependence (DoD) of a point \\((x,t)\\) is the set of points in the initial data that can affect the solution at \\((x,t)\\).\nIn other words: Which initial points influence the value here?\nThe domain of influence (DoI) of a point \\((x_0,0)\\) is the set of space–time points \\((x,t)\\) that can be affected by that initial point.\nIn other words: Where does the information starting at \\(x_0\\) go?\n\nPavni: So the DoD looks backward in time, and the DoI looks forward?\nAcharya: Exactly. They’re like mirror images of each other.\nFor hyperbolic PDEs, these regions are bounded by characteristics — the paths along which information travels at finite speed.\n\n\n\n6.5.2 Example 1: Linear Advection\nPavni: Let’s try this with the advection equation again:\n\\[\nu_t + a\\,u_x = 0, \\quad u(x,0) = u_0(x).\n\\]\nAcharya: Good. The characteristics are the straight lines \\[\nx - a t = \\text{constant}.\n\\]\nSo each point \\((x,t)\\) connects to exactly one point on the \\(x\\)–axis: \\(x_0 = x - a t\\).\nPavni: So the value \\(u(x,t)\\) depends only on \\(u_0(x - a t)\\)?\nAcharya: Exactly. That means:\n\nThe domain of dependence of \\((x,t)\\) is the single point \\(x_0 = x - a t\\).\n\nThe domain of influence of an initial point \\((x_0,0)\\) is the straight line \\(x = x_0 + a t\\).\n\nPavni: So for advection, both DoD and DoI are just lines — not regions?\nAcharya: Right. A single characteristic line carries all the information.\nThis is why the advection equation has such a clean propagation behavior — each point of initial data simply moves at speed \\(a\\) without interacting with others.\n\n\n\n6.5.3 Example 2: The 1-D Wave Equation\nPavni: What happens for the wave equation?\n\\[\nu_{tt} = c^2 u_{xx}.\n\\]\nAcharya: Ah, this one is a bit richer. The general solution is given by d’Alembert’s formula: \\[\nu(x,t) = F(x - c t) + G(x + c t).\n\\]\nPavni: So now we have two families of characteristics — one moving right, one left?\nAcharya: Precisely! For this equation: - Right-moving characteristics: \\(x - c t = \\text{constant}\\)\n- Left-moving characteristics: \\(x + c t = \\text{constant}\\)\nNow, to find the value at \\((x,t)\\), you need both \\(F\\) and \\(G\\) — meaning information from two points on the initial line: \\[\nx - c t \\quad \\text{and} \\quad x + c t.\n\\]\nPavni: So the DoD of \\((x,t)\\) is the interval between those two points?\nAcharya: Yes. The domain of dependence is\n\\[\n[x - c t,\\, x + c t].\n\\]\nAnd the domain of influence of an initial point \\((x_0,0)\\) is the cone-shaped region.",
     "crumbs": [
@@ -202,7 +202,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#nonlinear-advection-and-the-formation-of-shocks",
     "href": "chapters/level5_Wave_Equation.html#nonlinear-advection-and-the-formation-of-shocks",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.6 🚦 Nonlinear Advection and the Formation of Shocks",
     "text": "6.6 🚦 Nonlinear Advection and the Formation of Shocks\nPavni: Acharya, the linear advection equation made perfect sense — the whole profile just moves without changing shape.\nBut traffic jams don’t behave that nicely! Sometimes cars slow down abruptly and the jam gets worse over time.\nDoes our model capture that?\nAcharya: Excellent question, Pavni. The linear advection equation assumes that every car moves with the same constant speed \\(a\\).\nBut in reality, cars move slower when the road is crowded — so the speed depends on the density of cars, \\(\\rho\\).\nPavni: So \\(v\\) depends on \\(\\rho\\)? Like \\(v = v(\\rho)\\)?\nAcharya: Exactly. That makes the flux \\(q = \\rho v(\\rho)\\) a nonlinear function of \\(\\rho\\).\nSubstituting this into the conservation law\n\\[\n\\rho_t + q_x = 0,\n\\]\nwe get the nonlinear advection equation: \\[\n\\rho_t + \\big(f(\\rho)\\big)_x = 0,\n\\] where \\(f(\\rho) = \\rho v(\\rho)\\).\n\n\n6.6.1 Example: Traffic Flow Model\nPavni: What kind of \\(v(\\rho)\\) should we take?\nAcharya: A simple and realistic choice is\n\\[\nv(\\rho) = 1 - \\rho,\n\\]\nmeaning cars move at unit speed when the road is empty (\\(\\rho=0\\)),\nand stop completely when the road is jammed (\\(\\rho=1\\)).\nThen\n\\[\nf(\\rho) = \\rho(1 - \\rho) = \\rho - \\rho^2,\n\\]\nand our equation becomes \\[\n\\rho_t + (\\rho - \\rho^2)_x = 0.\n\\]\nPavni: Expanding that gives \\[\n\\rho_t + (1 - 2\\rho)\\rho_x = 0.\n\\] So it looks just like the advection equation, but the wave speed now depends on \\(\\rho\\) itself!\nAcharya: Exactly! This is called the nonlinear advection equation or inviscid Burgers’ equation.",
     "crumbs": [
@@ -212,7 +212,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#characteristics-in-the-nonlinear-case",
     "href": "chapters/level5_Wave_Equation.html#characteristics-in-the-nonlinear-case",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.7 🌀 Characteristics in the Nonlinear Case",
     "text": "6.7 🌀 Characteristics in the Nonlinear Case\nPavni: Earlier, for \\(\\rho_t + a\\rho_x = 0\\), we had straight characteristic lines \\(x - at = \\text{constant}\\).\nHow does it work here when the speed depends on \\(\\rho\\)?\nAcharya: Let’s find out. As before, along a curve \\(x = x(t)\\), the total derivative is \\[\n\\frac{d\\rho}{dt} = \\rho_t + \\frac{dx}{dt}\\rho_x.\n\\] From the PDE, \\[\n\\rho_t = -(1 - 2\\rho)\\rho_x.\n\\] Substitute this: \\[\n\\frac{d\\rho}{dt} = \\rho_t + \\frac{dx}{dt}\\rho_x = \\big[-(1 - 2\\rho) + \\frac{dx}{dt}\\big]\\rho_x.\n\\] For \\(\\dfrac{d\\rho}{dt}=0\\) along a characteristic, we must have \\[\n\\frac{dx}{dt} = 1 - 2\\rho.\n\\]\nPavni: So, \\(\\rho\\) is constant along a curve whose slope depends on \\(\\rho\\) itself?\nAcharya: Precisely!\nEach “traffic packet” (region of constant density) moves with its own speed \\(1 - 2\\rho\\).\nThat’s the big difference from the linear case — now the characteristics themselves depend on the solution.",
     "crumbs": [
@@ -222,7 +222,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#when-characteristics-meet-shock-formation",
     "href": "chapters/level5_Wave_Equation.html#when-characteristics-meet-shock-formation",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.8 🚗 When Characteristics Meet — Shock Formation",
     "text": "6.8 🚗 When Characteristics Meet — Shock Formation\nPavni: What happens if cars ahead are slower than those behind?\nWould the faster ones eventually catch up?\nAcharya: That’s the perfect intuition. Let’s see what that means mathematically.\nSuppose initially \\(\\rho(x,0)\\) decreases with \\(x\\) — that is, higher density (slower cars) ahead, and lower density (faster cars) behind.\nThen the characteristic speed \\(1 - 2\\rho\\) is larger behind and smaller ahead.\nThat means characteristics converge — they start to intersect.\nWhen that happens, two different characteristic lines try to assign different values of \\(\\rho\\) at the same \\((x,t)\\).\nPavni: So the solution becomes multivalued? That’s not physical.\nAcharya: Exactly — in reality, when cars catch up, a shock forms — a sharp front separating high and low densities.\nThe PDE solution must then be replaced by a weak solution that allows for discontinuities satisfying the Rankine–Hugoniot condition.",
     "crumbs": [
@@ -232,7 +232,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#the-shock-speed-rankinehugoniot-condition",
     "href": "chapters/level5_Wave_Equation.html#the-shock-speed-rankinehugoniot-condition",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.9 ⚡ The Shock Speed (Rankine–Hugoniot Condition)",
     "text": "6.9 ⚡ The Shock Speed (Rankine–Hugoniot Condition)\nLet the shock position be \\(x = s(t)\\).\nOn the left of the shock, density is \\(\\rho_L\\); on the right, it’s \\(\\rho_R\\).\nConservation of cars gives the jump condition \\[\n\\frac{ds}{dt} = \\frac{f(\\rho_L) - f(\\rho_R)}{\\rho_L - \\rho_R}.\n\\]\nPavni: So the shock moves at a speed equal to the slope of the line joining the two points on the flux curve \\(f(\\rho)\\)?\nAcharya: Perfect!\nThat’s a nice geometric interpretation — the secant slope between \\((\\rho_L, f(\\rho_L))\\) and \\((\\rho_R, f(\\rho_R))\\).\nFor our example \\(f(\\rho) = \\rho(1 - \\rho)\\), we get \\[\n\\frac{ds}{dt} = \\frac{\\rho_L(1 - \\rho_L) - \\rho_R(1 - \\rho_R)}{\\rho_L - \\rho_R}\n              = 1 - (\\rho_L + \\rho_R).\n\\]",
     "crumbs": [
@@ -242,7 +242,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#example-a-forming-traffic-jam",
     "href": "chapters/level5_Wave_Equation.html#example-a-forming-traffic-jam",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.10 🌊 Example: A Forming Traffic Jam",
     "text": "6.10 🌊 Example: A Forming Traffic Jam\nPavni: Let’s take an example!\nAcharya: Suppose the initial density is \\[\n\\rho(x,0) =\n\\begin{cases}\n0.8, & x &lt; 0, \\\\\n0.2, & x &gt; 0.\n\\end{cases}\n\\]\nThen \\(\\rho_L = 0.8\\) (slow cars ahead) and \\(\\rho_R = 0.2\\) (fast cars behind).\nThe shock speed is \\[\ns' = 1 - (0.8 + 0.2) = 0.\n\\]\nPavni: So the shock doesn’t move — it stays fixed in place?\nAcharya: Exactly! That represents a stationary traffic jam — cars pile up until the density behind adjusts.\nIf we reverse the situation — slower cars behind faster ones — the characteristics diverge instead, creating a rarefaction wave rather than a shock.",
     "crumbs": [
@@ -252,7 +252,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#key-takeaways",
     "href": "chapters/level5_Wave_Equation.html#key-takeaways",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.11 ✨ Key Takeaways",
     "text": "6.11 ✨ Key Takeaways\n\nLinear advection: constant-speed characteristics → waves move unchanged.\n\nNonlinear advection: speed depends on \\(\\rho\\) → characteristics can intersect.\n\nWhen they intersect, shocks form — discontinuous but physically meaningful solutions.\n\nThe shock speed is determined by the Rankine–Hugoniot condition.\n\nThis mechanism underlies shock waves, traffic jams, and compressible fluid flows.\n\n\nPavni: Wow, so from traffic flow we’ve reached the idea of shock waves!\nThat’s amazing — how a simple conservation law captures such complex behavior.\nAcharya: That’s the beauty of hyperbolic equations — they describe how information and discontinuities propagate in nature.",
     "crumbs": [
@@ -262,7 +262,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#shock-waves",
     "href": "chapters/level5_Wave_Equation.html#shock-waves",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.12 🚦 Shock Waves",
     "text": "6.12 🚦 Shock Waves\nPavni: Acharya, we saw how nonlinear advection can either spread out into a rarefaction or pile up into a shock. Can we work through a concrete example — step by step — and actually see the shock form?\nAcharya: Absolutely. Let’s use the simple traffic-inspired Burgers’-type model we had earlier: \\[\n\\rho_t + (1-2\\rho)\\,\\rho_x = 0,\n\\] so the characteristic speed is \\[\nc(\\rho) = 1 - 2\\rho.\n\\]\nWe will pick an initial condition that produces a shock: \\[\n\\rho(x,0)=\\begin{cases}\n0.2, & x&lt;0,\\\\[4pt]\n0.8, & x&gt;0.\n\\end{cases}\n\\]\nPavni: That’s the case where the left side is sparse (fast) and the right side is dense (slow), so I expect traffic from the left to run into slow traffic on the right. That should make a shock, right?\nAcharya: Exactly. Let’s make the statements precise.\n\nLeft state: \\(\\rho_L=0.2 \\Rightarrow c_L = 1-2(0.2)=0.6\\) (moves right).\n\nRight state: \\(\\rho_R=0.8 \\Rightarrow c_R = 1-2(0.8)=-0.6\\) (moves left).\n\nThe two families of characteristics coming from left and right collide — they cross in the \\((x,t)\\)-plane — so the continuous solution breaks down and a shock forms.\nPavni: And the shock speed is given by the Rankine–Hugoniot condition?\nAcharya: Correct. For a conservation law \\(\\rho_t + f(\\rho)_x=0\\) the shock speed \\(s\\) satisfies \\[\ns = \\frac{f(\\rho_L)-f(\\rho_R)}{\\rho_L-\\rho_R}.\n\\] Here \\(f(\\rho)=\\rho(1-\\rho)\\), so for our numbers \\[\nf(\\rho_L)=0.2(0.8)=0.16,\\qquad f(\\rho_R)=0.8(0.2)=0.16,\n\\] hence \\(s = \\dfrac{0.16-0.16}{0.2-0.8}=0\\).\nSo this particular shock is stationary — the discontinuity sits at \\(x=0\\) while characteristics run into it.",
     "crumbs": [
@@ -272,7 +272,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#interactive-exploration-shock-vs-rarefaction",
     "href": "chapters/level5_Wave_Equation.html#interactive-exploration-shock-vs-rarefaction",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.13 🚗 Interactive Exploration — Shock vs Rarefaction",
     "text": "6.13 🚗 Interactive Exploration — Shock vs Rarefaction\nAcharya: Let’s play! Try changing the left and right densities using the sliders below.\nYou’ll see how the characteristics behave — whether they collide (shock) or spread out (rarefaction).",
     "crumbs": [
@@ -282,7 +282,7 @@
   {
     "objectID": "chapters/level5_Wave_Equation.html#a-moving-shock-when-the-traffic-jam-travels",
     "href": "chapters/level5_Wave_Equation.html#a-moving-shock-when-the-traffic-jam-travels",
-    "title": "Interactive Shock Formation in Burgers’ Equation",
+    "title": "6  Level 5 — Hyperbolic PDEs",
     "section": "6.14 🚦 A Moving Shock: When the Traffic Jam Travels",
     "text": "6.14 🚦 A Moving Shock: When the Traffic Jam Travels\nPavni: Acharya, earlier we saw a stationary shock where the boundary between two traffic regions just sat still.\nCan the shock move?\nAcharya: Certainly, Pavni.\nLet’s take another case:\n\\[\n\\rho(x,0) =\n\\begin{cases}\n0.6, & x &lt; 0,\\\\\n0.2, & x &gt; 0.\n\\end{cases}\n\\]\nHere the left side is denser — more cars — while the right side is freer.\nLet’s see what happens.\n\n\n6.14.1 Compute the fluxes\nAcharya: Our flux function is still \\(f(\\rho) = \\rho(1-\\rho)\\).\nSo,\n\\[\nf(0.6) = 0.24, \\quad f(0.2) = 0.16.\n\\]\nThe shock speed is found from the Rankine–Hugoniot condition:\n\\[\ns = \\frac{f(\\rho_L) - f(\\rho_R)}{\\rho_L - \\rho_R}\n= \\frac{0.24 - 0.16}{0.6 - 0.2} = 0.2.\n\\]\nPavni: So the shock moves to the right with speed 0.2?\nAcharya: Exactly.\nBecause the flux on the left is higher, the congested region pushes into the free region —\nthe “traffic jam” moves forward!\n\n\n\n6.14.2 What happens to the characteristics?\nAcharya: Let’s look at the characteristic speeds:\n\\[\nc_L = 1 - 2\\rho_L = 1 - 1.2 = -0.2, \\quad\nc_R = 1 - 2\\rho_R = 1 - 0.4 = 0.6.\n\\]\nSo on the left, lines tilt gently left; on the right, they tilt right.\nThey intersect, and the envelope of all those intersections forms the shock curve:\n\\[\nx = s t = 0.2t.\n\\]\n\n\n\n6.14.3 Visualizing the moving shock",
     "crumbs": [

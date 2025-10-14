@@ -628,15 +628,6 @@ $$
 hence $s = \dfrac{0.16-0.16}{0.2-0.8}=0$.  
 So this particular shock is *stationary* — the discontinuity sits at $x=0$ while characteristics run into it.
 
----
-
----
-title: "Interactive Shock Formation in Burgers' Equation"
-format:
-  html:
-    math: mathjax
----
-
 ## 🚗 Interactive Exploration — Shock vs Rarefaction
 
 **Acharya:** Let’s play! Try changing the left and right densities using the sliders below.  
@@ -911,3 +902,4 @@ fig.update_layout(
 
 fig.show()
 ```
+---
