@@ -327,7 +327,14 @@ e_j^{n+1} = e_j^n + r\big(e_{j+1}^n - 2e_j^n + e_{j-1}^n\big).
 <blockquote class="blockquote">
 <p><strong>Exercise.</strong> For the heat equation FTCS scheme above, compute <span class="math inline">\(\xi(k)\)</span> for the two extreme wavenumbers on a grid with <span class="math inline">\(N\)</span> points and periodic boundary conditions: <span class="math inline">\(k=0\)</span> and the Nyquist mode <span class="math inline">\(k=\pi/\Delta x\)</span>. Interpret the values.</p>
 </blockquote>
-<p><strong>Answer (sketch).</strong> For <span class="math inline">\(k=0\)</span>, <span class="math inline">\(\sin^2(0)=0\)</span> so <span class="math inline">\(\xi=1\)</span> (constant mode preserved). For <span class="math inline">\(k=\pi/\Delta x\)</span>, <span class="math inline">\(\sin^2(\pi/2)=1\)</span> so <span class="math inline">\(\xi=1-4r\)</span> (the maximal damping; needs <span class="math inline">\(r\le 1/2\)</span> to avoid instability).</p>
+<details>
+<summary>
+<b>Click to reveal the answer</b>
+</summary>
+<strong>Answer (sketch).</strong><br>
+For <span class="math inline">\(k=0\)</span>, <span class="math inline">\(\sin^2(0)=0\)</span> so <span class="math inline">\(\xi=1\)</span> (constant mode preserved).<br>
+For <span class="math inline">\(k=\pi/\Delta x\)</span>, <span class="math inline">\(\sin^2(\pi/2)=1\)</span> so <span class="math inline">\(\xi=1-4r\)</span> (the maximal damping; needs <span class="math inline">\(r\le 1/2\)</span> to avoid instability).
+</details>
 <hr>
 
 
@@ -894,10 +901,15 @@ e_j^{n+1} = e_j^n + r\big(e_{j+1}^n - 2e_j^n + e_{j-1}^n\big).
 <span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Exercise.** For the heat equation FTCS scheme above, compute $\xi(k)$ for the two extreme wavenumbers on a grid with $N$ points and periodic boundary conditions: $k=0$ and the Nyquist mode $k=\pi/\Delta x$. Interpret the values.</span></span>
 <span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>**Answer (sketch).** For $k=0$, $\sin^2(0)=0$ so $\xi=1$ (constant mode preserved). For $k=\pi/\Delta x$, $\sin^2(\pi/2)=1$ so $\xi=1-4r$ (the maximal damping; needs $r\le 1/2$ to avoid instability).</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">b</span><span class="dt">&gt;</span>Click to reveal the answer<span class="dt">&lt;/</span><span class="kw">b</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
 <span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>---</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>**Answer (sketch).**  </span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>For $k=0$, $\sin^2(0)=0$ so $\xi=1$ (constant mode preserved).  </span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>For $k=\pi/\Delta x$, $\sin^2(\pi/2)=1$ so $\xi=1-4r$ (the maximal damping; needs $r\le 1/2$ to avoid instability).</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>---</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

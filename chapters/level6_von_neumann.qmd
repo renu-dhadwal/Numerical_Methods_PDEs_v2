@@ -95,8 +95,13 @@ $$
 
 > **Exercise.** For the heat equation FTCS scheme above, compute $\xi(k)$ for the two extreme wavenumbers on a grid with $N$ points and periodic boundary conditions: $k=0$ and the Nyquist mode $k=\pi/\Delta x$. Interpret the values.
 
-**Answer (sketch).** For $k=0$, $\sin^2(0)=0$ so $\xi=1$ (constant mode preserved). For $k=\pi/\Delta x$, $\sin^2(\pi/2)=1$ so $\xi=1-4r$ (the maximal damping; needs $r\le 1/2$ to avoid instability).
+<details>
+<summary><b>Click to reveal the answer</b></summary>
 
+**Answer (sketch).**  
+For $k=0$, $\sin^2(0)=0$ so $\xi=1$ (constant mode preserved).  
+For $k=\pi/\Delta x$, $\sin^2(\pi/2)=1$ so $\xi=1-4r$ (the maximal damping; needs $r\le 1/2$ to avoid instability).
+</details>
 
 ---
 
