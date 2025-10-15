@@ -780,7 +780,6 @@ $$
 import numpy as np
 import plotly.graph_objects as go
 
-# presets: (label, rho_L, rho_R)
 presets = [
     ("Moving shock (0.1,0.7)", 0.1, 0.7),
     ("Moving shock (0.6,0.2)", 0.6, 0.2),
@@ -788,139 +787,121 @@ presets = [
     ("Rarefaction (0.2,0.6)", 0.2, 0.6)
 ]
 
-def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=50):
-    """
-    Build frames for a single preset.
-    n_char controls how many characteristic lines per side (total ~2*n_char for compressive).
-    """
+def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=40):
+    """Build frames for a Riemann problem for Burgers equation u_t + (u(1-u))_x = 0."""
     f = lambda r: r*(1-r)
     a = lambda r: 1 - 2*r
     fL, fR = f(rho_L), f(rho_R)
-    # shock speed (or char speed if equal)
     s = (fL - fR) / (rho_L - rho_R) if not np.isclose(rho_L, rho_R) else a(rho_L)
     c_L, c_R = a(rho_L), a(rho_R)
     compressive = (c_L > c_R)
 
-    # sample initial x0 *near the discontinuity* so intersections are visible
-    # use smaller interval around x=0 (e.g., [-1,0) and (0,1]) rather than huge [-2.5,2.5]
-    x0_left = np.linspace(-1.0, -0.001, n_char)
-    x0_right = np.linspace( 0.001,  1.0, n_char)
-
     t_frames = np.linspace(0, t_max, n_frames)
-
     frames = []
+
     for k, tk in enumerate(t_frames):
         traces = []
+
         if compressive:
-            # draw left family characteristics (from negative x0 towards right)
+            # Shock case
+            # Left characteristics (start left of x=0)
+            x0_left = np.linspace(-1.0, -0.05, n_char)
             for x0 in x0_left:
                 ts = np.linspace(0, tk, 18)
                 xs = x0 + c_L * ts
-                traces.append(go.Scatter(x=xs, y=ts, mode='lines',
-                                         line=dict(color='royalblue', width=0.9),
+                traces.append(go.Scatter(x=xs, y=ts, mode="lines",
+                                         line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
-            # draw right family characteristics
+            # Right characteristics (start right of x=0)
+            x0_right = np.linspace(0.05, 1.0, n_char)
             for x0 in x0_right:
                 ts = np.linspace(0, tk, 18)
                 xs = x0 + c_R * ts
-                traces.append(go.Scatter(x=xs, y=ts, mode='lines',
-                                         line=dict(color='royalblue', width=0.9),
+                traces.append(go.Scatter(x=xs, y=ts, mode="lines",
+                                         line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
-            # shock line (make it the last VISIBLE trace so trace-slot ordering is stable)
-            shock_x = s * np.linspace(0, tk, 2)
-            shock_t = np.linspace(0, tk, 2)
-            traces.append(go.Scatter(x=shock_x, y=shock_t, mode='lines',
-                                     line=dict(color='red', width=3), name=f"s={s:.3f}"))
+            # Shock line (red)
+            xs = s * np.linspace(0, tk, 2)
+            ts = np.linspace(0, tk, 2)
+            traces.append(go.Scatter(x=xs, y=ts, mode="lines",
+                                     line=dict(color="red", width=3),
+                                     name=f"shock speed s={s:.3f}"))
         else:
-            # rarefaction: many characteristic slopes filling fan between c_L and c_R
+            # Rarefaction case
             slopes = np.linspace(c_L, c_R, 41)
             for xi in slopes:
                 ts = np.linspace(0, tk, 18)
                 xs = xi * ts
-                traces.append(go.Scatter(x=xs, y=ts, mode='lines',
-                                         line=dict(color='green', width=0.9),
-                                         showlegend=False, opacity=0.95))
-            # bounding characteristics as dashed lines (put after the family)
+                traces.append(go.Scatter(x=xs, y=ts, mode="lines",
+                                         line=dict(color="green", width=0.9),
+                                         showlegend=False, opacity=0.9))
             traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
-                                     mode='lines', line=dict(color='green', width=2, dash='dash'),
-                                     name=f"c_L={c_L:.3f}"))
+                                     mode="lines", line=dict(color="green", width=2, dash="dash"),
+                                     name=f"c_L={c_L:.2f}"))
             traces.append(go.Scatter(x=c_R * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
-                                     mode='lines', line=dict(color='green', width=2, dash='dash'),
-                                     name=f"c_R={c_R:.3f}"))
+                                     mode="lines", line=dict(color="green", width=2, dash="dash"),
+                                     name=f"c_R={c_R:.2f}"))
 
         frame_name = f"p{preset_idx}_f{k}"
         frames.append(go.Frame(data=traces, name=frame_name))
-    return frames, s, compressive, t_frames
 
-# Precompute frames for all presets and collect metadata
+    return frames, s, compressive
+
+# Build all presets
 all_frames = []
 preset_meta = []
 for i, (label, rL, rR) in enumerate(presets):
-    frames_i, s_i, comp_i, t_frames = make_preset_frames(rL, rR, i, t_max=3.0, n_frames=28, n_char=60)
+    frames_i, s_i, comp_i = make_preset_frames(rL, rR, i)
     all_frames.extend(frames_i)
     frame_names_i = [fr.name for fr in frames_i]
     preset_meta.append({
-        "label": label,
-        "rho_L": rL,
-        "rho_R": rR,
-        "s": s_i,
-        "compressive": comp_i,
+        "label": label, "rho_L": rL, "rho_R": rR,
+        "s": s_i, "compressive": comp_i,
         "frame_names": frame_names_i,
         "first_frame_name": frames_i[0].name
     })
 
-# Find maximum traces in any frame and pad every frame to that length
+# Pad frames so all have same number of traces
 max_traces = max(len(fr.data) for fr in all_frames)
 for fr in all_frames:
-    # number of visible traces in this frame
-    n_present = len(fr.data)
-    n_missing = max_traces - n_present
-    if n_missing:
-        # append invisible placeholders to occupy trace slots
-        for _ in range(n_missing):
-            fr.data += (go.Scatter(x=[None], y=[None], mode="lines", visible=False),)
+    n_missing = max_traces - len(fr.data)
+    if n_missing > 0:
+        fr.data += tuple(go.Scatter(x=[None], y=[None], visible=False) for _ in range(n_missing))
 
-# Build figure and initialize with default preset first frame
+# Build figure
 default_idx = 0
-first_frame_name = preset_meta[default_idx]["first_frame_name"]
-first_frame = next(fr for fr in all_frames if fr.name == first_frame_name)
-
+first_frame = next(fr for fr in all_frames if fr.name == preset_meta[default_idx]["first_frame_name"])
 fig = go.Figure(frames=all_frames)
-fig.add_traces(first_frame.data)  # these are padded traces
+fig.add_traces(first_frame.data)
 
-# Build slider for the default preset
+# Slider and menus
 default_frames = preset_meta[default_idx]["frame_names"]
-steps = []
-for k, name in enumerate(default_frames):
-    steps.append(dict(method="animate",
-                      args=[[name], dict(mode="immediate", frame=dict(duration=60, redraw=True), transition=dict(duration=0))],
-                      label=f"{k}"))
-slider = [dict(active=0, pad={"t":40}, steps=steps, currentvalue={"prefix":"frame: "})]
+steps = [dict(method="animate",
+              args=[[name], dict(mode="immediate", frame=dict(duration=60, redraw=True))],
+              label=f"{k}") for k, name in enumerate(default_frames)]
+slider = [dict(active=0, pad={"t": 40}, steps=steps, currentvalue={"prefix": "frame: "})]
 
-# Updatemenus: Play/Pause and a preset dropdown that animates that preset's full sequence
 updatemenus = [
-    dict(type="buttons", direction="left", x=0.02, y=0.95, xanchor="left", yanchor="top",
+    dict(type="buttons", direction="left", x=0.02, y=0.95,
          buttons=[
              dict(label="Play", method="animate",
                   args=[default_frames, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}]),
-             dict(label="Pause", method="animate",
-                  args=[[None], {"frame": {"duration": 0, "redraw": False}}])
+             dict(label="Pause", method="animate", args=[[None], {"frame": {"duration": 0, "redraw": False}}])
          ]),
-    dict(type="buttons", direction="down", x=1.02, y=0.8, xanchor="left", yanchor="top",
+    dict(type="buttons", direction="down", x=1.02, y=0.8,
          buttons=[
-             dict(label=meta["label"],
-                  method="animate",
+             dict(label=meta["label"], method="animate",
                   args=[meta["frame_names"],
-                        {"frame": {"duration": 80, "redraw": True}, "mode": "immediate", "transition": {"duration": 0}}],
-                  ) for meta in preset_meta
+                        {"frame": {"duration": 80, "redraw": True}, "mode": "immediate"}])
+             for meta in preset_meta
          ])
 ]
 
 fig.update_layout(
-    title=preset_meta[default_idx]['label'] + " — Riemann presets",
+    title=preset_meta[default_idx]["label"] + " — Riemann presets",
     xaxis_title="x",
     yaxis_title="t (time ↑)",
-    yaxis=dict(autorange=False, range=[0, 3.0]),
+    yaxis=dict(range=[0, 3]),
     sliders=slider,
     updatemenus=updatemenus,
     width=900, height=520,
