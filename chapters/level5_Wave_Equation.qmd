@@ -791,9 +791,18 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=
     f = lambda r: r*(1-r)
     a = lambda r: 1 - 2*r
     fL, fR = f(rho_L), f(rho_R)
-    s = (fL - fR) / (rho_L - rho_R) if not np.isclose(rho_L, rho_R) else a(rho_L)
+    
+    # Shock speed (Rankine-Hugoniot)
+    if not np.isclose(rho_L, rho_R):
+        s = (fL - fR) / (rho_L - rho_R)
+    else:
+        s = a(rho_L)
+    
     c_L, c_R = a(rho_L), a(rho_R)
-    compressive = (c_L > c_R)
+    
+    # Entropy condition: shock is physical if characteristics converge: c_L > c_R
+    # For the equation rho_t + (1-2*rho)*rho_x = 0, this is the correct condition
+    is_shock = (c_L > c_R)
 
     t_frames = np.linspace(0, t_max, n_frames)
     frames = []
@@ -801,36 +810,38 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=
     for k, tk in enumerate(t_frames):
         traces = []
 
-        if compressive:
-            # Shock case
-            # Left characteristics: start at x0 < 0, move with speed c_L
-            x0_left = np.linspace(-2.0, 0, n_char)
+        if is_shock:
+            # Shock case: rho_L > rho_R, characteristics collide
+            # Left region (x < 0 at t=0): density = rho_L, speed = c_L
+            x0_left = np.linspace(-2.0, -0.01, n_char)
             for x0 in x0_left:
                 ts = np.linspace(0, tk, 18)
+                # Characteristic starts at (x0, 0) and moves with speed c_L
                 xs = x0 + c_L * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode="lines",
                                          line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
             
-            # Right characteristics: start at x0 > 0, move with speed c_R
-            x0_right = np.linspace(0, 2.0, n_char)
+            # Right region (x > 0 at t=0): density = rho_R, speed = c_R  
+            x0_right = np.linspace(0.01, 2.0, n_char)
             for x0 in x0_right:
                 ts = np.linspace(0, tk, 18)
+                # Characteristic starts at (x0, 0) and moves with speed c_R
                 xs = x0 + c_R * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode="lines",
                                          line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
             
-            # Shock line (red) - starts at x=0, t=0
+            # Shock trajectory: starts at (0,0), moves with speed s
             ts_shock = np.linspace(0, tk, 50)
             xs_shock = s * ts_shock
             traces.append(go.Scatter(x=xs_shock, y=ts_shock, mode="lines",
                                      line=dict(color="red", width=3),
-                                     name=f"shock speed s={s:.3f}"))
+                                     name=f"shock s={s:.3f}"))
         else:
-            # Rarefaction case
-            # Left characteristics: start at x0 < 0, move with speed c_L
-            x0_left = np.linspace(-2.0, 0, n_char//2)
+            # Rarefaction case: rho_L < rho_R, characteristics spread out
+            # Left region
+            x0_left = np.linspace(-2.0, -0.01, n_char//2)
             for x0 in x0_left:
                 ts = np.linspace(0, tk, 18)
                 xs = x0 + c_L * ts
@@ -838,8 +849,8 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=
                                          line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
             
-            # Right characteristics: start at x0 > 0, move with speed c_R
-            x0_right = np.linspace(0, 2.0, n_char//2)
+            # Right region
+            x0_right = np.linspace(0.01, 2.0, n_char//2)
             for x0 in x0_right:
                 ts = np.linspace(0, tk, 18)
                 xs = x0 + c_R * ts
@@ -847,7 +858,7 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=
                                          line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
             
-            # Rarefaction fan: characteristics emanating from x=0, t=0 with varying speeds
+            # Rarefaction fan: characteristics from origin with speeds between c_L and c_R
             speeds = np.linspace(c_L, c_R, 41)
             for xi in speeds:
                 ts = np.linspace(0, tk, 18)
@@ -856,7 +867,7 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=
                                          line=dict(color="green", width=1.2),
                                          showlegend=False, opacity=0.7))
             
-            # Boundary characteristics
+            # Boundary characteristics of rarefaction fan
             traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
                                      mode="lines", line=dict(color="darkgreen", width=2.5, dash="dash"),
                                      name=f"c_L={c_L:.2f}"))
@@ -867,18 +878,18 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=
         frame_name = f"p{preset_idx}_f{k}"
         frames.append(go.Frame(data=traces, name=frame_name))
 
-    return frames, s, compressive
+    return frames, s, is_shock
 
 # Build all presets
 all_frames = []
 preset_meta = []
 for i, (label, rL, rR) in enumerate(presets):
-    frames_i, s_i, comp_i = make_preset_frames(rL, rR, i)
+    frames_i, s_i, is_shock_i = make_preset_frames(rL, rR, i)
     all_frames.extend(frames_i)
     frame_names_i = [fr.name for fr in frames_i]
     preset_meta.append({
         "label": label, "rho_L": rL, "rho_R": rR,
-        "s": s_i, "compressive": comp_i,
+        "s": s_i, "is_shock": is_shock_i,
         "frame_names": frame_names_i,
         "first_frame_name": frames_i[0].name
     })
