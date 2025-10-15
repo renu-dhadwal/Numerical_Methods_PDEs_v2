@@ -788,57 +788,75 @@ presets = [
     ("Rarefaction (0.2,0.6)", 0.2, 0.6)
 ]
 
-def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_x0=101):
+def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=50):
+    """
+    Build frames for a single preset.
+    n_char controls how many characteristic lines per side (total ~2*n_char for compressive).
+    """
     f = lambda r: r*(1-r)
     a = lambda r: 1 - 2*r
     fL, fR = f(rho_L), f(rho_R)
+    # shock speed (or char speed if equal)
     s = (fL - fR) / (rho_L - rho_R) if not np.isclose(rho_L, rho_R) else a(rho_L)
     c_L, c_R = a(rho_L), a(rho_R)
     compressive = (c_L > c_R)
 
-    x0_left = np.linspace(-2.5, -0.01, n_x0//2)
-    x0_right = np.linspace(0.01, 2.5, n_x0//2)
+    # sample initial x0 *near the discontinuity* so intersections are visible
+    # use smaller interval around x=0 (e.g., [-1,0) and (0,1]) rather than huge [-2.5,2.5]
+    x0_left = np.linspace(-1.0, -0.001, n_char)
+    x0_right = np.linspace( 0.001,  1.0, n_char)
+
     t_frames = np.linspace(0, t_max, n_frames)
 
     frames = []
     for k, tk in enumerate(t_frames):
         traces = []
         if compressive:
+            # draw left family characteristics (from negative x0 towards right)
             for x0 in x0_left:
-                xs = x0 + c_L * np.linspace(0, tk, 18)
                 ts = np.linspace(0, tk, 18)
+                xs = x0 + c_L * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode='lines',
-                                         line=dict(color='royalblue', width=0.8), showlegend=False))
+                                         line=dict(color='royalblue', width=0.9),
+                                         showlegend=False))
+            # draw right family characteristics
             for x0 in x0_right:
-                xs = x0 + c_R * np.linspace(0, tk, 18)
                 ts = np.linspace(0, tk, 18)
+                xs = x0 + c_R * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode='lines',
-                                         line=dict(color='royalblue', width=0.8), showlegend=False))
-            traces.append(go.Scatter(x=s * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
-                                     mode='lines', line=dict(color='red', width=3), name=f's={s:.3f}'))
+                                         line=dict(color='royalblue', width=0.9),
+                                         showlegend=False))
+            # shock line (make it the last VISIBLE trace so trace-slot ordering is stable)
+            shock_x = s * np.linspace(0, tk, 2)
+            shock_t = np.linspace(0, tk, 2)
+            traces.append(go.Scatter(x=shock_x, y=shock_t, mode='lines',
+                                     line=dict(color='red', width=3), name=f"s={s:.3f}"))
         else:
-            slopes = np.linspace(c_L, c_R, 31)
+            # rarefaction: many characteristic slopes filling fan between c_L and c_R
+            slopes = np.linspace(c_L, c_R, 41)
             for xi in slopes:
-                xs = xi * np.linspace(0, tk, 18)
                 ts = np.linspace(0, tk, 18)
+                xs = xi * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode='lines',
-                                         line=dict(color='green', width=0.8), showlegend=False, opacity=0.9))
+                                         line=dict(color='green', width=0.9),
+                                         showlegend=False, opacity=0.95))
+            # bounding characteristics as dashed lines (put after the family)
             traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
                                      mode='lines', line=dict(color='green', width=2, dash='dash'),
-                                     name=f'c_L={c_L:.3f}'))
+                                     name=f"c_L={c_L:.3f}"))
             traces.append(go.Scatter(x=c_R * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
                                      mode='lines', line=dict(color='green', width=2, dash='dash'),
-                                     name=f'c_R={c_R:.3f}'))
+                                     name=f"c_R={c_R:.3f}"))
 
         frame_name = f"p{preset_idx}_f{k}"
         frames.append(go.Frame(data=traces, name=frame_name))
     return frames, s, compressive, t_frames
 
-# Precompute frames and metadata
+# Precompute frames for all presets and collect metadata
 all_frames = []
 preset_meta = []
 for i, (label, rL, rR) in enumerate(presets):
-    frames_i, s_i, comp_i, t_frames = make_preset_frames(rL, rR, i, t_max=3.0, n_frames=28, n_x0=101)
+    frames_i, s_i, comp_i, t_frames = make_preset_frames(rL, rR, i, t_max=3.0, n_frames=28, n_char=60)
     all_frames.extend(frames_i)
     frame_names_i = [fr.name for fr in frames_i]
     preset_meta.append({
@@ -851,33 +869,35 @@ for i, (label, rL, rR) in enumerate(presets):
         "first_frame_name": frames_i[0].name
     })
 
-# Determine maximum number of traces any frame has
+# Find maximum traces in any frame and pad every frame to that length
 max_traces = max(len(fr.data) for fr in all_frames)
-
-# Pad every frame's data list to length max_traces with invisible placeholders
 for fr in all_frames:
-    n_missing = max_traces - len(fr.data)
-    if n_missing > 0:
+    # number of visible traces in this frame
+    n_present = len(fr.data)
+    n_missing = max_traces - n_present
+    if n_missing:
+        # append invisible placeholders to occupy trace slots
         for _ in range(n_missing):
-            fr.data += (go.Scatter(x=[], y=[], mode="lines", visible=False),)
+            fr.data += (go.Scatter(x=[None], y=[None], mode="lines", visible=False),)
 
-# Build figure and initialize with padded first frame (default preset)
+# Build figure and initialize with default preset first frame
 default_idx = 0
 first_frame_name = preset_meta[default_idx]["first_frame_name"]
 first_frame = next(fr for fr in all_frames if fr.name == first_frame_name)
 
 fig = go.Figure(frames=all_frames)
-# Add padded traces from the first frame to fig.data
-fig.add_traces(first_frame.data)
+fig.add_traces(first_frame.data)  # these are padded traces
 
-# Build slider for default preset
+# Build slider for the default preset
 default_frames = preset_meta[default_idx]["frame_names"]
-steps = [dict(method="animate",
-              args=[[name], dict(mode="immediate", frame=dict(duration=60, redraw=True), transition=dict(duration=0))],
-              label=f"{k}") for k, name in enumerate(default_frames)]
+steps = []
+for k, name in enumerate(default_frames):
+    steps.append(dict(method="animate",
+                      args=[[name], dict(mode="immediate", frame=dict(duration=60, redraw=True), transition=dict(duration=0))],
+                      label=f"{k}"))
 slider = [dict(active=0, pad={"t":40}, steps=steps, currentvalue={"prefix":"frame: "})]
 
-# Updatemenus: Play/Pause and Preset selector (each preset animates through its own frames)
+# Updatemenus: Play/Pause and a preset dropdown that animates that preset's full sequence
 updatemenus = [
     dict(type="buttons", direction="left", x=0.02, y=0.95, xanchor="left", yanchor="top",
          buttons=[
@@ -896,7 +916,6 @@ updatemenus = [
          ])
 ]
 
-# Layout
 fig.update_layout(
     title=preset_meta[default_idx]['label'] + " — Riemann presets",
     xaxis_title="x",
