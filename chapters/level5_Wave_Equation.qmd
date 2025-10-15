@@ -775,8 +775,7 @@ $$
 
 ###  Visualizing the moving shock
 ```{python}
-#| echo: false
-#| warning: false
+
 import numpy as np
 import plotly.graph_objects as go
 
@@ -804,42 +803,65 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_char=
 
         if compressive:
             # Shock case
-            # Left characteristics (start left of x=0)
-            x0_left = np.linspace(-1.0, -0.05, n_char)
+            # Left characteristics: start at x0 < 0, move with speed c_L
+            x0_left = np.linspace(-2.0, 0, n_char)
             for x0 in x0_left:
                 ts = np.linspace(0, tk, 18)
                 xs = x0 + c_L * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode="lines",
                                          line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
-            # Right characteristics (start right of x=0)
-            x0_right = np.linspace(0.05, 1.0, n_char)
+            
+            # Right characteristics: start at x0 > 0, move with speed c_R
+            x0_right = np.linspace(0, 2.0, n_char)
             for x0 in x0_right:
                 ts = np.linspace(0, tk, 18)
                 xs = x0 + c_R * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode="lines",
                                          line=dict(color="royalblue", width=0.9),
                                          showlegend=False))
-            # Shock line (red)
-            xs = s * np.linspace(0, tk, 2)
-            ts = np.linspace(0, tk, 2)
-            traces.append(go.Scatter(x=xs, y=ts, mode="lines",
+            
+            # Shock line (red) - starts at x=0, t=0
+            ts_shock = np.linspace(0, tk, 50)
+            xs_shock = s * ts_shock
+            traces.append(go.Scatter(x=xs_shock, y=ts_shock, mode="lines",
                                      line=dict(color="red", width=3),
                                      name=f"shock speed s={s:.3f}"))
         else:
             # Rarefaction case
-            slopes = np.linspace(c_L, c_R, 41)
-            for xi in slopes:
+            # Left characteristics: start at x0 < 0, move with speed c_L
+            x0_left = np.linspace(-2.0, 0, n_char//2)
+            for x0 in x0_left:
+                ts = np.linspace(0, tk, 18)
+                xs = x0 + c_L * ts
+                traces.append(go.Scatter(x=xs, y=ts, mode="lines",
+                                         line=dict(color="royalblue", width=0.9),
+                                         showlegend=False))
+            
+            # Right characteristics: start at x0 > 0, move with speed c_R
+            x0_right = np.linspace(0, 2.0, n_char//2)
+            for x0 in x0_right:
+                ts = np.linspace(0, tk, 18)
+                xs = x0 + c_R * ts
+                traces.append(go.Scatter(x=xs, y=ts, mode="lines",
+                                         line=dict(color="royalblue", width=0.9),
+                                         showlegend=False))
+            
+            # Rarefaction fan: characteristics emanating from x=0, t=0 with varying speeds
+            speeds = np.linspace(c_L, c_R, 41)
+            for xi in speeds:
                 ts = np.linspace(0, tk, 18)
                 xs = xi * ts
                 traces.append(go.Scatter(x=xs, y=ts, mode="lines",
-                                         line=dict(color="green", width=0.9),
-                                         showlegend=False, opacity=0.9))
+                                         line=dict(color="green", width=1.2),
+                                         showlegend=False, opacity=0.7))
+            
+            # Boundary characteristics
             traces.append(go.Scatter(x=c_L * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
-                                     mode="lines", line=dict(color="green", width=2, dash="dash"),
+                                     mode="lines", line=dict(color="darkgreen", width=2.5, dash="dash"),
                                      name=f"c_L={c_L:.2f}"))
             traces.append(go.Scatter(x=c_R * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
-                                     mode="lines", line=dict(color="green", width=2, dash="dash"),
+                                     mode="lines", line=dict(color="darkgreen", width=2.5, dash="dash"),
                                      name=f"c_R={c_R:.2f}"))
 
         frame_name = f"p{preset_idx}_f{k}"
@@ -898,9 +920,10 @@ updatemenus = [
 ]
 
 fig.update_layout(
-    title=preset_meta[default_idx]["label"] + " — Riemann presets",
+    title=preset_meta[default_idx]["label"] + " — Riemann presets (CORRECTED)",
     xaxis_title="x",
     yaxis_title="t (time ↑)",
+    xaxis=dict(range=[-1.5, 1.5]),
     yaxis=dict(range=[0, 3]),
     sliders=slider,
     updatemenus=updatemenus,
