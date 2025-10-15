@@ -774,6 +774,7 @@ $$
 ---
 
 ###  Visualizing the moving shock
+```{python}
 #| echo: false
 #| warning: false
 import numpy as np
