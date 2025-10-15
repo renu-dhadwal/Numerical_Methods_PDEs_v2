@@ -774,7 +774,6 @@ $$
 ---
 
 ###  Visualizing the moving shock
-```{python}
 #| echo: false
 #| warning: false
 import numpy as np
@@ -789,15 +788,16 @@ presets = [
 ]
 
 def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_x0=101):
-    """Return a list of frames for a preset. Frame names are unique: f'p{preset_idx}_f{frame_index}'."""
+    """Return a list of frames for a preset. Frame names: f'p{preset_idx}_f{frame_index}'."""
     f = lambda r: r*(1-r)
     a = lambda r: 1 - 2*r
     fL, fR = f(rho_L), f(rho_R)
+    # shock speed (or char speed if equal)
     s = (fL - fR) / (rho_L - rho_R) if not np.isclose(rho_L, rho_R) else a(rho_L)
     c_L, c_R = a(rho_L), a(rho_R)
     compressive = (c_L > c_R)
 
-    # sampling tuned for speed (adjust n_x0 if you want denser)
+    # sampling tuned for speed
     x0_left = np.linspace(-2.5, -0.01, n_x0//2)
     x0_right = np.linspace(0.01, 2.5, n_x0//2)
     t_frames = np.linspace(0, t_max, n_frames)
@@ -806,7 +806,7 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_x0=10
     for k, tk in enumerate(t_frames):
         traces = []
         if compressive:
-            # left & right characteristics up to tk
+            # left & right characteristic families
             for x0 in x0_left:
                 xs = x0 + c_L * np.linspace(0, tk, 18)
                 ts = np.linspace(0, tk, 18)
@@ -817,10 +817,11 @@ def make_preset_frames(rho_L, rho_R, preset_idx, t_max=3.0, n_frames=28, n_x0=10
                 ts = np.linspace(0, tk, 18)
                 traces.append(go.Scatter(x=xs, y=ts, mode='lines',
                                          line=dict(color='royalblue', width=0.8), showlegend=False))
-            # shock
+            # shock line
             traces.append(go.Scatter(x=s * np.linspace(0, tk, 2), y=np.linspace(0, tk, 2),
                                      mode='lines', line=dict(color='red', width=3), name=f's={s:.3f}'))
         else:
+            # rarefaction fan (many characteristics)
             slopes = np.linspace(c_L, c_R, 31)
             for xi in slopes:
                 xs = xi * np.linspace(0, tk, 18)
@@ -845,59 +846,72 @@ preset_meta = []
 for i, (label, rL, rR) in enumerate(presets):
     frames_i, s_i, comp_i, t_frames = make_preset_frames(rL, rR, i, t_max=3.0, n_frames=28, n_x0=101)
     all_frames.extend(frames_i)
-    preset_meta.append({"label": label, "rho_L": rL, "rho_R": rR, "s": s_i, "compressive": comp_i, "first_frame_name": frames_i[0].name})
+    frame_names_i = [fr.name for fr in frames_i]
+    preset_meta.append({
+        "label": label,
+        "rho_L": rL,
+        "rho_R": rR,
+        "s": s_i,
+        "compressive": comp_i,
+        "frame_names": frame_names_i,
+        "first_frame_name": frames_i[0].name
+    })
 
-# Choose default preset index to display at load
+# default preset index to display at load
 default_idx = 0
+default_frames = preset_meta[default_idx]["frame_names"]
 
 # Build figure with ALL frames
 fig = go.Figure(frames=all_frames)
 
-# Add initial traces from default preset's first frame
-fig.add_traces([trace for trace in all_frames[0].data])
+# Add initial traces from default preset's first frame explicitly
+first_frame = next(fr for fr in all_frames if fr.name == preset_meta[default_idx]["first_frame_name"])
+fig.add_traces(first_frame.data)
 
-# Build slider (time) based on the default preset's t_frames length
-# We will use frame names of the default preset to control animation steps
-n_default_frames = len([fr for fr in all_frames if fr.name.startswith(f"p{default_idx}_f")])
-# find those frame names in order
-default_frame_names = [f"p{default_idx}_f{k}" for k in range(n_default_frames)]
+# Build slider for the default preset (time control)
+steps = []
+for k, name in enumerate(default_frames):
+    steps.append(dict(
+        method="animate",
+        args=[[name], dict(mode="immediate", frame=dict(duration=60, redraw=True), transition=dict(duration=0))],
+        label=f"{k}"
+    ))
+slider = [dict(active=0, pad={"t": 40}, steps=steps, currentvalue={"prefix": "frame: "})]
 
-steps = [dict(method="animate",
-              args=[[name], dict(mode="immediate", frame=dict(duration=60, redraw=True), transition=dict(duration=0))],
-              label=f"{k}") for k, name in enumerate(default_frame_names)]
-sliders = [dict(active=0, pad={"t":40}, steps=steps, currentvalue={"prefix":"frame: "})]
-
-# Updatemenu: Play/Pause inside figure
+# Updatemenus: Play/Pause and Preset selector
 updatemenus = [
+    # Play/Pause buttons
     dict(type="buttons", direction="left", x=0.02, y=0.95, xanchor="left", yanchor="top",
          buttons=[
-             dict(label="Play", method="animate", args=[default_frame_names, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}]),
-             dict(label="Pause", method="animate", args=[[None], {"frame": {"duration": 0, "redraw": False}}])
+             dict(label="Play",
+                  method="animate",
+                  # when Play is clicked, animate the currently visible preset's frames.
+                  args=[default_frames, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}]),
+             dict(label="Pause",
+                  method="animate",
+                  args=[[None], {"frame": {"duration": 0, "redraw": False}}])
+         ]),
+    # Preset dropdown (animates through the full preset frames when a preset is chosen)
+    dict(type="buttons", direction="down", x=1.02, y=0.8, xanchor="left", yanchor="top",
+         buttons=[
+             dict(label=meta["label"],
+                  method="animate",
+                  args=[meta["frame_names"],
+                        {"frame": {"duration": 80, "redraw": True}, "mode": "immediate", "transition": {"duration": 0}}],
+                  ) for meta in preset_meta
          ])
 ]
 
-# Preset buttons (switch to that preset's first frame instantly)
-preset_buttons = []
-for idx, meta in enumerate(preset_meta):
-    # animate to that preset's first frame name; then user can press Play to animate through that preset frames
-    preset_buttons.append(dict(label=meta['label'],
-                               method="animate",
-                               args=[[meta['first_frame_name']],  # animate to that single (first) frame
-                                     dict(frame=dict(duration=0, redraw=True), mode="immediate", transition=dict(duration=0))]))
-
-# Add preset-switching menu placed to the right of the plot
-updatemenus.append(dict(type="buttons", direction="down", x=1.02, y=0.8, xanchor="left", yanchor="top", buttons=preset_buttons))
-
 # Layout
 fig.update_layout(
-    title=f"{preset_meta[default_idx]['label']} — Riemann presets",
+    title=preset_meta[default_idx]['label'] + " — Riemann presets",
     xaxis_title="x",
     yaxis_title="t (time ↑)",
     yaxis=dict(autorange=False, range=[0, 3.0]),
-    sliders=sliders,
+    sliders=slider,
     updatemenus=updatemenus,
     width=900, height=520,
-    margin=dict(t=80, l=60, r=140, b=60)  # leave space on right for preset menu
+    margin=dict(t=80, l=60, r=140, b=60)
 )
 
 fig.show()
