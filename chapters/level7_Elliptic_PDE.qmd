@@ -12,7 +12,7 @@ jupyter: python3
 
 **Acharya:** Exactly. That changes both our modelling viewpoint and the numerical tools: we discretize the spatial domain and solve a (usually large) algebraic system.
 
-##  Prototypical equations
+## Prototypical equations
 
 The two classical elliptic equations in two dimensions are
 
@@ -30,7 +30,6 @@ The two classical elliptic equations in two dimensions are
 
 Boundary conditions determine a well-posed problem (Dirichlet, Neumann, Robin).
 
-
 A second-order linear PDE in 2D written as
 
 $$
@@ -45,7 +44,7 @@ $$
 
 This local condition corresponds to the absence of real characteristic curves — there is no natural direction for propagation.
 
-##  Boundary conditions
+## Boundary conditions
 
 - **Dirichlet:** prescribe $u$ on the boundary (value-driven).  
 - **Neumann:** prescribe normal derivative $\partial_n u$ on the boundary (flux-driven).  
@@ -75,6 +74,28 @@ $$
 
 This couples each grid point to its four neighbours.
 
+---
+
+**Pavni:** Wait, what happens along the edges of the square? We’re only writing difference equations for the interior nodes.
+
+**Acharya:** Good observation. On the boundaries, we must specify **boundary conditions** to make the problem well posed.  
+In this example, we assume **homogeneous Dirichlet conditions**, meaning
+$$
+u(x,y) = 0 \quad \text{for } (x,y) \text{ on the boundary of } \Omega = (0,1)^2.
+$$
+
+That’s like a square metal plate whose edges are held at zero temperature while heat is generated inside.  
+
+**Pavni:** So the temperature is fixed to zero all around, and the source term \(f(x,y)=1\) keeps the interior warm?
+
+**Acharya:** Exactly. Numerically, we handle this by solving only for the **interior grid points**.  
+The grid spacing is \(h = 1/(N+1)\), so the first and last rows/columns correspond to the boundary, where \(u=0\).  
+We don’t include those nodes in our system — the matrix \(A\) acts only on interior unknowns, which implicitly enforces \(u=0\) on the edges.
+
+**Pavni:** That makes sense — so every \(u_{i,j}\) we compute corresponds to an interior temperature, with the boundaries fixed to zero.
+
+---
+
 ## Matrix form and properties
 
 Ordering unknowns lexicographically (e.g. row-wise), the discrete Laplacian leads to a linear system
@@ -91,7 +112,7 @@ Key properties of the matrix $A$ for the standard five-point Laplacian with Diri
 
 These properties guide solver choices — conjugate gradient (CG) is an excellent option when $A$ is SPD.
 
-##  Simple solvers (algorithmic sketch)
+## Simple solvers (algorithmic sketch)
 
 **Pavni:** Which solver should I try first?
 
@@ -102,12 +123,11 @@ These properties guide solver choices — conjugate gradient (CG) is an excellen
 - **Successive Over-Relaxation (SOR)** (tune relaxation parameter $\omega$).  
 - **Conjugate Gradient** with an incomplete Cholesky or algebraic multigrid preconditioner for large problems.
 
-## 8. Example: Python — assemble and solve small Poisson
+## Example: Python — assemble and solve small Poisson
 
 ```{python}
-#| echo: false
 #| code-fold: true
-#| code-summary: "Show code"
+#| code-summary: "Show solver code"
 #| fig-cap: "Poisson solution on unit square (Dirichlet 0, f≡1) and its 3D surface."
 #| warning: false
 #| message: false
@@ -150,7 +170,7 @@ plt.xlabel("x"); plt.ylabel("y"); plt.tight_layout()
 plt.show()
 
 # --- 3D surface
-from mpl_toolkits.mplot3d import Axes3D  # harmless import; ok if unused
+from mpl_toolkits.mplot3d import Axes3D
 X, Y = np.meshgrid(x, y)
 fig = plt.figure(figsize=(6,5))
 ax = fig.add_subplot(111, projection='3d')
@@ -160,4 +180,3 @@ ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('u(x,y)')
 plt.tight_layout()
 plt.show()
 ```
-
