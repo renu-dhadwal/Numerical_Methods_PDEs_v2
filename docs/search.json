@@ -344,7 +344,7 @@
     "href": "chapters/level7_Elliptic_PDE.html",
     "title": "8  Elliptic Partial Differential Equations",
     "section": "",
-    "text": "9 Elliptic Partial Differential Equations\nPavni: We’ve seen waves (hyperbolic) and diffusion (parabolic). What are elliptic PDEs about?\nAcharya: Elliptic PDEs describe steady-state or equilibrium phenomena where time is no longer present. Typical examples are steady heat conduction, electrostatics (potential problems), and incompressible potential flow.\nPavni: So instead of marching forward in time we solve for the entire spatial field at once?\nAcharya: Exactly. That changes both our modelling viewpoint and the numerical tools: we discretize the spatial domain and solve a (usually large) algebraic system.",
+    "text": "8.1 Prototypical equations\nPavni: We’ve seen waves (hyperbolic) and diffusion (parabolic). What are elliptic PDEs about?\nAcharya: Elliptic PDEs describe steady-state or equilibrium phenomena where time is no longer present. Typical examples are steady heat conduction, electrostatics (potential problems), and incompressible potential flow.\nPavni: So instead of marching forward in time we solve for the entire spatial field at once?\nAcharya: Exactly. That changes both our modelling viewpoint and the numerical tools: we discretize the spatial domain and solve a (usually large) algebraic system.\nThe two classical elliptic equations in two dimensions are\nBoundary conditions determine a well-posed problem (Dirichlet, Neumann, Robin).\nA second-order linear PDE in 2D written as\n\\[\nA u_{xx} + 2B u_{xy} + C u_{yy} + \\dots = 0\n\\]\nis elliptic at a point if the discriminant satisfies\n\\[\nB^2 - AC &lt; 0.\n\\]\nThis local condition corresponds to the absence of real characteristic curves — there is no natural direction for propagation.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
@@ -353,8 +353,8 @@
     "objectID": "chapters/level7_Elliptic_PDE.html#prototypical-equations",
     "href": "chapters/level7_Elliptic_PDE.html#prototypical-equations",
     "title": "8  Elliptic Partial Differential Equations",
-    "section": "9.1 Prototypical equations",
-    "text": "9.1 Prototypical equations\nThe two classical elliptic equations in two dimensions are\n\nLaplace equation (no sources):\n\\[\nu_{xx} + u_{yy} = 0,\n\\]\nPoisson equation (with sources):\n\\[\nu_{xx} + u_{yy} = f(x,y).\n\\]\n\nBoundary conditions determine a well-posed problem (Dirichlet, Neumann, Robin).\nA second-order linear PDE in 2D written as\n\\[\nA u_{xx} + 2B u_{xy} + C u_{yy} + \\dots = 0\n\\]\nis elliptic at a point if the discriminant satisfies\n\\[\nB^2 - AC &lt; 0.\n\\]\nThis local condition corresponds to the absence of real characteristic curves — there is no natural direction for propagation.",
+    "section": "",
+    "text": "Laplace equation (no sources):\n\\[\nu_{xx} + u_{yy} = 0,\n\\]\nPoisson equation (with sources):\n\\[\nu_{xx} + u_{yy} = f(x,y).\n\\]",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
@@ -363,8 +363,8 @@
     "objectID": "chapters/level7_Elliptic_PDE.html#boundary-conditions",
     "href": "chapters/level7_Elliptic_PDE.html#boundary-conditions",
     "title": "8  Elliptic Partial Differential Equations",
-    "section": "9.2 Boundary conditions",
-    "text": "9.2 Boundary conditions\n\nDirichlet: prescribe \\(u\\) on the boundary (value-driven).\n\nNeumann: prescribe normal derivative \\(\\partial_n u\\) on the boundary (flux-driven).\n\nRobin: linear combination of Dirichlet and Neumann.\n\nPavni: Which ones are easiest numerically?\nAcharya: Dirichlet is simplest to impose in most finite-difference or finite-element contexts. Neumann requires consistent discretizations near the boundary (ghost points or one-sided differences).",
+    "section": "8.2 Boundary conditions",
+    "text": "8.2 Boundary conditions\n\nDirichlet: prescribe \\(u\\) on the boundary (value-driven).\n\nNeumann: prescribe normal derivative \\(\\partial_n u\\) on the boundary (flux-driven).\n\nRobin: linear combination of Dirichlet and Neumann.\n\nPavni: Which ones are easiest numerically?\nAcharya: Dirichlet is simplest to impose in most finite-difference or finite-element contexts. Neumann requires consistent discretizations near the boundary (ghost points or one-sided differences).",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
@@ -373,8 +373,8 @@
     "objectID": "chapters/level7_Elliptic_PDE.html#finite-difference-discretization-laplace-on-a-square",
     "href": "chapters/level7_Elliptic_PDE.html#finite-difference-discretization-laplace-on-a-square",
     "title": "8  Elliptic Partial Differential Equations",
-    "section": "9.3 Finite difference discretization — Laplace on a square",
-    "text": "9.3 Finite difference discretization — Laplace on a square\nWe illustrate with the unit square \\(\\Omega = (0,1)^2\\) and Dirichlet boundary conditions.\nUse a uniform grid with spacing \\(h=1/(N+1)\\) and interior nodes \\((x_i,y_j)\\) where \\(i,j=1,\\dots,N\\).\nCentral differences give the five-point stencil at interior node \\((i,j)\\):\n\\[\n\\frac{u_{i-1,j} - 2u_{i,j} + u_{i+1,j}}{h^2} + \\frac{u_{i,j-1} - 2u_{i,j} + u_{i,j+1}}{h^2} = f_{i,j}.\n\\]\nRearrange to the canonical form:\n\\[\n- u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} + 4 u_{i,j} = h^2 f_{i,j}.\n\\]\nThis couples each grid point to its four neighbours.",
+    "section": "8.3 Finite difference discretization — Laplace on a square",
+    "text": "8.3 Finite difference discretization — Laplace on a square\nWe illustrate with the unit square \\(\\Omega = (0,1)^2\\) and Dirichlet boundary conditions.\nUse a uniform grid with spacing \\(h=1/(N+1)\\) and interior nodes \\((x_i,y_j)\\) where \\(i,j=1,\\dots,N\\).\nCentral differences give the five-point stencil at interior node \\((i,j)\\):\n\\[\n\\frac{u_{i-1,j} - 2u_{i,j} + u_{i+1,j}}{h^2} + \\frac{u_{i,j-1} - 2u_{i,j} + u_{i,j+1}}{h^2} = f_{i,j}.\n\\]\nRearrange to the canonical form:\n\\[\n- u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} + 4 u_{i,j} = h^2 f_{i,j}.\n\\]\nThis couples each grid point to its four neighbours.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
@@ -383,8 +383,8 @@
     "objectID": "chapters/level7_Elliptic_PDE.html#matrix-form-and-properties",
     "href": "chapters/level7_Elliptic_PDE.html#matrix-form-and-properties",
     "title": "8  Elliptic Partial Differential Equations",
-    "section": "9.4 Matrix form and properties",
-    "text": "9.4 Matrix form and properties\nOrdering unknowns lexicographically (e.g. row-wise), the discrete Laplacian leads to a linear system\n\\[\nA \\mathbf{u} = \\mathbf{b}.\n\\]\nKey properties of the matrix \\(A\\) for the standard five-point Laplacian with Dirichlet BCs:\n\nsymmetric\n\nsparse (banded block structure)\n\npositive-definite (for Poisson with Dirichlet BCs)\n\nThese properties guide solver choices — conjugate gradient (CG) is an excellent option when \\(A\\) is SPD.",
+    "section": "8.4 Matrix form and properties",
+    "text": "8.4 Matrix form and properties\nOrdering unknowns lexicographically (e.g. row-wise), the discrete Laplacian leads to a linear system\n\\[\nA \\mathbf{u} = \\mathbf{b}.\n\\]\nKey properties of the matrix \\(A\\) for the standard five-point Laplacian with Dirichlet BCs:\n\nsymmetric\n\nsparse (banded block structure)\n\npositive-definite (for Poisson with Dirichlet BCs)\n\nThese properties guide solver choices — conjugate gradient (CG) is an excellent option when \\(A\\) is SPD.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
@@ -393,8 +393,8 @@
     "objectID": "chapters/level7_Elliptic_PDE.html#simple-solvers-algorithmic-sketch",
     "href": "chapters/level7_Elliptic_PDE.html#simple-solvers-algorithmic-sketch",
     "title": "8  Elliptic Partial Differential Equations",
-    "section": "9.5 Simple solvers (algorithmic sketch)",
-    "text": "9.5 Simple solvers (algorithmic sketch)\nPavni: Which solver should I try first?\nAcharya: Start with iterative smoothers and then try Krylov methods:\n\nJacobi (easy, textbook): parallel-friendly but slow.\n\nGauss–Seidel (faster; sequential).\n\nSuccessive Over-Relaxation (SOR) (tune relaxation parameter \\(\\omega\\)).\n\nConjugate Gradient with an incomplete Cholesky or algebraic multigrid preconditioner for large problems.",
+    "section": "8.5 Simple solvers (algorithmic sketch)",
+    "text": "8.5 Simple solvers (algorithmic sketch)\nPavni: Which solver should I try first?\nAcharya: Start with iterative smoothers and then try Krylov methods:\n\nJacobi (easy, textbook): parallel-friendly but slow.\n\nGauss–Seidel (faster; sequential).\n\nSuccessive Over-Relaxation (SOR) (tune relaxation parameter \\(\\omega\\)).\n\nConjugate Gradient with an incomplete Cholesky or algebraic multigrid preconditioner for large problems.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
@@ -403,8 +403,8 @@
     "objectID": "chapters/level7_Elliptic_PDE.html#example-python-assemble-and-solve-small-poisson",
     "href": "chapters/level7_Elliptic_PDE.html#example-python-assemble-and-solve-small-poisson",
     "title": "8  Elliptic Partial Differential Equations",
-    "section": "9.6 8. Example: Python — assemble and solve small Poisson",
-    "text": "9.6 8. Example: Python — assemble and solve small Poisson\nimport numpy as np\nfrom scipy.sparse import diags\nfrom scipy.sparse.linalg import spsolve\n\n# small example N x N interior points\nN = 20\nh = 1.0/(N+1)\n\n# 1D Laplacian block\nT = diags([1,-2,1], [-1,0,1], shape=(N,N)).toarray()\nI = np.eye(N)\nA = (np.kron(I, T) + np.kron(T, I)) / h**2\n\n# RHS f(x,y) = 1.0\nb = np.ones(N*N)\n\n# Solve (for small N we use direct)\nu = np.linalg.solve(A, b)\n\n# reshape to 2D for plotting or inspection\nU = u.reshape((N,N))",
+    "section": "8.6 8. Example: Python — assemble and solve small Poisson",
+    "text": "8.6 8. Example: Python — assemble and solve small Poisson\nimport numpy as np\nfrom scipy.sparse import diags\nfrom scipy.sparse.linalg import spsolve\n\n# small example N x N interior points\nN = 20\nh = 1.0/(N+1)\n\n# 1D Laplacian block\nT = diags([1,-2,1], [-1,0,1], shape=(N,N)).toarray()\nI = np.eye(N)\nA = (np.kron(I, T) + np.kron(T, I)) / h**2\n\n# RHS f(x,y) = 1.0\nb = np.ones(N*N)\n\n# Solve (for small N we use direct)\nu = np.linalg.solve(A, b)\n\n# reshape to 2D for plotting or inspection\nU = u.reshape((N,N))\n\n# Build coordinates for plotting\nx = np.linspace(h, 1 - h, N)\ny = np.linspace(h, 1 - h, N)\n\n\n# Plot the solution\nplt.imshow(U, origin=\"lower\", extent=[0, 1, 0, 1], aspect=\"auto\")\nplt.colorbar(label=\"u(x,y)\")\nplt.title(\"Poisson solution on unit square (Dirichlet 0, f≡1)\")\nplt.xlabel(\"x\")\nplt.ylabel(\"y\")\nplt.tight_layout()\nplt.show()\n\n#| label: poisson-surface\n#| fig-cap: \"3D surface of the numerical solution.\"\n#| fig-width: 6\n#| fig-height: 5\nfrom mpl_toolkits.mplot3d import Axes3D\nX, Y = np.meshgrid(x, y)\nfig = plt.figure()\nax = fig.add_subplot(111, projection='3d')\nax.plot_surface(X, Y, U, cmap='viridis')\nax.set_title('3D surface of Poisson solution')\nax.set_xlabel('x')\nax.set_ylabel('y')\nax.set_zlabel('u(x,y)')\nplt.tight_layout()\nplt.show()",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]

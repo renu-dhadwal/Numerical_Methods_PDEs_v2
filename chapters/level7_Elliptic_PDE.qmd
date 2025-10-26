@@ -126,4 +126,34 @@ u = np.linalg.solve(A, b)
 
 # reshape to 2D for plotting or inspection
 U = u.reshape((N,N))
+
+# Build coordinates for plotting
+x = np.linspace(h, 1 - h, N)
+y = np.linspace(h, 1 - h, N)
+
+
+# Plot the solution
+plt.imshow(U, origin="lower", extent=[0, 1, 0, 1], aspect="auto")
+plt.colorbar(label="u(x,y)")
+plt.title("Poisson solution on unit square (Dirichlet 0, f≡1)")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.tight_layout()
+plt.show()
+
+#| label: poisson-surface
+#| fig-cap: "3D surface of the numerical solution."
+#| fig-width: 6
+#| fig-height: 5
+from mpl_toolkits.mplot3d import Axes3D
+X, Y = np.meshgrid(x, y)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, U, cmap='viridis')
+ax.set_title('3D surface of Poisson solution')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('u(x,y)')
+plt.tight_layout()
+plt.show()
 ```

@@ -232,15 +232,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#elliptic-partial-differential-equations" id="toc-elliptic-partial-differential-equations" class="nav-link active" data-scroll-target="#elliptic-partial-differential-equations"><span class="header-section-number">9</span> Elliptic Partial Differential Equations</a>
-  <ul class="collapse">
-  <li><a href="#prototypical-equations" id="toc-prototypical-equations" class="nav-link" data-scroll-target="#prototypical-equations"><span class="header-section-number">9.1</span> Prototypical equations</a></li>
-  <li><a href="#boundary-conditions" id="toc-boundary-conditions" class="nav-link" data-scroll-target="#boundary-conditions"><span class="header-section-number">9.2</span> Boundary conditions</a></li>
-  <li><a href="#finite-difference-discretization-laplace-on-a-square" id="toc-finite-difference-discretization-laplace-on-a-square" class="nav-link" data-scroll-target="#finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">9.3</span> Finite difference discretization — Laplace on a square</a></li>
-  <li><a href="#matrix-form-and-properties" id="toc-matrix-form-and-properties" class="nav-link" data-scroll-target="#matrix-form-and-properties"><span class="header-section-number">9.4</span> Matrix form and properties</a></li>
-  <li><a href="#simple-solvers-algorithmic-sketch" id="toc-simple-solvers-algorithmic-sketch" class="nav-link" data-scroll-target="#simple-solvers-algorithmic-sketch"><span class="header-section-number">9.5</span> Simple solvers (algorithmic sketch)</a></li>
-  <li><a href="#example-python-assemble-and-solve-small-poisson" id="toc-example-python-assemble-and-solve-small-poisson" class="nav-link" data-scroll-target="#example-python-assemble-and-solve-small-poisson"><span class="header-section-number">9.6</span> 8. Example: Python — assemble and solve small Poisson</a></li>
-  </ul></li>
+  <li><a href="#prototypical-equations" id="toc-prototypical-equations" class="nav-link active" data-scroll-target="#prototypical-equations"><span class="header-section-number">8.1</span> Prototypical equations</a></li>
+  <li><a href="#boundary-conditions" id="toc-boundary-conditions" class="nav-link" data-scroll-target="#boundary-conditions"><span class="header-section-number">8.2</span> Boundary conditions</a></li>
+  <li><a href="#finite-difference-discretization-laplace-on-a-square" id="toc-finite-difference-discretization-laplace-on-a-square" class="nav-link" data-scroll-target="#finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">8.3</span> Finite difference discretization — Laplace on a square</a></li>
+  <li><a href="#matrix-form-and-properties" id="toc-matrix-form-and-properties" class="nav-link" data-scroll-target="#matrix-form-and-properties"><span class="header-section-number">8.4</span> Matrix form and properties</a></li>
+  <li><a href="#simple-solvers-algorithmic-sketch" id="toc-simple-solvers-algorithmic-sketch" class="nav-link" data-scroll-target="#simple-solvers-algorithmic-sketch"><span class="header-section-number">8.5</span> Simple solvers (algorithmic sketch)</a></li>
+  <li><a href="#example-python-assemble-and-solve-small-poisson" id="toc-example-python-assemble-and-solve-small-poisson" class="nav-link" data-scroll-target="#example-python-assemble-and-solve-small-poisson"><span class="header-section-number">8.6</span> 8. Example: Python — assemble and solve small Poisson</a></li>
   </ul>
 </nav>
     </div>
@@ -266,14 +263,12 @@ window.Quarto = {
 </header>
 
 
-<section id="elliptic-partial-differential-equations" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Elliptic Partial Differential Equations</h1>
 <p><strong>Pavni:</strong> We’ve seen waves (hyperbolic) and diffusion (parabolic). What are elliptic PDEs about?</p>
 <p><strong>Acharya:</strong> Elliptic PDEs describe <em>steady-state</em> or equilibrium phenomena where time is no longer present. Typical examples are steady heat conduction, electrostatics (potential problems), and incompressible potential flow.</p>
 <p><strong>Pavni:</strong> So instead of marching forward in time we solve for the entire spatial field at once?</p>
 <p><strong>Acharya:</strong> Exactly. That changes both our modelling viewpoint and the numerical tools: we discretize the spatial domain and solve a (usually large) algebraic system.</p>
-<section id="prototypical-equations" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="prototypical-equations"><span class="header-section-number">9.1</span> Prototypical equations</h2>
+<section id="prototypical-equations" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="prototypical-equations"><span class="header-section-number">8.1</span> Prototypical equations</h2>
 <p>The two classical elliptic equations in two dimensions are</p>
 <ul>
 <li><p><strong>Laplace equation</strong> (no sources):</p>
@@ -296,8 +291,8 @@ B^2 - AC &lt; 0.
 \]</span></p>
 <p>This local condition corresponds to the absence of real characteristic curves — there is no natural direction for propagation.</p>
 </section>
-<section id="boundary-conditions" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="boundary-conditions"><span class="header-section-number">9.2</span> Boundary conditions</h2>
+<section id="boundary-conditions" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="boundary-conditions"><span class="header-section-number">8.2</span> Boundary conditions</h2>
 <ul>
 <li><strong>Dirichlet:</strong> prescribe <span class="math inline">\(u\)</span> on the boundary (value-driven).<br>
 </li>
@@ -308,8 +303,8 @@ B^2 - AC &lt; 0.
 <p><strong>Pavni:</strong> Which ones are easiest numerically?</p>
 <p><strong>Acharya:</strong> Dirichlet is simplest to impose in most finite-difference or finite-element contexts. Neumann requires consistent discretizations near the boundary (ghost points or one-sided differences).</p>
 </section>
-<section id="finite-difference-discretization-laplace-on-a-square" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">9.3</span> Finite difference discretization — Laplace on a square</h2>
+<section id="finite-difference-discretization-laplace-on-a-square" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">8.3</span> Finite difference discretization — Laplace on a square</h2>
 <p>We illustrate with the unit square <span class="math inline">\(\Omega = (0,1)^2\)</span> and Dirichlet boundary conditions.</p>
 <p>Use a uniform grid with spacing <span class="math inline">\(h=1/(N+1)\)</span> and interior nodes <span class="math inline">\((x_i,y_j)\)</span> where <span class="math inline">\(i,j=1,\dots,N\)</span>.</p>
 <p>Central differences give the five-point stencil at interior node <span class="math inline">\((i,j)\)</span>:</p>
@@ -322,8 +317,8 @@ B^2 - AC &lt; 0.
 \]</span></p>
 <p>This couples each grid point to its four neighbours.</p>
 </section>
-<section id="matrix-form-and-properties" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="matrix-form-and-properties"><span class="header-section-number">9.4</span> Matrix form and properties</h2>
+<section id="matrix-form-and-properties" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="matrix-form-and-properties"><span class="header-section-number">8.4</span> Matrix form and properties</h2>
 <p>Ordering unknowns lexicographically (e.g.&nbsp;row-wise), the discrete Laplacian leads to a linear system</p>
 <p><span class="math display">\[
 A \mathbf{u} = \mathbf{b}.
@@ -338,8 +333,8 @@ A \mathbf{u} = \mathbf{b}.
 </ul>
 <p>These properties guide solver choices — conjugate gradient (CG) is an excellent option when <span class="math inline">\(A\)</span> is SPD.</p>
 </section>
-<section id="simple-solvers-algorithmic-sketch" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="simple-solvers-algorithmic-sketch"><span class="header-section-number">9.5</span> Simple solvers (algorithmic sketch)</h2>
+<section id="simple-solvers-algorithmic-sketch" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="simple-solvers-algorithmic-sketch"><span class="header-section-number">8.5</span> Simple solvers (algorithmic sketch)</h2>
 <p><strong>Pavni:</strong> Which solver should I try first?</p>
 <p><strong>Acharya:</strong> Start with iterative smoothers and then try Krylov methods:</p>
 <ul>
@@ -352,8 +347,8 @@ A \mathbf{u} = \mathbf{b}.
 <li><strong>Conjugate Gradient</strong> with an incomplete Cholesky or algebraic multigrid preconditioner for large problems.</li>
 </ul>
 </section>
-<section id="example-python-assemble-and-solve-small-poisson" class="level2" data-number="9.6">
-<h2 data-number="9.6" class="anchored" data-anchor-id="example-python-assemble-and-solve-small-poisson"><span class="header-section-number">9.6</span> 8. Example: Python — assemble and solve small Poisson</h2>
+<section id="example-python-assemble-and-solve-small-poisson" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="example-python-assemble-and-solve-small-poisson"><span class="header-section-number">8.6</span> 8. Example: Python — assemble and solve small Poisson</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> diags</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve</span>
@@ -374,13 +369,42 @@ A \mathbf{u} = \mathbf{b}.
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.linalg.solve(A, b)</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># reshape to 2D for plotting or inspection</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> u.reshape((N,N))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> u.reshape((N,N))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Build coordinates for plotting</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(h, <span class="dv">1</span> <span class="op">-</span> h, N)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(h, <span class="dv">1</span> <span class="op">-</span> h, N)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the solution</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>plt.imshow(U, origin<span class="op">=</span><span class="st">"lower"</span>, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], aspect<span class="op">=</span><span class="st">"auto"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">"u(x,y)"</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Poisson solution on unit square (Dirichlet 0, f≡1)"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"y"</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: poisson-surface</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "3D surface of the numerical solution."</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 6</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(X, Y, U, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'3D surface of Poisson solution'</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel(<span class="st">'u(x,y)'</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -972,7 +996,37 @@ A \mathbf{u} = \mathbf{b}.
 <span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="co"># reshape to 2D for plotting or inspection</span></span>
 <span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> u.reshape((N,N))</span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Build coordinates for plotting</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(h, <span class="dv">1</span> <span class="op">-</span> h, N)</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(h, <span class="dv">1</span> <span class="op">-</span> h, N)</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the solution</span></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>plt.imshow(U, origin<span class="op">=</span><span class="st">"lower"</span>, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], aspect<span class="op">=</span><span class="st">"auto"</span>)</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">"u(x,y)"</span>)</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Poisson solution on unit square (Dirichlet 0, f≡1)"</span>)</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"y"</span>)</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: poisson-surface</span></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "3D surface of the numerical solution."</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 6</span></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(X, Y, U, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'3D surface of Poisson solution'</span>)</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel(<span class="st">'u(x,y)'</span>)</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
