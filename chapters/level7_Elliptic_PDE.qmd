@@ -4,8 +4,6 @@ format: html
 jupyter: python3
 ---
 
-# Elliptic Partial Differential Equations
-
 **Pavni:** We’ve seen waves (hyperbolic) and diffusion (parabolic). What are elliptic PDEs about?
 
 **Acharya:** Elliptic PDEs describe *steady-state* or equilibrium phenomena where time is no longer present. Typical examples are steady heat conduction, electrostatics (potential problems), and incompressible potential flow.

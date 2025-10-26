@@ -236,13 +236,11 @@ window.Quarto = {
   <li><a href="#von-neumann-analysis-for-the-ftcs-scheme" id="toc-von-neumann-analysis-for-the-ftcs-scheme" class="nav-link active" data-scroll-target="#von-neumann-analysis-for-the-ftcs-scheme"><span class="header-section-number">7.1</span> Von Neumann analysis for the FTCS scheme</a></li>
   <li><a href="#stability-condition" id="toc-stability-condition" class="nav-link" data-scroll-target="#stability-condition"><span class="header-section-number">7.2</span> Stability condition</a></li>
   <li><a href="#comments-and-interpretation" id="toc-comments-and-interpretation" class="nav-link" data-scroll-target="#comments-and-interpretation"><span class="header-section-number">7.3</span> Comments and interpretation</a></li>
-  <li><a href="#quick-exercise" id="toc-quick-exercise" class="nav-link" data-scroll-target="#quick-exercise"><span class="header-section-number">8</span> Quick exercise</a>
+  <li><a href="#quick-exercise" id="toc-quick-exercise" class="nav-link" data-scroll-target="#quick-exercise"><span class="header-section-number">7.4</span> Quick exercise</a></li>
+  <li><a href="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" id="toc-von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="nav-link" data-scroll-target="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">7.5</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</a>
   <ul class="collapse">
-  <li><a href="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" id="toc-von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="nav-link" data-scroll-target="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">8.1</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</a>
-  <ul class="collapse">
-  <li><a href="#upwind-scheme" id="toc-upwind-scheme" class="nav-link" data-scroll-target="#upwind-scheme"><span class="header-section-number">8.1.1</span> 1. Upwind scheme</a></li>
-  <li><a href="#laxfriedrichs-scheme" id="toc-laxfriedrichs-scheme" class="nav-link" data-scroll-target="#laxfriedrichs-scheme"><span class="header-section-number">8.1.2</span> 2. Lax–Friedrichs scheme</a></li>
-  </ul></li>
+  <li><a href="#upwind-scheme" id="toc-upwind-scheme" class="nav-link" data-scroll-target="#upwind-scheme"><span class="header-section-number">7.5.1</span> 1. Upwind scheme</a></li>
+  <li><a href="#laxfriedrichs-scheme" id="toc-laxfriedrichs-scheme" class="nav-link" data-scroll-target="#laxfriedrichs-scheme"><span class="header-section-number">7.5.2</span> 2. Lax–Friedrichs scheme</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -351,8 +349,8 @@ Requiring <span class="math inline">\(\xi_{\min}\ge -1\)</span> gives</p>
 </ul>
 <hr>
 </section>
-<section id="quick-exercise" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Quick exercise</h1>
+<section id="quick-exercise" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="quick-exercise"><span class="header-section-number">7.4</span> Quick exercise</h2>
 <blockquote class="blockquote">
 <p><strong>Exercise.</strong><br>
 For the heat-equation FTCS scheme above, compute <span class="math inline">\(\xi(k)\)</span> for the two extreme wavenumbers on a grid with <span class="math inline">\(N\)</span> points and periodic boundary conditions:<br>
@@ -368,8 +366,9 @@ For <span class="math inline">\(k=0\)</span>, <span class="math inline">\(\sin^2
 For <span class="math inline">\(k=\pi/\Delta x\)</span>, <span class="math inline">\(\sin^2(\pi/2)=1\)</span> so <span class="math inline">\(\xi=1-4r\)</span> (maximal damping; needs <span class="math inline">\(r\le 1/2\)</span> for stability).
 </details>
 <hr>
-<section id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">8.1</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</h2>
+</section>
+<section id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">7.5</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</h2>
 <p><strong>Pavni:</strong> Now that we finished the heat equation, can we do von Neumann analysis for a hyperbolic equation – say, the linear advection equation?</p>
 <p><strong>Acharya:</strong> Perfect next step. Let’s take the simplest hyperbolic PDE:</p>
 <p><span class="math display">\[
@@ -377,8 +376,8 @@ u_t + a\,u_x = 0, \qquad a&gt;0.
 \]</span></p>
 <p>The exact solution is a wave that travels to the right at speed <span class="math inline">\(a\)</span> without changing shape.</p>
 <hr>
-<section id="upwind-scheme" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="upwind-scheme"><span class="header-section-number">8.1.1</span> 1. Upwind scheme</h3>
+<section id="upwind-scheme" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="upwind-scheme"><span class="header-section-number">7.5.1</span> 1. Upwind scheme</h3>
 <p><strong>Pavni:</strong> Remind me of the upwind finite-difference scheme?</p>
 <p><strong>Acharya:</strong> For <span class="math inline">\(a&gt;0\)</span>, we use the backward spatial difference:</p>
 <p><span class="math display">\[
@@ -402,8 +401,8 @@ u_j^{\,n+1} = u_j^{\,n} - C\,(u_j^{\,n} - u_{j-1}^{\,n}),
 \]</span></p>
 <hr>
 </section>
-<section id="laxfriedrichs-scheme" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="laxfriedrichs-scheme"><span class="header-section-number">8.1.2</span> 2. Lax–Friedrichs scheme</h3>
+<section id="laxfriedrichs-scheme" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="laxfriedrichs-scheme"><span class="header-section-number">7.5.2</span> 2. Lax–Friedrichs scheme</h3>
 <p>The Lax–Friedrichs scheme is</p>
 <p><span class="math display">\[
 u_j^{\,n+1}
@@ -441,7 +440,6 @@ Hence Lax–Friedrichs damps short waves more strongly.
 
 <!-- -->
 
-</section>
 </section>
 </section>
 
@@ -1021,7 +1019,7 @@ Hence Lax–Friedrichs damps short waves more strongly.
 <span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="fu"># Quick exercise</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick exercise</span></span>
 <span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Exercise.**</span>  </span>
 <span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; For the heat-equation FTCS scheme above, compute $\xi(k)$ for the two extreme wavenumbers on a grid with $N$ points and periodic boundary conditions:</span>  </span>
