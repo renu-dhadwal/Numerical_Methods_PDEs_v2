@@ -104,10 +104,11 @@ These properties guide solver choices — conjugate gradient (CG) is an excellen
 
 ## 8. Example: Python — assemble and solve small Poisson
 
-```python
+```python{echo=false code-fold=true code-summary="Show code"}
 import numpy as np
 from scipy.sparse import diags
 from scipy.sparse.linalg import spsolve
+import matplotlib.pyplot as plt
 
 # small example N x N interior points
 N = 20
