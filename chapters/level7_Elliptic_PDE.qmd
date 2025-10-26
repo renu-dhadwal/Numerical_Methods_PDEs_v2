@@ -182,28 +182,54 @@ plt.show()
 ```
 ## Interpreting the results
 
-**Pavni:** The plots look nice — I can see the solution forming a kind of smooth hill in the middle.  
-But what exactly does this represent?
+## Interpreting the results
 
-**Acharya:** Think of $$u(x,y)$$ as the **steady-state temperature** in a thin square plate.  
-The plate’s edges are held at zero temperature (Dirichlet $$u=0$$), and there’s a uniform internal heat source $$f(x,y)=1$$.  
+**Pavni:** The plots look interesting — the surface dips down in the middle instead of forming a hill.  
+Why is that happening?
 
-**Pavni:** So the heat source keeps trying to raise the temperature, but the cold edges pull it down?
+**Acharya:** Good observation! For our problem,
 
-**Acharya:** Exactly. The result is a smooth equilibrium temperature field that’s **highest at the center** and decreases smoothly toward the edges.  
-The 2D heatmap shows this distribution in color, while the 3D surface plot visualizes it as a gentle “bowl” or “dome.”
+$$
+u_{xx} + u_{yy} = 1, \quad u = 0 \ \text{on the boundary},
+$$
 
-**Pavni:** And the symmetry — the peak in the center — is because the geometry and source are symmetric?
+the Laplacian of $$u$$ is **positive**, which means $$u$$ must be **concave upward**.  
+So the solution forms a *bowl-shaped surface* — lowest at the center and rising smoothly to zero along the edges.
 
-**Acharya:** Correct. Because both the domain $$\Omega=(0,1)^2$$ and the forcing $$f(x,y)=1$$ are symmetric, the solution $$u(x,y)$$ is also symmetric about the midlines $$x=0.5$$ and $$y=0.5$$.  
-In more complex problems, asymmetry in boundary conditions or forcing breaks that symmetry.
+**Pavni:** So the interior is cooler, and the edges are hotter?
 
-**Pavni:** Does the maximum always occur at the center for such problems?
+**Acharya:** Not quite. Remember, the boundary is fixed at zero temperature.  
+The “depth” of the bowl means that $$u$$ itself takes *negative values* inside the domain —  
+the diffusion operator is balancing a positive source term by lowering $$u$$ below zero so that its curvature matches the source.  
+If you flipped the sign of $$f(x,y)$$ to $$-1$$, you’d get the opposite: a *hill-shaped* surface with a positive peak at the center.
 
-**Acharya:** For the Laplace or Poisson equations with positive $$f(x,y)$$, yes — the **maximum principle** tells us that $$u$$ reaches its maximum on the boundary unless there’s a source inside.  
-Here, the internal source $$f>0$$ allows an interior maximum at the center, which is exactly what you see.
+**Pavni:** Oh, so the sign of the source term determines whether the solution curves up or down?
 
-**Pavni:** That’s elegant — the plots are telling us the physics of the PDE!
+**Acharya:** Exactly.  
+A positive source term with zero Dirichlet boundaries gives a concave-up “bowl,”  
+while a negative source gives a concave-down “hill.”  
+The Laplacian enforces this curvature so that the spatial average of $$u$$ compensates for the forcing.
 
-**Acharya:** Exactly. Numerical results are meaningful only when we interpret them through the governing equations and boundary conditions.  
-Always connect the shape of the solution to *how the PDE balances diffusion and forcing*.
+**Pavni:** That’s quite elegant — the geometry of the plot directly shows the sign and balance of the PDE.
+
+**Acharya:** Precisely. Always interpret the numerical solution by checking:  
+1. The **sign** of the source term $$f$$,  
+2. The **type** of boundary condition, and  
+3. The **shape** (concavity) that satisfies the diffusion balance.
+## Exercises — Exploring the effect of sources and boundary conditions
+
+**Pavni:** These plots are quite revealing. What if we change the boundary conditions or the source term?
+
+**Acharya:** Excellent question! Try modifying the code and observe how the steady-state solution responds.  
+Here are some guided experiments:
+
+1. **Non-homogeneous Dirichlet boundary:**  
+   Keep $$f(x,y)=1$$ but set  
+   $$u=100$$ on the left edge ($x=0$) and $$u=0$$ elsewhere.  
+   → *Observe how the temperature gradient forms from left to right.*
+
+2. **Varying the internal heat source:**  
+   Replace  
+   ```python
+   f = np.ones((N, N))
+   ```
