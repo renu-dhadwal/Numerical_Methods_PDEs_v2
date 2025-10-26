@@ -104,11 +104,20 @@ These properties guide solver choices — conjugate gradient (CG) is an excellen
 
 ## 8. Example: Python — assemble and solve small Poisson
 
-```python{echo=false code-fold=true code-summary="Show code"}
+```{python}
+#| echo: false
+#| code-fold: true
+#| code-summary: "Show code"
+#| fig-cap: "Poisson solution on unit square (Dirichlet 0, f≡1) and its 3D surface."
+#| warning: false
+#| message: false
+#| fig-width: 6
+#| fig-height: 5
+
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.sparse import diags
 from scipy.sparse.linalg import spsolve
-import matplotlib.pyplot as plt
 
 # small example N x N interior points
 N = 20
@@ -132,29 +141,23 @@ U = u.reshape((N,N))
 x = np.linspace(h, 1 - h, N)
 y = np.linspace(h, 1 - h, N)
 
-
-# Plot the solution
+# --- 2D heatmap
+plt.figure(figsize=(6,5))
 plt.imshow(U, origin="lower", extent=[0, 1, 0, 1], aspect="auto")
 plt.colorbar(label="u(x,y)")
 plt.title("Poisson solution on unit square (Dirichlet 0, f≡1)")
-plt.xlabel("x")
-plt.ylabel("y")
-plt.tight_layout()
+plt.xlabel("x"); plt.ylabel("y"); plt.tight_layout()
 plt.show()
 
-#| label: poisson-surface
-#| fig-cap: "3D surface of the numerical solution."
-#| fig-width: 6
-#| fig-height: 5
-from mpl_toolkits.mplot3d import Axes3D
+# --- 3D surface
+from mpl_toolkits.mplot3d import Axes3D  # harmless import; ok if unused
 X, Y = np.meshgrid(x, y)
-fig = plt.figure()
+fig = plt.figure(figsize=(6,5))
 ax = fig.add_subplot(111, projection='3d')
 ax.plot_surface(X, Y, U, cmap='viridis')
 ax.set_title('3D surface of Poisson solution')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_zlabel('u(x,y)')
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('u(x,y)')
 plt.tight_layout()
 plt.show()
 ```
+
