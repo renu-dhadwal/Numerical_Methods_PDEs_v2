@@ -930,7 +930,7 @@ updatemenus = [
 ]
 
 fig.update_layout(
-    title=preset_meta[default_idx]["label"] + " — Riemann presets (CORRECTED)",
+    title=preset_meta[default_idx]["label"] + " — Riemann presets",
     xaxis_title="x",
     yaxis_title="t (time ↑)",
     xaxis=dict(range=[-1.5, 1.5]),
