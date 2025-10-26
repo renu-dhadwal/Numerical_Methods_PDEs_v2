@@ -238,6 +238,7 @@ window.Quarto = {
   <li><a href="#matrix-form-and-properties" id="toc-matrix-form-and-properties" class="nav-link" data-scroll-target="#matrix-form-and-properties"><span class="header-section-number">8.4</span> Matrix form and properties</a></li>
   <li><a href="#simple-solvers-algorithmic-sketch" id="toc-simple-solvers-algorithmic-sketch" class="nav-link" data-scroll-target="#simple-solvers-algorithmic-sketch"><span class="header-section-number">8.5</span> Simple solvers (algorithmic sketch)</a></li>
   <li><a href="#example-python-assemble-and-solve-small-poisson" id="toc-example-python-assemble-and-solve-small-poisson" class="nav-link" data-scroll-target="#example-python-assemble-and-solve-small-poisson"><span class="header-section-number">8.6</span> Example: Python — assemble and solve small Poisson</a></li>
+  <li><a href="#interpreting-the-results" id="toc-interpreting-the-results" class="nav-link" data-scroll-target="#interpreting-the-results"><span class="header-section-number">8.7</span> Interpreting the results</a></li>
   </ul>
 </nav>
     </div>
@@ -362,7 +363,7 @@ A \mathbf{u} = \mathbf{b}.
 </section>
 <section id="example-python-assemble-and-solve-small-poisson" class="level2" data-number="8.6">
 <h2 data-number="8.6" class="anchored" data-anchor-id="example-python-assemble-and-solve-small-poisson"><span class="header-section-number">8.6</span> Example: Python — assemble and solve small Poisson</h2>
-<div id="a4cc1db3" class="cell" data-fig-height="5" data-fig-width="6" data-message="false" data-execution_count="1">
+<div id="d755498f" class="cell" data-fig-height="5" data-fig-width="6" data-message="false" data-execution_count="1">
 <details class="code-fold">
 <summary>Show solver code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -427,6 +428,25 @@ A \mathbf{u} = \mathbf{b}.
 </div>
 </div>
 </div>
+</section>
+<section id="interpreting-the-results" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="interpreting-the-results"><span class="header-section-number">8.7</span> Interpreting the results</h2>
+<p><strong>Pavni:</strong> The plots look nice — I can see the solution forming a kind of smooth hill in the middle.<br>
+But what exactly does this represent?</p>
+<p><strong>Acharya:</strong> Think of <span class="math display">\[u(x,y)\]</span> as the <strong>steady-state temperature</strong> in a thin square plate.<br>
+The plate’s edges are held at zero temperature (Dirichlet <span class="math display">\[u=0\]</span>), and there’s a uniform internal heat source <span class="math display">\[f(x,y)=1\]</span>.</p>
+<p><strong>Pavni:</strong> So the heat source keeps trying to raise the temperature, but the cold edges pull it down?</p>
+<p><strong>Acharya:</strong> Exactly. The result is a smooth equilibrium temperature field that’s <strong>highest at the center</strong> and decreases smoothly toward the edges.<br>
+The 2D heatmap shows this distribution in color, while the 3D surface plot visualizes it as a gentle “bowl” or “dome.”</p>
+<p><strong>Pavni:</strong> And the symmetry — the peak in the center — is because the geometry and source are symmetric?</p>
+<p><strong>Acharya:</strong> Correct. Because both the domain <span class="math display">\[\Omega=(0,1)^2\]</span> and the forcing <span class="math display">\[f(x,y)=1\]</span> are symmetric, the solution <span class="math display">\[u(x,y)\]</span> is also symmetric about the midlines <span class="math display">\[x=0.5\]</span> and <span class="math display">\[y=0.5\]</span>.<br>
+In more complex problems, asymmetry in boundary conditions or forcing breaks that symmetry.</p>
+<p><strong>Pavni:</strong> Does the maximum always occur at the center for such problems?</p>
+<p><strong>Acharya:</strong> For the Laplace or Poisson equations with positive <span class="math display">\[f(x,y)\]</span>, yes — the <strong>maximum principle</strong> tells us that <span class="math display">\[u\]</span> reaches its maximum on the boundary unless there’s a source inside.<br>
+Here, the internal source <span class="math display">\[f&gt;0\]</span> allows an interior maximum at the center, which is exactly what you see.</p>
+<p><strong>Pavni:</strong> That’s elegant — the plots are telling us the physics of the PDE!</p>
+<p><strong>Acharya:</strong> Exactly. Numerical results are meaningful only when we interpret them through the governing equations and boundary conditions.<br>
+Always connect the shape of the solution to <em>how the PDE balances diffusion and forcing</em>.</p>
 
 
 
@@ -1077,6 +1097,33 @@ A \mathbf{u} = \mathbf{b}.
 <span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
 <span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting the results</span></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>**Pavni:** The plots look nice — I can see the solution forming a kind of smooth hill in the middle.  </span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>But what exactly does this represent?</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>**Acharya:** Think of $$u(x,y)$$ as the **steady-state temperature** in a thin square plate.  </span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>The plate’s edges are held at zero temperature (Dirichlet $$u=0$$), and there’s a uniform internal heat source $$f(x,y)=1$$.  </span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>**Pavni:** So the heat source keeps trying to raise the temperature, but the cold edges pull it down?</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. The result is a smooth equilibrium temperature field that’s **highest at the center** and decreases smoothly toward the edges.  </span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>The 2D heatmap shows this distribution in color, while the 3D surface plot visualizes it as a gentle “bowl” or “dome.”</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>**Pavni:** And the symmetry — the peak in the center — is because the geometry and source are symmetric?</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>**Acharya:** Correct. Because both the domain $$\Omega=(0,1)^2$$ and the forcing $$f(x,y)=1$$ are symmetric, the solution $$u(x,y)$$ is also symmetric about the midlines $$x=0.5$$ and $$y=0.5$$.  </span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>In more complex problems, asymmetry in boundary conditions or forcing breaks that symmetry.</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>**Pavni:** Does the maximum always occur at the center for such problems?</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>**Acharya:** For the Laplace or Poisson equations with positive $$f(x,y)$$, yes — the **maximum principle** tells us that $$u$$ reaches its maximum on the boundary unless there’s a source inside.  </span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>Here, the internal source $$f&gt;0$$ allows an interior maximum at the center, which is exactly what you see.</span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>**Pavni:** That’s elegant — the plots are telling us the physics of the PDE!</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>**Acharya:** Exactly. Numerical results are meaningful only when we interpret them through the governing equations and boundary conditions.  </span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>Always connect the shape of the solution to *how the PDE balances diffusion and forcing*.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

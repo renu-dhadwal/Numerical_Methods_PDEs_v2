@@ -408,5 +408,15 @@
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
+  },
+  {
+    "objectID": "chapters/level7_Elliptic_PDE.html#interpreting-the-results",
+    "href": "chapters/level7_Elliptic_PDE.html#interpreting-the-results",
+    "title": "8  Elliptic Partial Differential Equations",
+    "section": "8.7 Interpreting the results",
+    "text": "8.7 Interpreting the results\nPavni: The plots look nice — I can see the solution forming a kind of smooth hill in the middle.\nBut what exactly does this represent?\nAcharya: Think of \\[u(x,y)\\] as the steady-state temperature in a thin square plate.\nThe plate’s edges are held at zero temperature (Dirichlet \\[u=0\\]), and there’s a uniform internal heat source \\[f(x,y)=1\\].\nPavni: So the heat source keeps trying to raise the temperature, but the cold edges pull it down?\nAcharya: Exactly. The result is a smooth equilibrium temperature field that’s highest at the center and decreases smoothly toward the edges.\nThe 2D heatmap shows this distribution in color, while the 3D surface plot visualizes it as a gentle “bowl” or “dome.”\nPavni: And the symmetry — the peak in the center — is because the geometry and source are symmetric?\nAcharya: Correct. Because both the domain \\[\\Omega=(0,1)^2\\] and the forcing \\[f(x,y)=1\\] are symmetric, the solution \\[u(x,y)\\] is also symmetric about the midlines \\[x=0.5\\] and \\[y=0.5\\].\nIn more complex problems, asymmetry in boundary conditions or forcing breaks that symmetry.\nPavni: Does the maximum always occur at the center for such problems?\nAcharya: For the Laplace or Poisson equations with positive \\[f(x,y)\\], yes — the maximum principle tells us that \\[u\\] reaches its maximum on the boundary unless there’s a source inside.\nHere, the internal source \\[f&gt;0\\] allows an interior maximum at the center, which is exactly what you see.\nPavni: That’s elegant — the plots are telling us the physics of the PDE!\nAcharya: Exactly. Numerical results are meaningful only when we interpret them through the governing equations and boundary conditions.\nAlways connect the shape of the solution to how the PDE balances diffusion and forcing.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+    ]
   }
 ]
