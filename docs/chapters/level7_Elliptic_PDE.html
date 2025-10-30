@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Elliptic Partial Differential Equations – Numerical Methods for PDEs: An Interactive Journey</title>
+<title>9&nbsp; Elliptic Partial Differential Equations – Numerical Methods for PDEs: An Interactive Journey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level7_Elliptic_PDE.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level7_Elliptic_PDE.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -212,14 +212,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/level5_5_Numerics_Hyperbolic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">From Traffic Flow to Numerical Schemes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/level6_von_neumann.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/level7_Elliptic_PDE.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></span></a>
   </div>
 </li>
     </ul>
@@ -232,14 +238,14 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prototypical-equations" id="toc-prototypical-equations" class="nav-link active" data-scroll-target="#prototypical-equations"><span class="header-section-number">8.1</span> Prototypical equations</a></li>
-  <li><a href="#boundary-conditions" id="toc-boundary-conditions" class="nav-link" data-scroll-target="#boundary-conditions"><span class="header-section-number">8.2</span> Boundary conditions</a></li>
-  <li><a href="#finite-difference-discretization-laplace-on-a-square" id="toc-finite-difference-discretization-laplace-on-a-square" class="nav-link" data-scroll-target="#finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">8.3</span> Finite difference discretization — Laplace on a square</a></li>
-  <li><a href="#matrix-form-and-properties" id="toc-matrix-form-and-properties" class="nav-link" data-scroll-target="#matrix-form-and-properties"><span class="header-section-number">8.4</span> Matrix form and properties</a></li>
-  <li><a href="#simple-solvers-algorithmic-sketch" id="toc-simple-solvers-algorithmic-sketch" class="nav-link" data-scroll-target="#simple-solvers-algorithmic-sketch"><span class="header-section-number">8.5</span> Simple solvers (algorithmic sketch)</a></li>
-  <li><a href="#example-python-assemble-and-solve-small-poisson" id="toc-example-python-assemble-and-solve-small-poisson" class="nav-link" data-scroll-target="#example-python-assemble-and-solve-small-poisson"><span class="header-section-number">8.6</span> Example: Python — assemble and solve small Poisson</a></li>
-  <li><a href="#interpreting-the-results" id="toc-interpreting-the-results" class="nav-link" data-scroll-target="#interpreting-the-results"><span class="header-section-number">8.7</span> Interpreting the results</a></li>
-  <li><a href="#interpreting-the-results-1" id="toc-interpreting-the-results-1" class="nav-link" data-scroll-target="#interpreting-the-results-1"><span class="header-section-number">8.8</span> Interpreting the results</a></li>
+  <li><a href="#prototypical-equations" id="toc-prototypical-equations" class="nav-link active" data-scroll-target="#prototypical-equations"><span class="header-section-number">9.1</span> Prototypical equations</a></li>
+  <li><a href="#boundary-conditions" id="toc-boundary-conditions" class="nav-link" data-scroll-target="#boundary-conditions"><span class="header-section-number">9.2</span> Boundary conditions</a></li>
+  <li><a href="#finite-difference-discretization-laplace-on-a-square" id="toc-finite-difference-discretization-laplace-on-a-square" class="nav-link" data-scroll-target="#finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">9.3</span> Finite difference discretization — Laplace on a square</a></li>
+  <li><a href="#matrix-form-and-properties" id="toc-matrix-form-and-properties" class="nav-link" data-scroll-target="#matrix-form-and-properties"><span class="header-section-number">9.4</span> Matrix form and properties</a></li>
+  <li><a href="#simple-solvers-algorithmic-sketch" id="toc-simple-solvers-algorithmic-sketch" class="nav-link" data-scroll-target="#simple-solvers-algorithmic-sketch"><span class="header-section-number">9.5</span> Simple solvers (algorithmic sketch)</a></li>
+  <li><a href="#example-python-assemble-and-solve-small-poisson" id="toc-example-python-assemble-and-solve-small-poisson" class="nav-link" data-scroll-target="#example-python-assemble-and-solve-small-poisson"><span class="header-section-number">9.6</span> Example: Python — assemble and solve small Poisson</a></li>
+  <li><a href="#interpreting-the-results" id="toc-interpreting-the-results" class="nav-link" data-scroll-target="#interpreting-the-results"><span class="header-section-number">9.7</span> Interpreting the results</a></li>
+  <li><a href="#interpreting-the-results-1" id="toc-interpreting-the-results-1" class="nav-link" data-scroll-target="#interpreting-the-results-1"><span class="header-section-number">9.8</span> Interpreting the results</a></li>
   </ul>
 </nav>
     </div>
@@ -248,7 +254,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -269,8 +275,8 @@ window.Quarto = {
 <p><strong>Acharya:</strong> Elliptic PDEs describe <em>steady-state</em> or equilibrium phenomena where time is no longer present. Typical examples are steady heat conduction, electrostatics (potential problems), and incompressible potential flow.</p>
 <p><strong>Pavni:</strong> So instead of marching forward in time we solve for the entire spatial field at once?</p>
 <p><strong>Acharya:</strong> Exactly. That changes both our modelling viewpoint and the numerical tools: we discretize the spatial domain and solve a (usually large) algebraic system.</p>
-<section id="prototypical-equations" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="prototypical-equations"><span class="header-section-number">8.1</span> Prototypical equations</h2>
+<section id="prototypical-equations" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="prototypical-equations"><span class="header-section-number">9.1</span> Prototypical equations</h2>
 <p>The two classical elliptic equations in two dimensions are</p>
 <ul>
 <li><p><strong>Laplace equation</strong> (no sources):</p>
@@ -293,8 +299,8 @@ B^2 - AC &lt; 0.
 \]</span></p>
 <p>This local condition corresponds to the absence of real characteristic curves — there is no natural direction for propagation.</p>
 </section>
-<section id="boundary-conditions" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="boundary-conditions"><span class="header-section-number">8.2</span> Boundary conditions</h2>
+<section id="boundary-conditions" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="boundary-conditions"><span class="header-section-number">9.2</span> Boundary conditions</h2>
 <ul>
 <li><strong>Dirichlet:</strong> prescribe <span class="math inline">\(u\)</span> on the boundary (value-driven).<br>
 </li>
@@ -305,8 +311,8 @@ B^2 - AC &lt; 0.
 <p><strong>Pavni:</strong> Which ones are easiest numerically?</p>
 <p><strong>Acharya:</strong> Dirichlet is simplest to impose in most finite-difference or finite-element contexts. Neumann requires consistent discretizations near the boundary (ghost points or one-sided differences).</p>
 </section>
-<section id="finite-difference-discretization-laplace-on-a-square" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">8.3</span> Finite difference discretization — Laplace on a square</h2>
+<section id="finite-difference-discretization-laplace-on-a-square" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="finite-difference-discretization-laplace-on-a-square"><span class="header-section-number">9.3</span> Finite difference discretization — Laplace on a square</h2>
 <p>We illustrate with the unit square <span class="math inline">\(\Omega = (0,1)^2\)</span> and Dirichlet boundary conditions.</p>
 <p>Use a uniform grid with spacing <span class="math inline">\(h=1/(N+1)\)</span> and interior nodes <span class="math inline">\((x_i,y_j)\)</span> where <span class="math inline">\(i,j=1,\dots,N\)</span>.</p>
 <p>Central differences give the five-point stencil at interior node <span class="math inline">\((i,j)\)</span>:</p>
@@ -332,8 +338,8 @@ We don’t include those nodes in our system — the matrix (A) acts only on int
 <p><strong>Pavni:</strong> That makes sense — so every (u_{i,j}) we compute corresponds to an interior temperature, with the boundaries fixed to zero.</p>
 <hr>
 </section>
-<section id="matrix-form-and-properties" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="matrix-form-and-properties"><span class="header-section-number">8.4</span> Matrix form and properties</h2>
+<section id="matrix-form-and-properties" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="matrix-form-and-properties"><span class="header-section-number">9.4</span> Matrix form and properties</h2>
 <p>Ordering unknowns lexicographically (e.g.&nbsp;row-wise), the discrete Laplacian leads to a linear system</p>
 <p><span class="math display">\[
 A \mathbf{u} = \mathbf{b}.
@@ -348,8 +354,8 @@ A \mathbf{u} = \mathbf{b}.
 </ul>
 <p>These properties guide solver choices — conjugate gradient (CG) is an excellent option when <span class="math inline">\(A\)</span> is SPD.</p>
 </section>
-<section id="simple-solvers-algorithmic-sketch" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="simple-solvers-algorithmic-sketch"><span class="header-section-number">8.5</span> Simple solvers (algorithmic sketch)</h2>
+<section id="simple-solvers-algorithmic-sketch" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="simple-solvers-algorithmic-sketch"><span class="header-section-number">9.5</span> Simple solvers (algorithmic sketch)</h2>
 <p><strong>Pavni:</strong> Which solver should I try first?</p>
 <p><strong>Acharya:</strong> Start with iterative smoothers and then try Krylov methods:</p>
 <ul>
@@ -362,9 +368,9 @@ A \mathbf{u} = \mathbf{b}.
 <li><strong>Conjugate Gradient</strong> with an incomplete Cholesky or algebraic multigrid preconditioner for large problems.</li>
 </ul>
 </section>
-<section id="example-python-assemble-and-solve-small-poisson" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="example-python-assemble-and-solve-small-poisson"><span class="header-section-number">8.6</span> Example: Python — assemble and solve small Poisson</h2>
-<div id="5c7e2ae4" class="cell" data-fig-height="5" data-fig-width="6" data-message="false" data-execution_count="1">
+<section id="example-python-assemble-and-solve-small-poisson" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="example-python-assemble-and-solve-small-poisson"><span class="header-section-number">9.6</span> Example: Python — assemble and solve small Poisson</h2>
+<div id="71b03988" class="cell" data-fig-height="5" data-fig-width="6" data-message="false" data-execution_count="1">
 <details class="code-fold">
 <summary>Show solver code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -430,11 +436,11 @@ A \mathbf{u} = \mathbf{b}.
 </div>
 </div>
 </section>
-<section id="interpreting-the-results" class="level2" data-number="8.7">
-<h2 data-number="8.7" class="anchored" data-anchor-id="interpreting-the-results"><span class="header-section-number">8.7</span> Interpreting the results</h2>
+<section id="interpreting-the-results" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="interpreting-the-results"><span class="header-section-number">9.7</span> Interpreting the results</h2>
 </section>
-<section id="interpreting-the-results-1" class="level2" data-number="8.8">
-<h2 data-number="8.8" class="anchored" data-anchor-id="interpreting-the-results-1"><span class="header-section-number">8.8</span> Interpreting the results</h2>
+<section id="interpreting-the-results-1" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="interpreting-the-results-1"><span class="header-section-number">9.8</span> Interpreting the results</h2>
 <p><strong>Pavni:</strong> The plots look interesting — the surface dips down in the middle instead of forming a hill.<br>
 Why is that happening?</p>
 <p><strong>Acharya:</strong> Good observation! For our problem,</p>
@@ -932,7 +938,7 @@ Replace</p>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/level6_von_neumann.html" class="pagination-link" aria-label="Von Neumann Stability Analysis">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -14,7 +14,7 @@
     "href": "index.html#levels",
     "title": "Numerical Methods for PDEs: An Interactive Journey",
     "section": "1.1 Levels",
-    "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs\nLevel 3: Physical Interpretation and boundary conditions\nLevel 4: Finite Difference Methods- Introduction with application to the Heat Eqaution\nLevel 5 : Hyperbolic PDEs\nLevel 6 : Von-Neumann Stability Analysis\nLevel 7 : Elliptic PDEs",
+    "text": "1.1 Levels\n\nLevel 1: Origins of PDEs\nLevel 2: Classification of PDEs\nLevel 3: Physical Interpretation and boundary conditions\nLevel 4: Finite Difference Methods- Introduction with application to the Heat Eqaution\nLevel 5 : Hyperbolic PDEs\nLevel 5.5: Numerics for Hyperbolic PDEs\nLevel 6 : Von-Neumann Stability Analysis\nLevel 7 : Elliptic PDEs",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Numerical Methods for PDEs: An Interactive Journey</span>"
     ]
@@ -290,143 +290,173 @@
     ]
   },
   {
+    "objectID": "chapters/level5_5_Numerics_Hyperbolic.html",
+    "href": "chapters/level5_5_Numerics_Hyperbolic.html",
+    "title": "7  From Traffic Flow to Numerical Schemes",
+    "section": "",
+    "text": "7.1 Deriving the Upwind Scheme\nWe just modeled traffic flow and arrived at the linear transport (advection) equation\n\\[\nu_t + a\\,u_x = 0,\\qquad a&gt;0,\n\\]\nwhere \\(u(x,t)\\) is the density and \\(a\\) is the propagation speed.\nLet a uniform grid be\n\\[\nx_j = j\\,\\Delta x,\\qquad t^n = n\\,\\Delta t,\\qquad u_j^n \\approx u(x_j,t^n),\\qquad\n\\lambda = \\frac{a\\,\\Delta t}{\\Delta x}.\n\\]\nPavni: Last time we derived \\(u_t + a\\,u_x=0\\) from traffic flow. How do we solve it numerically?\nAcharya: First, try the tempting FTCS (Forward in time, Central in space):\n\\[\n\\frac{u_j^{n+1}-u_j^n}{\\Delta t} + a\\,\\frac{u_{j+1}^n - u_{j-1}^n}{2\\Delta x} = 0\n\\ \\Longrightarrow\\\nu_j^{n+1} = u_j^n - \\frac{\\lambda}{2}\\,(u_{j+1}^n - u_{j-1}^n).\n\\]\nPavni: It looks symmetric and simple. Why not use it?\nAcharya: Two reasons:\nPavni: So our spatial difference should look upstream.\nAcharya: Exactly. That idea is upwinding.\nAcharya: For \\(a&gt;0\\), approximate \\(u_x\\) by a backward (upwind) difference:\n\\[\nu_x(x_j,t^n) \\approx \\frac{u_j^n - u_{j-1}^n}{\\Delta x}.\n\\]\nUse forward Euler in time for \\(u_t\\):\n\\[\n\\frac{u_j^{n+1}-u_j^n}{\\Delta t} + a\\,\\frac{u_j^n - u_{j-1}^n}{\\Delta x} = 0.\n\\]\nPavni: Rearranging gives the update\n\\[\n\\boxed{\\,u_j^{n+1} = u_j^n - \\lambda\\,(u_j^n - u_{j-1}^n),\\qquad \\lambda=\\frac{a\\Delta t}{\\Delta x},\\ a&gt;0.\\,}\n\\]\nAcharya: If \\(a&lt;0\\) (information enters from the right), use a forward difference:\n\\[\n\\boxed{\\,u_j^{n+1} = u_j^n - \\lambda\\,(u_{j+1}^n - u_j^n),\\qquad \\lambda=\\frac{a\\Delta t}{\\Delta x}&lt;0.\\,}\n\\]\nPavni: So “upwind” means: differentiate in the direction information arrives from.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>From Traffic Flow to Numerical Schemes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level5_5_Numerics_Hyperbolic.html#what-upwind-does-qualitative",
+    "href": "chapters/level5_5_Numerics_Hyperbolic.html#what-upwind-does-qualitative",
+    "title": "7  From Traffic Flow to Numerical Schemes",
+    "section": "7.2 What Upwind Does (Qualitative)",
+    "text": "7.2 What Upwind Does (Qualitative)\nAcharya: Upwind is stable under a Courant (CFL) constraint and diffusive: sharp fronts smear slightly because the update is a convex combination of \\(u_j^n\\) and its upstream neighbor.\nPavni: And FTCS?\nAcharya: FTCS ignores directionality and is unstable for advection—save it for diffusion-type problems; not for pure transport.\n\n\n\nNote: CFL condition (preview)\n\nThe Courant number \\[\\lambda=a\\Delta t/\\Delta x\\] should satisfy\n\\[\n\\boxed{\\,|\\lambda| \\le 1\\,}\n\\]\nso that in one time step information does not “jump over” more than one cell.\nWe’ll derive this precisely via von Neumann analysis next time.\n\n\n\nNote: Boundary conditions\n\nOn a finite interval, specify inflow data only.\nFor \\(a&gt;0\\), prescribe \\(u(0,t)\\); the outflow boundary at \\(x=L\\) needs no condition.\nFor periodic problems, wrap indices: \\(u_{-1}^n \\equiv u_{N-1}^n\\).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>From Traffic Flow to Numerical Schemes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/level5_5_Numerics_Hyperbolic.html#blackboard-box-ready-to-project",
+    "href": "chapters/level5_5_Numerics_Hyperbolic.html#blackboard-box-ready-to-project",
+    "title": "7  From Traffic Flow to Numerical Schemes",
+    "section": "7.3 Blackboard Box (Ready to Project)",
+    "text": "7.3 Blackboard Box (Ready to Project)\n\nGrid and notation: \\(x_j=j\\Delta x,\\ t^n=n\\Delta t,\\ u_j^n\\approx u(x_j,t^n),\\ \\lambda=a\\Delta t/\\Delta x\\).\nFTCS (don’t use for advection):\n\\[\nu_j^{n+1}=u_j^n - \\frac{\\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\\quad\\text{(unstable for advection)}.\n\\]\nUpwind, \\(a&gt;0\\):\n\\[\n\\boxed{u_j^{n+1}=u_j^n-\\lambda\\,(u_j^n-u_{j-1}^n),\\quad |\\lambda|\\le1.}\n\\]\nUpwind, \\(a&lt;0\\):\n\\[\n\\boxed{u_j^{n+1}=u_j^n-\\lambda\\,(u_{j+1}^n-u_j^n),\\quad |\\lambda|\\le1.}\n\\]\n\nPavni: FTCS is elegant but wrong tool for traffic—\nAcharya: —whereas upwind respects the flow of information and gives us a reliable first solver.\nNext level: stability proofs and higher-order (Lax–Friedrichs, Lax–Wendroff).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>From Traffic Flow to Numerical Schemes</span>"
+    ]
+  },
+  {
     "objectID": "chapters/level6_von_neumann.html",
     "href": "chapters/level6_von_neumann.html",
-    "title": "7  Von Neumann Stability Analysis",
+    "title": "8  Von Neumann Stability Analysis",
     "section": "",
-    "text": "7.1 Von Neumann analysis for the FTCS scheme\nPavni: We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method – the frequency-by-frequency picture.\nAcharya: Sure. The von Neumann method tests how individual sinusoidal (Fourier) modes are amplified (or damped) by a linear, constant-coefficient finite-difference scheme. Because such schemes act independently on each Fourier mode, we can study one mode at a time and require every mode to be non-amplifying.\nAcharya: Let’s start from the 1-D heat equation\n\\[\nu_t = \\alpha\\,u_{xx}, \\qquad \\alpha &gt; 0,\n\\]\ndiscretized on a uniform grid \\(x_j = j\\,\\Delta x\\), \\(t_n = n\\,\\Delta t\\) with the explicit Forward-Time Centered-Space (FTCS) scheme\n\\[\nu_j^{\\,n+1} = u_j^{\\,n}\n  + r\\big(u_{j+1}^{\\,n} - 2u_j^{\\,n} + u_{j-1}^{\\,n}\\big),\n  \\qquad r := \\alpha\\,\\frac{\\Delta t}{\\Delta x^2}.\n\\]\n(When studying errors we set \\(e_j^n = u_j^n - u(x_j,t_n)\\).)\nPavni: Why can we assume a Fourier (sinusoidal) form for the error?\nAcharya: Because the scheme is linear with constant coefficients. That means if you feed a single Fourier mode into the linear update, it stays a Fourier mode – only its amplitude changes. Fourier modes form a basis for discrete periodic signals, so studying one mode suffices.\nAssume an error (or mode) of the form\n\\[\ne_j^n = \\xi^n e^{i k x_j},\n\\]\nwhere \\(k\\) is the spatial wavenumber and \\(\\xi\\) (the amplification factor) is the complex number that tells how the mode’s amplitude changes per time step.\nPavni: Plug that into the error update.\nAcharya: The error update mirrors the scheme:\n\\[\ne_j^{\\,n+1}\n  = e_j^{\\,n}\n  + r\\big(e_{j+1}^{\\,n} - 2e_j^{\\,n} + e_{j-1}^{\\,n}\\big).\n\\]\nSubstitute \\(e_j^{\\,n} = \\xi^n e^{i k x_j}\\) and \\(x_{j\\pm1} = x_j \\pm \\Delta x\\):\n\\[\n\\xi^{n+1} e^{i k x_j}\n  = \\xi^n e^{i k x_j}\n  + r\\,\\xi^n\\!\\left(e^{i k (x_j+\\Delta x)} - 2 e^{i k x_j} + e^{i k (x_j-\\Delta x)}\\right).\n\\]\nCancel the common nonzero factor \\(\\xi^n e^{i k x_j}\\) to get\n\\[\n\\xi = 1 + r\\!\\left(e^{i k \\Delta x} - 2 + e^{-i k \\Delta x}\\right).\n\\]\nUse \\(e^{i\\theta} + e^{-i\\theta} = 2\\cos\\theta\\) and simplify:\n\\[\n\\xi = 1 + 2r(\\cos(k\\Delta x)-1)\n    = 1 - 4r\\sin^2\\!\\left(\\frac{k\\Delta x}{2}\\right).\n\\]\nThis is the amplification factor for a Fourier mode of wavenumber \\(k\\).",
+    "text": "8.1 Von Neumann analysis for the FTCS scheme\nPavni: We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method – the frequency-by-frequency picture.\nAcharya: Sure. The von Neumann method tests how individual sinusoidal (Fourier) modes are amplified (or damped) by a linear, constant-coefficient finite-difference scheme. Because such schemes act independently on each Fourier mode, we can study one mode at a time and require every mode to be non-amplifying.\nAcharya: Let’s start from the 1-D heat equation\n\\[\nu_t = \\alpha\\,u_{xx}, \\qquad \\alpha &gt; 0,\n\\]\ndiscretized on a uniform grid \\(x_j = j\\,\\Delta x\\), \\(t_n = n\\,\\Delta t\\) with the explicit Forward-Time Centered-Space (FTCS) scheme\n\\[\nu_j^{\\,n+1} = u_j^{\\,n}\n  + r\\big(u_{j+1}^{\\,n} - 2u_j^{\\,n} + u_{j-1}^{\\,n}\\big),\n  \\qquad r := \\alpha\\,\\frac{\\Delta t}{\\Delta x^2}.\n\\]\n(When studying errors we set \\(e_j^n = u_j^n - u(x_j,t_n)\\).)\nPavni: Why can we assume a Fourier (sinusoidal) form for the error?\nAcharya: Because the scheme is linear with constant coefficients. That means if you feed a single Fourier mode into the linear update, it stays a Fourier mode – only its amplitude changes. Fourier modes form a basis for discrete periodic signals, so studying one mode suffices.\nAssume an error (or mode) of the form\n\\[\ne_j^n = \\xi^n e^{i k x_j},\n\\]\nwhere \\(k\\) is the spatial wavenumber and \\(\\xi\\) (the amplification factor) is the complex number that tells how the mode’s amplitude changes per time step.\nPavni: Plug that into the error update.\nAcharya: The error update mirrors the scheme:\n\\[\ne_j^{\\,n+1}\n  = e_j^{\\,n}\n  + r\\big(e_{j+1}^{\\,n} - 2e_j^{\\,n} + e_{j-1}^{\\,n}\\big).\n\\]\nSubstitute \\(e_j^{\\,n} = \\xi^n e^{i k x_j}\\) and \\(x_{j\\pm1} = x_j \\pm \\Delta x\\):\n\\[\n\\xi^{n+1} e^{i k x_j}\n  = \\xi^n e^{i k x_j}\n  + r\\,\\xi^n\\!\\left(e^{i k (x_j+\\Delta x)} - 2 e^{i k x_j} + e^{i k (x_j-\\Delta x)}\\right).\n\\]\nCancel the common nonzero factor \\(\\xi^n e^{i k x_j}\\) to get\n\\[\n\\xi = 1 + r\\!\\left(e^{i k \\Delta x} - 2 + e^{-i k \\Delta x}\\right).\n\\]\nUse \\(e^{i\\theta} + e^{-i\\theta} = 2\\cos\\theta\\) and simplify:\n\\[\n\\xi = 1 + 2r(\\cos(k\\Delta x)-1)\n    = 1 - 4r\\sin^2\\!\\left(\\frac{k\\Delta x}{2}\\right).\n\\]\nThis is the amplification factor for a Fourier mode of wavenumber \\(k\\).",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
     ]
   },
   {
     "objectID": "chapters/level6_von_neumann.html#stability-condition",
     "href": "chapters/level6_von_neumann.html#stability-condition",
-    "title": "7  Von Neumann Stability Analysis",
-    "section": "7.2 Stability condition",
-    "text": "7.2 Stability condition\nPavni: So what condition on \\(r\\) ensures stability?\nAcharya: For stability we require that every Fourier mode is not amplified, i.e.\n\\[\n|\\xi| \\le 1 \\quad\\text{for all allowed } k.\n\\]\nFor this FTCS case \\(\\xi\\) is real, so the requirement reduces to \\(-1 \\le \\xi \\le 1\\).\nThe maximum value of \\(\\xi\\) is \\(1\\) (when \\(\\sin^2=0\\)), so we only need to check the minimum.\nThe minimum occurs when \\(\\sin^2(\\cdot)=1\\), giving \\(\\xi_{\\min}=1-4r\\).\nRequiring \\(\\xi_{\\min}\\ge -1\\) gives\n\\[\n1 - 4r \\ge -1 \\quad\\Longrightarrow\\quad r \\le \\tfrac12.\n\\]\nHence the von Neumann stability condition is\n\\[\n\\boxed{\n  \\alpha\\,\\frac{\\Delta t}{\\Delta x^2} \\le \\tfrac12\n  \\quad\\Longleftrightarrow\\quad\n  \\Delta t \\le \\frac{\\Delta x^2}{2\\alpha}.\n}\n\\]",
+    "title": "8  Von Neumann Stability Analysis",
+    "section": "8.2 Stability condition",
+    "text": "8.2 Stability condition\nPavni: So what condition on \\(r\\) ensures stability?\nAcharya: For stability we require that every Fourier mode is not amplified, i.e.\n\\[\n|\\xi| \\le 1 \\quad\\text{for all allowed } k.\n\\]\nFor this FTCS case \\(\\xi\\) is real, so the requirement reduces to \\(-1 \\le \\xi \\le 1\\).\nThe maximum value of \\(\\xi\\) is \\(1\\) (when \\(\\sin^2=0\\)), so we only need to check the minimum.\nThe minimum occurs when \\(\\sin^2(\\cdot)=1\\), giving \\(\\xi_{\\min}=1-4r\\).\nRequiring \\(\\xi_{\\min}\\ge -1\\) gives\n\\[\n1 - 4r \\ge -1 \\quad\\Longrightarrow\\quad r \\le \\tfrac12.\n\\]\nHence the von Neumann stability condition is\n\\[\n\\boxed{\n  \\alpha\\,\\frac{\\Delta t}{\\Delta x^2} \\le \\tfrac12\n  \\quad\\Longleftrightarrow\\quad\n  \\Delta t \\le \\frac{\\Delta x^2}{2\\alpha}.\n}\n\\]",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
     ]
   },
   {
     "objectID": "chapters/level6_von_neumann.html#comments-and-interpretation",
     "href": "chapters/level6_von_neumann.html#comments-and-interpretation",
-    "title": "7  Von Neumann Stability Analysis",
-    "section": "7.3 Comments and interpretation",
-    "text": "7.3 Comments and interpretation\n\nLong (low-frequency) modes have \\(\\sin^2\\!\\approx (k\\Delta x/2)^2\\) and so \\(\\xi\\) is near 1; they decay slowly.\n\nShort (high-frequency) modes have \\(\\sin^2\\) near 1 and are damped more strongly (smaller \\(\\xi\\)).\n\nIf \\(r&gt;1/2\\), the shortest modes have \\(\\xi&lt;-1\\) leading to oscillatory growth and instability.\n\nThe von Neumann method is equivalent to the matrix/eigenvalue analysis for linear constant-coefficient schemes on periodic grids. Fourier modes are eigenvectors of circulant matrices; \\(\\xi(k)\\) are the eigenvalues.",
+    "title": "8  Von Neumann Stability Analysis",
+    "section": "8.3 Comments and interpretation",
+    "text": "8.3 Comments and interpretation\n\nLong (low-frequency) modes have \\(\\sin^2\\!\\approx (k\\Delta x/2)^2\\) and so \\(\\xi\\) is near 1; they decay slowly.\n\nShort (high-frequency) modes have \\(\\sin^2\\) near 1 and are damped more strongly (smaller \\(\\xi\\)).\n\nIf \\(r&gt;1/2\\), the shortest modes have \\(\\xi&lt;-1\\) leading to oscillatory growth and instability.\n\nThe von Neumann method is equivalent to the matrix/eigenvalue analysis for linear constant-coefficient schemes on periodic grids. Fourier modes are eigenvectors of circulant matrices; \\(\\xi(k)\\) are the eigenvalues.",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
     ]
   },
   {
     "objectID": "chapters/level6_von_neumann.html#quick-exercise",
     "href": "chapters/level6_von_neumann.html#quick-exercise",
-    "title": "7  Von Neumann Stability Analysis",
-    "section": "7.4 Quick exercise",
-    "text": "7.4 Quick exercise\n\nExercise.\nFor the heat-equation FTCS scheme above, compute \\(\\xi(k)\\) for the two extreme wavenumbers on a grid with \\(N\\) points and periodic boundary conditions:\n\\(k=0\\) and the Nyquist mode \\(k=\\pi/\\Delta x\\).\nInterpret the values.\n\n\n\nClick to reveal the answer\n\nAnswer (sketch).\nFor \\(k=0\\), \\(\\sin^2(0)=0\\) so \\(\\xi=1\\) (constant mode preserved).\nFor \\(k=\\pi/\\Delta x\\), \\(\\sin^2(\\pi/2)=1\\) so \\(\\xi=1-4r\\) (maximal damping; needs \\(r\\le 1/2\\) for stability).",
+    "title": "8  Von Neumann Stability Analysis",
+    "section": "8.4 Quick exercise",
+    "text": "8.4 Quick exercise\n\nExercise.\nFor the heat-equation FTCS scheme above, compute \\(\\xi(k)\\) for the two extreme wavenumbers on a grid with \\(N\\) points and periodic boundary conditions:\n\\(k=0\\) and the Nyquist mode \\(k=\\pi/\\Delta x\\).\nInterpret the values.\n\n\n\nClick to reveal the answer\n\nAnswer (sketch).\nFor \\(k=0\\), \\(\\sin^2(0)=0\\) so \\(\\xi=1\\) (constant mode preserved).\nFor \\(k=\\pi/\\Delta x\\), \\(\\sin^2(\\pi/2)=1\\) so \\(\\xi=1-4r\\) (maximal damping; needs \\(r\\le 1/2\\) for stability).",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
     ]
   },
   {
     "objectID": "chapters/level6_von_neumann.html#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes",
     "href": "chapters/level6_von_neumann.html#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes",
-    "title": "7  Von Neumann Stability Analysis",
-    "section": "7.5 Von Neumann analysis for the Upwind and Lax–Friedrichs schemes",
-    "text": "7.5 Von Neumann analysis for the Upwind and Lax–Friedrichs schemes\nPavni: Now that we finished the heat equation, can we do von Neumann analysis for a hyperbolic equation – say, the linear advection equation?\nAcharya: Perfect next step. Let’s take the simplest hyperbolic PDE:\n\\[\nu_t + a\\,u_x = 0, \\qquad a&gt;0.\n\\]\nThe exact solution is a wave that travels to the right at speed \\(a\\) without changing shape.\n\n\n7.5.1 1. Upwind scheme\nPavni: Remind me of the upwind finite-difference scheme?\nAcharya: For \\(a&gt;0\\), we use the backward spatial difference:\n\\[\nu_j^{\\,n+1} = u_j^{\\,n} - C\\,(u_j^{\\,n} - u_{j-1}^{\\,n}),\n\\]\nwhere \\(C = a\\,\\frac{\\Delta t}{\\Delta x}\\) is the Courant number.\nAssume \\(e_j^n = \\xi^n e^{i k x_j}\\) and substitute to obtain\n\\[\n\\xi = 1 - C(1 - e^{-i k \\Delta x})\n    = 1 - C\\!\\big(1 - \\cos(k\\Delta x) + i\\sin(k\\Delta x)\\big).\n\\]\nThen\n\\[\n|\\xi|^2\n  = [1 - C(1-\\cos(k\\Delta x))]^2 + [C\\sin(k\\Delta x)]^2\n  = 1 - 2C(1-C)(1-\\cos(k\\Delta x)).\n\\]\nBecause \\(1-\\cos(\\cdot)\\ge0\\), the scheme is stable if \\(0\\le C\\le1\\):\n\\[\n\\boxed{\\,0 \\le a\\,\\frac{\\Delta t}{\\Delta x} \\le 1.\\,}\n\\]\n\n\n\n7.5.2 2. Lax–Friedrichs scheme\nThe Lax–Friedrichs scheme is\n\\[\nu_j^{\\,n+1}\n  = \\tfrac12(u_{j+1}^{\\,n}+u_{j-1}^{\\,n})\n    - \\tfrac{C}{2}(u_{j+1}^{\\,n}-u_{j-1}^{\\,n}),\n\\]\nwhich gives\n\\[\n\\xi = \\cos(k\\Delta x) - i\\,C\\sin(k\\Delta x),\n\\qquad\n|\\xi|^2 = 1 - (1-C^2)\\sin^2(k\\Delta x).\n\\]\nStability requires \\(|C|\\le1\\):\n\\[\n\\boxed{\\,|a|\\,\\frac{\\Delta t}{\\Delta x} \\le 1.\\,}\n\\]\n\n\nOptional check: small-wavenumber expansions\n\nFor small \\(k\\Delta x\\), expand \\(\\sin\\) and \\(\\cos\\) to second order:\n\nUpwind: leading amplitude decay \\(\\sim e^{-(1-C)(k\\Delta x)^2/2}\\).\n\nLax–Friedrichs: leading amplitude decay \\(\\sim e^{-(1-C^2)(k\\Delta x)^2/2}\\).\n\nHence Lax–Friedrichs damps short waves more strongly.\n\n\nPavni: So both methods are stable under \\(|C|\\le1\\), but upwind is less diffusive.\nAcharya: Exactly – von Neumann analysis clearly shows the trade-offs among stability, dissipation, and dispersion.",
+    "title": "8  Von Neumann Stability Analysis",
+    "section": "8.5 Von Neumann analysis for the Upwind and Lax–Friedrichs schemes",
+    "text": "8.5 Von Neumann analysis for the Upwind and Lax–Friedrichs schemes\nPavni: Now that we finished the heat equation, can we do von Neumann analysis for a hyperbolic equation – say, the linear advection equation?\nAcharya: Perfect next step. Let’s take the simplest hyperbolic PDE:\n\\[\nu_t + a\\,u_x = 0, \\qquad a&gt;0.\n\\]\nThe exact solution is a wave that travels to the right at speed \\(a\\) without changing shape.\n\n\n8.5.1 1. Upwind scheme\nPavni: Remind me of the upwind finite-difference scheme?\nAcharya: For \\(a&gt;0\\), we use the backward spatial difference:\n\\[\nu_j^{\\,n+1} = u_j^{\\,n} - C\\,(u_j^{\\,n} - u_{j-1}^{\\,n}),\n\\]\nwhere \\(C = a\\,\\frac{\\Delta t}{\\Delta x}\\) is the Courant number.\nAssume \\(e_j^n = \\xi^n e^{i k x_j}\\) and substitute to obtain\n\\[\n\\xi = 1 - C(1 - e^{-i k \\Delta x})\n    = 1 - C\\!\\big(1 - \\cos(k\\Delta x) + i\\sin(k\\Delta x)\\big).\n\\]\nThen\n\\[\n|\\xi|^2\n  = [1 - C(1-\\cos(k\\Delta x))]^2 + [C\\sin(k\\Delta x)]^2\n  = 1 - 2C(1-C)(1-\\cos(k\\Delta x)).\n\\]\nBecause \\(1-\\cos(\\cdot)\\ge0\\), the scheme is stable if \\(0\\le C\\le1\\):\n\\[\n\\boxed{\\,0 \\le a\\,\\frac{\\Delta t}{\\Delta x} \\le 1.\\,}\n\\]\n\n\n\n8.5.2 2. Lax–Friedrichs scheme\nThe Lax–Friedrichs scheme is\n\\[\nu_j^{\\,n+1}\n  = \\tfrac12(u_{j+1}^{\\,n}+u_{j-1}^{\\,n})\n    - \\tfrac{C}{2}(u_{j+1}^{\\,n}-u_{j-1}^{\\,n}),\n\\]\nwhich gives\n\\[\n\\xi = \\cos(k\\Delta x) - i\\,C\\sin(k\\Delta x),\n\\qquad\n|\\xi|^2 = 1 - (1-C^2)\\sin^2(k\\Delta x).\n\\]\nStability requires \\(|C|\\le1\\):\n\\[\n\\boxed{\\,|a|\\,\\frac{\\Delta t}{\\Delta x} \\le 1.\\,}\n\\]\n\n\nOptional check: small-wavenumber expansions\n\nFor small \\(k\\Delta x\\), expand \\(\\sin\\) and \\(\\cos\\) to second order:\n\nUpwind: leading amplitude decay \\(\\sim e^{-(1-C)(k\\Delta x)^2/2}\\).\n\nLax–Friedrichs: leading amplitude decay \\(\\sim e^{-(1-C^2)(k\\Delta x)^2/2}\\).\n\nHence Lax–Friedrichs damps short waves more strongly.\n\n\nPavni: So both methods are stable under \\(|C|\\le1\\), but upwind is less diffusive.\nAcharya: Exactly – von Neumann analysis clearly shows the trade-offs among stability, dissipation, and dispersion.",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Von Neumann Stability Analysis</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html",
     "href": "chapters/level7_Elliptic_PDE.html",
-    "title": "8  Elliptic Partial Differential Equations",
+    "title": "9  Elliptic Partial Differential Equations",
     "section": "",
-    "text": "8.1 Prototypical equations\nPavni: We’ve seen waves (hyperbolic) and diffusion (parabolic). What are elliptic PDEs about?\nAcharya: Elliptic PDEs describe steady-state or equilibrium phenomena where time is no longer present. Typical examples are steady heat conduction, electrostatics (potential problems), and incompressible potential flow.\nPavni: So instead of marching forward in time we solve for the entire spatial field at once?\nAcharya: Exactly. That changes both our modelling viewpoint and the numerical tools: we discretize the spatial domain and solve a (usually large) algebraic system.\nThe two classical elliptic equations in two dimensions are\nBoundary conditions determine a well-posed problem (Dirichlet, Neumann, Robin).\nA second-order linear PDE in 2D written as\n\\[\nA u_{xx} + 2B u_{xy} + C u_{yy} + \\dots = 0\n\\]\nis elliptic at a point if the discriminant satisfies\n\\[\nB^2 - AC &lt; 0.\n\\]\nThis local condition corresponds to the absence of real characteristic curves — there is no natural direction for propagation.",
+    "text": "9.1 Prototypical equations\nPavni: We’ve seen waves (hyperbolic) and diffusion (parabolic). What are elliptic PDEs about?\nAcharya: Elliptic PDEs describe steady-state or equilibrium phenomena where time is no longer present. Typical examples are steady heat conduction, electrostatics (potential problems), and incompressible potential flow.\nPavni: So instead of marching forward in time we solve for the entire spatial field at once?\nAcharya: Exactly. That changes both our modelling viewpoint and the numerical tools: we discretize the spatial domain and solve a (usually large) algebraic system.\nThe two classical elliptic equations in two dimensions are\nBoundary conditions determine a well-posed problem (Dirichlet, Neumann, Robin).\nA second-order linear PDE in 2D written as\n\\[\nA u_{xx} + 2B u_{xy} + C u_{yy} + \\dots = 0\n\\]\nis elliptic at a point if the discriminant satisfies\n\\[\nB^2 - AC &lt; 0.\n\\]\nThis local condition corresponds to the absence of real characteristic curves — there is no natural direction for propagation.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#prototypical-equations",
     "href": "chapters/level7_Elliptic_PDE.html#prototypical-equations",
-    "title": "8  Elliptic Partial Differential Equations",
+    "title": "9  Elliptic Partial Differential Equations",
     "section": "",
     "text": "Laplace equation (no sources):\n\\[\nu_{xx} + u_{yy} = 0,\n\\]\nPoisson equation (with sources):\n\\[\nu_{xx} + u_{yy} = f(x,y).\n\\]",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#boundary-conditions",
     "href": "chapters/level7_Elliptic_PDE.html#boundary-conditions",
-    "title": "8  Elliptic Partial Differential Equations",
-    "section": "8.2 Boundary conditions",
-    "text": "8.2 Boundary conditions\n\nDirichlet: prescribe \\(u\\) on the boundary (value-driven).\n\nNeumann: prescribe normal derivative \\(\\partial_n u\\) on the boundary (flux-driven).\n\nRobin: linear combination of Dirichlet and Neumann.\n\nPavni: Which ones are easiest numerically?\nAcharya: Dirichlet is simplest to impose in most finite-difference or finite-element contexts. Neumann requires consistent discretizations near the boundary (ghost points or one-sided differences).",
+    "title": "9  Elliptic Partial Differential Equations",
+    "section": "9.2 Boundary conditions",
+    "text": "9.2 Boundary conditions\n\nDirichlet: prescribe \\(u\\) on the boundary (value-driven).\n\nNeumann: prescribe normal derivative \\(\\partial_n u\\) on the boundary (flux-driven).\n\nRobin: linear combination of Dirichlet and Neumann.\n\nPavni: Which ones are easiest numerically?\nAcharya: Dirichlet is simplest to impose in most finite-difference or finite-element contexts. Neumann requires consistent discretizations near the boundary (ghost points or one-sided differences).",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#finite-difference-discretization-laplace-on-a-square",
     "href": "chapters/level7_Elliptic_PDE.html#finite-difference-discretization-laplace-on-a-square",
-    "title": "8  Elliptic Partial Differential Equations",
-    "section": "8.3 Finite difference discretization — Laplace on a square",
-    "text": "8.3 Finite difference discretization — Laplace on a square\nWe illustrate with the unit square \\(\\Omega = (0,1)^2\\) and Dirichlet boundary conditions.\nUse a uniform grid with spacing \\(h=1/(N+1)\\) and interior nodes \\((x_i,y_j)\\) where \\(i,j=1,\\dots,N\\).\nCentral differences give the five-point stencil at interior node \\((i,j)\\):\n\\[\n\\frac{u_{i-1,j} - 2u_{i,j} + u_{i+1,j}}{h^2} + \\frac{u_{i,j-1} - 2u_{i,j} + u_{i,j+1}}{h^2} = f_{i,j}.\n\\]\nRearrange to the canonical form:\n\\[\n- u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} + 4 u_{i,j} = h^2 f_{i,j}.\n\\]\nThis couples each grid point to its four neighbours.\n\nPavni: Wait, what happens along the edges of the square? We’re only writing difference equations for the interior nodes.\nAcharya: Good observation. On the boundaries, we must specify boundary conditions to make the problem well posed.\nIn this example, we assume homogeneous Dirichlet conditions, meaning \\[\nu(x,y) = 0 \\quad \\text{for } (x,y) \\text{ on the boundary of } \\Omega = (0,1)^2.\n\\]\nThat’s like a square metal plate whose edges are held at zero temperature while heat is generated inside.\nPavni: So the temperature is fixed to zero all around, and the source term (f(x,y)=1) keeps the interior warm?\nAcharya: Exactly. Numerically, we handle this by solving only for the interior grid points.\nThe grid spacing is (h = 1/(N+1)), so the first and last rows/columns correspond to the boundary, where (u=0).\nWe don’t include those nodes in our system — the matrix (A) acts only on interior unknowns, which implicitly enforces (u=0) on the edges.\nPavni: That makes sense — so every (u_{i,j}) we compute corresponds to an interior temperature, with the boundaries fixed to zero.",
+    "title": "9  Elliptic Partial Differential Equations",
+    "section": "9.3 Finite difference discretization — Laplace on a square",
+    "text": "9.3 Finite difference discretization — Laplace on a square\nWe illustrate with the unit square \\(\\Omega = (0,1)^2\\) and Dirichlet boundary conditions.\nUse a uniform grid with spacing \\(h=1/(N+1)\\) and interior nodes \\((x_i,y_j)\\) where \\(i,j=1,\\dots,N\\).\nCentral differences give the five-point stencil at interior node \\((i,j)\\):\n\\[\n\\frac{u_{i-1,j} - 2u_{i,j} + u_{i+1,j}}{h^2} + \\frac{u_{i,j-1} - 2u_{i,j} + u_{i,j+1}}{h^2} = f_{i,j}.\n\\]\nRearrange to the canonical form:\n\\[\n- u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} + 4 u_{i,j} = h^2 f_{i,j}.\n\\]\nThis couples each grid point to its four neighbours.\n\nPavni: Wait, what happens along the edges of the square? We’re only writing difference equations for the interior nodes.\nAcharya: Good observation. On the boundaries, we must specify boundary conditions to make the problem well posed.\nIn this example, we assume homogeneous Dirichlet conditions, meaning \\[\nu(x,y) = 0 \\quad \\text{for } (x,y) \\text{ on the boundary of } \\Omega = (0,1)^2.\n\\]\nThat’s like a square metal plate whose edges are held at zero temperature while heat is generated inside.\nPavni: So the temperature is fixed to zero all around, and the source term (f(x,y)=1) keeps the interior warm?\nAcharya: Exactly. Numerically, we handle this by solving only for the interior grid points.\nThe grid spacing is (h = 1/(N+1)), so the first and last rows/columns correspond to the boundary, where (u=0).\nWe don’t include those nodes in our system — the matrix (A) acts only on interior unknowns, which implicitly enforces (u=0) on the edges.\nPavni: That makes sense — so every (u_{i,j}) we compute corresponds to an interior temperature, with the boundaries fixed to zero.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#matrix-form-and-properties",
     "href": "chapters/level7_Elliptic_PDE.html#matrix-form-and-properties",
-    "title": "8  Elliptic Partial Differential Equations",
-    "section": "8.4 Matrix form and properties",
-    "text": "8.4 Matrix form and properties\nOrdering unknowns lexicographically (e.g. row-wise), the discrete Laplacian leads to a linear system\n\\[\nA \\mathbf{u} = \\mathbf{b}.\n\\]\nKey properties of the matrix \\(A\\) for the standard five-point Laplacian with Dirichlet BCs:\n\nsymmetric\n\nsparse (banded block structure)\n\npositive-definite (for Poisson with Dirichlet BCs)\n\nThese properties guide solver choices — conjugate gradient (CG) is an excellent option when \\(A\\) is SPD.",
+    "title": "9  Elliptic Partial Differential Equations",
+    "section": "9.4 Matrix form and properties",
+    "text": "9.4 Matrix form and properties\nOrdering unknowns lexicographically (e.g. row-wise), the discrete Laplacian leads to a linear system\n\\[\nA \\mathbf{u} = \\mathbf{b}.\n\\]\nKey properties of the matrix \\(A\\) for the standard five-point Laplacian with Dirichlet BCs:\n\nsymmetric\n\nsparse (banded block structure)\n\npositive-definite (for Poisson with Dirichlet BCs)\n\nThese properties guide solver choices — conjugate gradient (CG) is an excellent option when \\(A\\) is SPD.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#simple-solvers-algorithmic-sketch",
     "href": "chapters/level7_Elliptic_PDE.html#simple-solvers-algorithmic-sketch",
-    "title": "8  Elliptic Partial Differential Equations",
-    "section": "8.5 Simple solvers (algorithmic sketch)",
-    "text": "8.5 Simple solvers (algorithmic sketch)\nPavni: Which solver should I try first?\nAcharya: Start with iterative smoothers and then try Krylov methods:\n\nJacobi (easy, textbook): parallel-friendly but slow.\n\nGauss–Seidel (faster; sequential).\n\nSuccessive Over-Relaxation (SOR) (tune relaxation parameter \\(\\omega\\)).\n\nConjugate Gradient with an incomplete Cholesky or algebraic multigrid preconditioner for large problems.",
+    "title": "9  Elliptic Partial Differential Equations",
+    "section": "9.5 Simple solvers (algorithmic sketch)",
+    "text": "9.5 Simple solvers (algorithmic sketch)\nPavni: Which solver should I try first?\nAcharya: Start with iterative smoothers and then try Krylov methods:\n\nJacobi (easy, textbook): parallel-friendly but slow.\n\nGauss–Seidel (faster; sequential).\n\nSuccessive Over-Relaxation (SOR) (tune relaxation parameter \\(\\omega\\)).\n\nConjugate Gradient with an incomplete Cholesky or algebraic multigrid preconditioner for large problems.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#example-python-assemble-and-solve-small-poisson",
     "href": "chapters/level7_Elliptic_PDE.html#example-python-assemble-and-solve-small-poisson",
-    "title": "8  Elliptic Partial Differential Equations",
-    "section": "8.6 Example: Python — assemble and solve small Poisson",
-    "text": "8.6 Example: Python — assemble and solve small Poisson\n\n\nShow solver code\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.sparse import diags\nfrom scipy.sparse.linalg import spsolve\n\n# small example N x N interior points\nN = 20\nh = 1.0/(N+1)\n\n# 1D Laplacian block\nT = diags([1,-2,1], [-1,0,1], shape=(N,N)).toarray()\nI = np.eye(N)\nA = (np.kron(I, T) + np.kron(T, I)) / h**2\n\n# RHS f(x,y) = 1.0\nb = np.ones(N*N)\n\n# Solve (for small N we use direct)\nu = np.linalg.solve(A, b)\n\n# reshape to 2D for plotting or inspection\nU = u.reshape((N,N))\n\n# Build coordinates for plotting\nx = np.linspace(h, 1 - h, N)\ny = np.linspace(h, 1 - h, N)\n\n# --- 2D heatmap\nplt.figure(figsize=(6,5))\nplt.imshow(U, origin=\"lower\", extent=[0, 1, 0, 1], aspect=\"auto\")\nplt.colorbar(label=\"u(x,y)\")\nplt.title(\"Poisson solution on unit square (Dirichlet 0, f≡1)\")\nplt.xlabel(\"x\"); plt.ylabel(\"y\"); plt.tight_layout()\nplt.show()\n\n# --- 3D surface\nfrom mpl_toolkits.mplot3d import Axes3D\nX, Y = np.meshgrid(x, y)\nfig = plt.figure(figsize=(6,5))\nax = fig.add_subplot(111, projection='3d')\nax.plot_surface(X, Y, U, cmap='viridis')\nax.set_title('3D surface of Poisson solution')\nax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('u(x,y)')\nplt.tight_layout()\nplt.show()\n\n\n\n\n\nPoisson solution on unit square (Dirichlet 0, f≡1) and its 3D surface.",
+    "title": "9  Elliptic Partial Differential Equations",
+    "section": "9.6 Example: Python — assemble and solve small Poisson",
+    "text": "9.6 Example: Python — assemble and solve small Poisson\n\n\nShow solver code\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.sparse import diags\nfrom scipy.sparse.linalg import spsolve\n\n# small example N x N interior points\nN = 20\nh = 1.0/(N+1)\n\n# 1D Laplacian block\nT = diags([1,-2,1], [-1,0,1], shape=(N,N)).toarray()\nI = np.eye(N)\nA = (np.kron(I, T) + np.kron(T, I)) / h**2\n\n# RHS f(x,y) = 1.0\nb = np.ones(N*N)\n\n# Solve (for small N we use direct)\nu = np.linalg.solve(A, b)\n\n# reshape to 2D for plotting or inspection\nU = u.reshape((N,N))\n\n# Build coordinates for plotting\nx = np.linspace(h, 1 - h, N)\ny = np.linspace(h, 1 - h, N)\n\n# --- 2D heatmap\nplt.figure(figsize=(6,5))\nplt.imshow(U, origin=\"lower\", extent=[0, 1, 0, 1], aspect=\"auto\")\nplt.colorbar(label=\"u(x,y)\")\nplt.title(\"Poisson solution on unit square (Dirichlet 0, f≡1)\")\nplt.xlabel(\"x\"); plt.ylabel(\"y\"); plt.tight_layout()\nplt.show()\n\n# --- 3D surface\nfrom mpl_toolkits.mplot3d import Axes3D\nX, Y = np.meshgrid(x, y)\nfig = plt.figure(figsize=(6,5))\nax = fig.add_subplot(111, projection='3d')\nax.plot_surface(X, Y, U, cmap='viridis')\nax.set_title('3D surface of Poisson solution')\nax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('u(x,y)')\nplt.tight_layout()\nplt.show()\n\n\n\n\n\nPoisson solution on unit square (Dirichlet 0, f≡1) and its 3D surface.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#interpreting-the-results",
     "href": "chapters/level7_Elliptic_PDE.html#interpreting-the-results",
-    "title": "8  Elliptic Partial Differential Equations",
-    "section": "8.7 Interpreting the results",
-    "text": "8.7 Interpreting the results",
+    "title": "9  Elliptic Partial Differential Equations",
+    "section": "9.7 Interpreting the results",
+    "text": "9.7 Interpreting the results",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   },
   {
     "objectID": "chapters/level7_Elliptic_PDE.html#interpreting-the-results-1",
     "href": "chapters/level7_Elliptic_PDE.html#interpreting-the-results-1",
-    "title": "8  Elliptic Partial Differential Equations",
-    "section": "8.8 Interpreting the results",
-    "text": "8.8 Interpreting the results\nPavni: The plots look interesting — the surface dips down in the middle instead of forming a hill.\nWhy is that happening?\nAcharya: Good observation! For our problem,\n\\[\nu_{xx} + u_{yy} = 1, \\quad u = 0 \\ \\text{on the boundary},\n\\]\nthe Laplacian of \\[u\\] is positive, which means \\[u\\] must be concave upward.\nSo the solution forms a bowl-shaped surface — lowest at the center and rising smoothly to zero along the edges.\nPavni: So the interior is cooler, and the edges are hotter?\nAcharya: Not quite. Remember, the boundary is fixed at zero temperature.\nThe “depth” of the bowl means that \\[u\\] itself takes negative values inside the domain —\nthe diffusion operator is balancing a positive source term by lowering \\[u\\] below zero so that its curvature matches the source.\nIf you flipped the sign of \\[f(x,y)\\] to \\[-1\\], you’d get the opposite: a hill-shaped surface with a positive peak at the center.\nPavni: Oh, so the sign of the source term determines whether the solution curves up or down?\nAcharya: Exactly.\nA positive source term with zero Dirichlet boundaries gives a concave-up “bowl,”\nwhile a negative source gives a concave-down “hill.”\nThe Laplacian enforces this curvature so that the spatial average of \\[u\\] compensates for the forcing.\nPavni: That’s quite elegant — the geometry of the plot directly shows the sign and balance of the PDE.\nAcharya: Precisely. Always interpret the numerical solution by checking:\n1. The sign of the source term \\[f\\],\n2. The type of boundary condition, and\n3. The shape (concavity) that satisfies the diffusion balance. ## Exercises — Exploring the effect of sources and boundary conditions\nPavni: These plots are quite revealing. What if we change the boundary conditions or the source term?\nAcharya: Excellent question! Try modifying the code and observe how the steady-state solution responds.\nHere are some guided experiments:\n\nNon-homogeneous Dirichlet boundary:\nKeep \\[f(x,y)=1\\] but set\n\\[u=100\\] on the left edge (\\(x=0\\)) and \\[u=0\\] elsewhere.\n→ Observe how the temperature gradient forms from left to right.\nVarying the internal heat source:\nReplace\nf = np.ones((N, N))",
+    "title": "9  Elliptic Partial Differential Equations",
+    "section": "9.8 Interpreting the results",
+    "text": "9.8 Interpreting the results\nPavni: The plots look interesting — the surface dips down in the middle instead of forming a hill.\nWhy is that happening?\nAcharya: Good observation! For our problem,\n\\[\nu_{xx} + u_{yy} = 1, \\quad u = 0 \\ \\text{on the boundary},\n\\]\nthe Laplacian of \\[u\\] is positive, which means \\[u\\] must be concave upward.\nSo the solution forms a bowl-shaped surface — lowest at the center and rising smoothly to zero along the edges.\nPavni: So the interior is cooler, and the edges are hotter?\nAcharya: Not quite. Remember, the boundary is fixed at zero temperature.\nThe “depth” of the bowl means that \\[u\\] itself takes negative values inside the domain —\nthe diffusion operator is balancing a positive source term by lowering \\[u\\] below zero so that its curvature matches the source.\nIf you flipped the sign of \\[f(x,y)\\] to \\[-1\\], you’d get the opposite: a hill-shaped surface with a positive peak at the center.\nPavni: Oh, so the sign of the source term determines whether the solution curves up or down?\nAcharya: Exactly.\nA positive source term with zero Dirichlet boundaries gives a concave-up “bowl,”\nwhile a negative source gives a concave-down “hill.”\nThe Laplacian enforces this curvature so that the spatial average of \\[u\\] compensates for the forcing.\nPavni: That’s quite elegant — the geometry of the plot directly shows the sign and balance of the PDE.\nAcharya: Precisely. Always interpret the numerical solution by checking:\n1. The sign of the source term \\[f\\],\n2. The type of boundary condition, and\n3. The shape (concavity) that satisfies the diffusion balance. ## Exercises — Exploring the effect of sources and boundary conditions\nPavni: These plots are quite revealing. What if we change the boundary conditions or the source term?\nAcharya: Excellent question! Try modifying the code and observe how the steady-state solution responds.\nHere are some guided experiments:\n\nNon-homogeneous Dirichlet boundary:\nKeep \\[f(x,y)=1\\] but set\n\\[u=100\\] on the left edge (\\(x=0\\)) and \\[u=0\\] elsewhere.\n→ Observe how the temperature gradient forms from left to right.\nVarying the internal heat source:\nReplace\nf = np.ones((N, N))",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Elliptic Partial Differential Equations</span>"
     ]
   }
 ]

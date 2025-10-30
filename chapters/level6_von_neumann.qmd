@@ -110,7 +110,7 @@ $$
 
 ---
 
-# Quick exercise
+## Quick exercise
 
 > **Exercise.**  
 > For the heat-equation FTCS scheme above, compute $\xi(k)$ for the two extreme wavenumbers on a grid with $N$ points and periodic boundary conditions:  

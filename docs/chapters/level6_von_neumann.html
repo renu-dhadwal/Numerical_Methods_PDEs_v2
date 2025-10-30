@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Von Neumann Stability Analysis – Numerical Methods for PDEs: An Interactive Journey</title>
+<title>8&nbsp; Von Neumann Stability Analysis – Numerical Methods for PDEs: An Interactive Journey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/level7_Elliptic_PDE.html" rel="next">
-<link href="../chapters/level5_Wave_Equation.html" rel="prev">
+<link href="../chapters/level5_5_Numerics_Hyperbolic.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level6_von_neumann.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/level6_von_neumann.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -213,14 +213,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/level5_5_Numerics_Hyperbolic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">From Traffic Flow to Numerical Schemes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/level6_von_neumann.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/level7_Elliptic_PDE.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></span></a>
   </div>
 </li>
     </ul>
@@ -233,14 +239,14 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#von-neumann-analysis-for-the-ftcs-scheme" id="toc-von-neumann-analysis-for-the-ftcs-scheme" class="nav-link active" data-scroll-target="#von-neumann-analysis-for-the-ftcs-scheme"><span class="header-section-number">7.1</span> Von Neumann analysis for the FTCS scheme</a></li>
-  <li><a href="#stability-condition" id="toc-stability-condition" class="nav-link" data-scroll-target="#stability-condition"><span class="header-section-number">7.2</span> Stability condition</a></li>
-  <li><a href="#comments-and-interpretation" id="toc-comments-and-interpretation" class="nav-link" data-scroll-target="#comments-and-interpretation"><span class="header-section-number">7.3</span> Comments and interpretation</a></li>
-  <li><a href="#quick-exercise" id="toc-quick-exercise" class="nav-link" data-scroll-target="#quick-exercise"><span class="header-section-number">7.4</span> Quick exercise</a></li>
-  <li><a href="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" id="toc-von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="nav-link" data-scroll-target="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">7.5</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</a>
+  <li><a href="#von-neumann-analysis-for-the-ftcs-scheme" id="toc-von-neumann-analysis-for-the-ftcs-scheme" class="nav-link active" data-scroll-target="#von-neumann-analysis-for-the-ftcs-scheme"><span class="header-section-number">8.1</span> Von Neumann analysis for the FTCS scheme</a></li>
+  <li><a href="#stability-condition" id="toc-stability-condition" class="nav-link" data-scroll-target="#stability-condition"><span class="header-section-number">8.2</span> Stability condition</a></li>
+  <li><a href="#comments-and-interpretation" id="toc-comments-and-interpretation" class="nav-link" data-scroll-target="#comments-and-interpretation"><span class="header-section-number">8.3</span> Comments and interpretation</a></li>
+  <li><a href="#quick-exercise" id="toc-quick-exercise" class="nav-link" data-scroll-target="#quick-exercise"><span class="header-section-number">8.4</span> Quick exercise</a></li>
+  <li><a href="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" id="toc-von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="nav-link" data-scroll-target="#von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">8.5</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</a>
   <ul class="collapse">
-  <li><a href="#upwind-scheme" id="toc-upwind-scheme" class="nav-link" data-scroll-target="#upwind-scheme"><span class="header-section-number">7.5.1</span> 1. Upwind scheme</a></li>
-  <li><a href="#laxfriedrichs-scheme" id="toc-laxfriedrichs-scheme" class="nav-link" data-scroll-target="#laxfriedrichs-scheme"><span class="header-section-number">7.5.2</span> 2. Lax–Friedrichs scheme</a></li>
+  <li><a href="#upwind-scheme" id="toc-upwind-scheme" class="nav-link" data-scroll-target="#upwind-scheme"><span class="header-section-number">8.5.1</span> 1. Upwind scheme</a></li>
+  <li><a href="#laxfriedrichs-scheme" id="toc-laxfriedrichs-scheme" class="nav-link" data-scroll-target="#laxfriedrichs-scheme"><span class="header-section-number">8.5.2</span> 2. Lax–Friedrichs scheme</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -250,7 +256,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Von Neumann Stability Analysis</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -269,8 +275,8 @@ window.Quarto = {
 
 <p><strong>Pavni:</strong> We already checked stability for the FTCS heat solver using the matrix (eigenvalue) approach. I want to see the Fourier-mode (von Neumann) method – the frequency-by-frequency picture.</p>
 <p><strong>Acharya:</strong> Sure. The von Neumann method tests how individual sinusoidal (Fourier) modes are amplified (or damped) by a linear, constant-coefficient finite-difference scheme. Because such schemes act independently on each Fourier mode, we can study one mode at a time and require every mode to be non-amplifying.</p>
-<section id="von-neumann-analysis-for-the-ftcs-scheme" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="von-neumann-analysis-for-the-ftcs-scheme"><span class="header-section-number">7.1</span> Von Neumann analysis for the FTCS scheme</h2>
+<section id="von-neumann-analysis-for-the-ftcs-scheme" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="von-neumann-analysis-for-the-ftcs-scheme"><span class="header-section-number">8.1</span> Von Neumann analysis for the FTCS scheme</h2>
 <p><strong>Acharya:</strong> Let’s start from the 1-D heat equation</p>
 <p><span class="math display">\[
 u_t = \alpha\,u_{xx}, \qquad \alpha &gt; 0,
@@ -313,8 +319,8 @@ e_j^{\,n+1}
 \]</span></p>
 <p>This is the amplification factor for a Fourier mode of wavenumber <span class="math inline">\(k\)</span>.</p>
 </section>
-<section id="stability-condition" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="stability-condition"><span class="header-section-number">7.2</span> Stability condition</h2>
+<section id="stability-condition" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="stability-condition"><span class="header-section-number">8.2</span> Stability condition</h2>
 <p><strong>Pavni:</strong> So what condition on <span class="math inline">\(r\)</span> ensures stability?</p>
 <p><strong>Acharya:</strong> For stability we require that every Fourier mode is not amplified, i.e.</p>
 <p><span class="math display">\[
@@ -336,8 +342,8 @@ Requiring <span class="math inline">\(\xi_{\min}\ge -1\)</span> gives</p>
 }
 \]</span></p>
 </section>
-<section id="comments-and-interpretation" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="comments-and-interpretation"><span class="header-section-number">7.3</span> Comments and interpretation</h2>
+<section id="comments-and-interpretation" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="comments-and-interpretation"><span class="header-section-number">8.3</span> Comments and interpretation</h2>
 <ul>
 <li>Long (low-frequency) modes have <span class="math inline">\(\sin^2\!\approx (k\Delta x/2)^2\)</span> and so <span class="math inline">\(\xi\)</span> is near 1; they decay slowly.<br>
 </li>
@@ -349,8 +355,8 @@ Requiring <span class="math inline">\(\xi_{\min}\ge -1\)</span> gives</p>
 </ul>
 <hr>
 </section>
-<section id="quick-exercise" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="quick-exercise"><span class="header-section-number">7.4</span> Quick exercise</h2>
+<section id="quick-exercise" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="quick-exercise"><span class="header-section-number">8.4</span> Quick exercise</h2>
 <blockquote class="blockquote">
 <p><strong>Exercise.</strong><br>
 For the heat-equation FTCS scheme above, compute <span class="math inline">\(\xi(k)\)</span> for the two extreme wavenumbers on a grid with <span class="math inline">\(N\)</span> points and periodic boundary conditions:<br>
@@ -367,8 +373,8 @@ For <span class="math inline">\(k=\pi/\Delta x\)</span>, <span class="math inlin
 </details>
 <hr>
 </section>
-<section id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">7.5</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</h2>
+<section id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="von-neumann-analysis-for-the-upwind-and-laxfriedrichs-schemes"><span class="header-section-number">8.5</span> Von Neumann analysis for the Upwind and Lax–Friedrichs schemes</h2>
 <p><strong>Pavni:</strong> Now that we finished the heat equation, can we do von Neumann analysis for a hyperbolic equation – say, the linear advection equation?</p>
 <p><strong>Acharya:</strong> Perfect next step. Let’s take the simplest hyperbolic PDE:</p>
 <p><span class="math display">\[
@@ -376,8 +382,8 @@ u_t + a\,u_x = 0, \qquad a&gt;0.
 \]</span></p>
 <p>The exact solution is a wave that travels to the right at speed <span class="math inline">\(a\)</span> without changing shape.</p>
 <hr>
-<section id="upwind-scheme" class="level3" data-number="7.5.1">
-<h3 data-number="7.5.1" class="anchored" data-anchor-id="upwind-scheme"><span class="header-section-number">7.5.1</span> 1. Upwind scheme</h3>
+<section id="upwind-scheme" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="upwind-scheme"><span class="header-section-number">8.5.1</span> 1. Upwind scheme</h3>
 <p><strong>Pavni:</strong> Remind me of the upwind finite-difference scheme?</p>
 <p><strong>Acharya:</strong> For <span class="math inline">\(a&gt;0\)</span>, we use the backward spatial difference:</p>
 <p><span class="math display">\[
@@ -401,8 +407,8 @@ u_j^{\,n+1} = u_j^{\,n} - C\,(u_j^{\,n} - u_{j-1}^{\,n}),
 \]</span></p>
 <hr>
 </section>
-<section id="laxfriedrichs-scheme" class="level3" data-number="7.5.2">
-<h3 data-number="7.5.2" class="anchored" data-anchor-id="laxfriedrichs-scheme"><span class="header-section-number">7.5.2</span> 2. Lax–Friedrichs scheme</h3>
+<section id="laxfriedrichs-scheme" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="laxfriedrichs-scheme"><span class="header-section-number">8.5.2</span> 2. Lax–Friedrichs scheme</h3>
 <p>The Lax–Friedrichs scheme is</p>
 <p><span class="math display">\[
 u_j^{\,n+1}
@@ -897,13 +903,13 @@ Hence Lax–Friedrichs damps short waves more strongly.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/level5_Wave_Equation.html" class="pagination-link" aria-label="Level 5 — Hyperbolic PDEs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Level 5 — Hyperbolic PDEs</span></span>
+      <a href="../chapters/level5_5_Numerics_Hyperbolic.html" class="pagination-link" aria-label="From Traffic Flow to Numerical Schemes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">From Traffic Flow to Numerical Schemes</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/level7_Elliptic_PDE.html" class="pagination-link" aria-label="Elliptic Partial Differential Equations">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">

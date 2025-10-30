@@ -1,0 +1,134 @@
+---
+title: "From Traffic Flow to Numerical Schemes"
+format: html
+jupyter: python3  
+---
+
+We just modeled traffic flow and arrived at the **linear transport (advection) equation**
+
+$$
+u_t + a\,u_x = 0,\qquad a>0,
+$$
+
+where $u(x,t)$ is the density and $a$ is the propagation speed.
+
+Let a uniform grid be
+
+$$
+x_j = j\,\Delta x,\qquad t^n = n\,\Delta t,\qquad u_j^n \approx u(x_j,t^n),\qquad
+\lambda = \frac{a\,\Delta t}{\Delta x}.
+$$
+
+---
+
+**Pavni:** Last time we derived $u_t + a\,u_x=0$ from traffic flow. How do we solve it numerically?
+
+**Acharya:** First, try the tempting **FTCS** (Forward in time, Central in space):
+
+$$
+\frac{u_j^{n+1}-u_j^n}{\Delta t} + a\,\frac{u_{j+1}^n - u_{j-1}^n}{2\Delta x} = 0
+\ \Longrightarrow\
+u_j^{n+1} = u_j^n - \frac{\lambda}{2}\,(u_{j+1}^n - u_{j-1}^n).
+$$
+
+**Pavni:** It looks symmetric and simple. Why not use it?
+
+**Acharya:** Two reasons:
+
+1. **Direction of information (traffic logic).** For $a>0$, information travels **from left to right**. FTCS is symmetric— it lets the **downstream** value $u_{j+1}^n$ influence the update equally with the **upstream** value $u_{j-1}^n$. That clashes with the one-way nature of characteristics.
+
+2. **Instability (preview).** FTCS for pure advection amplifies some Fourier modes (no built-in damping) and blows up. We’ll prove this with von Neumann analysis in the next level.
+
+**Pavni:** So our spatial difference should look **upstream**.
+
+**Acharya:** Exactly. That idea is **upwinding**.
+
+---
+
+## Deriving the Upwind Scheme
+
+**Acharya:** For $a>0$, approximate $u_x$ by a **backward (upwind) difference**:
+
+$$
+u_x(x_j,t^n) \approx \frac{u_j^n - u_{j-1}^n}{\Delta x}.
+$$
+
+Use forward Euler in time for $u_t$:
+
+$$
+\frac{u_j^{n+1}-u_j^n}{\Delta t} + a\,\frac{u_j^n - u_{j-1}^n}{\Delta x} = 0.
+$$
+
+**Pavni:** Rearranging gives the update
+
+$$
+\boxed{\,u_j^{n+1} = u_j^n - \lambda\,(u_j^n - u_{j-1}^n),\qquad \lambda=\frac{a\Delta t}{\Delta x},\ a>0.\,}
+$$
+
+**Acharya:** If $a<0$ (information enters from the **right**), use a **forward** difference:
+
+$$
+\boxed{\,u_j^{n+1} = u_j^n - \lambda\,(u_{j+1}^n - u_j^n),\qquad \lambda=\frac{a\Delta t}{\Delta x}<0.\,}
+$$
+
+**Pavni:** So “upwind” means: *differentiate in the direction information arrives from.*
+
+---
+
+## What Upwind Does (Qualitative)
+
+**Acharya:** Upwind is **stable** under a Courant (CFL) constraint and **diffusive**: sharp fronts smear slightly because the update is a convex combination of $u_j^n$ and its upstream neighbor.
+
+**Pavni:** And FTCS?
+
+**Acharya:** FTCS ignores directionality and is **unstable** for advection—save it for diffusion-type problems; not for pure transport.
+
+---
+
+<details>
+<summary><strong>Note: CFL condition (preview)</strong></summary>
+
+The Courant number $$\lambda=a\Delta t/\Delta x$$ should satisfy
+
+$$
+\boxed{\,|\lambda| \le 1\,}
+$$
+
+so that in one time step information does not “jump over” more than one cell.  
+We’ll derive this precisely via von Neumann analysis next time.
+</details>
+
+<details>
+<summary><strong>Note: Boundary conditions</strong></summary>
+
+On a finite interval, specify **inflow** data only.  
+For $a>0$, prescribe $u(0,t)$; the outflow boundary at $x=L$ needs no condition.  
+For **periodic** problems, wrap indices: $u_{-1}^n \equiv u_{N-1}^n$.
+</details>
+
+---
+
+## Blackboard Box (Ready to Project)
+
+- Grid and notation: $x_j=j\Delta x,\ t^n=n\Delta t,\ u_j^n\approx u(x_j,t^n),\ \lambda=a\Delta t/\Delta x$.
+- **FTCS (don’t use for advection):**
+
+  $$
+  u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.
+  $$
+
+- **Upwind, $a>0$:**
+
+  $$
+  \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_j^n-u_{j-1}^n),\quad |\lambda|\le1.}
+  $$
+
+- **Upwind, $a<0$:**
+
+  $$
+  \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_{j+1}^n-u_j^n),\quad |\lambda|\le1.}
+  $$
+
+**Pavni:** FTCS is elegant but wrong tool for traffic—  
+**Acharya:** —whereas **upwind respects the flow of information** and gives us a reliable first solver.  
+Next level: stability proofs and higher-order (Lax–Friedrichs, Lax–Wendroff).
