@@ -241,7 +241,6 @@ window.Quarto = {
   <ul>
   <li><a href="#deriving-the-upwind-scheme" id="toc-deriving-the-upwind-scheme" class="nav-link active" data-scroll-target="#deriving-the-upwind-scheme"><span class="header-section-number">7.1</span> Deriving the Upwind Scheme</a></li>
   <li><a href="#what-upwind-does-qualitative" id="toc-what-upwind-does-qualitative" class="nav-link" data-scroll-target="#what-upwind-does-qualitative"><span class="header-section-number">7.2</span> What Upwind Does (Qualitative)</a></li>
-  <li><a href="#blackboard-box-ready-to-project" id="toc-blackboard-box-ready-to-project" class="nav-link" data-scroll-target="#blackboard-box-ready-to-project"><span class="header-section-number">7.3</span> Blackboard Box (Ready to Project)</a></li>
   </ul>
 </nav>
     </div>
@@ -341,15 +340,10 @@ For <span class="math inline">\(a&gt;0\)</span>, prescribe <span class="math inl
 For <strong>periodic</strong> problems, wrap indices: <span class="math inline">\(u_{-1}^n \equiv u_{N-1}^n\)</span>.
 </details>
 <hr>
-</section>
-<section id="blackboard-box-ready-to-project" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="blackboard-box-ready-to-project"><span class="header-section-number">7.3</span> Blackboard Box (Ready to Project)</h2>
-<ul>
-<li><p>Grid and notation: <span class="math inline">\(x_j=j\Delta x,\ t^n=n\Delta t,\ u_j^n\approx u(x_j,t^n),\ \lambda=a\Delta t/\Delta x\)</span>.</p></li>
-<li><p><strong>FTCS (don’t use for advection):</strong></p>
 <p><span class="math display">\[
-u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.
-\]</span></p></li>
+  u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.
+  \]</span></p>
+<ul>
 <li><p><strong>Upwind, <span class="math inline">\(a&gt;0\)</span>:</strong></p>
 <p><span class="math display">\[
 \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_j^n-u_{j-1}^n),\quad |\lambda|\le1.}
@@ -943,30 +937,25 @@ Next level: stability proofs and higher-order (Lax–Friedrichs, Lax–Wendroff)
 <span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Blackboard Box (Ready to Project)</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Grid and notation: $x_j=j\Delta x,\ t^n=n\Delta t,\ u_j^n\approx u(x_j,t^n),\ \lambda=a\Delta t/\Delta x$.</span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**FTCS (don’t use for advection):**</span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>  $$</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>  u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>  $$</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Upwind, $a&gt;0$:**</span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  $$</span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_j^n-u_{j-1}^n),\quad |\lambda|\le1.}</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>  $$</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Upwind, $a&lt;0$:**</span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>  $$</span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>  \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_{j+1}^n-u_j^n),\quad |\lambda|\le1.}</span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>  $$</span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>**Pavni:** FTCS is elegant but wrong tool for traffic—  </span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>**Acharya:** —whereas **upwind respects the flow of information** and gives us a reliable first solver.  </span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>Next level: stability proofs and higher-order (Lax–Friedrichs, Lax–Wendroff).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>  u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Upwind, $a&gt;0$:**</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>  \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_j^n-u_{j-1}^n),\quad |\lambda|\le1.}</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Upwind, $a&lt;0$:**</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>  \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_{j+1}^n-u_j^n),\quad |\lambda|\le1.}</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>**Pavni:** FTCS is elegant but wrong tool for traffic—  </span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>**Acharya:** —whereas **upwind respects the flow of information** and gives us a reliable first solver.  </span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>Next level: stability proofs and higher-order (Lax–Friedrichs, Lax–Wendroff).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

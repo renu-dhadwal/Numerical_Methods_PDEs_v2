@@ -108,11 +108,6 @@ For **periodic** problems, wrap indices: $u_{-1}^n \equiv u_{N-1}^n$.
 
 ---
 
-## Blackboard Box (Ready to Project)
-
-- Grid and notation: $x_j=j\Delta x,\ t^n=n\Delta t,\ u_j^n\approx u(x_j,t^n),\ \lambda=a\Delta t/\Delta x$.
-- **FTCS (don’t use for advection):**
-
   $$
   u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.
   $$
