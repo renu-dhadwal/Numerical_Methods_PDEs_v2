@@ -1,10 +1,19 @@
 ---
 title: "From Traffic Flow to Numerical Schemes"
-format: html
-jupyter: python3  
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+jupyter: python3
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
-We just modeled traffic flow and arrived at the **linear transport (advection) equation**
+We just modeled traffic flow and arrived at the linear transport (advection) equation
 
 $$
 u_t + a\,u_x = 0,\qquad a>0,
@@ -23,7 +32,7 @@ $$
 
 **Pavni:** Last time we derived $u_t + a\,u_x=0$ from traffic flow. How do we solve it numerically?
 
-**Acharya:** First, try the tempting **FTCS** (Forward in time, Central in space):
+**Acharya:** First, try the tempting FTCS (Forward in time, Central in space):
 
 $$
 \frac{u_j^{n+1}-u_j^n}{\Delta t} + a\,\frac{u_{j+1}^n - u_{j-1}^n}{2\Delta x} = 0
@@ -35,19 +44,19 @@ $$
 
 **Acharya:** Two reasons:
 
-1. **Direction of information (traffic logic).** For $a>0$, information travels **from left to right**. FTCS is symmetric— it lets the **downstream** value $u_{j+1}^n$ influence the update equally with the **upstream** value $u_{j-1}^n$. That clashes with the one-way nature of characteristics.
+1. Direction of information (traffic logic). For $a>0$, information travels from left to right. FTCS is symmetric, so it lets the downstream value $u_{j+1}^n$ influence the update equally with the upstream value $u_{j-1}^n$. That clashes with the one-way nature of characteristics.
 
-2. **Instability (preview).** FTCS for pure advection amplifies some Fourier modes (no built-in damping) and blows up. We’ll prove this with von Neumann analysis in the next level.
+2. Instability (preview). FTCS for pure advection amplifies some Fourier modes (no built-in damping) and blows up. We will prove this with von Neumann analysis in the next level.
 
-**Pavni:** So our spatial difference should look **upstream**.
+**Pavni:** So our spatial difference should look upstream.
 
-**Acharya:** Exactly. That idea is **upwinding**.
+**Acharya:** Exactly. That idea is upwinding.
 
 ---
 
 ## Deriving the Upwind Scheme
 
-**Acharya:** For $a>0$, approximate $u_x$ by a **backward (upwind) difference**:
+**Acharya:** For $a>0$, approximate $u_x$ by a backward (upwind) difference:
 
 $$
 u_x(x_j,t^n) \approx \frac{u_j^n - u_{j-1}^n}{\Delta x}.
@@ -65,65 +74,433 @@ $$
 \boxed{\,u_j^{n+1} = u_j^n - \lambda\,(u_j^n - u_{j-1}^n),\qquad \lambda=\frac{a\Delta t}{\Delta x},\ a>0.\,}
 $$
 
-**Acharya:** If $a<0$ (information enters from the **right**), use a **forward** difference:
+**Acharya:** If $a<0$ (information enters from the right), use a forward difference:
 
 $$
 \boxed{\,u_j^{n+1} = u_j^n - \lambda\,(u_{j+1}^n - u_j^n),\qquad \lambda=\frac{a\Delta t}{\Delta x}<0.\,}
 $$
 
-**Pavni:** So “upwind” means: *differentiate in the direction information arrives from.*
+**Pavni:** So upwind means: differentiate in the direction information arrives from.
 
 ---
 
 ## What Upwind Does (Qualitative)
 
-**Acharya:** Upwind is **stable** under a Courant (CFL) constraint and **diffusive**: sharp fronts smear slightly because the update is a convex combination of $u_j^n$ and its upstream neighbor.
+**Acharya:** Upwind is stable under a Courant (CFL) constraint and diffusive: sharp fronts smear slightly because the update is a convex combination of $u_j^n$ and its upstream neighbor.
 
 **Pavni:** And FTCS?
 
-**Acharya:** FTCS ignores directionality and is **unstable** for advection—save it for diffusion-type problems; not for pure transport.
+**Acharya:** FTCS ignores directionality and is unstable for advection; save it for diffusion-type problems, not for pure transport.
 
 ---
 
 <details>
 <summary><strong>Note: CFL condition (preview)</strong></summary>
 
-The Courant number $$\lambda=a\Delta t/\Delta x$$ should satisfy
+The Courant number $\lambda=a\Delta t/\Delta x$ should satisfy
 
 $$
 \boxed{\,|\lambda| \le 1\,}
 $$
 
-so that in one time step information does not “jump over” more than one cell.  
-We’ll derive this precisely via von Neumann analysis next time.
+so that in one time step information does not jump over more than one cell.  
+We will derive this precisely via von Neumann analysis next time.
 </details>
 
 <details>
 <summary><strong>Note: Boundary conditions</strong></summary>
 
-On a finite interval, specify **inflow** data only.  
+On a finite interval, specify inflow data only.  
 For $a>0$, prescribe $u(0,t)$; the outflow boundary at $x=L$ needs no condition.  
-For **periodic** problems, wrap indices: $u_{-1}^n \equiv u_{N-1}^n$.
+For periodic problems, wrap indices: $u_{-1}^n \equiv u_{N-1}^n$.
 </details>
 
 ---
 
-  $$
-  u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.
-  $$
+### FTCS (for reference — unstable for advection)
+
+$$
+u_j^{n+1}=u_j^n - \frac{\lambda}{2}(u_{j+1}^n - u_{j-1}^n)\quad\text{(unstable for advection)}.
+$$
 
 - **Upwind, $a>0$:**
-
   $$
   \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_j^n-u_{j-1}^n),\quad |\lambda|\le1.}
   $$
 
 - **Upwind, $a<0$:**
-
   $$
   \boxed{u_j^{n+1}=u_j^n-\lambda\,(u_{j+1}^n-u_j^n),\quad |\lambda|\le1.}
   $$
 
-**Pavni:** FTCS is elegant but wrong tool for traffic—  
-**Acharya:** —whereas **upwind respects the flow of information** and gives us a reliable first solver.  
-Next level: stability proofs and higher-order (Lax–Friedrichs, Lax–Wendroff).
+**Pavni:** FTCS is elegant but the wrong tool for traffic.  
+**Acharya:** Upwind respects the flow of information and gives us a reliable first solver.  
+**Pavni:** We have seen that FTCS is unstable for advection and that Upwind works but is diffusive. What is next?
+
+**Acharya:** A classic alternative is Lax-Friedrichs (LF). Think of it as FTCS plus pre-averaging: before updating, we average the two neighbors of $u_j^n$. That adds a touch of numerical viscosity and stabilizes the scheme.
+
+**Pavni:** Pre-averaging? How does that enter the formula?
+
+**Acharya:** Start from the PDE written with forward Euler in time and a central difference for space, but replace $u_j^n$ by the average $\tfrac12(u_{j+1}^n+u_{j-1}^n)$:
+$$
+\frac{u_j^{n+1} - \tfrac12(u_{j+1}^n+u_{j-1}^n)}{\Delta t}
+\;+\; a\,\frac{u_{j+1}^n - u_{j-1}^n}{2\,\Delta x} \;=\; 0.
+$$
+
+**Pavni:** Rearranging gives the update?
+
+**Acharya:** Exactly:
+$$
+\boxed{~
+u_j^{n+1}
+= \tfrac12\,(u_{j+1}^n + u_{j-1}^n)
+- \tfrac{\lambda}{2}\,(u_{j+1}^n - u_{j-1}^n).
+~}
+$$
+
+**Pavni:** This looks a lot like FTCS, but with the average replacing $u_j^n$.
+
+**Acharya:** Right, and that averaging is the stabilizer. You can also rewrite LF to make the pieces more transparent:
+$$
+u_j^{n+1}
+= u_j^n
+- \frac{\lambda}{2}\,(u_{j+1}^n - u_{j-1}^n)
++ \frac{1}{2}\,(u_{j+1}^n - 2u_j^n + u_{j-1}^n).
+$$
+The last bracket is a discrete second derivative. It behaves like a diffusion term.
+
+**Pavni:** So LF transports with a central difference and simultaneously smooths with a second difference.
+
+**Acharya:** Precisely. That smoothing damps the modes that made FTCS blow up.
+
+---
+
+## CFL and behavior (what to remember now)
+
+**Acharya:** Like Upwind, LF needs a Courant condition:
+$$
+\boxed{~|\lambda| \le 1.~}
+$$
+
+**Pavni:** And qualitatively?
+
+**Acharya:** Stable and diffusive. Compared to Upwind, LF is typically more diffusive (more smoothing), because the pre-averaging adds extra numerical viscosity.
+
+---
+
+### Lax-Friedrichs (LF) scheme
+$$
+\boxed{~
+u_j^{n+1}
+= \tfrac12\,(u_{j+1}^n + u_{j-1}^n)
+- \tfrac{\lambda}{2}\,(u_{j+1}^n - u_{j-1}^n),\quad
+\lambda=\frac{a\,\Delta t}{\Delta x},\quad |\lambda|\le 1.
+~}
+$$
+
+### Equivalent transport + diffusion form
+$$
+\boxed{~
+u_j^{n+1}
+= u_j^n
+- \frac{\lambda}{2}\,(u_{j+1}^n - u_{j-1}^n)
++ \frac{1}{2}\,(u_{j+1}^n - 2u_j^n + u_{j-1}^n).
+~}
+$$
+
+**Comparison cue**
+
+- FTCS: central advection only -> unstable for advection.  
+- Upwind: one-sided advection -> stable, diffusive.  
+- Lax-Friedrichs: central advection + averaging -> stable, more diffusive.
+
+---
+
+## Why diffusive?
+
+A short Taylor analysis shows LF approximately solves
+$$
+u_t + a u_x \;\approx\; \frac{\Delta x^2}{2\Delta t}(1-\lambda^2)\,u_{xx},
+$$
+hence the built-in smoothing. (We will derive this formally when we do modified equations.)
+
+**Pavni:** So far we have:
+- FTCS: unstable,  
+- Upwind: stable but diffusive,  
+- Lax-Friedrichs: also stable, but even more diffusive.  
+
+Can we do better?
+
+**Acharya:** Yes. The next natural step is the Lax-Wendroff (LW) scheme.  
+It aims to achieve second-order accuracy in both time and space without excessive diffusion.
+
+**Pavni:** Sounds good. How do we derive it?
+
+---
+
+### Derivation through Taylor expansion
+
+**Acharya:** Start by expanding $u(x_j,t^{n+1})$ in a Taylor series in time:
+$$
+u_j^{n+1}
+= u_j^n + \Delta t\,u_t + \frac{\Delta t^2}{2}\,u_{tt} + \mathcal{O}(\Delta t^3).
+$$
+
+Now use the PDE to eliminate time derivatives:
+
+1. From the PDE: $u_t = -a u_x$.  
+2. Differentiate again: $u_{tt} = -a u_{xt} = -a(-a u_{xx}) = a^2 u_{xx}$.
+
+Substitute back:
+$$
+u_j^{n+1}
+= u_j^n - a\Delta t\,u_x + \frac{a^2\Delta t^2}{2}\,u_{xx}.
+$$
+
+**Pavni:** So we approximate $u_x$ and $u_{xx}$ with central differences?
+
+**Acharya:** Exactly:
+$$
+u_x \approx \frac{u_{j+1}^n - u_{j-1}^n}{2\Delta x}, \qquad
+u_{xx} \approx \frac{u_{j+1}^n - 2u_j^n + u_{j-1}^n}{\Delta x^2}.
+$$
+
+Substitute these into the Taylor expansion.
+
+---
+
+### The final Lax-Wendroff formula
+
+**Acharya:** Combining all terms gives:
+
+$$
+\boxed{
+u_j^{n+1}
+= u_j^n
+- \frac{\lambda}{2}\,(u_{j+1}^n - u_{j-1}^n)
++ \frac{\lambda^2}{2}\,(u_{j+1}^n - 2u_j^n + u_{j-1}^n).
+}
+$$
+
+**Pavni:** Same stencil as Lax-Friedrichs. The only difference is the coefficient of that second-difference term.
+
+**Acharya:** Exactly.  
+Both schemes use $(u_{j+1}-2u_j+u_{j-1})$, but:
+
+| Scheme | Coefficient on $u_{xx}$-like term |
+|:-------|:-----------------------------------|
+| Lax-Friedrichs | $+\frac{1}{2}$ |
+| Lax-Wendroff | $+\frac{\lambda^2}{2}$ |
+
+---
+
+### Accuracy and Stability
+
+**Pavni:** So Lax-Wendroff should be more accurate?
+
+**Acharya:** Yes, it is second-order accurate in both time and space.  
+Like Lax-Friedrichs, it is stable under the same CFL condition:
+
+$$
+\boxed{|\lambda| \le 1.}
+$$
+
+However, while LF is diffusive, LW is dispersive: it does not smooth the solution, but may create small oscillations near steep gradients.
+
+---
+
+## Discussion: Diffusion vs. Dispersion
+
+**Pavni:** Why does LW produce oscillations?
+
+**Acharya:** Look at its modified equation.  
+If we expand the numerical scheme in Taylor series, we find
+
+$$
+u_t + a\,u_x
+= -\,\frac{a\,\Delta x^2}{6}\,(1 - \lambda^2)\,u_{xxx} + \mathcal{O}(\Delta x^4).
+$$
+
+That extra term involves the third derivative, not the second.  
+Third derivatives do not damp amplitudes; they shift the phase of waves.
+
+- A $u_{xx}$ term -> diffusion (damps high frequencies).  
+- A $u_{xxx}$ term -> dispersion (distorts wave shape).
+
+**Pavni:** So the oscillations are phase errors, not amplitude errors.
+
+**Acharya:** Exactly.  
+That is why we say:  
+Lax-Friedrichs is diffusive,  
+Lax-Wendroff is dispersive.
+
+---
+
+### Lax-Wendroff scheme
+
+$$
+\boxed{
+u_j^{n+1}
+= u_j^n
+- \frac{\lambda}{2}\,(u_{j+1}^n - u_{j-1}^n)
++ \frac{\lambda^2}{2}\,(u_{j+1}^n - 2u_j^n + u_{j-1}^n), \quad |\lambda|\le1.
+}
+$$
+
+### Modified equation (reveals dispersion)
+
+$$
+\boxed{
+u_t + a\,u_x = -\frac{a\,\Delta x^2}{6}\,(1 - \lambda^2)\,u_{xxx}.
+}
+$$
+
+**Error type summary**
+
+| Scheme | Leading error term | Effect on solution |
+|---------|-------------------|--------------------|
+| Upwind | $u_{xx}$ | Diffusive (smoothing) |
+| Lax-Friedrichs | $u_{xx}$ | More diffusive |
+| Lax-Wendroff | $u_{xxx}$ | Dispersive (oscillatory) |
+
+---
+
+## Problem (Comparison Plot)
+
+We solve the 1-D linear advection (transport) equation on a periodic domain $x\in[0,1)$:
+$$
+u_t + a\,u_x = 0,
+$$
+with a Gaussian initial condition $u_0(x)=\exp\{-100(x-0.3)^2\}$ and compare three schemes:
+
+- Upwind (first-order upwind; direction chosen by $\mathrm{sign}(a)$)
+- Lax-Friedrichs (LF)
+- Lax-Wendroff (LW)
+
+We visualize results for Courant numbers $\lambda = a\Delta t/\Delta x \in \{0.5, 1.0, 1.5\}$.  
+Recall: stable only if $|\lambda|\le 1$ (so $\lambda=1.5$ will show instability).
+
+```{python}
+#| label: helpers
+#| include: true
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Problem setup
+a  = 1.0
+L  = 1.0
+Nx = 400
+x  = np.linspace(0.0, L, Nx, endpoint=False)
+dx = L / Nx
+T  = 1.0
+
+def u0_fn(x):
+    return np.exp(-100.0*(x - 0.3)**2)
+
+u0 = u0_fn(x)
+
+# Periodic neighbors
+def roll_plus(u):
+    return np.roll(u, -1)
+
+def roll_minus(u):
+    return np.roll(u, +1)
+
+# Schemes
+def step_upwind(u, lam, a):
+    if a >= 0:
+        return u - lam*(u - roll_minus(u))
+    else:
+        return u - lam*(roll_plus(u) - u)
+
+def step_lf(u, lam):
+    # Lax-Friedrichs
+    return 0.5*(roll_plus(u) + roll_minus(u)) - 0.5*lam*(roll_plus(u) - roll_minus(u))
+
+def step_lw(u, lam):
+    # Lax-Wendroff
+    up = roll_plus(u); um = roll_minus(u)
+    return u - 0.5*lam*(up - um) + 0.5*(lam**2)*(up - 2*u + um)
+
+# Exact via periodic interpolation of u0(x - aT)
+def periodic_interp(u_samples, shift, xgrid, L):
+    x_ext = np.concatenate([xgrid, xgrid + L])
+    u_ext = np.concatenate([u_samples, u_samples])
+    xq    = (xgrid - shift) % L
+    return np.interp(xq, x_ext, u_ext)
+
+# Driver for the three methods
+def run_three_methods_for_lambda(lam_target, a, T, u0, x, L, dx):
+    if a == 0:
+        dt = T; Nt = 1
+    else:
+        dt = abs(lam_target)*dx/abs(a)
+        Nt = int(np.ceil(T/dt))
+        dt = T / Nt
+    lam = a*dt/dx
+
+    uU  = u0.copy()
+    uLF = u0.copy()
+    uLW = u0.copy()
+
+    for _ in range(Nt):
+        uU  = step_upwind(uU, lam, a)
+        uLF = step_lf(uLF, lam)
+        uLW = step_lw(uLW, lam)
+        # Clip to avoid wrecking axes when unstable
+        for arr in (uU, uLF, uLW):
+            np.clip(arr, -1e6, 1e6, out=arr)
+
+    u_exact = periodic_interp(u0, a*T, x, L)
+    return uU, uLF, uLW, u_exact, lam, Nt, dt
+
+#| label: plot-comparison
+#| echo: false
+#| fig-cap: "Upwind (diffusive), Lax-Friedrichs (more diffusive), and Lax-Wendroff (dispersive) for three Courant numbers."
+#| fig-width: 12
+#| fig-height: 4
+
+lambdas = [0.5, 1.0, 1.5]
+colors = dict(Upwind='tab:orange', LF='tab:green', LW='tab:red', Exact='k', Init='0.6')
+
+fig, axes = plt.subplots(1, 3, figsize=(12, 4), sharey=True)
+plt.subplots_adjust(top=0.82, wspace=0.28)  # leave space for suptitle and panel titles
+
+for ax, lam_target in zip(axes, lambdas):
+    # run the solver
+    uU, uLF, uLW, uex, lam_actual, Nt, dt = run_three_methods_for_lambda(
+        lam_target, a, T, u0, x, L, dx
+    )
+
+    # common axis styling
+    ymin = min(u0.min(), uex.min()) - 0.05
+    ymax = max(u0.max(), uex.max()) + 0.05
+    ax.set_xlim(0, L)
+    ax.set_ylim(ymin, ymax)
+    ax.grid(True)
+    ax.set_xlabel("x")
+
+    # always show initial and exact (for reference)
+    ax.plot(x, u0, '--', color=colors['Init'], label='Initial' if ax is axes[0] else None)
+    ax.plot(x, uex, ':',  color=colors['Exact'], label='Exact'  if ax is axes[0] else None)
+
+    # if stable, plot the three schemes; else annotate
+    if abs(lam_actual) <= 1.0 + 1e-12:
+        ax.plot(x, uU,  '-', color=colors['Upwind'], label='Upwind' if ax is axes[0] else None)
+        ax.plot(x, uLF, '-', color=colors['LF'],    label='Lax-Friedrichs' if ax is axes[0] else None)
+        ax.plot(x, uLW, '-', color=colors['LW'],    label='Lax-Wendroff'   if ax is axes[0] else None)
+    else:
+        ax.text(0.5, 0.5, "Unstable (|lambda| > 1)\nSchemes not plotted",
+                ha='center', va='center', transform=ax.transAxes)
+
+    ax.set_title(rf"lambda target = {lam_target}, steps = {Nt}")
+
+axes[0].set_ylabel("u(x, T)")
+axes[0].legend(ncol=2, fontsize=9, frameon=False)
+
+fig.suptitle(f"Advection  u_t + a u_x = 0  with  a={a},  T={T},  Nx={Nx}", y=0.98, fontsize=12)
+
+plt.show()
+
+```
