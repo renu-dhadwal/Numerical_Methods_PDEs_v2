@@ -1,47 +1,17 @@
-﻿project:
-  type: book
-  output-dir: docs
-
-book:
-  title: "Numerical Methods for PDEs: An Interactive Journey"
-  author: "Renu Dhadwal"
-  chapters:
-    - index.qmd
-    - chapters/level1_history_pdes.qmd
-    - chapters/level2_classification_pdes.qmd
-    - chapters/level3_PDE_BCs.qmd
-    - chapters/level4_finite_differences.qmd
-    - chapters/level5_Wave_Equation.qmd
-    - chapters/level5_5_Numerics_Hyperbolic.qmd
-    - chapters/level6_von_neumann.qmd
-    - chapters/level7_Elliptic_PDE.qmd
-
-format:
+﻿format:
   html:
-    math: mathjax
-    code-tools: true
-    code-fold: true
-    code-summary: "Show code"
     theme: cosmo
     toc: true
     number-sections: true
-    css: styles.css
+    code-tools: true
+    code-fold: true
+    code-summary: "Show code"
+    css: styles/course.css
+    embed-resources: true
+    math: mathjax
 
   pdf:
     documentclass: book
-    latex-engine: xelatex
-    keep-tex: false
-    include-in-header: |
-      % LaTeX packages used for PDF/TikZ rendering
-      \usepackage{tikz}
-      \usetikzlibrary{arrows.meta,shapes,positioning}
-      \usepackage{amsmath,amssymb}
-
-execute:
-  enabled: true
-  echo: true
-
-render:
-  tikz:
-    format: svg
-    latex-engine: xelatex
+    pdf-engine: lualatex
+    keep-tex: true
+    include-in-header: "styles/preamble.tex"

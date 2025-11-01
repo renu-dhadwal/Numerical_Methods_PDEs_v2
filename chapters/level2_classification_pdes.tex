@@ -1,0 +1,372 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+% ---- Basic math setup ----
+\usepackage{fontspec} % keep for Unicode, harmless even without custom fonts
+% \setmainfont{TeX Gyre Pagella}      % comment out
+% \setmathfont{TeX Gyre Pagella Math} % comment out
+
+% ---- Disable emojis ----
+\newcommand{\emoji}[1]{}
+
+% ---- Math packages ----
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes,positioning}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\author{}
+\date{}
+\begin{document}
+\frontmatter
+
+
+\mainmatter
+\chapter{Level 2: Classification of
+PDEs}\label{level-2-classification-of-pdes}
+
+\textbf{Pavni:} Acharya, last time you told me how PDEs were born from
+strings, heat, and flows. But there seem to be so many kinds of PDEs.
+How do we organize them?
+
+\textbf{Acharya:} A good question, Pavni. Mathematicians classify PDEs
+in several ways, much like a botanist classifies plants. Let us begin
+with the simplest.
+
+\textbf{Pavni:} I am listening.
+
+\textbf{Acharya:} First, by \textbf{order}. A PDE is first-order if the
+highest derivative is first order, second-order if the highest is
+second, and so on. For example, the transport equation
+\(u_t + c u_x = 0\) is first-order, while the heat equation
+\(u_t = \alpha u_{xx}\) is second-order.
+
+\textbf{Pavni:} That part seems simple enough. What else?
+
+\textbf{Acharya:} Next comes \textbf{linearity}. A PDE is linear if the
+unknown function and its derivatives appear only linearly --- not
+multiplied together, not inside a sine or square. The heat equation is
+linear. But if you had a term like \(u u_x\), that would make it
+nonlinear.
+
+\textbf{Pavni:} So, nonlinear PDEs are trickier?
+
+\textbf{Acharya:} Very much so! Nonlinearity makes life both harder and
+richer.
+
+\textbf{Pavni:} Are there other distinctions?
+
+\textbf{Acharya:} Yes. Equations can be \textbf{homogeneous} or
+\textbf{inhomogeneous} depending on whether the right-hand side is zero.
+Laplace's equation is homogeneous, Poisson's equation is inhomogeneous.
+
+\textbf{Acharya:} More generally, a non-homogeneous PDE can be written
+as:\\
+\[ F(t, x_1, x_2, \dots, x_n, u, u_t, u_{x_1}, \dots, u_{x_n}, u_{tt}, u_{x_1x_1}, \dots) = g(x_1, x_2, \dots, x_n, t), \]\\
+where \(g\) is a nonzero source or forcing term. If \(g \equiv 0\), the
+PDE is homogeneous.
+
+\textbf{Pavni:} So the right-hand side introduces an external influence,
+like heat sources or forces?
+
+\textbf{Acharya:} Exactly. For example, \(u_{xx} + u_{yy} = f(x,y)\) is
+the Poisson equation with a source term \(f(x,y)\). .
+
+\textbf{Pavni:} I think I follow. But I have also heard words like
+elliptic and hyperbolic. What do they mean?
+
+\textbf{Acharya:} Ah, those arise for \textbf{second-order PDEs in two
+variables}. Suppose we have:\\
+\[ A u_{xx} + B u_{xy} + C u_{yy} + \dots = 0. \]\\
+We look at the discriminant: \(B^2 - 4AC\).\\
+- If it is less than 0, the PDE is \textbf{elliptic} (like Laplace's
+equation).\\
+- If it equals 0, the PDE is \textbf{parabolic} (like the heat
+equation).\\
+- If it is greater than 0, the PDE is \textbf{hyperbolic} (like the wave
+equation).
+
+\textbf{Pavni:} This reminds me of conic sections! Circles, parabolas,
+and hyperbolas.
+
+\textbf{Acharya:} Exactly. The analogy is deliberate --- both come from
+the same quadratic form.
+
+\textbf{Pavni:} And physically?
+
+\textbf{Acharya:} Elliptic equations describe steady states --- like
+equilibrium temperature distributions. Parabolic equations describe
+diffusion, the smoothing of irregularities over time. Hyperbolic
+equations describe wave-like motion, signals traveling with finite
+speed.
+
+\textbf{Pavni:} That helps me imagine them. So classification is not
+just a game, but it tells us the nature of the solutions.
+
+\textbf{Acharya:} Well said, Pavni. And it also guides how we design
+numerical methods. An elliptic problem requires different strategies
+than a hyperbolic one.
+
+\textbf{Pavni:} Then I am eager to learn those strategies!
+
+\textbf{Acharya:} Patience, Pavni. First we must prepare the ground.
+Classification is the map; numerical methods are the journey.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Mini Quizzes}\label{mini-quizzes}
+
+\textbf{Quiz 1:} Identify the order\\
+Which of the following is a second-order PDE?\\
+1. \$ u\_t + cu\_x = 0 \$\\
+2. \$ u\_t = \alpha u\_\{xx\} \$\\
+3. \$ u u\_x = 0 \$
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, bottomrule=.15mm, opacityback=0, rightrule=.15mm, leftrule=.75mm, coltitle=black, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 1}, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, colback=white, colframe=quarto-callout-tip-color-frame, toprule=.15mm, titlerule=0mm, colbacktitle=quarto-callout-tip-color!10!white]
+
+Equation (2) \$ u\_t = \alpha u\_\{xx\} \$ is second-order because of
+the \(u_{xx}\) term.
+
+\end{tcolorbox}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Quiz 2:} Linearity check\\
+Which PDE is nonlinear?\\
+1. \$ u\_t = \alpha u\_\{xx\} \$\\
+2. \$ u\_t + u u\_x = 0 \$
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, bottomrule=.15mm, opacityback=0, rightrule=.15mm, leftrule=.75mm, coltitle=black, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 2}, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, colback=white, colframe=quarto-callout-tip-color-frame, toprule=.15mm, titlerule=0mm, colbacktitle=quarto-callout-tip-color!10!white]
+
+Equation (2) is nonlinear because of the product term \(u u_x\).
+
+\end{tcolorbox}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Quiz 3:} Homogeneous or inhomogeneous\\
+Classify: \$ u\_\{xx\} + u\_\{yy\} = f(x,y) \$.
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, bottomrule=.15mm, opacityback=0, rightrule=.15mm, leftrule=.75mm, coltitle=black, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 3}, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, colback=white, colframe=quarto-callout-tip-color-frame, toprule=.15mm, titlerule=0mm, colbacktitle=quarto-callout-tip-color!10!white]
+
+It is \textbf{inhomogeneous}, since the right-hand side is not zero.
+
+\end{tcolorbox}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Quiz 4:} Type of second-order PDE\\
+For \$ u\_\{xx\} + 2u\_\{xy\} + u\_\{yy\} = 0 \$, compute \$ B\^{}2 -
+4AC \$. What type is it?
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, bottomrule=.15mm, opacityback=0, rightrule=.15mm, leftrule=.75mm, coltitle=black, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 4}, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, colback=white, colframe=quarto-callout-tip-color-frame, toprule=.15mm, titlerule=0mm, colbacktitle=quarto-callout-tip-color!10!white]
+
+Here, \(A = 1, B = 2, C = 1\).\\
+\$ B\^{}2 - 4AC = 2\^{}2 - 4(1)(1) = 0 \$.\\
+So it is \textbf{parabolic}.
+
+\end{tcolorbox}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Quiz 5:} Physical meaning\\
+Match each equation with its physical interpretation:\\
+- Heat equation\\
+- Wave equation\\
+- Laplace's equation
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Steady state\\
+\item
+  Wave-like motion\\
+\item
+  Diffusion in time
+\end{enumerate}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, bottomrule=.15mm, opacityback=0, rightrule=.15mm, leftrule=.75mm, coltitle=black, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 5}, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, colback=white, colframe=quarto-callout-tip-color-frame, toprule=.15mm, titlerule=0mm, colbacktitle=quarto-callout-tip-color!10!white]
+
+\begin{itemize}
+\tightlist
+\item
+  Heat equation → (c) Diffusion in time\\
+\item
+  Wave equation → (b) Wave-like motion\\
+\item
+  Laplace's equation → (a) Steady state\\
+\end{itemize}
+
+\end{tcolorbox}
+
+
+\backmatter
+
+
+\end{document}

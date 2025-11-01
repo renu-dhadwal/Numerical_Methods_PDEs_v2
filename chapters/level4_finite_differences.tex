@@ -1,0 +1,986 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+% ---- Basic math setup ----
+\usepackage{fontspec} % keep for Unicode, harmless even without custom fonts
+% \setmainfont{TeX Gyre Pagella}      % comment out
+% \setmathfont{TeX Gyre Pagella Math} % comment out
+
+% ---- Disable emojis ----
+\newcommand{\emoji}[1]{}
+
+% ---- Math packages ----
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes,positioning}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Level 4: Finite Differences and the Heat Equation},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Level 4: Finite Differences and the Heat Equation}
+\author{}
+\date{}
+\begin{document}
+\frontmatter
+\maketitle
+
+
+\mainmatter
+\textbf{Pavni:} Acharya, how do we actually \emph{approximate}
+derivatives on a computer?
+
+\textbf{Acharya:} We use the \textbf{finite difference method}. A
+computer only works with discrete points, so we replace continuous
+derivatives with \textbf{difference quotients} on a \textbf{grid}. These
+come directly from the \textbf{Taylor series}, and because we truncate
+the series, each formula comes with a predictable \textbf{error term}.
+
+\textbf{Pavni:} Can you give me an example?
+
+\textbf{Acharya:} Suppose we have points \(x_0, x_1, \dots, x_N\) with
+spacing \(\Delta x\). Around a point \(x_i\), Taylor's theorem gives us
+expansions for \(u(x_{i+1})\) and \(u(x_{i-1})\). By combining them, we
+obtain difference formulas:
+
+\begin{itemize}
+\item
+  \textbf{Forward difference} for the first derivative: \[
+  u'(x_i) = \frac{u(x_{i+1}) - u(x_i)}{\Delta x} - \tfrac{1}{2}u''(\xi)\,\Delta x,
+  \] so the truncation error is \(\mathcal{O}(\Delta x)\).
+\item
+  \textbf{Backward difference}: \[
+  u'(x_i) = \frac{u(x_i) - u(x_{i-1})}{\Delta x} + \tfrac{1}{2}u''(\xi)\,\Delta x,
+  \] also error \(\mathcal{O}(\Delta x)\).
+\item
+  \textbf{Central difference}: \[
+  u'(x_i) = \frac{u(x_{i+1}) - u(x_{i-1})}{2\Delta x} - \tfrac{1}{6}u^{(3)}(\xi)\,(\Delta x)^2,
+  \] so the error is \(\mathcal{O}((\Delta x)^2)\) --- more accurate.
+\item
+  \textbf{Second derivative} (central difference): \[
+  u''(x_i) = \frac{u(x_{i-1}) - 2u(x_i) + u(x_{i+1})}{(\Delta x)^2} - \tfrac{1}{12}u^{(4)}(\xi)\,(\Delta x)^2,
+  \] with error \(\mathcal{O}((\Delta x)^2)\).
+\end{itemize}
+
+\textbf{Pavni:} So these formulas are not exact --- they always come
+with an error term?
+
+\textbf{Acharya:} Precisely. That error is called the \textbf{local
+truncation error}. When we build numerical schemes for PDEs, these
+errors accumulate step by step, and we'll have to balance them with
+stability.
+
+\textbf{Pavni:} I see. So finite differences give us algebraic formulas
+for derivatives, but with a known accuracy.
+
+\textbf{Acharya:} Exactly. That's the foundation of finite difference
+methods.
+
+\section{Application: The Heat
+Equation}\label{application-the-heat-equation}
+
+\textbf{Acharya:} Consider the 1D heat equation: \[
+u_t = \alpha^2 u_{xx}^2, \quad 0 < x < 1,\; t>0
+\] with boundary conditions \(u(0,t) = u(1,t) = 0\) and initial profile
+\(u(x,0) = f(x)\).
+
+We set up a grid: - In space: \(x_i = i\Delta x,\; i=0,\dots,N\)\\
+- In time: \(t^n = n\Delta t,\; n=0,1,2,\dots\)
+
+At each point, let \(u_i^n \approx u(x_i,t^n)\).
+
+\textbf{Pavni:} And now we replace derivatives?
+
+\textbf{Acharya:} Correct.\\
+- Time derivative (forward difference): \[
+  u_t(x_i,t^n) \approx \frac{u_i^{n+1} - u_i^n}{\Delta t}
+  \] - Spatial second derivative (central difference): \[
+  u_{xx}(x_i,t^n) \approx \frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}
+  \]
+
+Plugging these into the PDE, we get: \[
+\frac{u_i^{n+1} - u_i^n}{\Delta t} = \alpha^2 \,\frac{u_{i-1}^n - 2u_i^n + u_{i+1}^n}{(\Delta x)^2}.
+\]
+
+Rearranging: \[
+u_i^{n+1} = u_i^n + \lambda\,(u_{i-1}^n - 2u_i^n + u_{i+1}^n),
+\] where \(\lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Stability Condition}\label{stability-condition}
+
+\textbf{Pavni:} So we can just keep applying this formula to march
+forward in time?
+
+\textbf{Acharya:} Yes, but with a caveat. This scheme, called
+\textbf{FTCS (Forward Time, Central Space)}, is only stable if: \[
+\lambda \leq \tfrac{1}{2}.
+\]
+
+\textbf{Pavni:} So if \(\Delta t\) is too large, the scheme fails?
+
+\textbf{Acharya:} Exactly. The numerical solution will blow up, even
+though the true solution is stable. Choosing \(\Delta t\) small enough
+ensures stability.
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Why the FTCS stability condition is \(\lambda \leq \tfrac{1}{2}\)}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-note-color-frame]
+
+If the update is \[
+u^{(n+1)} = A u^{(n)},
+\] and the initial error is \(e^0\), then after \(n\) steps the error is
+\[
+e^{(n)} = A^n e^0.
+\]
+
+Using an induced matrix norm: \[
+\|e^{(n)}\| = \|A^n e^0\| \;\le\; \|A^n\|\,\|e^0\|
+\;\le\; \|A\|^n \|e^0\|.
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  If \(\|A\|\le 1\), the error never grows.\\
+\item
+  If \(\|A\|<1\), the error decays as \(n\to\infty\).\\
+\item
+  In general, the asymptotic condition is that the \textbf{spectral
+  radius} \(\rho(A)<1\).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Eigenvalues of the FTCS
+matrix}\label{eigenvalues-of-the-ftcs-matrix}
+
+For the FTCS tridiagonal matrix \(A\) (symmetric Toeplitz), the
+eigenvalues are \[
+\mu_k = 1 - 4 \lambda \,\sin^2\!\left(\frac{k\pi}{2(N-1)}\right), 
+\qquad k=1,2,\dots,N-2,
+\] where \(\lambda = \dfrac{\alpha^2 \Delta t}{(\Delta x)^2}\).
+
+Thus the spectral radius is \[
+\rho(A) = \max_{1\le k \le N-2} \big|\mu_k\big|
+= \max_{1\le k \le N-2} \left|1 - 4r \sin^2\!\left(\tfrac{k\pi}{2(N-1)}\right)\right|.
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Stability condition}\label{stability-condition-1}
+
+\begin{itemize}
+\tightlist
+\item
+  As \(N\to\infty\) (i.e.~\(\Delta x \to 0\)), the maximum of
+  \(\sin^2(\cdot)\) tends to \(1\).\\
+\item
+  Therefore the most restrictive case is \[
+  |1 - 4 \lambda| \le 1.
+  \]
+\item
+  This simplifies to \[
+  0 \;\le\; \lambda \;\le\; \tfrac{1}{2}.
+  \]
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+✅ Thus, the \textbf{FTCS scheme is stable if and only if} \[
+\lambda = \frac{\alpha \Delta t}{(\Delta x)^2} \;\le\; \tfrac{1}{2}.
+\]
+
+\end{tcolorbox}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Mini-Quizzes}\label{mini-quizzes}
+
+\textbf{Quiz 1:}\\
+Let \(u(x) = x^2\). With \(\Delta x = 0.1\), approximate \(u'(1)\)
+using:\\
+1. Forward difference\\
+2. Central difference
+
+Compare with the exact derivative \(u'(1) = 2\). Which is more accurate?
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-tip-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 1}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-tip-color-frame]
+
+\begin{itemize}
+\item
+  Forward difference: \[
+  \frac{u(1+\Delta x)-u(1)}{\Delta x}=\frac{(1.1)^2-1^2}{0.1}=\frac{1.21-1}{0.1}=2.1.
+  \]
+\item
+  Central difference: \[
+  \frac{u(1+\Delta x)-u(1-\Delta x)}{2\Delta x}
+  =\frac{(1.1)^2-(0.9)^2}{0.2}=\frac{1.21-0.81}{0.2}=2.0.
+  \]
+\item
+  Exact derivative: \(u'(1)=2\).
+\end{itemize}
+
+\textbf{Conclusion:} The central difference gives the exact value here
+(error \(0\)), while the forward difference has error \(0.1\). Central
+is more accurate (as expected --- it is second-order).
+
+\end{tcolorbox}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Quiz 2:}\\
+Suppose \(\alpha = 1\), \(\Delta x = 0.1\). What is the maximum
+\(\Delta t\) for stability in the explicit scheme?
+
+(Hint:
+\(\lambda = \dfrac{\alpha \Delta t}{(\Delta x)^2} \leq \tfrac{1}{2}\).)
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-tip-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 2}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-tip-color-frame]
+
+We need \[
+\lambda=\frac{\alpha\,\Delta t}{(\Delta x)^2}\le\frac{1}{2}.
+\] With \(\alpha=1\) and \(\Delta x=0.1\), \((\Delta x)^2=0.01\). So \[
+\frac{\Delta t}{0.01}\le\frac{1}{2}\quad\Rightarrow\quad
+\Delta t \le 0.01\times\frac{1}{2}=0.005.
+\]
+
+\textbf{Maximum allowable} \(\displaystyle \Delta t = 0.005\).
+
+\end{tcolorbox}
+
+\section{Heat equation --- Matrix Method with Non-zero Dirichlet
+Conditions}\label{heat-equation-matrix-method-with-non-zero-dirichlet-conditions}
+
+\textbf{Pavni:} We already saw how to discretize the heat equation with
+FTCS. But can we write the whole scheme in a more compact way?
+
+\textbf{Acharya:} Yes. That's where the \textbf{matrix method} comes in.
+Let's recall the PDE: \[
+u_t = \alpha^2 u_{xx}, \quad 0 < x < 1, \; t > 0,
+\] with Dirichlet conditions \[
+u(0,t) = L, \qquad u(1,t) = R,
+\] and initial condition \(u(x,0)=f(x)\).
+
+\textbf{Pavni:} So we still set up the grid in space and time?
+
+\textbf{Acharya:} Exactly. The FTCS update at interior nodes is \[
+u_i^{j+1} = u_i^j + \lambda \,(u_{i-1}^j - 2u_i^j + u_{i+1}^j),
+\quad i=1,\dots,N_x-2,
+\] where \(\lambda = \tfrac{\alpha^2 \Delta t}{\Delta x^2}\).
+
+\textbf{Pavni:} That's a lot of coupled equations. How do we collect
+them?
+
+\textbf{Acharya:} We put all interior values into a vector \[
+u^{(j)} =
+\begin{bmatrix}
+u_1^j \\
+u_2^j \\
+\vdots \\
+u_{N_x-2}^j
+\end{bmatrix}.
+\]
+
+\textbf{Pavni:} And the update rule becomes a matrix multiplication?
+
+\textbf{Acharya:} Yes. We can write \[
+u^{(j+1)} = A\,u^{(j)} + b,
+\] where \(A\) is tridiagonal and \(b\) accounts for the boundary
+conditions: \[
+A =
+\begin{bmatrix}
+1-2\lambda & \lambda     &        &        &   \\
+\lambda     & 1-2\lambda & \lambda      &        &   \\
+      & \ddots & \ddots & \ddots &   \\
+      &        & \lambda      & 1-2\lambda   & \lambda \\
+      &        &        & \lambda      & 1-2\lambda
+\end{bmatrix}, \qquad
+b =
+\begin{bmatrix}
+\lambda L \\
+0 \\
+\vdots \\
+0 \\
+\lambda R
+\end{bmatrix}.
+\]
+
+\textbf{Pavni:} So if \(L=R=0\), then \(b=0\) and we just have
+\(u^{(j+1)} = A u^{(j)}\).
+
+\textbf{Acharya:} Precisely. That's the beauty of the matrix method: it
+organizes the scheme into a linear algebra update.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Implementation in Python}\label{implementation-in-python}
+
+Let us now implement the method in Python and compare with the exact
+solution for \(f(x)=\sin(\pi x)\): \[
+u(x,t) = e^{-\pi^2 \alpha t}\,\sin(\pi x).
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+
+\NormalTok{alpha }\OperatorTok{=} \FloatTok{1.0}
+\NormalTok{Nx    }\OperatorTok{=} \DecValTok{50}
+\NormalTok{T     }\OperatorTok{=} \FloatTok{0.1}
+\NormalTok{L, R  }\OperatorTok{=} \FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}
+
+\NormalTok{dx }\OperatorTok{=} \FloatTok{1.0}\OperatorTok{/}\NormalTok{(Nx}\OperatorTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{dt\_max }\OperatorTok{=}\NormalTok{ dx}\OperatorTok{*}\NormalTok{dx}\OperatorTok{/}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{alpha)}
+\NormalTok{s  }\OperatorTok{=} \FloatTok{0.4}
+\NormalTok{dt }\OperatorTok{=}\NormalTok{ s}\OperatorTok{*}\NormalTok{dt\_max}
+\NormalTok{Nt }\OperatorTok{=} \BuiltInTok{int}\NormalTok{(T}\OperatorTok{/}\NormalTok{dt)}
+\NormalTok{dt }\OperatorTok{=}\NormalTok{ T}\OperatorTok{/}\NormalTok{Nt}
+\NormalTok{r  }\OperatorTok{=}\NormalTok{ alpha}\OperatorTok{*}\NormalTok{dt}\OperatorTok{/}\NormalTok{dx}\OperatorTok{**}\DecValTok{2}
+
+\NormalTok{x  }\OperatorTok{=}\NormalTok{ np.linspace(}\FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}\NormalTok{, Nx)}
+\NormalTok{u0 }\OperatorTok{=}\NormalTok{ np.sin(np.pi }\OperatorTok{*}\NormalTok{ x)}
+
+\NormalTok{m }\OperatorTok{=}\NormalTok{ Nx }\OperatorTok{{-}} \DecValTok{2}
+\NormalTok{main }\OperatorTok{=}\NormalTok{ (}\DecValTok{1} \OperatorTok{{-}} \DecValTok{2}\OperatorTok{*}\NormalTok{r) }\OperatorTok{*}\NormalTok{ np.ones(m)}
+\NormalTok{off  }\OperatorTok{=}\NormalTok{ r }\OperatorTok{*}\NormalTok{ np.ones(m}\OperatorTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{A }\OperatorTok{=}\NormalTok{ np.diag(main) }\OperatorTok{+}\NormalTok{ np.diag(off,}\DecValTok{1}\NormalTok{) }\OperatorTok{+}\NormalTok{ np.diag(off,}\OperatorTok{{-}}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{b }\OperatorTok{=}\NormalTok{ np.zeros(m)}
+\NormalTok{b[}\DecValTok{0}\NormalTok{], b[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{] }\OperatorTok{=}\NormalTok{ r}\OperatorTok{*}\NormalTok{L, r}\OperatorTok{*}\NormalTok{R}
+
+\NormalTok{u }\OperatorTok{=}\NormalTok{ u0.copy()}
+\NormalTok{u\_in }\OperatorTok{=}\NormalTok{ u[}\DecValTok{1}\NormalTok{:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{].copy()}
+\NormalTok{snapshots }\OperatorTok{=}\NormalTok{ []}
+\NormalTok{snap\_times }\OperatorTok{=}\NormalTok{ np.linspace(}\DecValTok{0}\NormalTok{, Nt}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, dtype}\OperatorTok{=}\BuiltInTok{int}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(Nt):}
+\NormalTok{    u\_in }\OperatorTok{=}\NormalTok{ A }\OperatorTok{@}\NormalTok{ u\_in }\OperatorTok{+}\NormalTok{ b}
+\NormalTok{    u[}\DecValTok{1}\NormalTok{:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{] }\OperatorTok{=}\NormalTok{ u\_in}
+    \ControlFlowTok{if}\NormalTok{ j }\KeywordTok{in}\NormalTok{ snap\_times }\KeywordTok{or}\NormalTok{ j }\OperatorTok{==}\NormalTok{ Nt}\OperatorTok{{-}}\DecValTok{1}\NormalTok{:}
+\NormalTok{        snapshots.append((j}\OperatorTok{*}\NormalTok{dt, u.copy()))}
+
+\NormalTok{plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{,}\DecValTok{4}\NormalTok{))}
+\NormalTok{first\_exact }\OperatorTok{=} \VariableTok{True}
+\ControlFlowTok{for}\NormalTok{ t\_here, u\_snap }\KeywordTok{in}\NormalTok{ snapshots:}
+\NormalTok{    plt.plot(x, u\_snap, label}\OperatorTok{=}\SpecialStringTok{f"num t=}\SpecialCharTok{\{}\NormalTok{t\_here}\SpecialCharTok{:.3f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{    u\_exact }\OperatorTok{=}\NormalTok{ np.exp(}\OperatorTok{{-}}\NormalTok{np.pi}\OperatorTok{**}\DecValTok{2}\OperatorTok{*}\NormalTok{alpha}\OperatorTok{*}\NormalTok{t\_here) }\OperatorTok{*}\NormalTok{ np.sin(np.pi}\OperatorTok{*}\NormalTok{x)}
+    \ControlFlowTok{if}\NormalTok{ first\_exact:}
+\NormalTok{        plt.plot(x, u\_exact, }\StringTok{\textquotesingle{}k{-}{-}\textquotesingle{}}\NormalTok{, linewidth}\OperatorTok{=}\FloatTok{1.2}\NormalTok{, label}\OperatorTok{=}\StringTok{\textquotesingle{}exact solution\textquotesingle{}}\NormalTok{)}
+\NormalTok{        first\_exact }\OperatorTok{=} \VariableTok{False}
+    \ControlFlowTok{else}\NormalTok{:}
+\NormalTok{        plt.plot(x, u\_exact, }\StringTok{\textquotesingle{}k{-}{-}\textquotesingle{}}\NormalTok{, linewidth}\OperatorTok{=}\FloatTok{1.2}\NormalTok{, label}\OperatorTok{=}\StringTok{"\_nolegend\_"}\NormalTok{)}
+
+\NormalTok{plt.xlabel(}\StringTok{"x"}\NormalTok{)}\OperatorTok{;}\NormalTok{ plt.ylabel(}\StringTok{"u(x,t)"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Heat equation: numerical vs exact"}\NormalTok{)}
+\NormalTok{plt.legend(fontsize}\OperatorTok{=}\StringTok{"small"}\NormalTok{)}
+\NormalTok{plt.grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{level4_finite_differences_files/figure-pdf/cell-2-output-1.pdf}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Remarks}\label{remarks}
+
+\begin{itemize}
+\tightlist
+\item
+  The \textbf{linear algebra structure} \(u^{(j+1)} = A u^{(j)} + b\)
+  makes the scheme compact and systematic.\\
+\item
+  The stability restriction \(\lambda \leq \tfrac{1}{2}\) follows from
+  analyzing the eigenvalues of \(A\).\\
+\item
+  For large \(N_x\), \(A\) is sparse and tridiagonal --- in practice,
+  use \texttt{scipy.sparse.diags} for efficiency.
+\end{itemize}
+
+\section{Backward Difference (Implicit) Scheme for the Heat
+Equation}\label{backward-difference-implicit-scheme-for-the-heat-equation}
+
+\textbf{Pavni:} Acharya, the FTCS scheme works only if
+\(\lambda \leq \tfrac{1}{2}\). Is there a method that avoids this
+restriction?
+
+\textbf{Acharya:} Yes. We can use a \textbf{backward difference in
+time}, together with the same central difference in space. This gives
+the \textbf{Backward Euler scheme}, which is implicit but
+unconditionally stable.
+
+\textbf{Pavni:} Implicit? What does that mean?
+
+\textbf{Acharya:} It means that the new values \(u^{n+1}\) appear on
+both sides of the equation, so we must solve a system of equations at
+each time step.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Derivation}\label{derivation}
+
+Start from the PDE: \[
+u_t = \alpha^2 u_{xx}.
+\]
+
+\begin{itemize}
+\item
+  Approximate the time derivative with a \textbf{backward difference}:
+  \[
+  u_t(x_i,t^{n+1}) \;\approx\; \frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t}.
+  \]
+\item
+  Approximate the spatial second derivative at the new time level: \[
+  u_{xx}(x_i,t^{n+1}) \;\approx\; \frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.
+  \]
+\end{itemize}
+
+The scheme becomes: \[
+\frac{u_i^{\,n+1} - u_i^{\,n}}{\Delta t} 
+= \alpha^2 \,\frac{u_{i-1}^{\,n+1} - 2u_i^{\,n+1} + u_{i+1}^{\,n+1}}{(\Delta x)^2}.
+\]
+
+Rearrange: \[
+- \lambda\, u_{i-1}^{\,n+1} + (1+2\lambda)\,u_i^{\,n+1} - \lambda\, u_{i+1}^{\,n+1} = u_i^{\,n},
+\qquad 
+\lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Matrix Form}\label{matrix-form}
+
+Let \(u^{(n)}\) be the vector of interior values at time step \(n\).
+Then \[
+B u^{(n+1)} = u^{(n)},
+\] where \[
+B =
+\begin{bmatrix}
+1+2\lambda & -\lambda     &            &            &   \\
+-\lambda    & 1+2\lambda  & -\lambda   &            &   \\
+            & \ddots      & \ddots     & \ddots     &   \\
+            &             & -\lambda   & 1+2\lambda & -\lambda \\
+            &             &            & -\lambda   & 1+2\lambda
+\end{bmatrix}_{(N_x-2)\times(N_x-2)}.
+\]
+
+So each step requires solving the linear system \[
+u^{(n+1)} = B^{-1} u^{(n)}.
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Stability}\label{stability}
+
+\textbf{Pavni:} Doesn't that make it more expensive than FTCS?
+
+\textbf{Acharya:} It does, because we must solve a tridiagonal system at
+every time step.\\
+But the reward is \textbf{unconditional stability}: for any
+\(\Delta t > 0\) and \(\Delta x > 0\), the scheme does not blow up.
+
+\textbf{Pavni:} So no restriction like \(\lambda \leq \tfrac{1}{2}\)?
+
+\textbf{Acharya:} Exactly. Backward Euler is stable for all
+\(\lambda\).\\
+It is only first-order accurate in time (like FTCS), but still
+second-order in space.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Remarks}\label{remarks-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Backward Euler is more robust but requires solving a linear system at
+  each step.\\
+\item
+  For large systems, efficient algorithms like the \textbf{Thomas
+  algorithm} (specialized Gaussian elimination for tridiagonal matrices)
+  are used.\\
+\item
+  In practice, one balances cost (explicit FTCS, cheap but conditionally
+  stable) against robustness (implicit Backward Euler, unconditionally
+  stable).
+\end{itemize}
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Why the Backward Euler scheme is unconditionally stable}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-note-color-frame]
+
+If the update is\\
+\[
+u^{(n+1)} = A u^{(n)},
+\]\\
+and the initial error is \(e^0\), then after \(n\) steps the error is\\
+\[
+e^{(n)} = A^n e^0.
+\]
+
+As before, the asymptotic condition is that the \textbf{spectral radius}
+\(\rho(A)<1\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Eigenvalues of the Backward Euler iteration
+matrix}\label{eigenvalues-of-the-backward-euler-iteration-matrix}
+
+The Backward Euler scheme for the heat equation is\\
+\[
+\frac{U^{n+1} - U^n}{\Delta t} = \alpha^2 A U^{n+1},
+\] which rearranges to\\
+\[
+U^{n+1} = (I - \lambda A)^{-1} U^n, 
+\qquad \lambda = \frac{\alpha^2 \Delta t}{(\Delta x)^2}.
+\]
+
+\begin{itemize}
+\item
+  If \(\lambda_i(A)\) are the eigenvalues of the discrete Laplacian
+  \(A\),\\
+  then the eigenvalues of the iteration matrix are \[
+  \mu_i = \frac{1}{1 - \lambda_i(A)}.
+  \]
+\item
+  For the 1D Laplacian with Dirichlet BCs, \[
+  \lambda_i(A) = -4 \sin^2\!\left(\frac{i\pi}{2m}\right), 
+  \qquad i=1,2,\dots,m-1.
+  \]
+\end{itemize}
+
+Thus \[
+\mu_i = \frac{1}{1 + 4\lambda \sin^2\!\left(\frac{i\pi}{2m}\right)}.
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Stability condition}\label{stability-condition-2}
+
+\begin{itemize}
+\tightlist
+\item
+  Since \(\lambda>0\) and \(\sin^2(\cdot)\ge0\),\\
+  the denominator is always greater than \(1\).\\
+\item
+  Therefore \[
+  0 < \mu_i < 1, \qquad \forall i.
+  \]
+\end{itemize}
+
+This means all eigenvalues of the iteration matrix lie strictly inside
+the unit circle.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+✅ Thus, the \textbf{Backward Euler scheme is unconditionally stable}: -
+No restriction on \(\Delta t\).\\
+- Every mode decays monotonically.\\
+- In contrast, FTCS required \(\lambda \le \tfrac{1}{2}\) for stability.
+
+\end{tcolorbox}
+
+\subsection{Interactive plots to see the eigenvalues of FTCS and
+Backward Differencce
+methods}\label{interactive-plots-to-see-the-eigenvalues-of-ftcs-and-backward-differencce-methods}
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{How to interact with the plots} - Move the \textbf{slider} to
+change \(\lambda = \tfrac{\alpha^2 \Delta t}{(\Delta x)^2}\).\\
+- \textbf{FTCS plot}: notice that for \(\lambda > 0.5\) some eigenvalues
+leave \([-1,1]\), indicating instability.\\
+- \textbf{Backward Euler plot}: eigenvalues always remain in \((0,1)\),
+showing unconditional stability.\\
+- Hover over points to see their values, zoom by dragging, double-click
+to reset.
+
+\chapter{Crank--Nicolson scheme}\label{cranknicolson-scheme}
+
+\textbf{Pavni:} We've studied FTCS and Backward Euler for the heat
+equation. FTCS was simple, but had that annoying stability restriction
+\(\lambda \leq \tfrac{1}{2}\).
+
+\textbf{Acharya:} Yes. And Backward Euler solved that problem --- it was
+unconditionally stable.
+
+\textbf{Pavni:} But both of them are only \emph{first-order accurate in
+time}, right?
+
+\textbf{Acharya:} Exactly. And that's a problem if we want more accuracy
+without shrinking \(\Delta t\) too much.
+
+\textbf{Pavni:} So FTCS is unstable unless
+\(\lambda \leq \tfrac{1}{2}\), and Backward Euler is stable but too
+diffusive. We're still missing something better.
+
+\textbf{Acharya:} That's where the \textbf{Crank--Nicolson scheme} comes
+in. The idea is to apply the trapezoidal rule in time --- using the
+\emph{average} of the spatial derivative at times \(n\) and \(n+1\).
+
+\textbf{Pavni:} So instead of evaluating only at the old time (FTCS) or
+the new time (Backward Euler), we take a balance of both?
+
+\textbf{Acharya:} Exactly. That trick makes the scheme
+\textbf{second-order accurate in time} and \textbf{unconditionally
+stable}. It's like combining the strengths of both FTCS and Backward
+Euler.
+
+\textbf{Pavni:} Ah, so Crank--Nicolson is really about accuracy as well
+as stability. That sounds worth deriving!\\
+\textbf{Pavni:} Let's derive Crank--Nicolson starting from the heat
+equation \(u_t=\alpha^2 u_{xx}\). How do we get the time-centered
+scheme?
+
+\textbf{Acharya:} Start by integrating the PDE in time over one step,
+from \(t^n\) to \(t^{n+1}\) at a fixed \(x\): \[
+u(x,t^{n+1})-u(x,t^n)=\alpha^2\int_{t^n}^{t^{n+1}} u_{xx}(x,t)\,dt.
+\]
+
+\textbf{Pavni:} Now approximate that time integral --- I remember the
+trapezoidal (averaging) rule.
+
+\textbf{Acharya:} Exactly. Apply the trapezoidal rule to the integral on
+the right: \[
+\int_{t^n}^{t^{n+1}} u_{xx}(x,t)\,dt
+\approx \frac{\Delta t}{2}\big(u_{xx}(x,t^n)+u_{xx}(x,t^{n+1})\big)
+\] with pointwise quadrature error \(O(\Delta t^3)\) (so after division
+by \(\Delta t\) the time-discretization error is \(O(\Delta t^2)\)).
+
+\textbf{Pavni:} Then substitute that into the integrated PDE.
+
+\textbf{Acharya:} We get \[
+u(x,t^{n+1})-u(x,t^n)
+= \alpha^2\frac{\Delta t}{2}\big(u_{xx}(x,t^n)+u_{xx}(x,t^{n+1})\big) + O(\Delta t^3).
+\]
+
+\textbf{Pavni:} Next we discretize \(u_{xx}\) in space with the centered
+second difference.
+
+\textbf{Acharya:} Right. At grid point \(x_j\), \[
+u_{xx}(x_j,t^\ell)\approx \frac{U_{j-1}^\ell-2U_j^\ell+U_{j+1}^\ell}{(\Delta x)^2},
+\] which in vector form for interior nodes is
+\(\dfrac{1}{(\Delta x)^2}A U^\ell\), where \(A\) is the usual
+tridiagonal Laplacian (stencil \([1,-2,1]\)).
+
+Substituting gives (collecting interior points into \(U^n\)) \[
+U^{n+1}-U^n = \frac{\alpha^2\Delta t}{2(\Delta x)^2}\big(AU^n + AU^{n+1}\big) + \text{(truncation terms)}.
+\]
+
+\textbf{Pavni:} Introduce the nondimensional parameter \(\lambda\)?
+
+\textbf{Acharya:} Yes, set
+\(\displaystyle \lambda=\frac{\alpha^2\Delta t}{(\Delta x)^2}\). Then \[
+U^{n+1}-U^n = \frac{\lambda}{2}\big(AU^n + AU^{n+1}\big) + \text{(truncation terms)}.
+\] Bring \(U^{n+1}\) terms to the left to obtain \[
+\Big(I-\tfrac{\lambda}{2}A\Big)U^{n+1} = \Big(I+\tfrac{\lambda}{2}A\Big)U^n.
+\]
+
+Now, let's write these matrices explicitly. The left-hand side matrix is
+\[
+L = I-\tfrac{\lambda}{2}A =
+\begin{bmatrix}
+1+\lambda & -\tfrac{\lambda}{2} & 0 & \cdots & 0\\
+-\tfrac{\lambda}{2} & 1+\lambda & -\tfrac{\lambda}{2} & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & -\tfrac{\lambda}{2} & 1+\lambda & -\tfrac{\lambda}{2}\\
+0 & \cdots & 0 & -\tfrac{\lambda}{2} & 1+\lambda
+\end{bmatrix}.
+\]
+
+The right-hand side matrix is \[
+R = I+\tfrac{\lambda}{2}A =
+\begin{bmatrix}
+1-\lambda & \tfrac{\lambda}{2} & 0 & \cdots & 0\\
+\tfrac{\lambda}{2} & 1-\lambda & \tfrac{\lambda}{2} & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & \tfrac{\lambda}{2} & 1-\lambda & \tfrac{\lambda}{2}\\
+0 & \cdots & 0 & \tfrac{\lambda}{2} & 1-\lambda
+\end{bmatrix}.
+\]
+
+So the Crank--Nicolson scheme can be written as \[
+\boxed{\,L\,U^{n+1} = R\,U^n\,}.
+\]
+
+\textbf{Pavni:} Great --- and the eigenvalue form and stability follow
+from the spectral map of \(A\).
+
+\textbf{Acharya:} Right --- each eigenvalue \(\alpha_k\) of \(A\) is
+mapped to \[
+\mu_k=\frac{1+\tfrac{\lambda}{2}\alpha_k}{1-\tfrac{\lambda}{2}\alpha_k},
+\] and substituting
+\(\alpha_k=-4\sin^2\!\big(\tfrac{k\pi}{2(N+1)}\big)\) yields \[
+\mu_k=\frac{1-2\lambda \sin^2\!\big(\tfrac{k\pi}{2(N+1)}\big)}
+{1+2\lambda \sin^2\!\big(\tfrac{k\pi}{2(N+1)}\big)}.
+\] This shows \(|\mu_k|\le1\), so CN is unconditionally stable.
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Crank--Nicolson: derivation summary \& stability}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-note-color-frame]
+
+\textbf{Starting point (integrated PDE):} \[
+u(x,t^{n+1})-u(x,t^n)=\alpha^2\int_{t^n}^{t^{n+1}} u_{xx}(x,t)\,dt.
+\]
+
+\textbf{Trapezoidal rule (time) + centered difference (space):} \[
+\int_{t^n}^{t^{n+1}} u_{xx}\,dt
+\approx \frac{\Delta t}{2}\big(u_{xx}(t^n)+u_{xx}(t^{n+1})\big),
+\qquad
+u_{xx}(x_j,t^\ell)\approx \frac{(AU^\ell)_j}{(\Delta x)^2}.
+\]
+
+\textbf{Matrix form (with
+\(\lambda=\dfrac{\alpha^2\Delta t}{(\Delta x)^2}\)):} \[
+\boxed{\;\Big(I-\tfrac{\lambda}{2}A\Big)U^{n+1} = \Big(I+\tfrac{\lambda}{2}A\Big)U^n\;.}
+\]
+
+\textbf{Eigenvalues (mode-wise):} if
+\(s_k=\sin\!\big(\tfrac{k\pi}{2(N+1)}\big)\) then \[
+\boxed{\;\mu_k=\frac{1-2\lambda s_k^2}{1+2\lambda s_k^2}\;, \quad k=1,\dots,N. \;}
+\]
+
+\textbf{Stability check (short):} - For \(\lambda\ge0\) and
+\(0\le s_k^2\le1\) the denominator \(1+2\lambda s_k^2>0\).\\
+- Hence \[
+|\mu_k|=\frac{|1-2\lambda s_k^2|}{1+2\lambda s_k^2}\le1,
+\] and for nontrivial modes with \(\lambda>0\) strict inequality holds.
+
+\textbf{Conclusion:} Crank--Nicolson is \textbf{unconditionally stable}
+and second-order accurate in time and space (global error
+\(O(\Delta t^2+\Delta x^2)\)).
+
+\end{tcolorbox}
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+\textbf{How to interact:}\\
+- Move the \textbf{λ} slider to vary
+\(\lambda=\dfrac{\alpha^2\Delta t}{(\Delta x)^2}\).\\
+- Hover on a marker to see the exact \((k,\mu_k)\).\\
+- Zoom by dragging, double-click to reset.\\
+\textbf{Observe:} all \(\mu_k\) satisfy \(|\mu_k|\le1\) for every
+\(\lambda\ge0\), confirming unconditional stability; for small
+\(\lambda\) the modes are near \(1\), for large \(\lambda\)
+high-frequency modes move nearer to \(-1\) but remain bounded in
+magnitude by 1.
+
+
+\backmatter
+
+
+\end{document}

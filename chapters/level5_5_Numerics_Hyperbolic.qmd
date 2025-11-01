@@ -6,11 +6,15 @@ format:
     number-sections: false
     code-fold: true
     code-summary: "Show code"
+    embed-resources: true
 jupyter: python3
 execute:
   echo: false
   warning: false
   message: false
+  cache: true
+  freeze: auto
+  jupyter-widgets: true
 ---
 
 We just modeled traffic flow and arrived at the linear transport (advection) equation
