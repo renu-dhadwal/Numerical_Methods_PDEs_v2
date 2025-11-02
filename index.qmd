@@ -18,6 +18,7 @@ You will explore the subject through **dialogues between Acharya and Pavni**, di
 - [Level 5.5: Numerics for Hyperbolic PDEs](chapters/level5_5_Numerics_Hyperbolic.qmd)
 - [Level 6 : Von-Neumann Stability Analysis](chapters/level6_von_neumann.qmd)
 - [Level 7 : Elliptic PDEs](chapters/level7_Elliptic_PDE.qmd)
+- [Level 8 : Spectral Methods](chapters/level8_Spectral_Methods.qmd)
 
 ---
 

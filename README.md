@@ -14,4 +14,5 @@ Files included:
 - chapters/level5_5_Numerics_Hyperbolic.qmd
 - chapters/level6_von_neumann.qmd
 - chapters/level7_Elliptic_PDE.qmd
+- chapters/level8_Spectral_Methods.qmd
 - styles/course.css

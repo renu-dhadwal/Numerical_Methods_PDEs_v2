@@ -327,7 +327,7 @@ forward in time?
 though the true solution is stable. Choosing \(\Delta t\) small enough
 ensures stability.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Why the FTCS stability condition is \(\lambda \leq \tfrac{1}{2}\)}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-note-color-frame, rightrule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Why the FTCS stability condition is \(\lambda \leq \tfrac{1}{2}\)}, colback=white, titlerule=0mm, arc=.35mm, bottomtitle=1mm, breakable, toptitle=1mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, opacitybacktitle=0.6]
 
 If the update is \[
 u^{(n+1)} = A u^{(n)},
@@ -407,7 +407,7 @@ using:\\
 
 Compare with the exact derivative \(u'(1) = 2\). Which is more accurate?
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-tip-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 1}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-tip-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 1}, colback=white, titlerule=0mm, arc=.35mm, bottomtitle=1mm, breakable, toptitle=1mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, opacitybacktitle=0.6]
 
 \begin{itemize}
 \item
@@ -438,7 +438,7 @@ Suppose \(\alpha = 1\), \(\Delta x = 0.1\). What is the maximum
 (Hint:
 \(\lambda = \dfrac{\alpha \Delta t}{(\Delta x)^2} \leq \tfrac{1}{2}\).)
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-tip-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 2}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-tip-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Answer 2}, colback=white, titlerule=0mm, arc=.35mm, bottomtitle=1mm, breakable, toptitle=1mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, opacitybacktitle=0.6]
 
 We need \[
 \lambda=\frac{\alpha\,\Delta t}{(\Delta x)^2}\le\frac{1}{2}.
@@ -709,7 +709,7 @@ second-order in space.
   stable).
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Why the Backward Euler scheme is unconditionally stable}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-note-color-frame, rightrule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Why the Backward Euler scheme is unconditionally stable}, colback=white, titlerule=0mm, arc=.35mm, bottomtitle=1mm, breakable, toptitle=1mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, opacitybacktitle=0.6]
 
 If the update is\\
 \[
@@ -929,7 +929,7 @@ mapped to \[
 {1+2\lambda \sin^2\!\big(\tfrac{k\pi}{2(N+1)}\big)}.
 \] This shows \(|\mu_k|\le1\), so CN is unconditionally stable.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, breakable, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Crank--Nicolson: derivation summary \& stability}, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-note-color-frame, rightrule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Crank--Nicolson: derivation summary \& stability}, colback=white, titlerule=0mm, arc=.35mm, bottomtitle=1mm, breakable, toptitle=1mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, opacitybacktitle=0.6]
 
 \textbf{Starting point (integrated PDE):} \[
 u(x,t^{n+1})-u(x,t^n)=\alpha^2\int_{t^n}^{t^{n+1}} u_{xx}(x,t)\,dt.
